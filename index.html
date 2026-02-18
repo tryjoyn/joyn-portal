@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyn — We Staff Your Business With AI · tryjoin.me</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#f5f1e8; --cream:#ede8db; --warm:#e4dece;
+  --ink:#0d0c0a; --ink2:#1a1916; --ink3:#252320;
+  --muted:#6a6560; --dim:#9c9790; --rule:#d4cec2;
+  --gold:#b8902a; --gold2:#c9a84c; --gold-bg:rgba(184,144,42,0.08);
+  --accent:#bf3a1e; --green:#3a7a58;
+  --night:#0d0c0a; --night2:#161513; --night3:#1e1d1b;
+  --nb:rgba(255,255,255,0.06); --nb2:rgba(255,255,255,0.11);
+  --ntext:#f0ece3; --nmuted:rgba(240,236,227,0.5); --ndim:rgba(240,236,227,0.25);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Syne',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(245,241,232,0.93);backdrop-filter:blur(20px);border-bottom:1px solid var(--rule);transition:all 0.4s;}
+.nav.dark{background:rgba(13,12,10,0.93);border-bottom-color:rgba(255,255,255,0.07);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:baseline;gap:2px;transition:color 0.3s;}
+.nav.dark .nav-logo{color:var(--ntext);}
+.nav-logo-dot{color:var(--gold);font-size:32px;line-height:0.6;}
+.nav-center{display:flex;align-items:center;}
+.nav-item{position:relative;}
+.nav-link{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.13em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:0 20px;height:64px;display:flex;align-items:center;gap:6px;transition:color 0.2s;border:none;background:none;cursor:pointer;font-size:11px;}
+.nav-link:hover{color:var(--ink);}
+.nav.dark .nav-link{color:var(--ndim);}
+.nav.dark .nav-link:hover{color:var(--ntext);}
+.nav.dark .nav-link.build-link:hover{color:var(--gold2);}
+.nav-arr{font-size:9px;opacity:0.5;transition:transform 0.2s;}
+.nav-item:hover .nav-arr{transform:rotate(180deg);}
+.nav-drop{position:absolute;top:64px;left:0;min-width:240px;background:var(--paper);border:1px solid var(--rule);border-top:2px solid var(--gold);padding:8px 0;opacity:0;pointer-events:none;transform:translateY(-8px);transition:all 0.2s;z-index:300;}
+.nav.dark .nav-drop{background:var(--night2);border-color:rgba(255,255,255,0.08);border-top-color:var(--gold);}
+.nav-item:hover .nav-drop{opacity:1;pointer-events:auto;transform:translateY(0);}
+.nav-dd{display:block;padding:10px 20px;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:all 0.15s;}
+.nav-dd:hover{background:var(--cream);color:var(--ink);padding-left:26px;}
+.nav.dark .nav-dd:hover{background:rgba(255,255,255,0.04);color:var(--ntext);}
+.nav-dd-lbl{padding:12px 20px 4px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);}
+.nav-dd-div{height:1px;background:var(--rule);margin:6px 0;}
+.nav.dark .nav-dd-div{background:rgba(255,255,255,0.06);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.btn-ng{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:8px 16px;border:1px solid var(--rule);transition:all 0.2s;}
+.btn-ng:hover{border-color:var(--ink);color:var(--ink);}
+.nav.dark .btn-ng{color:var(--ndim);border-color:var(--nb2);}
+.nav.dark .btn-ng:hover{border-color:var(--ntext);color:var(--ntext);}
+.btn-np{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:white;background:var(--ink);text-decoration:none;padding:10px 22px;transition:background 0.2s;}
+.btn-np:hover{background:var(--gold);}
+.nav.dark .btn-np{background:var(--gold);color:var(--ink);}
+.nav.dark .btn-np:hover{background:var(--gold2);}
+
+/* TWO-DOOR HERO */
+.two-door{height:100vh;min-height:640px;display:grid;grid-template-columns:1fr 1fr;padding-top:64px;position:relative;overflow:hidden;transition:grid-template-columns 0.65s cubic-bezier(0.4,0,0.2,1);}
+.two-door.hire-exp{grid-template-columns:1.85fr 1fr;}
+.two-door.build-exp{grid-template-columns:1fr 1.85fr;}
+.door{position:relative;display:flex;flex-direction:column;justify-content:flex-end;padding:60px 56px;cursor:pointer;transition:all 0.5s cubic-bezier(0.4,0,0.2,1);overflow:hidden;}
+.door::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.3s;}
+.door-bg{position:absolute;inset:0;transition:all 0.5s;}
+.door-grid{position:absolute;inset:0;pointer-events:none;opacity:0.35;transition:opacity 0.4s;}
+.door-hire{background:var(--paper);}
+.door-hire .door-bg{background:radial-gradient(ellipse at 30% 60%,rgba(184,144,42,0.07) 0%,transparent 60%),linear-gradient(135deg,var(--paper) 0%,var(--cream) 100%);}
+.door-hire .door-grid{background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:72px 72px;}
+.door-hire::after{background:rgba(184,144,42,0.03);}
+.door-hire:hover::after{opacity:1;}
+.door-build{background:var(--night);}
+.door-build .door-bg{background:radial-gradient(ellipse at 70% 40%,rgba(184,144,42,0.09) 0%,transparent 60%),linear-gradient(135deg,var(--night) 0%,var(--night2) 100%);}
+.door-build .door-grid{background-image:linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);background-size:72px 72px;opacity:0.8;}
+.door-build::after{background:rgba(201,168,76,0.04);}
+.door-build:hover::after{opacity:1;}
+.door-divider{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--rule) 20%,var(--rule) 80%,transparent);transform:translateX(-50%);z-index:10;pointer-events:none;transition:opacity 0.4s;}
+.two-door.hire-exp .door-divider,.two-door.build-exp .door-divider{opacity:0.3;}
+.door-corner{position:absolute;top:80px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;transition:opacity 0.3s;}
+.door-hire .door-corner{left:56px;color:var(--dim);}
+.door-build .door-corner{right:56px;color:var(--ndim);}
+.two-door.hire-exp .door-corner,.two-door.build-exp .door-corner{opacity:0;}
+.door-content{position:relative;z-index:5;transition:all 0.4s;}
+.door-eyebrow{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.door-hire .door-eyebrow{color:var(--gold);}
+.door-build .door-eyebrow{color:var(--gold2);}
+.door-eyebrow::before{content:'';display:block;width:24px;height:1px;}
+.door-hire .door-eyebrow::before{background:var(--gold);}
+.door-build .door-eyebrow::before{background:var(--gold2);}
+.door-h{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:700;line-height:0.95;letter-spacing:-0.03em;margin-bottom:20px;}
+.door-hire .door-h{color:var(--ink);}
+.door-build .door-h{color:var(--ntext);}
+.door-h em{font-style:italic;color:var(--gold);}
+.door-build .door-h em{color:var(--gold2);}
+.door-p{font-size:16px;line-height:1.75;margin-bottom:32px;max-width:420px;}
+.door-hire .door-p{color:var(--muted);}
+.door-build .door-p{color:var(--nmuted);}
+.door-p strong{font-weight:600;}
+.door-hire .door-p strong{color:var(--ink);}
+.door-build .door-p strong{color:var(--ntext);}
+.door-btn{display:inline-flex;align-items:center;gap:12px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:16px 32px;border:none;cursor:pointer;transition:all 0.2s;}
+.door-hire .door-btn{background:var(--ink);color:white;}
+.door-hire .door-btn:hover{background:var(--gold);}
+.door-build .door-btn{background:var(--gold);color:var(--ink);}
+.door-build .door-btn:hover{background:var(--gold2);}
+.door-arr{transition:transform 0.2s;}
+.door-btn:hover .door-arr{transform:translateX(4px);}
+
+/* TICKER */
+.ticker{background:var(--night);padding:13px 0;overflow:hidden;border-top:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);}
+.ticker-inner{display:flex;gap:0;animation:tickScroll 55s linear infinite;white-space:nowrap;}
+@keyframes tickScroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.tick-item{display:inline-flex;align-items:center;gap:10px;padding:0 28px;border-right:1px solid rgba(255,255,255,0.06);flex-shrink:0;}
+.tick-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:white;}
+.tick-vert{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:rgba(240,236,227,0.3);}
+.tick-stat{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;color:var(--gold2);padding:2px 8px;border:1px solid rgba(201,168,76,0.2);}
+
+/* BUYER JOURNEY */
+#buyer-journey{display:none;}
+#buyer-journey.visible{display:block;}
+
+/* Tier selector */
+.tier-sel{background:var(--cream);border-bottom:1px solid var(--rule);padding:0 56px;position:sticky;top:64px;z-index:100;}
+.ts-inner{display:flex;align-items:stretch;}
+.tier-tab{flex:1;padding:20px 18px;display:flex;flex-direction:column;gap:4px;cursor:pointer;border:none;background:none;border-bottom:3px solid transparent;transition:all 0.2s;text-align:left;border-right:1px solid var(--rule);}
+.tier-tab:last-child{border-right:none;}
+.tier-tab:hover{background:var(--warm);}
+.tier-tab.active{border-bottom-color:var(--gold);background:var(--paper);}
+.tt-num{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);}
+.tier-tab.active .tt-num{color:var(--gold);}
+.tt-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--muted);line-height:1;}
+.tier-tab.active .tt-name{color:var(--ink);}
+.tt-who{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);}
+
+/* Tier panels */
+.tier-panel{display:none;}
+.tier-panel.active{display:block;animation:fadeUp 0.4s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* Panel hero */
+.ph{padding:80px 56px 60px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.ph-eye{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.ph-eye::before{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:0.5;}
+.ph-h{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;line-height:0.97;letter-spacing:-0.03em;margin-bottom:22px;}
+.ph-h em{font-style:italic;color:var(--gold);}
+.ph-p{font-size:18px;line-height:1.75;color:var(--muted);margin-bottom:34px;max-width:480px;}
+.ph-p strong{color:var(--ink);font-weight:600;}
+.ph-ctas{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
+.btn-p{display:inline-block;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:white;background:var(--ink);padding:14px 30px;text-decoration:none;transition:background 0.2s;}
+.btn-p:hover{background:var(--gold);}
+.btn-g{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s;}
+.btn-g:hover{color:var(--ink);}
+.btn-g::after{content:'→';}
+.btn-gold{display:inline-block;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);background:var(--gold2);padding:14px 30px;text-decoration:none;transition:background 0.2s;}
+.btn-gold:hover{background:#d4b05a;}
+.btn-gl{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);text-decoration:none;transition:color 0.2s;}
+.btn-gl:hover{color:var(--ntext);}
+.btn-gl::after{content:'→';}
+.ph-proof{display:flex;gap:22px;flex-wrap:wrap;padding-top:22px;border-top:1px solid var(--rule);}
+.ph-pi{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:7px;}
+.ph-pi::before{content:'✓';color:var(--green);}
+
+/* Quick-list for panel right */
+.quick-list{display:flex;flex-direction:column;gap:8px;}
+.ql-item{display:flex;align-items:center;gap:14px;padding:12px 16px;background:white;border:1px solid var(--rule);transition:border-color 0.2s;}
+.ql-item:hover{border-color:var(--gold);}
+.ql-name{font-family:'Cormorant Garamond',serif;font-size:21px;font-weight:700;min-width:80px;}
+.ql-desc{font-size:13px;color:var(--muted);flex:1;line-height:1.5;}
+.ql-stat{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--green);white-space:nowrap;}
+.ql-stat.gold{color:var(--gold);}
+.ql-wrap{background:var(--cream);border:1px solid var(--rule);padding:20px;}
+.ql-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:12px;}
+
+/* WHAT JOYN IS NOT */
+.not-sec{background:var(--ink);padding:80px 56px;}
+.not-grid{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start;}
+.not-left h2{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:var(--ntext);}
+.not-left h2 em{font-style:italic;color:var(--gold2);}
+.not-left p{font-size:16px;line-height:1.8;color:var(--nmuted);margin-top:18px;}
+.not-items{display:flex;flex-direction:column;gap:1px;}
+.not-row{display:grid;grid-template-columns:1fr 1fr;background:rgba(255,255,255,0.03);border:1px solid var(--nb);overflow:hidden;transition:border-color 0.2s;}
+.not-row:hover{border-color:rgba(201,168,76,0.2);}
+.not-wrong{padding:22px 22px;border-right:1px solid var(--nb);}
+.not-right-col{padding:22px 22px;}
+.nw-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(191,58,30,0.7);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.nw-lbl::before{content:'✕';}
+.nr-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.nr-lbl::before{content:'✓';}
+.nt{font-size:15px;line-height:1.7;color:var(--nmuted);}
+.nt strong{color:var(--ntext);font-weight:600;}
+
+/* HOW HIRING WORKS */
+.hiw-buyer{padding:80px 56px;background:var(--cream);}
+.hiw-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:48px;}
+.hiw-step{background:var(--paper);padding:30px 22px;transition:background 0.2s;}
+.hiw-step:hover{background:white;}
+.hs-n{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:400;font-style:italic;color:var(--gold);opacity:0.18;line-height:1;margin-bottom:14px;}
+.hs-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.hs-s{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--rule);}
+.hs-b{font-size:14px;line-height:1.7;color:var(--muted);}
+.hs-b strong{color:var(--ink);font-weight:600;}
+
+/* PRICING */
+.pricing-sec{padding:100px 56px;background:var(--paper);}
+.p-header{margin-bottom:52px;}
+.p-header h2{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:12px;}
+.p-header h2 em{font-style:italic;color:var(--gold);}
+.p-header p{font-size:17px;line-height:1.8;color:var(--muted);max-width:560px;}
+.price-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:36px;}
+.pc{background:var(--paper);padding:34px 22px;position:relative;transition:background 0.2s;}
+.pc:hover{background:var(--cream);}
+.pc.feat{background:var(--ink);}
+.pc.feat:hover{background:var(--ink2);}
+.p-tier{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.pc.feat .p-tier{color:var(--gold2);}
+.p-name{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ink);margin-bottom:6px;}
+.pc.feat .p-name{color:var(--ntext);}
+.p-who{font-size:13px;line-height:1.6;color:var(--muted);margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--rule);min-height:66px;}
+.pc.feat .p-who{color:var(--nmuted);border-color:var(--nb);}
+.p-amt{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:700;line-height:1;color:var(--ink);margin-bottom:4px;}
+.pc.feat .p-amt{color:var(--ntext);}
+.p-unit{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--dim);margin-bottom:22px;}
+.pc.feat .p-unit{color:var(--ndim);}
+.p-feats{display:flex;flex-direction:column;gap:8px;margin-bottom:26px;}
+.pf{display:flex;gap:9px;font-size:13px;line-height:1.5;color:var(--muted);align-items:flex-start;}
+.pf::before{content:'—';color:var(--gold);opacity:0.5;flex-shrink:0;}
+.pf strong{color:var(--ink);font-weight:600;}
+.pc.feat .pf{color:var(--nmuted);}
+.pc.feat .pf strong{color:var(--ntext);}
+.p-cta{display:block;width:100%;padding:12px;text-align:center;text-decoration:none;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;border:1px solid var(--rule);color:var(--muted);transition:all 0.2s;}
+.p-cta:hover{border-color:var(--ink);color:var(--ink);}
+.pc.feat .p-cta{background:var(--gold2);border-color:var(--gold2);color:var(--ink);}
+.pc.feat .p-cta:hover{background:#d4b05a;}
+.feat-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--gold2);color:var(--ink);font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:3px 14px;white-space:nowrap;}
+
+/* FAQ */
+.faq-sec{padding:80px 56px;background:var(--cream);}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 80px;margin-top:48px;}
+.faq-col{display:flex;flex-direction:column;}
+.faq-item{border-bottom:1px solid var(--rule);}
+.faq-q{width:100%;text-align:left;padding:22px 0;display:flex;justify-content:space-between;align-items:start;gap:16px;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);background:none;border:none;cursor:pointer;line-height:1.3;transition:color 0.2s;}
+.faq-q:hover{color:var(--gold);}
+.faq-icon{font-size:20px;color:var(--gold);flex-shrink:0;margin-top:2px;transition:transform 0.3s;line-height:1;}
+.faq-item.open .faq-icon{transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.35s ease,padding 0.35s ease;}
+.faq-item.open .faq-a{max-height:400px;padding-bottom:22px;}
+.faq-a p{font-size:16px;line-height:1.8;color:var(--muted);}
+.faq-a p strong{color:var(--ink);font-weight:600;}
+
+/* CREATOR JOURNEY */
+#creator-journey{display:none;}
+#creator-journey.visible{display:block;}
+.c-hero{background:var(--night);padding:100px 56px 80px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;position:relative;overflow:hidden;}
+.c-hero::before{content:'';position:absolute;top:-150px;right:-150px;width:500px;height:500px;background:radial-gradient(circle,rgba(184,144,42,0.07) 0%,transparent 65%);pointer-events:none;}
+.c-eye{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.c-eye::before{content:'';display:block;width:24px;height:1px;background:var(--gold2);opacity:0.5;}
+.c-h{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:700;line-height:0.97;letter-spacing:-0.03em;color:var(--ntext);margin-bottom:22px;}
+.c-h em{font-style:italic;color:var(--gold2);}
+.c-p{font-size:18px;line-height:1.75;color:var(--nmuted);margin-bottom:32px;max-width:480px;}
+.c-p strong{color:var(--ntext);font-weight:600;}
+.c-ctas{display:flex;align-items:center;gap:16px;margin-bottom:32px;}
+.c-principle{margin-top:28px;padding:20px 22px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.02);}
+.cp-lbl{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;}
+.cp-text{font-size:15px;line-height:1.75;color:var(--nmuted);}
+.cp-text strong{color:var(--ntext);font-weight:600;}
+.c-stat-cards{display:flex;flex-direction:column;gap:12px;}
+.csc{background:rgba(255,255,255,0.03);border:1px solid var(--nb);padding:20px 22px;display:flex;align-items:center;gap:18px;transition:border-color 0.2s;}
+.csc:hover{border-color:rgba(201,168,76,0.25);}
+.csc-icon{width:44px;height:44px;flex-shrink:0;background:var(--gold-bg);border:1px solid rgba(184,144,42,0.2);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.csc-n{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:700;color:var(--gold2);line-height:1;}
+.csc-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.csc-b{font-size:14px;line-height:1.6;color:var(--nmuted);}
+
+/* Tracks */
+.tracks-sec{background:var(--night2);padding:80px 56px;}
+.tracks-hdr{margin-bottom:48px;}
+.tracks-hdr h2{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;color:var(--ntext);margin-bottom:12px;}
+.tracks-hdr h2 em{font-style:italic;color:var(--gold2);}
+.tracks-hdr p{font-size:17px;line-height:1.8;color:var(--nmuted);max-width:560px;}
+.tracks-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);}
+.track-card{background:var(--night2);padding:34px 26px;transition:background 0.2s;}
+.track-card:hover{background:var(--night3);}
+.tc-n{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:400;font-style:italic;color:var(--gold2);opacity:0.2;line-height:1;margin-bottom:14px;}
+.tc-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ntext);margin-bottom:6px;}
+.tc-tag{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--nb);}
+.tc-b{font-size:15px;line-height:1.7;color:var(--nmuted);}
+.tc-b strong{color:var(--ntext);font-weight:600;}
+.tc-path{margin-top:16px;padding-top:14px;border-top:1px solid var(--nb);font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);display:flex;align-items:center;gap:8px;}
+.tc-path::before{content:'→';color:var(--gold2);}
+
+/* Creator HIW */
+.c-hiw{padding:80px 56px;background:var(--night);}
+.c-hiw-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);margin-top:48px;}
+.c-step{background:rgba(255,255,255,0.02);padding:30px 22px;transition:background 0.2s;}
+.c-step:hover{background:rgba(255,255,255,0.04);}
+.cs-n{font-family:'Cormorant Garamond',serif;font-size:50px;font-weight:400;font-style:italic;color:var(--gold2);opacity:0.15;line-height:1;margin-bottom:14px;}
+.cs-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ntext);margin-bottom:6px;}
+.cs-s{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--nb);}
+.cs-b{font-size:14px;line-height:1.7;color:var(--nmuted);}
+.cs-b strong{color:var(--ntext);font-weight:600;}
+
+/* CTA BAND */
+.cta-band{padding:100px 56px;background:var(--night);text-align:center;position:relative;overflow:hidden;}
+.cta-band::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse,rgba(184,144,42,0.08) 0%,transparent 65%);pointer-events:none;}
+.cta-band h2{font-family:'Cormorant Garamond',serif;font-size:58px;font-weight:700;line-height:1.0;letter-spacing:-0.02em;color:var(--ntext);margin-bottom:18px;position:relative;}
+.cta-band h2 em{font-style:italic;color:var(--gold2);}
+.cta-band p{font-size:18px;line-height:1.75;color:var(--nmuted);max-width:500px;margin:0 auto 40px;position:relative;}
+.cta-acts{display:flex;justify-content:center;align-items:center;gap:20px;position:relative;}
+.cta-note{margin-top:22px;position:relative;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);}
+
+/* FOOTER */
+footer{background:var(--night2);border-top:1px solid rgba(255,255,255,0.05);padding:56px 56px 32px;}
+.ft{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.05);}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);margin-bottom:12px;display:flex;align-items:baseline;gap:2px;}
+.f-logo-dot{color:var(--gold2);font-size:32px;line-height:0.6;}
+.f-brand p{font-size:14px;line-height:1.7;color:rgba(240,236,227,0.3);}
+.f-col h4{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:16px;}
+.f-col a{display:block;font-size:14px;color:rgba(240,236,227,0.3);text-decoration:none;margin-bottom:10px;transition:color 0.2s;}
+.f-col a:hover{color:rgba(240,236,227,0.75);}
+.fb{display:flex;justify-content:space-between;align-items:center;}
+.fb-c{font-family:'DM Mono',monospace;font-size:11px;font-weight:300;color:rgba(240,236,227,0.18);letter-spacing:0.06em;text-transform:uppercase;}
+.fb-t{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:rgba(240,236,227,0.18);}
+
+/* UTILS */
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:0.5;}
+.eyebrow.lt{color:var(--gold2);}
+.eyebrow.lt::before{background:var(--gold2);}
+.sh{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1.05;letter-spacing:-0.02em;margin-bottom:14px;}
+.sh em{font-style:italic;color:var(--gold);}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <a href="#" class="nav-logo">Joyn<span class="nav-logo-dot">.</span></a>
+  <div class="nav-center">
+    <div class="nav-item">
+      <button class="nav-link hire-link">Hire Staff <span class="nav-arr">▾</span></button>
+      <div class="nav-drop">
+        <div class="nav-dd-lbl">By Tier</div>
+        <a class="nav-dd" href="#" onclick="selectTier('solo');showBuyer();return false;">Joyn Solo — Independent operators</a>
+        <a class="nav-dd" href="#" onclick="selectTier('team');showBuyer();return false;">Joyn Team — Growing businesses</a>
+        <a class="nav-dd" href="#" onclick="selectTier('practice');showBuyer();return false;">Joyn Practice — Professional services</a>
+        <a class="nav-dd" href="#" onclick="selectTier('enterprise');showBuyer();return false;">Joyn Enterprise — Large organisations</a>
+        <div class="nav-dd-div"></div>
+        <div class="nav-dd-lbl">Browse</div>
+        <a class="nav-dd" href="#pricing">Pricing</a>
+        <a class="nav-dd" href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <button class="nav-link build-link">Build Staff <span class="nav-arr">▾</span></button>
+      <div class="nav-drop">
+        <div class="nav-dd-lbl">Creator Studio</div>
+        <a class="nav-dd" href="#" onclick="showCreator();return false;">Overview</a>
+        <a class="nav-dd" href="#tracks">The Three Tracks</a>
+        <a class="nav-dd" href="#c-hiw">How Creators Earn</a>
+        <div class="nav-dd-div"></div>
+        <a class="nav-dd" href="#contact">Apply to Create →</a>
+      </div>
+    </div>
+    <a class="nav-link" href="#not-sec">About Joyn</a>
+    <a class="nav-link" href="#faq">FAQ</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="btn-ng">Sign In</a>
+    <a href="#" onclick="showBuyer();return false;" class="btn-np">Start Hiring</a>
+  </div>
+</nav>
+
+<!-- TWO-DOOR HERO -->
+<div class="two-door" id="twoDoor">
+  <div class="door-divider"></div>
+
+  <!-- HIRE DOOR -->
+  <div class="door door-hire" id="doorHire" onclick="showBuyer()">
+    <div class="door-bg"></div><div class="door-grid"></div>
+    <div class="door-corner">For Businesses</div>
+    <div class="door-content">
+      <div class="door-eyebrow">Hire AI Staff</div>
+      <h1 class="door-h">Staff your<br>business with<br><em>AI colleagues.</em></h1>
+      <p class="door-p">Browse a marketplace of <strong>AI staff built by vetted domain experts</strong> and bring them on board in minutes. Every staff member grows with your team and deepens over time.</p>
+      <button class="door-btn" onclick="event.stopPropagation();showBuyer()">Start Hiring <span class="door-arr">→</span></button>
+    </div>
+  </div>
+  <!-- BUILD DOOR -->
+  <div class="door door-build" id="doorBuild" onclick="showCreator()">
+    <div class="door-bg"></div><div class="door-grid"></div>
+    <div class="door-corner">For Creators</div>
+    <div class="door-content">
+      <div class="door-eyebrow">Build Staff</div>
+      <h1 class="door-h">Encode your<br>expertise.<br><em>Scale your reach.</em></h1>
+      <p class="door-p">Your expertise currently helps whoever is in the room. <strong>Build AI staff on Joyn and let that knowledge work for thousands of businesses simultaneously</strong> — while you earn from every hire.</p>
+      <button class="door-btn" onclick="event.stopPropagation();showCreator()">Start Building <span class="door-arr">→</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- TICKER -->
+<div class="ticker"><div class="ticker-inner" id="tickerEl"></div></div>
+
+<!-- BUYER JOURNEY -->
+<div id="buyer-journey">
+  <div class="tier-sel" id="tierSel">
+    <div class="ts-inner">
+      <button class="tier-tab active" data-tier="solo" onclick="selectTier('solo')">
+        <span class="tt-num">01</span><span class="tt-name">Joyn Solo</span><span class="tt-who">Independent operators</span>
+      </button>
+      <button class="tier-tab" data-tier="team" onclick="selectTier('team')">
+        <span class="tt-num">02</span><span class="tt-name">Joyn Team</span><span class="tt-who">Growing businesses</span>
+      </button>
+      <button class="tier-tab" data-tier="practice" onclick="selectTier('practice')">
+        <span class="tt-num">03</span><span class="tt-name">Joyn Practice</span><span class="tt-who">Professional services</span>
+      </button>
+      <button class="tier-tab" data-tier="enterprise" onclick="selectTier('enterprise')">
+        <span class="tt-num">04</span><span class="tt-name">Joyn Enterprise</span><span class="tt-who">Large organisations</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SOLO -->
+  <div class="tier-panel active" id="panel-solo">
+    <div class="ph">
+      <div>
+        <div class="ph-eye">Joyn Solo · For independent operators</div>
+        <h1 class="ph-h">Your business,<br>fully <em>staffed.</em></h1>
+        <p class="ph-p">Whether you run a salon, a plumbing business, or an independent insurance practice — <strong>one AI staff member can handle the work that has been keeping you from growing.</strong> Hire in 10 minutes. No technical setup required.</p>
+        <div class="ph-ctas"><a href="#" class="btn-p">Browse AI Staff</a><a href="#hiw-buyer" class="btn-g">How hiring works</a></div>
+        <div class="ph-proof">
+          <div class="ph-pi">One AI staff member</div><div class="ph-pi">Live in 10 minutes</div>
+          <div class="ph-pi">$299 / month</div><div class="ph-pi">No setup needed</div>
+        </div>
+      </div>
+      <div>
+        <div class="ql-wrap">
+          <div class="ql-label">Popular roles for Solo</div>
+          <div class="quick-list">
+            <div class="ql-item"><span class="ql-name">Dispatch</span><span class="ql-desc">Answers every call and books jobs — including the ones that come in at 2am.</span><span class="ql-stat">+$4,200 / mo</span></div>
+            <div class="ql-item"><span class="ql-name">Scout</span><span class="ql-desc">Qualifies every lead and books showings while you are with clients.</span><span class="ql-stat">+31 showings</span></div>
+            <div class="ql-item"><span class="ql-name">Renew</span><span class="ql-desc">Protects your policy book by flagging renewals at risk 90 days early.</span><span class="ql-stat">31 protected</span></div>
+            <div class="ql-item"><span class="ql-name">Greet</span><span class="ql-desc">Welcomes clients, handles enquiries, books appointments across any business.</span><span class="ql-stat gold">Cross-vertical</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="tier-panel" id="panel-team">
+    <div class="ph">
+      <div>
+        <div class="ph-eye">Joyn Team · For growing businesses</div>
+        <h1 class="ph-h">A full team<br>working <em>together.</em></h1>
+        <p class="ph-p">You have grown past what one person can handle. <strong>Joyn Team gives you up to five AI staff who coordinate with each other</strong> — so your reception, follow-up, scheduling, and client management all work in sync, freeing your people for the work that truly matters. <strong>Brief them once on how you work — they learn your business, not the other way round.</strong></p>
+        <div class="ph-ctas"><a href="#" class="btn-p">Build Your Team</a><a href="#hiw-buyer" class="btn-g">See how teams work</a></div>
+        <div class="ph-proof">
+          <div class="ph-pi">Up to 5 AI staff</div><div class="ph-pi">Staff coordinate together</div>
+          <div class="ph-pi">$899 / month</div><div class="ph-pi">14-day free trial</div>
+        </div>
+      </div>
+      <div>
+        <div class="ql-wrap">
+          <div class="ql-label">Sample team · Growing marketing agency</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+            <div style="padding:14px;background:white;border:1px solid var(--rule);"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;">Greet</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);">Reception</div></div>
+            <div style="padding:14px;background:white;border:1px solid var(--rule);"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;">Follow</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);">Client Follow-up</div></div>
+            <div style="padding:14px;background:white;border:1px solid var(--rule);"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;">Report</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);">Performance Reporting</div></div>
+            <div style="padding:14px;background:var(--gold-bg);border:1px solid rgba(184,144,42,0.2);"><div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;margin-bottom:3px;color:var(--gold);">+ Hire</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);">Any role from marketplace</div></div>
+          </div>
+          <div style="padding:10px 14px;background:var(--cream);border:1px solid var(--rule);font-size:13px;color:var(--muted);line-height:1.6;"><strong style="color:var(--ink);">Your staff learn your workflow, not the other way around.</strong> A 10-minute intake tells them about your business. They handle the rest, coordinating with each other the same way a well-run team would.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRACTICE -->
+  <div class="tier-panel" id="panel-practice">
+    <div class="ph" style="background:var(--ink);">
+      <div>
+        <div class="ph-eye" style="color:var(--gold2);">Joyn Practice · For professional services firms</div>
+        <h1 class="ph-h" style="color:var(--ntext);">Your clients see<br>your work. <em>Always.</em></h1>
+        <p class="ph-p" style="color:var(--nmuted);">Your AI practice team works inside your engagement workflow — briefed on your methodology, operating under your partners&#x2019; oversight, delivering under your firm&#x2019;s name. <strong style="color:var(--ntext);">Your clients never know Joyn exists.</strong> That is not a feature. It is simply what good staff do — they represent the firm, not themselves.</p>
+        <div class="ph-ctas"><a href="practice/tdd-practice-team.html" class="btn-gold">Meet the TDD Practice Team</a><a href="#not-sec" class="btn-gl">About our quality standard</a></div>
+        <div class="ph-proof" style="border-top-color:rgba(255,255,255,0.08);">
+          <div class="ph-pi" style="color:var(--ndim);">Engagement-scoped staffing</div><div class="ph-pi" style="color:var(--ndim);">Practitioner oversight</div>
+          <div class="ph-pi" style="color:var(--ndim);">Private data room protocol</div><div class="ph-pi" style="color:var(--ndim);">From $2,500 / engagement</div>
+        </div>
+      </div>
+      <div>
+        <div style="padding:22px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);margin-bottom:14px;">Featured · Technology Due Diligence Practice Team</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Alex</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Morgan</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Jordan</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Riley</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Casey</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Taylor</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--ntext);padding:7px 13px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);">Drew</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:700;color:var(--gold2);padding:7px 13px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);">Sam</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.06);margin-bottom:12px;">
+            <div style="background:rgba(255,255,255,0.02);padding:13px;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;">72h</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ndim);margin-top:3px;">Turnaround</div></div>
+            <div style="background:rgba(255,255,255,0.02);padding:13px;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;">5</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ndim);margin-top:3px;">Domains</div></div>
+            <div style="background:rgba(255,255,255,0.02);padding:13px;text-align:center;"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold2);line-height:1;">IC</div><div style="font-family:'DM Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ndim);margin-top:3px;">Ready output</div></div>
+          </div>
+          <div style="margin-top:12px;padding:12px 14px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.15);font-size:13px;color:var(--nmuted);line-height:1.7;">
+            <strong style="color:var(--ntext);display:block;margin-bottom:4px;">How private data access works</strong>
+            The AI staff who need repository access receive time-limited, read-only credentials for the duration of the engagement — the same data room protocol your clients already use for human analysts. When the engagement closes, access is revoked automatically. Only structured findings leave the session. Raw data never does.
+          </div>
+          <a href="agentic-tdd-v5-complete.html" target="_blank" style="display:block;margin-top:10px;padding:10px;text-align:center;background:var(--gold);color:var(--ink);font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;">View TDD case study →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTERPRISE -->
+  <div class="tier-panel" id="panel-enterprise">
+    <div class="ph">
+      <div>
+        <div class="ph-eye" style="color:var(--gold);">Joyn Enterprise · Right-to-hire AI staff · <span style="color:var(--gold);opacity:0.6;">In development</span></div>
+        <h1 class="ph-h">Own your <em>AI staff.</em><br>Permanently.</h1>
+        <p class="ph-p" style="color:var(--muted);">Some organisations need AI staff that live inside their own walls — trained on their history, operating in their environment, owned outright. Joyn Enterprise is a <strong>right-to-hire model</strong>: we place expert AI staff with your organisation for a trial period. They learn your way of working. At acquisition, you own them entirely — deployed in your own environment, on your own infrastructure, under your security architecture. Joyn never touches your internal data.</p>
+        <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 18px;background:rgba(184,144,42,0.08);border:1px solid rgba(184,144,42,0.2);margin-bottom:28px;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);">Currently in design — join the waitlist</span>
+        </div>
+        <div class="ph-proof">
+          <div class="ph-pi">Trial placement, then acquisition</div><div class="ph-pi">You own the AI staff outright</div>
+          <div class="ph-pi">Deployed in your environment</div><div class="ph-pi">Joyn never accesses your data</div>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--cream);padding:24px;border:1px solid var(--rule);display:flex;flex-direction:column;gap:12px;">
+          <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);margin-bottom:4px;">How the right-to-hire model works</div>
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:white;border:1px solid var(--rule);">
+            <span style="color:var(--gold);font-size:20px;flex-shrink:0;line-height:1;font-family:'Cormorant Garamond',serif;font-weight:700;">1</span>
+            <div><div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;">Placement</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">We place expert AI staff with your organisation. They arrive with deep vertical expertise pre-trained by domain practitioners — no configuration required from your team.</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:white;border:1px solid var(--rule);">
+            <span style="color:var(--gold);font-size:20px;flex-shrink:0;line-height:1;font-family:'Cormorant Garamond',serif;font-weight:700;">2</span>
+            <div><div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;">Onboarding</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">Your team briefs them — your standards, your processes, your way of working. They learn your organisation the same way a new hire would, inside your own environment.</div></div>
+          </div>
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px;background:white;border:1px solid var(--rule);">
+            <span style="color:var(--gold);font-size:20px;flex-shrink:0;line-height:1;font-family:'Cormorant Garamond',serif;font-weight:700;">3</span>
+            <div><div style="font-size:14px;font-weight:600;color:var(--ink);margin-bottom:3px;">Acquisition</div><div style="font-size:13px;color:var(--muted);line-height:1.6;">At acquisition you own the AI staff outright. They are yours to deploy, retrain, retire, or replace — like any permanent hire. Joyn&#x2019;s role ends, or continues as an optional retraining partner.</div></div>
+          </div>
+          <div style="padding:10px 14px;background:var(--gold-bg);border:1px solid rgba(184,144,42,0.2);font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-align:center;">
+            Waitlist open — hello@tryjoin.me
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHAT JOYN IS NOT -->
+  <div class="not-sec" id="not-sec">
+    <div class="not-grid">
+      <div class="not-left">
+        <div class="eyebrow lt">What Joyn Is Not</div>
+        <h2>Important<br><em>distinctions.</em></h2>
+        <p>When you hire from Joyn, you are making a staffing decision — not a software purchase. That distinction shapes everything: the language, the experience, the accountability, and the outcomes you should expect.</p>
+      </div>
+      <div class="not-items">
+        <div class="not-row"><div class="not-wrong"><div class="nw-lbl">Not this</div><div class="nt"><strong>A chatbot.</strong> Chatbots answer questions on a webpage. They have no role, no institutional memory, and no accountability to outcomes beyond a response.</div></div><div class="not-right-col"><div class="nr-lbl">This</div><div class="nt"><strong>A staff member with a role.</strong> Your Joyn colleague has a job title, a defined scope, and performance measured in real business outcomes.</div></div></div>
+        <div class="not-row"><div class="not-wrong"><div class="nw-lbl">Not this</div><div class="nt"><strong>Automation software.</strong> Automation tools require technical setup and carry no identity. Nobody says "I hired a Zapier." Joyn staff are colleagues, not plumbing.</div></div><div class="not-right-col"><div class="nr-lbl">This</div><div class="nt"><strong>A staffing decision.</strong> You hire, onboard, and work alongside Joyn staff exactly as you would any team member. No code. No configuration wizards.</div></div></div>
+        <div class="not-row"><div class="not-wrong"><div class="nw-lbl">Not this</div><div class="nt"><strong>A replacement for your people.</strong> Joyn will never measure its success in roles eliminated. The businesses we celebrate are those whose people spend more time on their highest-value work — not fewer people doing the same work.</div></div><div class="not-right-col"><div class="nr-lbl">This</div><div class="nt"><strong>A multiplier for your people.</strong> Your best team members bring their full attention to the high-judgment work that builds your business. Joyn staff work alongside them.</div></div></div>
+        <div class="not-row"><div class="not-wrong"><div class="nw-lbl">Not this</div><div class="nt"><strong>Generic AI training data.</strong> Every Joyn agent is built by a vetted domain expert. Not a prompt template — a career encoded into expertise that performs in the real world.</div></div><div class="not-right-col"><div class="nr-lbl">This</div><div class="nt"><strong>Practitioner-built expertise.</strong> The 30-year insurance underwriter. The PE partner with 200 deals. Their judgment, working for your business every day.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW HIRING WORKS -->
+  <div class="hiw-buyer" id="hiw-buyer">
+    <div class="eyebrow">How Hiring Works</div>
+    <h2 class="sh">From browsing to working,<br>in <em>minutes.</em></h2>
+    <div class="hiw-steps">
+      <div class="hiw-step"><div class="hs-n">01</div><div class="hs-t">Browse the Marketplace</div><div class="hs-s">Find the right hire</div><div class="hs-b">Every listing shows the <strong>creator's credentials and documented outcomes</strong> from real business deployments. You know exactly who built it and what it has delivered before you hire anyone.</div></div>
+      <div class="hiw-step"><div class="hs-n">02</div><div class="hs-t">Complete the Intake Form</div><div class="hs-s">New hire onboarding</div><div class="hs-b">The new hire intake is a <strong>guided conversation, not a configuration panel</strong>. Share your business context, tone, customer profile, and workflows. Your AI staff member learns who they are working for.</div></div>
+      <div class="hiw-step"><div class="hs-n">03</div><div class="hs-t">Go Live in 10 Minutes</div><div class="hs-s">First day on the job</div><div class="hs-b">Your staff member is deployed and handling real interactions from day one. <strong>Your staff member works wherever your team already works</strong> — phone, email, or existing tools. Your clients see your brand. Joyn stays invisible.</div></div>
+      <div class="hiw-step"><div class="hs-n">04</div><div class="hs-t">Grows With Your Business</div><div class="hs-s">Deepens over time</div><div class="hs-b">Every interaction deepens their knowledge of your business. <strong>The more your AI staff member works alongside your team, the more they learn</strong> your clients, your voice, and your standards.</div></div>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="pricing-sec" id="pricing">
+    <div class="p-header">
+      <div class="eyebrow">Pricing</div>
+      <h2 class="sh">Four tiers. One <em>platform.</em></h2>
+      <p style="font-size:17px;line-height:1.8;color:var(--muted);max-width:560px;">Every tier shares the same quality standard and the same marketplace. What changes is the depth of the relationship — from a single AI staff member to a full practice team to permanent AI colleagues you own outright.</p>
+    </div>
+    <div class="price-grid">
+      <div class="pc"><div class="p-tier">Tier 01</div><div class="p-name">Joyn Solo</div><div class="p-who">For independent operators — solo practitioners and owner-operators ready to extend their reach.</div><div class="p-amt">$299</div><div class="p-unit">per month · one AI staff member</div><div class="p-feats"><div class="pf">One AI staff member, <strong>any role</strong></div><div class="pf">Unlimited interactions</div><div class="pf"><strong>Live in 10 minutes</strong></div><div class="pf">Monthly outcome report</div><div class="pf">Joyn quality guarantee</div></div><a href="#contact" class="p-cta">Get Started</a></div>
+      <div class="pc feat"><div class="feat-badge">Most Popular</div><div class="p-tier">Tier 02</div><div class="p-name">Joyn Team</div><div class="p-who">For growing businesses that need coverage across multiple functions — working together, not in isolation.</div><div class="p-amt">$899</div><div class="p-unit">per month · up to 5 AI staff</div><div class="p-feats"><div class="pf"><strong>Up to 5 AI staff</strong>, any mix of roles</div><div class="pf">Staff <strong>coordinate with each other</strong></div><div class="pf">Staff <strong>learn your workflow</strong> — brief them once</div><div class="pf">Weekly performance dashboard</div><div class="pf">Priority onboarding support</div></div><a href="#contact" class="p-cta">Start Free Trial</a></div>
+      <div class="pc"><div class="p-tier">Tier 03</div><div class="p-name">Joyn Practice</div><div class="p-who">For professional services firms — your AI team works inside your engagements, under your oversight. Your clients see your work, not Joyn.</div><div class="p-amt">$2,500</div><div class="p-unit">per engagement or monthly retainer</div><div class="p-feats"><div class="pf"><strong>Vertical AI practice team</strong></div><div class="pf">Your clients see <strong>your firm&#x2019;s work</strong></div><div class="pf">Engagement-scoped data room access</div><div class="pf">Partner oversight and correction log</div><div class="pf">Private calibration corpus — yours, not Joyn&#x2019;s</div></div><a href="#contact" class="p-cta">Talk to Sales</a></div>
+      <div class="pc" style="opacity:0.75;"><div class="p-tier" style="display:flex;align-items:center;gap:8px;">Tier 04 <span style="font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;background:rgba(184,144,42,0.1);border:1px solid rgba(184,144,42,0.25);color:var(--gold);">In Development</span></div><div class="p-name">Joyn Enterprise</div><div class="p-who">For large organisations that need to own AI staff permanently — placed, onboarded, then acquired outright into their own environment.</div><div class="p-amt">Right-to-hire</div><div class="p-unit">placement fee + acquisition</div><div class="p-feats"><div class="pf"><strong>Trial placement</strong> period included</div><div class="pf">AI staff learn your organisation</div><div class="pf">You own them outright at acquisition</div><div class="pf">Deployed in <strong>your environment</strong></div><div class="pf">Joyn never accesses your internal data</div></div><a href="mailto:hello@tryjoin.me" class="p-cta" style="opacity:0.7;">Join Waitlist</a></div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-sec" id="faq">
+    <div class="eyebrow">Frequently Asked</div>
+    <h2 class="sh">Questions worth <em>asking.</em></h2>
+    <div class="faq-grid">
+      <div class="faq-col">
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How is this different from a chatbot? <span class="faq-icon">+</span></button><div class="faq-a"><p>A chatbot answers questions. A Joyn staff member holds a role, carries institutional knowledge about your business, and is accountable to outcomes — renewal rates, bookings secured, assessments delivered. Your AI colleague learns your business, your voice, and your standards over time. A chatbot does not.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Who builds the AI staff on Joyn? <span class="faq-icon">+</span></button><div class="faq-a"><p>Every Joyn AI staff member is built by a <strong>vetted domain expert</strong> — a practitioner with a verified career in the relevant field. A 30-year insurance SVP built Renew. A PE partner who has evaluated 200 acquisitions built the TDD Practice Team. You are hiring their knowledge, not a generic AI model.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does Joyn replace my existing team? <span class="faq-icon">+</span></button><div class="faq-a"><p>No — and this is a values commitment, not just a product position. Joyn measures success in <strong>outcomes amplified</strong>. The businesses we celebrate are those whose team members bring their full attention to their highest-value work because Joyn staff handle the rest alongside them.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What does the intake process involve? <span class="faq-icon">+</span></button><div class="faq-a"><p>The new hire intake is a guided conversation — not a technical configuration. You share your business context, tone of voice, customer profile, and the situations your AI staff member will handle. For Solo and Team, this takes about 10 minutes. For Practice and Enterprise, Joyn provides dedicated onboarding support.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I want to let a staff member go? <span class="faq-icon">+</span></button><div class="faq-a"><p>You can end any staff member's engagement at any time. We call it <strong>letting someone go</strong> — because that is what it is. No lock-in contracts for Solo and Team. Practice and Enterprise arrangements include agreed notice periods reflecting the depth of integration involved.</p></div></div>
+      </div>
+      <div class="faq-col">
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How does Joyn's quality standard work? <span class="faq-icon">+</span></button><div class="faq-a"><p>Quality is the brand, not a feature. Every creator undergoes rigorous admission. Every agent must demonstrate performance in real deployments before receiving a Verified badge. An insurance renewal agent is Verified not because it follows a workflow — but because it <strong>measurably improved renewal rates for real agencies</strong>.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What happens to my business data? <span class="faq-icon">+</span></button><div class="faq-a"><p>Your engagement data improves your AI staff. Joyn&#x2019;s platform improves through the expertise our creators voluntarily encode. <strong>The two never mix.</strong> Your intake context, your client information, your workflow — none of it is used to train agents for other buyers or shared with other firms. For Practice engagements requiring private data room access, all credentials are scoped, read-only, and automatically revoked when the engagement closes. Raw data never leaves the sandboxed session. Only structured findings do.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How does Joyn Practice handle sensitive client data? <span class="faq-icon">+</span></button><div class="faq-a"><p>For engagements requiring private repository or data room access — such as technology due diligence — Joyn operates a data room protocol that PE firms and professional services clients already recognise. The target company grants time-limited, read-only credentials to specific AI staff members for the duration of the engagement. Those staff work in an isolated session. When the engagement closes, credentials are revoked, the session is destroyed, and an audit log is available to show your clients exactly how their data was handled. Only structured findings pass to your review — never the underlying content.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can the same AI staff work across different industries? <span class="faq-icon">+</span></button><div class="faq-a"><p>Some roles — Reception, Scheduling, Follow-up — are genuinely cross-vertical. Greet works as well for a salon as for a startup or a legal practice. These are marked <strong>Cross-Vertical</strong> in the marketplace. The role is the same; the intake configures the context for your specific business.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is there a free trial? <span class="faq-icon">+</span></button><div class="faq-a"><p>Joyn Team includes a <strong>14-day free trial</strong>. Solo offers a 7-day trial. Practice and Enterprise begin with a scoped pilot — contact sales to arrange the right structure for your firm.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How do creators earn on Joyn? <span class="faq-icon">+</span></button><div class="faq-a"><p>Creators earn a <strong>performance-linked revenue share</strong> of 25–75% on every subscription their AI staff member generates. Rates increase as performance improves. Attribution is transparent and reported monthly.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /buyer-journey -->
+
+<!-- CREATOR JOURNEY -->
+<div id="creator-journey">
+  <div class="c-hero">
+    <div>
+      <div class="c-eye">Creator Studio · Build Staff</div>
+      <h1 class="c-h">Your expertise<br>has been helping<br><em>the room.</em></h1>
+      <p class="c-p">Twenty years building a career. Hundreds of clients. Thousands of decisions that took instinct no textbook could teach. <strong>That knowledge currently reaches whoever you can personally serve.</strong> Joyn Creator Studio is how you change that equation — and earn from the change.</p>
+      <div class="c-ctas"><a href="#contact" class="btn-gold">Apply to Create</a><a href="#tracks" class="btn-gl">See the three tracks</a></div>
+      <div class="c-principle">
+        <div class="cp-lbl">The Chick-fil-A Principle</div>
+        <p class="cp-text">Chick-fil-A receives 60,000+ applications per year and approves fewer than 100. The scarcity is the product. Every Joyn agent carries the promise it was built by someone who qualified. <strong>That trust is what buyers pay for. It is what you earn from.</strong></p>
+      </div>
+    </div>
+    <div class="c-stat-cards">
+      <div class="csc"><div class="csc-icon">💼</div><div><div class="csc-n">25–75%</div><div class="csc-l">Revenue share on every hire</div><div class="csc-b">Performance-linked rates that rise as your AI staff member delivers better outcomes for buyers.</div></div></div>
+      <div class="csc"><div class="csc-icon">∞</div><div><div class="csc-n">Unlimited</div><div class="csc-l">Businesses your expertise can reach</div><div class="csc-b">Your knowledge, encoded once, working for thousands of businesses simultaneously — without you in every room.</div></div></div>
+      <div class="csc"><div class="csc-icon">🎓</div><div><div class="csc-n">No code</div><div class="csc-l">Required for Domain Expert Track</div><div class="csc-b">The Knowledge Extraction Interface captures your expertise through conversation. You explain your craft. Joyn handles the technical execution.</div></div></div>
+    </div>
+  </div>
+
+  <!-- Three Tracks -->
+  <div class="tracks-sec" id="tracks">
+    <div class="tracks-hdr">
+      <div class="eyebrow lt">The Three Creator Tracks</div>
+      <h2>One standard.<br><em>Three paths</em> to meet it.</h2>
+      <p>The admission bar is consistent across all three tracks: every agent must demonstrate performance in real business deployments before receiving a Verified badge. What changes is the path to getting there.</p>
+    </div>
+    <div class="tracks-grid">
+      <div class="track-card"><div class="tc-n">1</div><div class="tc-t">Domain Expert</div><div class="tc-tag">30-year practitioner · No technical requirement</div><div class="tc-b">The retired insurance SVP. The PE partner with 200 deals. The physician-consultant. <strong>Domain depth is profound; technical capability is irrelevant.</strong> Joyn's Knowledge Extraction Interface captures expertise through a guided conversation — you explain your craft, Joyn handles the rest. Publishes directly to Verified tier on the strength of career credentials alone.</div><div class="tc-path">Apply via Knowledge Extraction Interview</div></div>
+      <div class="track-card"><div class="tc-n">2</div><div class="tc-t">Domain-Technical Hybrid</div><div class="tc-tag">Rarest and most immediately productive</div><div class="tc-b">The engineer who spent a decade as a licensed financial advisor. The nurse practitioner who builds clinical tools on weekends. <strong>Domain expertise and technical execution in the same mind.</strong> No translation layer needed. Joyn's most actively recruited creator profile — they define what the platform's best work looks like.</div><div class="tc-path">Apply via portfolio review</div></div>
+      <div class="track-card"><div class="tc-n">3</div><div class="tc-t">Emerging Creator</div><div class="tc-tag">Structured development pathway · Earn the badge</div><div class="tc-b">Great talent does not always arrive with a 30-year resume. <strong>A structured pathway lets emerging creators contribute and progress</strong> — from pilot deployments to Verified to Certified — based entirely on demonstrated outcomes. The path from Builder to Certified is available to anyone willing to do the work.</div><div class="tc-path">Apply via pilot deployment programme</div></div>
+    </div>
+  </div>
+
+  <!-- Creator HIW -->
+  <div class="c-hiw" id="c-hiw">
+    <div class="eyebrow lt">How Building Works</div>
+    <h2 class="sh" style="color:var(--ntext);">From application<br>to <em style="color:var(--gold2);">earning.</em></h2>
+    <div class="c-hiw-steps">
+      <div class="c-step"><div class="cs-n">01</div><div class="cs-t">Apply</div><div class="cs-s">Admission process</div><div class="cs-b">Submit your application for the track that fits your profile. <strong>The bar is deliberately high</strong> — and that is what makes your credential worth something to every buyer who hires your work.</div></div>
+      <div class="c-step"><div class="cs-n">02</div><div class="cs-t">Extract</div><div class="cs-s">Knowledge extraction</div><div class="cs-b">Domain Experts go through the <strong>Knowledge Extraction Interface</strong> — a guided conversation that draws out the tacit, judgment-based knowledge that machines cannot replicate on their own. Your career, captured.</div></div>
+      <div class="c-step"><div class="cs-n">03</div><div class="cs-t">Build and Test</div><div class="cs-s">Pilot deployments</div><div class="cs-b">Your AI staff member enters a <strong>pilot deployment</strong> with real businesses. Performance is measured in outcomes — not workflow completion. Only agents that demonstrably deliver earn the Verified badge.</div></div>
+      <div class="c-step"><div class="cs-n">04</div><div class="cs-t">Publish and Earn</div><div class="cs-s">Live in the marketplace</div><div class="cs-b">Your staff member goes live in the Joyn marketplace. <strong>Every hire generates revenue for you</strong> — with rates that increase as performance improves. Your expertise, working for businesses you will never personally meet.</div></div>
+    </div>
+  </div>
+</div><!-- /creator-journey -->
+
+<!-- CTA -->
+<div class="cta-band" id="contact">
+  <h2>Ready to join<br>the <em>platform?</em></h2>
+  <p>Whether you are here to hire or here to build — the first step is the same. Reach out and we will find the right path together.</p>
+  <div class="cta-acts">
+    <a href="mailto:hello@tryjoin.me" class="btn-gold">Start Hiring</a>
+    <a href="mailto:hello@tryjoin.me" class="btn-gl">Apply to Create</a>
+  </div>
+  <div class="cta-note">hello@tryjoin.me · tryjoin.me · First cohort open now</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="f-brand"><div class="f-logo">Joyn<span class="f-logo-dot">.</span></div><p>The world's AI Workforce Operating System. Built by domain experts. Measured in outcomes. Yours in 10 minutes.</p></div>
+    <div class="f-col"><h4>Hire Staff</h4><a href="#">Joyn Solo</a><a href="#">Joyn Team</a><a href="#">Joyn Practice</a><a href="#">Joyn Enterprise</a><a href="#">Marketplace</a></div>
+    <div class="f-col"><h4>Build Staff</h4><a href="#">Creator Studio</a><a href="#">Apply to Create</a><a href="#">The Three Tracks</a><a href="#">How Creators Earn</a></div>
+    <div class="f-col"><h4>Verticals</h4><a href="#">Real Estate</a><a href="#">Insurance</a><a href="#">Trades &amp; Field Services</a><a href="#">Tech Due Diligence</a><a href="#">Marketing Agencies</a></div>
+    <div class="f-col"><h4>Company</h4><a href="#">About Joyn</a><a href="#faq">FAQ</a><a href="#pricing">Pricing</a><a href="mailto:hello@tryjoin.me">hello@tryjoin.me</a><a href="https://tryjoin.me">tryjoin.me</a></div>
+  </div>
+  <div class="fb">
+    <div class="fb-c">© 2026 Joyn · tryjoin.me · All rights reserved</div>
+    <div class="fb-t">Where human expertise comes to scale itself.</div>
+  </div>
+</footer>
+
+<script>
+// TICKER
+const ticks=[
+  {name:'Scout',vert:'Real Estate · Austin TX',stat:'+31 showings this week'},
+  {name:'Dispatch',vert:'Plumbing · Dallas TX',stat:'$4,200 recovered'},
+  {name:'Renew',vert:'Insurance · Independent Agent',stat:'31 renewals protected'},
+  {name:'Jordan',vert:'TDD · Veeva Systems',stat:'Repository: Bus factor 2 flagged'},
+  {name:'Riley',vert:'TDD · Veeva Systems',stat:'Security analysis running'},
+  {name:'Sam',vert:'TDD · HealthStream',stat:'IC-ready report delivered'},
+  {name:'Greet',vert:'Salon · Nashville TN',stat:'14 appointments booked today'},
+  {name:'Follow',vert:'Marketing Agency · Bahrain',stat:'8 client follow-ups sent'},
+  {name:'Drew',vert:'TDD · Palantir',stat:'Benchmarking complete'},
+  {name:'Scout',vert:'Real Estate · Denver CO',stat:'+18 showings booked'},
+];
+const tickEl=document.getElementById('tickerEl');
+tickEl.innerHTML=[...ticks,...ticks].map(t=>`<div class="tick-item"><span class="tick-name">${t.name}</span><span class="tick-vert">${t.vert}</span><span class="tick-stat">${t.stat}</span></div>`).join('');
+
+// STATE
+const nav=document.getElementById('mainNav');
+const twoDoor=document.getElementById('twoDoor');
+const buyerJ=document.getElementById('buyer-journey');
+const creatorJ=document.getElementById('creator-journey');
+let currentPath=null;
+
+function showBuyer(){
+  if(currentPath==='buyer')return;
+  currentPath='buyer';
+  twoDoor.classList.add('hire-exp');
+  twoDoor.classList.remove('build-exp');
+  nav.classList.remove('dark');
+  setTimeout(()=>{
+    buyerJ.classList.add('visible');
+    creatorJ.classList.remove('visible');
+    document.getElementById('tierSel').scrollIntoView({behavior:'smooth',block:'start'});
+  },320);
+}
+
+function showCreator(){
+  if(currentPath==='creator')return;
+  currentPath='creator';
+  twoDoor.classList.add('build-exp');
+  twoDoor.classList.remove('hire-exp');
+  nav.classList.add('dark');
+  setTimeout(()=>{
+    creatorJ.classList.add('visible');
+    buyerJ.classList.remove('visible');
+    creatorJ.scrollIntoView({behavior:'smooth',block:'start'});
+  },320);
+}
+
+function selectTier(tier){
+  document.querySelectorAll('.tier-tab').forEach(t=>t.classList.toggle('active',t.dataset.tier===tier));
+  document.querySelectorAll('.tier-panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+tier));
+  if(tier==='practice')nav.classList.add('dark');
+  else nav.classList.remove('dark');
+}
+
+function toggleFaq(btn){
+  const item=btn.closest('.faq-item');
+  const wasOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen)item.classList.add('open');
+}
+
+window.addEventListener('scroll',()=>{
+  if(currentPath==='creator')nav.classList.add('dark');
+  else if(currentPath==='buyer'){
+    const active=document.querySelector('.tier-panel.active');
+    if(active&&active.id==='panel-practice')nav.classList.add('dark');
+    else nav.classList.remove('dark');
+  }
+});
+</script>
+</body>
+</html>
