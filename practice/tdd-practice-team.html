@@ -784,7 +784,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Form submit
-function submitBrief()  {
+function submitBrief() {
   const name = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
   const firm = document.getElementById('f-firm').value.trim();
@@ -794,6 +794,7 @@ function submitBrief()  {
     return;
   }
   const data = {
+    access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
     name: name,
     firm: firm,
     email: email,
@@ -801,15 +802,18 @@ function submitBrief()  {
     sector: document.getElementById('f-sector').value,
     company: document.getElementById('f-company').value,
     focus: document.getElementById('f-focus').value,
-    access: document.getElementById('f-access').value
+    access: document.getElementById('f-access').value,
+    subject: 'New TDD Practice Brief — ' + firm,
+    from_name: 'Joyn TDD Brief Form'
   };
-  fetch('https://formspree.io/f/mwvnqwwa', {
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  .then(response => {
-    if (response.ok) {
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
       document.getElementById('briefForm').style.display = 'none';
       document.getElementById('formSuccess').style.display = 'block';
       document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
