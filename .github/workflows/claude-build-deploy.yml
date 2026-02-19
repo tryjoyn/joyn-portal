@@ -26,7 +26,9 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: pip install anthropic
+        run: |
+          python -m pip install --upgrade pip
+          pip install anthropic
 
       - name: Extract build instruction
         id: instruction
@@ -46,8 +48,14 @@ jobs:
           BUILD_INSTRUCTION: ${{ steps.instruction.outputs.instruction }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
-          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.comment.issue_url }}
-        run: python .github/scripts/claude_build.py
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          echo "Python version:"
+          python --version
+          echo "Script location:"
+          ls -la .github/scripts/
+          echo "Running build..."
+          python .github/scripts/claude_build.py
 
       - name: Commit and push changes
         run: |
