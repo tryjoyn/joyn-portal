@@ -344,7 +344,6 @@ footer{background:var(--night2);border-top:1px solid rgba(255,255,255,0.05);padd
         <a class="nav-dd" href="#" onclick="selectTier('enterprise');showBuyer();return false;">Joyn Enterprise — Large organisations</a>
         <div class="nav-dd-div"></div>
         <div class="nav-dd-lbl">Browse</div>
-        <a class="nav-dd" href="#pricing">Pricing</a>
         <a class="nav-dd" href="#faq">FAQ</a>
       </div>
     </div>
@@ -581,18 +580,45 @@ footer{background:var(--night2);border-top:1px solid rgba(255,255,255,0.05);padd
     </div>
   </div>
 
-  <!-- PRICING -->
-  <div class="pricing-sec" id="pricing">
-    <div class="p-header">
-      <div class="eyebrow">Pricing</div>
-      <h2 class="sh">Four tiers. One <em>platform.</em></h2>
-      <p style="font-size:17px;line-height:1.8;color:var(--muted);max-width:560px;">Every tier shares the same quality standard and the same marketplace. What changes is the depth of the relationship — from a single AI staff member to a full practice team to permanent AI colleagues you own outright.</p>
+  <!-- ALWAYS ON vs CRAFT -->
+  <div id="modes-sec" style="background:var(--night);padding:80px 56px;">
+    <div style="text-align:center;margin-bottom:52px;">
+      <div class="eyebrow lt">Two Modes of AI Staffing</div>
+      <h2 class="sh" style="color:var(--ntext);">Not all AI staff work<br>the same <em style="color:var(--gold2);">way.</em></h2>
+      <p style="font-size:17px;line-height:1.8;color:var(--nmuted);max-width:560px;margin:0 auto;">Some roles run fully autonomously. Others work alongside your practitioners — refining and deepening over time. Joyn is the only platform built for both.</p>
     </div>
-    <div class="price-grid">
-      <div class="pc"><div class="p-tier">Tier 01</div><div class="p-name">Joyn Solo</div><div class="p-who">For independent operators — solo practitioners and owner-operators ready to extend their reach.</div><div class="p-amt">$299</div><div class="p-unit">per month · one AI staff member</div><div class="p-feats"><div class="pf">One AI staff member, <strong>any role</strong></div><div class="pf">Unlimited interactions</div><div class="pf"><strong>Live in 10 minutes</strong></div><div class="pf">Monthly outcome report</div><div class="pf">Joyn quality guarantee</div></div><a href="#contact" class="p-cta">Get Started</a></div>
-      <div class="pc feat"><div class="feat-badge">Most Popular</div><div class="p-tier">Tier 02</div><div class="p-name">Joyn Team</div><div class="p-who">For growing businesses that need coverage across multiple functions — working together, not in isolation.</div><div class="p-amt">$899</div><div class="p-unit">per month · up to 5 AI staff</div><div class="p-feats"><div class="pf"><strong>Up to 5 AI staff</strong>, any mix of roles</div><div class="pf">Staff <strong>coordinate with each other</strong></div><div class="pf">Staff <strong>learn your workflow</strong> — brief them once</div><div class="pf">Weekly performance dashboard</div><div class="pf">Priority onboarding support</div></div><a href="#contact" class="p-cta">Start Free Trial</a></div>
-      <div class="pc"><div class="p-tier">Tier 03</div><div class="p-name">Joyn Practice</div><div class="p-who">For professional services firms — your AI team works inside your engagements, under your oversight. Your clients see your work, not Joyn.</div><div class="p-amt">$2,500</div><div class="p-unit">per engagement or monthly retainer</div><div class="p-feats"><div class="pf"><strong>Vertical AI practice team</strong></div><div class="pf">Your clients see <strong>your firm&#x2019;s work</strong></div><div class="pf">Engagement-scoped data room access</div><div class="pf">Partner oversight and correction log</div><div class="pf">Private calibration corpus — yours, not Joyn&#x2019;s</div></div><a href="#contact" class="p-cta">Talk to Sales</a></div>
-      <div class="pc" style="opacity:0.75;"><div class="p-tier" style="display:flex;align-items:center;gap:8px;">Tier 04 <span style="font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;background:rgba(184,144,42,0.1);border:1px solid rgba(184,144,42,0.25);color:var(--gold);">In Development</span></div><div class="p-name">Joyn Enterprise</div><div class="p-who">For large organisations that need to own AI staff permanently — placed, onboarded, then acquired outright into their own environment.</div><div class="p-amt">Right-to-hire</div><div class="p-unit">placement fee + acquisition</div><div class="p-feats"><div class="pf"><strong>Trial placement</strong> period included</div><div class="pf">AI staff learn your organisation</div><div class="pf">You own them outright at acquisition</div><div class="pf">Deployed in <strong>your environment</strong></div><div class="pf">Joyn never accesses your internal data</div></div><a href="mailto:hire@tryjoyn.me" class="p-cta" style="opacity:0.7;">Join Waitlist</a></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.06);">
+      <div style="background:rgba(255,255,255,0.02);padding:44px 40px;">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:1px solid rgba(201,168,76,0.25);background:rgba(201,168,76,0.06);margin-bottom:24px;">
+          <span style="width:6px;height:6px;border-radius:50%;background:var(--gold2);display:inline-block;"></span>
+          <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);">Always On</span>
+        </div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--ntext);line-height:1.1;margin-bottom:16px;">Hire once.<br>Output delivered.<br>No involvement required.</h3>
+        <p style="font-size:15px;line-height:1.8;color:var(--nmuted);margin-bottom:28px;">Always On AI staff are pre-trained for their role. They arrive ready to work. Connect them to your business in minutes and they run autonomously from that moment. No calibration. No configuration. No oversight required.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold2);flex-shrink:0;">✓</span>Live in 10 minutes</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold2);flex-shrink:0;">✓</span>Zero technical setup or configuration</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold2);flex-shrink:0;">✓</span>Outcome delivered — not just a workflow triggered</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold2);flex-shrink:0;">✓</span>Runs 24/7 without human direction</div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);">Best for · Joyn Solo and Joyn Team</div>
+        <div style="margin-top:12px;font-size:13px;color:var(--ndim);line-height:1.7;">Salon receptionist. Insurance renewal specialist. Real estate lead qualifier. Trades dispatcher. Content strategist. Regulatory intelligence. Roles with defined inputs and repeatable outputs.</div>
+      </div>
+      <div style="background:rgba(184,144,42,0.04);padding:44px 40px;border-left:1px solid rgba(184,144,42,0.15);">
+        <div style="display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border:1px solid rgba(184,144,42,0.3);background:rgba(184,144,42,0.08);margin-bottom:24px;">
+          <span style="font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);">Craft</span>
+        </div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--ntext);line-height:1.1;margin-bottom:16px;">AI staff shaped<br>by your practitioners.<br>Refined over time.</h3>
+        <p style="font-size:15px;line-height:1.8;color:var(--nmuted);margin-bottom:28px;">Craft AI staff work alongside your team on complex, judgment-intensive engagements. Your practitioners direct, review, and calibrate. The AI encodes your methodology — getting sharper with every engagement, building a private corpus that belongs to your firm alone.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold);flex-shrink:0;">✓</span>Practitioner-led — your team stays in charge</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold);flex-shrink:0;">✓</span>Calibrates to your firm's methodology over time</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold);flex-shrink:0;">✓</span>Private calibration corpus — yours, never shared</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--nmuted);"><span style="color:var(--gold);flex-shrink:0;">✓</span>Deepens with every engagement — no ceiling</div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(184,144,42,0.06);border:1px solid rgba(184,144,42,0.2);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">Best for · Joyn Practice and Joyn Enterprise</div>
+        <div style="margin-top:12px;font-size:13px;color:var(--ndim);line-height:1.7;">Technology due diligence. Legal research. Financial analysis. Complex professional services engagements where practitioner judgment is the product — and AI accelerates the work beneath it.</div>
+      </div>
     </div>
   </div>
 
@@ -605,7 +631,7 @@ footer{background:var(--night2);border-top:1px solid rgba(255,255,255,0.05);padd
         <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How is this different from a chatbot? <span class="faq-icon">+</span></button><div class="faq-a"><p>A chatbot answers questions. A Joyn staff member holds a role, carries institutional knowledge about your business, and is accountable to outcomes — renewal rates, bookings secured, assessments delivered. Your AI colleague learns your business, your voice, and your standards over time. A chatbot does not.</p></div></div>
         <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Who builds the AI staff on Joyn? <span class="faq-icon">+</span></button><div class="faq-a"><p>Every Joyn AI staff member is built by a <strong>vetted domain expert</strong> — a practitioner with a verified career in the relevant field. A 30-year insurance SVP built Renew. A PE partner who has evaluated 200 acquisitions built the TDD Practice Team. You are hiring their knowledge, not a generic AI model.</p></div></div>
         <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Does Joyn replace my existing team? <span class="faq-icon">+</span></button><div class="faq-a"><p>No — and this is a values commitment, not just a product position. Joyn measures success in <strong>outcomes amplified</strong>. The businesses we celebrate are those whose team members bring their full attention to their highest-value work because Joyn staff handle the rest alongside them.</p></div></div>
-        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What does the intake process involve? <span class="faq-icon">+</span></button><div class="faq-a"><p>The new hire intake is a guided conversation — not a technical configuration. You share your business context, tone of voice, customer profile, and the situations your AI staff member will handle. For Solo and Team, this takes about 10 minutes. For Practice and Enterprise, Joyn provides dedicated onboarding support.</p></div></div>
+        <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What does the intake process involve? <span class="faq-icon">+</span></button><div class="faq-a"><p>It depends on the mode. <strong>Always On</strong> staff — roles like reception, lead qualification, or renewal management — require a brief 10-minute intake. You share your business context, tone, and workflow. They start immediately. <strong>Craft</strong> staff — for complex, judgment-intensive work like technology due diligence — involve a deeper onboarding: a scoping call, engagement brief, and an ongoing calibration process where your practitioners shape and refine the output over time. The right mode depends on the role, not your preference for involvement.</p></div></div>
         <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I want to let a staff member go? <span class="faq-icon">+</span></button><div class="faq-a"><p>You can end any staff member's engagement at any time. We call it <strong>letting someone go</strong> — because that is what it is. No lock-in contracts for Solo and Team. Practice and Enterprise arrangements include agreed notice periods reflecting the depth of integration involved.</p></div></div>
       </div>
       <div class="faq-col">
@@ -686,7 +712,7 @@ footer{background:var(--night2);border-top:1px solid rgba(255,255,255,0.05);padd
     <div class="f-col"><h4>Hire Staff</h4><a href="#">Joyn Solo</a><a href="#">Joyn Team</a><a href="#">Joyn Practice</a><a href="#">Joyn Enterprise</a><a href="#">Marketplace</a></div>
     <div class="f-col"><h4>Build Staff</h4><a href="#">Creator Studio</a><a href="#">Apply to Create</a><a href="#">The Three Tracks</a><a href="#">How Creators Earn</a></div>
     <div class="f-col"><h4>Verticals</h4><a href="#">Real Estate</a><a href="#">Insurance</a><a href="#">Trades &amp; Field Services</a><a href="#">Tech Due Diligence</a><a href="#">Marketing Agencies</a></div>
-    <div class="f-col"><h4>Company</h4><a href="#">About Joyn</a><a href="#faq">FAQ</a><a href="#pricing">Pricing</a><a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a><a href="https://tryjoyn.me">tryjoyn.me</a></div>
+    <div class="f-col"><h4>Company</h4><a href="#">About Joyn</a><a href="#faq">FAQ</a><a href="#modes-sec">Always On vs Craft</a><a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a><a href="https://tryjoyn.me">tryjoyn.me</a></div>
   </div>
   <div class="fb">
     <div class="fb-c">© 2026 Joyn · tryjoyn.me · All rights reserved</div>
