@@ -1,1 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Staff Marketplace — Joyn · tryjoyn.me</title>
+<meta name="description" content="Browse and hire AI staff built by vetted domain experts. Always On staff work autonomously from day one. Craft staff work alongside your practitioners. Every hire is pre-trained, outcome-measured, and live in minutes.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f1e8;--cream:#ede8db;--warm:#e4dece;
+  --ink:#0d0c0a;--ink2:#1a1916;--ink3:#252320;
+  --muted:#6a6560;--dim:#9c9790;--rule:#d4cec2;
+  --gold:#b8902a;--gold2:#c9a84c;--gold-bg:rgba(184,144,42,0.08);
+  --green:#3a7a58;--accent:#bf3a1e;
+  --night:#0d0c0a;--night2:#161513;--night3:#1e1d1b;
+  --nb:rgba(255,255,255,0.06);--nb2:rgba(255,255,255,0.11);
+  --ntext:#f0ece3;--nmuted:rgba(240,236,227,0.5);--ndim:rgba(240,236,227,0.25);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Syne',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(13,12,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);text-decoration:none;display:flex;align-items:baseline;gap:2px;}
+.nav-logo-dot{color:var(--gold);font-size:32px;line-height:0.6;}
+.nav-back{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;}
+.nav-back:hover{color:var(--ntext);}
+.nav-back::before{content:'←';}
+.nav-right{display:flex;align-items:center;gap:16px;}
+.nav-count{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);}
+.nav-count span{color:var(--gold2);}
+
+/* ── HERO ── */
+.hero{background:var(--night);padding:110px 56px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--nb);}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(184,144,42,0.05) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:760px;margin:0 auto;text-align:center;position:relative;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--gold2);opacity:0.4;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:68px;font-weight:700;line-height:0.95;letter-spacing:-0.03em;color:var(--ntext);margin-bottom:24px;}
+.hero-h em{font-style:italic;color:var(--gold2);}
+.hero-p{font-size:17px;line-height:1.8;color:var(--nmuted);max-width:580px;margin:0 auto 40px;}
+.hero-p strong{color:var(--ntext);}
+.hero-modes{display:inline-flex;gap:1px;background:var(--nb);border:1px solid var(--nb);}
+.hm{padding:10px 24px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;border:none;background:rgba(255,255,255,0.02);color:var(--ndim);}
+.hm.active{background:var(--gold2);color:var(--ink);}
+.hm:hover:not(.active){background:rgba(255,255,255,0.05);color:var(--ntext);}
+
+/* ── FILTER BAR ── */
+.filter-bar{background:var(--night2);border-bottom:1px solid var(--nb);padding:16px 56px;display:flex;align-items:center;gap:24px;position:sticky;top:64px;z-index:100;}
+.filter-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ndim);flex-shrink:0;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;}
+.filter-btn{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:6px 14px;border:1px solid var(--nb2);color:var(--ndim);background:transparent;cursor:pointer;transition:all 0.2s;}
+.filter-btn.active{border-color:var(--gold2);color:var(--gold2);background:rgba(201,168,76,0.06);}
+.filter-btn:hover:not(.active){border-color:rgba(255,255,255,0.15);color:var(--ntext);}
+.filter-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.filter-count span{color:var(--gold2);}
+
+/* ── STAFF GRID ── */
+.staff-sec{padding:60px 56px;}
+.staff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+
+/* ── STAFF CARD ── */
+.staff-card{background:var(--paper);padding:0;transition:background 0.2s;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.staff-card:hover{background:var(--cream);}
+.staff-card.craft-card{background:var(--ink);}
+.staff-card.craft-card:hover{background:var(--ink2);}
+.sc-top{padding:28px 28px 0;}
+.sc-mode-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.sc-mode{display:inline-flex;align-items:center;gap:7px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;}
+.sc-mode.always-on{border:1px solid rgba(58,122,88,0.3);color:#5aab7a;background:rgba(58,122,88,0.06);}
+.sc-mode.craft{border:1px solid rgba(184,144,42,0.3);color:var(--gold2);background:rgba(184,144,42,0.06);}
+.sc-mode-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.sc-vertical{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);}
+.craft-card .sc-vertical{color:var(--ndim);}
+.sc-name{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--ink);line-height:0.9;margin-bottom:8px;letter-spacing:-0.02em;}
+.craft-card .sc-name{color:var(--ntext);}
+.sc-role{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--rule);}
+.craft-card .sc-role{color:var(--gold2);border-bottom-color:var(--nb);}
+.sc-desc{font-size:14px;line-height:1.75;color:var(--muted);padding:0 28px;}
+.craft-card .sc-desc{color:var(--nmuted);}
+.sc-desc strong{color:var(--ink);font-weight:600;}
+.craft-card .sc-desc strong{color:var(--ntext);}
+.sc-signals{display:flex;flex-wrap:wrap;gap:5px;padding:16px 28px 0;}
+.sc-sig{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--rule);color:var(--dim);}
+.craft-card .sc-sig{border-color:var(--nb);color:var(--ndim);}
+.sc-ticker{padding:14px 28px;margin-top:16px;border-top:1px solid var(--rule);font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--dim);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.craft-card .sc-ticker{border-top-color:var(--nb);color:var(--ndim);}
+.sc-ticker::before{content:'↻ ';color:var(--gold);}
+.craft-card .sc-ticker::before{color:var(--gold2);}
+.sc-cta{display:block;margin:16px 28px 28px;padding:13px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;border:1px solid var(--rule);color:var(--muted);}
+.sc-cta:hover{background:var(--gold2);border-color:var(--gold2);color:var(--ink);}
+.craft-card .sc-cta{border-color:rgba(184,144,42,0.25);color:var(--gold2);background:rgba(184,144,42,0.04);}
+.craft-card .sc-cta:hover{background:var(--gold2);border-color:var(--gold2);color:var(--ink);}
+
+/* ── COMING SOON CARD ── */
+.staff-card.coming-soon{opacity:0.5;pointer-events:none;}
+.cs-inner{padding:28px;display:flex;flex-direction:column;height:100%;min-height:340px;justify-content:space-between;}
+.cs-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.cs-badge{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid var(--rule);color:var(--dim);}
+.cs-name{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--rule);line-height:0.9;letter-spacing:-0.02em;margin-bottom:8px;}
+.cs-role{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--rule);margin-bottom:12px;}
+.cs-desc{font-size:13px;line-height:1.7;color:var(--rule);}
+
+/* ── MODES EXPLAINER ── */
+.modes-sec{background:var(--night);padding:72px 56px;border-top:1px solid var(--nb);}
+.modes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--nb);border:1px solid var(--nb);margin-top:40px;}
+.mode-card{background:rgba(255,255,255,0.02);padding:36px 32px;}
+.mc-badge{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;margin-bottom:20px;}
+.mc-badge.ao{border:1px solid rgba(58,122,88,0.3);background:rgba(58,122,88,0.06);}
+.mc-badge.cr{border:1px solid rgba(184,144,42,0.3);background:rgba(184,144,42,0.06);}
+.mc-badge span{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;}
+.mc-badge.ao span{color:#5aab7a;}
+.mc-badge.cr span{color:var(--gold2);}
+.mc-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 2s ease-in-out infinite;}
+.mc-h{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);line-height:1.1;margin-bottom:12px;}
+.mc-b{font-size:14px;line-height:1.8;color:var(--nmuted);}
+.mc-b strong{color:var(--ntext);}
+.mc-tiers{margin-top:16px;padding:12px 14px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;}
+.mc-tiers.ao{border:1px solid rgba(58,122,88,0.2);color:#5aab7a;}
+.mc-tiers.cr{border:1px solid rgba(184,144,42,0.2);color:var(--gold2);}
+
+/* ── CTA BAND ── */
+.cta-band{background:var(--gold);padding:60px 56px;text-align:center;}
+.cta-band h2{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:var(--ink);line-height:1.05;margin-bottom:14px;}
+.cta-band h2 em{font-style:italic;}
+.cta-band p{font-size:17px;line-height:1.8;color:rgba(13,12,10,0.7);max-width:480px;margin:0 auto 32px;}
+.cta-acts{display:flex;align-items:center;justify-content:center;gap:16px;}
+.btn-dark{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ntext);background:var(--ink);padding:16px 32px;text-decoration:none;transition:background 0.2s;}
+.btn-dark:hover{background:var(--ink2);}
+.btn-outline-dark{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);border:1px solid rgba(13,12,10,0.3);padding:15px 32px;text-decoration:none;transition:all 0.2s;}
+.btn-outline-dark:hover{background:rgba(13,12,10,0.08);}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);border-top:1px solid var(--nb);padding:48px 56px 32px;}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px;}
+.f-brand{}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);margin-bottom:10px;display:flex;align-items:baseline;gap:2px;}
+.f-logo-dot{color:var(--gold);font-size:34px;line-height:0.6;}
+.f-brand p{font-size:14px;line-height:1.75;color:var(--ndim);max-width:280px;}
+.f-col h4{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.f-col a{display:block;font-size:14px;color:var(--ndim);text-decoration:none;margin-bottom:8px;transition:color 0.2s;}
+.f-col a:hover{color:var(--ntext);}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--nb);}
+.fb-c{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.fb-t{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ndim);}
+
+@media(max-width:900px){
+  .nav{padding:0 24px;}
+  .hero{padding:100px 24px 60px;}
+  .hero-h{font-size:44px;}
+  .filter-bar{padding:14px 24px;gap:12px;flex-wrap:wrap;}
+  .staff-sec{padding:40px 24px;}
+  .staff-grid{grid-template-columns:1fr;}
+  .modes-sec{padding:60px 24px;}
+  .modes-grid{grid-template-columns:1fr;}
+  .cta-band{padding:60px 24px;}
+  .ft{grid-template-columns:1fr 1fr;gap:32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">Joyn<span class="nav-logo-dot">.</span></a>
+  <a href="../index.html" class="nav-back">Back to Joyn</a>
+  <div class="nav-right">
+    <div class="nav-count"><span id="visibleCount">2</span> staff available</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">AI Staff Marketplace</div>
+    <h1 class="hero-h">Browse. Hire.<br><em>They start today.</em></h1>
+    <p class="hero-p">Every AI staff member on Joyn is built by a <strong>vetted domain expert</strong> and measured by real business outcomes. Browse by vertical or mode — then hire in minutes.</p>
+    <div class="hero-modes">
+      <button class="hm active" onclick="filterMode('all',this)">All Staff</button>
+      <button class="hm" onclick="filterMode('always-on',this)">Always On</button>
+      <button class="hm" onclick="filterMode('craft',this)">Craft</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-lbl">Vertical</div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterVertical('all',this)">All</button>
+    <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance</button>
+    <button class="filter-btn" onclick="filterVertical('technology',this)">Technology</button>
+    <button class="filter-btn" onclick="filterVertical('real-estate',this)">Real Estate</button>
+    <button class="filter-btn" onclick="filterVertical('marketing',this)">Marketing</button>
+    <button class="filter-btn" onclick="filterVertical('trades',this)">Trades</button>
+  </div>
+  <div class="filter-count"><span id="countDisplay">2</span> staff shown</div>
+</div>
+
+<!-- STAFF GRID -->
+<section class="staff-sec">
+  <div class="staff-grid" id="staffGrid">
+
+    <!-- IRIS — Always On · Insurance -->
+    <div class="staff-card" data-mode="always-on" data-vertical="insurance">
+      <div class="sc-top">
+        <div class="sc-mode-row">
+          <div class="sc-mode always-on"><span class="sc-mode-dot"></span>Always On</div>
+          <div class="sc-vertical">Insurance</div>
+        </div>
+        <div class="sc-name">Iris</div>
+        <div class="sc-role">AI Regulatory Intelligence Specialist</div>
+      </div>
+      <div class="sc-desc">Monitors every state DOI and SERFF filing portal continuously. Select a state and line of business — get a curated document pack with <strong>plain-English summaries, what changed, and source citations.</strong> No portal hunting. No analyst hours.</div>
+      <div class="sc-signals">
+        <span class="sc-sig">50 States</span>
+        <span class="sc-sig">SERFF</span>
+        <span class="sc-sig">State DOI</span>
+        <span class="sc-sig">Always On</span>
+        <span class="sc-sig">No config</span>
+      </div>
+      <div class="sc-ticker" id="irisTicker">Florida · Homeowners · Wind mitigation update flagged</div>
+      <a href="iris-insurance-regulatory.html" class="sc-cta">View Iris & Hire →</a>
+    </div>
+
+    <!-- TDD PRACTICE TEAM — Craft · Technology -->
+    <div class="staff-card craft-card" data-mode="craft" data-vertical="technology">
+      <div class="sc-top">
+        <div class="sc-mode-row">
+          <div class="sc-mode craft">Craft</div>
+          <div class="sc-vertical">Technology Due Diligence</div>
+        </div>
+        <div class="sc-name" style="font-size:36px;line-height:1.05;">TDD Practice Team</div>
+        <div class="sc-role">Eight-Agent Due Diligence Team</div>
+      </div>
+      <div class="sc-desc">Alex, Morgan, Jordan, Riley, Casey, Taylor, Drew, and Sam — eight AI colleagues each owning a distinct domain. <strong>Pre-LOI screening to IC-ready output in 72 hours.</strong> Practitioner-led. Calibrates to your firm's methodology over time.</div>
+      <div class="sc-signals">
+        <span class="sc-sig">8 Agents</span>
+        <span class="sc-sig">72h Turnaround</span>
+        <span class="sc-sig">IC-Ready</span>
+        <span class="sc-sig">Craft Mode</span>
+        <span class="sc-sig">PE & Corp Dev</span>
+      </div>
+      <div class="sc-ticker">Sam · HealthStream · IC-ready report delivered</div>
+      <a href="../practice/tdd-practice-team.html" class="sc-cta">View TDD Team & Hire →</a>
+    </div>
+
+    <!-- COMING SOON — Dispatch · Trades -->
+    <div class="staff-card coming-soon" data-mode="always-on" data-vertical="trades">
+      <div class="cs-inner">
+        <div>
+          <div class="cs-top-row">
+            <div class="cs-badge">Coming Soon</div>
+            <div class="cs-badge">Always On · Trades</div>
+          </div>
+          <div class="cs-name">Dispatch</div>
+          <div class="cs-role">AI Field Services Dispatcher</div>
+          <div class="cs-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the ones that come in at 2am. For plumbers, HVAC, electricians, and any field service business.</div>
+        </div>
+        <div class="cs-badge" style="text-align:center;width:100%;">Join waitlist — hire@tryjoyn.me</div>
+      </div>
+    </div>
+
+    <!-- COMING SOON — Scout · Real Estate -->
+    <div class="staff-card coming-soon" data-mode="always-on" data-vertical="real-estate">
+      <div class="cs-inner">
+        <div>
+          <div class="cs-top-row">
+            <div class="cs-badge">Coming Soon</div>
+            <div class="cs-badge">Always On · Real Estate</div>
+          </div>
+          <div class="cs-name">Scout</div>
+          <div class="cs-role">AI Lead Qualifier & Showing Coordinator</div>
+          <div class="cs-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, books showings directly into your calendar. Works while you are with clients. Never misses an inbound lead.</div>
+        </div>
+        <div class="cs-badge" style="text-align:center;width:100%;">Join waitlist — hire@tryjoyn.me</div>
+      </div>
+    </div>
+
+    <!-- COMING SOON — Renew · Insurance -->
+    <div class="staff-card coming-soon" data-mode="always-on" data-vertical="insurance">
+      <div class="cs-inner">
+        <div>
+          <div class="cs-top-row">
+            <div class="cs-badge">Coming Soon</div>
+            <div class="cs-badge">Always On · Insurance</div>
+          </div>
+          <div class="cs-name">Renew</div>
+          <div class="cs-role">AI Renewal Specialist</div>
+          <div class="cs-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically. Protects your book without adding to your workload. Built by a 30-year insurance veteran.</div>
+        </div>
+        <div class="cs-badge" style="text-align:center;width:100%;">Join waitlist — hire@tryjoyn.me</div>
+      </div>
+    </div>
+
+    <!-- COMING SOON — Publish · Marketing -->
+    <div class="staff-card coming-soon" data-mode="always-on" data-vertical="marketing">
+      <div class="cs-inner">
+        <div>
+          <div class="cs-top-row">
+            <div class="cs-badge">Coming Soon</div>
+            <div class="cs-badge">Always On · Marketing</div>
+          </div>
+          <div class="cs-name">Publish</div>
+          <div class="cs-role">AI Content Strategist</div>
+          <div class="cs-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles. Generates schema markup and meta content. Your agency delivers more with the same team.</div>
+        </div>
+        <div class="cs-badge" style="text-align:center;width:100%;">Join waitlist — hire@tryjoyn.me</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODES EXPLAINER -->
+<section class="modes-sec">
+  <div style="text-align:center;max-width:600px;margin:0 auto;">
+    <div style="font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:12px;"><span style="display:block;width:24px;height:1px;background:var(--gold2);opacity:0.4;"></span>Two Modes<span style="display:block;width:24px;height:1px;background:var(--gold2);opacity:0.4;"></span></div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:700;color:var(--ntext);line-height:1.02;margin-bottom:14px;">Not all AI staff work<br>the same <em style="color:var(--gold2);">way.</em></h2>
+    <p style="font-size:16px;line-height:1.8;color:var(--nmuted);">The right mode depends on the role — not your preference for involvement.</p>
+  </div>
+  <div class="modes-grid">
+    <div class="mode-card">
+      <div class="mc-badge ao"><span class="mc-dot" style="color:#5aab7a;"></span><span>Always On</span></div>
+      <div class="mc-h">Hire once.<br>Output delivered.<br>No involvement required.</div>
+      <div class="mc-b">Always On AI staff are <strong>pre-trained for their role</strong> by vetted domain experts. They arrive ready to work. Connect them to your business in minutes — they run autonomously from that moment. No calibration. No oversight. Just outcomes.</div>
+      <div class="mc-tiers ao">Best for · Solo and Team · SMB and independent operators</div>
+    </div>
+    <div class="mode-card">
+      <div class="mc-badge cr"><span style="color:var(--gold2);" class="mc-dot"></span><span>Craft</span></div>
+      <div class="mc-h">AI staff shaped by your practitioners.<br><em>Refined over time.</em></div>
+      <div class="mc-b">Craft AI staff work alongside your team on <strong>complex, judgment-intensive engagements</strong>. Your practitioners direct, review, and calibrate. The AI encodes your methodology — getting sharper with every engagement, building a private corpus that belongs to your firm.</div>
+      <div class="mc-tiers cr">Best for · Practice and Enterprise · Professional services firms</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Do not see what<br>you <em>need?</em></h2>
+  <p>New AI staff are added continuously. Tell us what role your business needs and we will prioritise it for the next cohort.</p>
+  <div class="cta-acts">
+    <a href="mailto:hire@tryjoyn.me" class="btn-dark">Request a Role →</a>
+    <a href="../index.html" class="btn-outline-dark">Back to Joyn</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="f-brand">
+      <div class="f-logo">Joyn<span class="f-logo-dot">.</span></div>
+      <p>The world's AI Workforce Operating System. Built by domain experts. Measured in outcomes. Yours in 10 minutes.</p>
+    </div>
+    <div class="f-col">
+      <h4>Always On</h4>
+      <a href="iris-insurance-regulatory.html">Iris — Regulatory Intelligence</a>
+      <a href="#">Dispatch — Field Services</a>
+      <a href="#">Scout — Real Estate</a>
+      <a href="#">Renew — Insurance</a>
+      <a href="#">Publish — Marketing</a>
+    </div>
+    <div class="f-col">
+      <h4>Craft</h4>
+      <a href="../practice/tdd-practice-team.html">TDD Practice Team</a>
+      <a href="#">More coming soon</a>
+    </div>
+    <div class="f-col">
+      <h4>Joyn</h4>
+      <a href="../index.html">Homepage</a>
+      <a href="#">Creator Studio</a>
+      <a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a>
+      <a href="https://tryjoyn.me">tryjoyn.me</a>
+    </div>
+  </div>
+  <div class="fb">
+    <div class="fb-c">© 2026 Joyn · tryjoyn.me · All rights reserved</div>
+    <div class="fb-t">Where human expertise comes to scale itself.</div>
+  </div>
+</footer>
+
+<script>
+// IRIS LIVE TICKER
+const irisSignals = [
+  'Florida · Homeowners · Wind mitigation update flagged',
+  'Texas · Commercial Auto · 3 new rate filings indexed',
+  'California · Personal Auto · Rate approval +2.1%',
+  'New York · Workers Comp · Regulatory bulletin issued',
+  'Georgia · Commercial Property · New exclusion language',
+  'Ohio · Professional Liability · Coverage clarification',
+  'Pennsylvania · Homeowners · AOB restriction effective',
+  'Illinois · General Liability · Form endorsement updated',
+];
+let irisIdx = 0;
+function rotateIrisTicker(){
+  const el = document.getElementById('irisTicker');
+  if(!el) return;
+  el.style.opacity = '0';
+  setTimeout(()=>{
+    irisIdx = (irisIdx + 1) % irisSignals.length;
+    el.textContent = irisSignals[irisIdx];
+    el.style.opacity = '1';
+  }, 400);
+}
+setInterval(rotateIrisTicker, 3000);
+
+// FILTER BY MODE
+let currentMode = 'all';
+let currentVertical = 'all';
+
+function filterMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.hm').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function filterVertical(vertical, btn) {
+  currentVertical = vertical;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.staff-card:not(.coming-soon)');
+  let visible = 0;
+  document.querySelectorAll('.staff-card').forEach(card => {
+    const cardMode = card.dataset.mode;
+    const cardVertical = card.dataset.vertical;
+    const modeMatch = currentMode === 'all' || cardMode === currentMode;
+    const verticalMatch = currentVertical === 'all' || cardVertical === currentVertical;
+    if(modeMatch && verticalMatch){
+      card.style.display = '';
+      if(!card.classList.contains('coming-soon')) visible++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  document.getElementById('visibleCount').textContent = visible;
+  document.getElementById('countDisplay').textContent = 
+    document.querySelectorAll('.staff-card:not(.coming-soon):not([style*="none"])').length;
+}
+</script>
+</body>
+</html>
 
