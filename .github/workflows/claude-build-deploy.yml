@@ -1,0 +1,62 @@
+name: Claude Autonomous Build & Deploy
+
+on:
+  issues:
+    types: [opened, labeled]
+  issue_comment:
+    types: [created]
+
+jobs:
+  build:
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'build')) ||
+      (github.event_name == 'issue_comment' && startsWith(github.event.comment.body, '/build'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Extract build instruction
+        id: instruction
+        run: |
+          if [ "${{ github.event_name }}" = "issue_comment" ]; then
+            INSTRUCTION=$(echo "${{ github.event.comment.body }}" | sed 's|^/build ||')
+          else
+            INSTRUCTION="${{ github.event.issue.title }}: ${{ github.event.issue.body }}"
+          fi
+          echo "instruction<<EOF" >> $GITHUB_OUTPUT
+          echo "$INSTRUCTION" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Run Claude build
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BUILD_INSTRUCTION: ${{ steps.instruction.outputs.instruction }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number || github.event.comment.issue_url }}
+        run: python .github/scripts/claude_build.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "Joyn Claude Bot"
+          git config user.email "hire@tryjoyn.me"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Autonomous build: ${{ steps.instruction.outputs.instruction }}"
+            git push
+          fi
