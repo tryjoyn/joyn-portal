@@ -1,1 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iris — AI Regulatory Intelligence Specialist · Joyn · tryjoyn.me</title>
+<meta name="description" content="Iris monitors every state DOI and SERFF filing portal continuously. Select a state and line of business — get a curated regulatory document pack with plain-English summaries and what changed. Always On. No configuration.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f1e8;--cream:#ede8db;--warm:#e4dece;
+  --ink:#0d0c0a;--ink2:#1a1916;--ink3:#252320;
+  --muted:#6a6560;--dim:#9c9790;--rule:#d4cec2;
+  --gold:#b8902a;--gold2:#c9a84c;--gold-bg:rgba(184,144,42,0.08);
+  --green:#3a7a58;--accent:#bf3a1e;
+  --iris:#1a3a5c;--iris2:#1e4570;--iris3:#245280;
+  --irislight:rgba(26,58,92,0.08);--irisborder:rgba(26,58,92,0.2);
+  --night:#0d0c0a;--night2:#161513;--night3:#1e1d1b;
+  --nb:rgba(255,255,255,0.06);--nb2:rgba(255,255,255,0.11);
+  --ntext:#f0ece3;--nmuted:rgba(240,236,227,0.5);--ndim:rgba(240,236,227,0.25);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'Syne',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(13,12,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);text-decoration:none;display:flex;align-items:baseline;gap:2px;}
+.nav-logo-dot{color:var(--gold);font-size:32px;line-height:0.6;}
+.nav-back{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;}
+.nav-back:hover{color:var(--ntext);}
+.nav-back::before{content:'←';}
+.btn-hire-nav{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);background:var(--gold2);text-decoration:none;padding:10px 22px;transition:background 0.2s;border:none;cursor:pointer;}
+.btn-hire-nav:hover{background:#d4b05a;}
+
+/* ── HERO ── */
+.hero{background:var(--night);padding:120px 56px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-150px;right:-80px;width:700px;height:700px;background:radial-gradient(circle,rgba(26,58,92,0.15) 0%,rgba(184,144,42,0.04) 50%,transparent 70%);pointer-events:none;}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(184,144,42,0.3),transparent);}
+.hero-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:80px;align-items:start;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;padding:6px 14px;border:1px solid rgba(201,168,76,0.25);background:rgba(201,168,76,0.06);margin-bottom:16px;}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--gold2);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.hero-badge-text{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);}
+.always-on-badge{display:inline-flex;align-items:center;gap:8px;padding:4px 12px;border:1px solid rgba(58,122,88,0.35);background:rgba(58,122,88,0.08);margin-bottom:24px;}
+.always-on-badge span{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#5aab7a;}
+.always-on-dot{width:5px;height:5px;border-radius:50%;background:#5aab7a;animation:pulse 2s ease-in-out infinite;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:18px;display:flex;align-items:center;gap:12px;}
+.hero-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold2);opacity:0.5;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:700;line-height:0.95;letter-spacing:-0.03em;color:var(--ntext);margin-bottom:24px;}
+.hero-h em{font-style:italic;color:var(--gold2);}
+.hero-p{font-size:17px;line-height:1.8;color:var(--nmuted);margin-bottom:36px;max-width:520px;}
+.hero-p strong{color:var(--ntext);font-weight:600;}
+.hero-ctas{display:flex;align-items:center;gap:16px;margin-bottom:40px;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);background:var(--gold2);padding:16px 32px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-primary:hover{background:#d4b05a;}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);text-decoration:none;transition:color 0.2s;cursor:pointer;background:none;border:none;}
+.btn-secondary:hover{color:var(--ntext);}
+.btn-secondary::after{content:'→';}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);}
+.hs{background:rgba(255,255,255,0.02);padding:20px 18px;}
+.hs-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2);line-height:1;margin-bottom:4px;}
+.hs-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.hero-proof{display:flex;gap:20px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--nb);}
+.hp{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);display:flex;align-items:center;gap:7px;}
+.hp::before{content:'✓';color:var(--gold2);}
+
+/* ── LIVE ACTIVITY TICKER ── */
+.ticker{background:var(--night2);border-top:1px solid var(--nb);border-bottom:1px solid var(--nb);padding:12px 0;overflow:hidden;}
+.ticker-inner{display:flex;gap:0;white-space:nowrap;animation:scroll 40s linear infinite;}
+@keyframes scroll{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.tick-item{display:inline-flex;align-items:center;gap:20px;padding:0 40px;border-right:1px solid var(--nb);}
+.tick-name{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:var(--gold2);}
+.tick-state{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.tick-action{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(90,171,122,0.8);}
+
+/* ── WHAT IRIS DOES ── */
+.what-sec{background:var(--paper);padding:80px 56px;}
+.eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold);opacity:0.5;}
+.section-h{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;line-height:1.02;letter-spacing:-0.02em;margin-bottom:14px;}
+.section-h em{font-style:italic;color:var(--gold);}
+.section-sub{font-size:17px;line-height:1.8;color:var(--muted);max-width:600px;margin-bottom:52px;}
+.what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.what-card{background:var(--paper);padding:32px 28px;transition:background 0.2s;}
+.what-card:hover{background:var(--cream);}
+.wc-icon{font-size:28px;margin-bottom:16px;line-height:1;}
+.wc-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.1;}
+.wc-b{font-size:14px;line-height:1.75;color:var(--muted);}
+.wc-b strong{color:var(--ink);font-weight:600;}
+
+/* ── THE OUTPUT ── */
+.output-sec{background:var(--night);padding:80px 56px;}
+.output-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:60px;align-items:start;}
+.output-pack{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);padding:32px;}
+.op-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--nb);}
+.op-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ntext);}
+.op-badge{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(90,171,122,0.3);color:#5aab7a;background:rgba(90,171,122,0.06);}
+.op-meta{display:flex;gap:16px;margin-bottom:20px;}
+.op-m{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.op-doc{display:flex;align-items:flex-start;gap:14px;padding:14px;background:rgba(255,255,255,0.02);border:1px solid var(--nb);margin-bottom:8px;transition:background 0.2s;}
+.op-doc:hover{background:rgba(255,255,255,0.04);}
+.op-doc-icon{font-size:16px;flex-shrink:0;line-height:1.4;}
+.op-doc-info{flex:1;}
+.op-doc-name{font-size:13px;font-weight:600;color:var(--ntext);margin-bottom:2px;}
+.op-doc-meta{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.op-doc-badge{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;flex-shrink:0;}
+.op-doc-badge.new{border:1px solid rgba(184,144,42,0.3);color:var(--gold2);background:rgba(184,144,42,0.06);}
+.op-doc-badge.current{border:1px solid var(--nb);color:var(--ndim);}
+.op-summary{margin-top:16px;padding:14px;background:rgba(26,58,92,0.12);border:1px solid rgba(26,58,92,0.25);border-left:2px solid #4a8ab8;}
+.op-summary-lbl{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:#4a8ab8;margin-bottom:8px;}
+.op-summary-text{font-size:13px;line-height:1.75;color:var(--nmuted);}
+.op-summary-text strong{color:var(--ntext);}
+
+/* ── HOW IT WORKS ── */
+.hiw-sec{background:var(--cream);padding:80px 56px;}
+.hiw-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);}
+.hiw-step{background:var(--paper);padding:32px 26px;}
+.hs-num{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:700;color:var(--rule);line-height:1;margin-bottom:16px;}
+.hs-t{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.2;}
+.hs-b{font-size:13px;line-height:1.75;color:var(--muted);}
+.hs-b strong{color:var(--ink);font-weight:600;}
+
+/* ── WHO HIRES IRIS ── */
+.who-sec{background:var(--paper);padding:80px 56px;}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:52px;}
+.who-card{padding:32px;border:1px solid var(--rule);background:var(--paper);transition:all 0.2s;}
+.who-card:hover{border-color:var(--gold);background:var(--cream);}
+.wh-role{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.wh-t{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:var(--ink);margin-bottom:10px;line-height:1.2;}
+.wh-b{font-size:13px;line-height:1.75;color:var(--muted);}
+.wh-b strong{color:var(--ink);}
+.wh-use{margin-top:16px;padding:12px 14px;background:var(--gold-bg);border:1px solid rgba(184,144,42,0.15);font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);}
+
+/* ── DATA SOURCES ── */
+.sources-sec{background:var(--night2);padding:60px 56px;}
+.sources-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);margin-top:40px;}
+.source-card{background:rgba(255,255,255,0.02);padding:24px 20px;transition:background 0.2s;}
+.source-card:hover{background:rgba(255,255,255,0.04);}
+.sc-icon{font-size:22px;margin-bottom:10px;}
+.sc-t{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--ntext);margin-bottom:6px;}
+.sc-b{font-size:12px;line-height:1.7;color:var(--ndim);}
+.sc-coverage{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);margin-top:10px;}
+
+/* ── HIRE FORM ── */
+.hire-sec{background:var(--paper);padding:80px 56px;}
+.hire-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.hire-form{background:var(--ink);padding:40px;}
+.hf-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);margin-bottom:8px;}
+.hf-sub{font-size:14px;color:var(--nmuted);margin-bottom:32px;line-height:1.7;}
+.form-row{margin-bottom:20px;}
+.form-label{display:block;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);margin-bottom:8px;}
+.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--nb2);color:var(--ntext);font-family:'Syne',sans-serif;font-size:15px;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:var(--gold2);}
+.form-input::placeholder{color:var(--ndim);}
+.form-select{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--nb2);color:var(--ntext);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.08em;outline:none;cursor:pointer;appearance:none;transition:border-color 0.2s;}
+.form-select:focus{border-color:var(--gold2);}
+.form-select option{background:var(--ink2);color:var(--ntext);}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.btn-hire{width:100%;padding:16px;background:var(--gold2);color:var(--ink);font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;margin-top:8px;}
+.btn-hire:hover{background:#d4b05a;}
+.hire-success{display:none;padding:28px;background:rgba(58,122,88,0.1);border:1px solid rgba(58,122,88,0.25);text-align:center;}
+.hire-success-icon{font-size:36px;margin-bottom:12px;}
+.hire-success-t{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:700;color:var(--ntext);margin-bottom:8px;}
+.hire-success-b{font-size:14px;color:var(--nmuted);line-height:1.7;}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);border-top:1px solid var(--nb);padding:48px 56px 32px;}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;margin-bottom:32px;}
+.f-brand{}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);margin-bottom:10px;display:flex;align-items:baseline;gap:2px;}
+.f-logo-dot{color:var(--gold);font-size:34px;line-height:0.6;}
+.f-brand p{font-size:14px;line-height:1.75;color:var(--ndim);max-width:300px;}
+.f-col h4{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.f-col a{display:block;font-size:14px;color:var(--ndim);text-decoration:none;margin-bottom:8px;transition:color 0.2s;}
+.f-col a:hover{color:var(--ntext);}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--nb);}
+.fb-c{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.fb-t{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ndim);}
+
+@media(max-width:900px){
+  .nav{padding:0 24px;}
+  .hero{padding:100px 24px 60px;}
+  .hero-grid{grid-template-columns:1fr;gap:40px;}
+  .what-sec,.output-sec,.hiw-sec,.who-sec,.sources-sec,.hire-sec{padding:60px 24px;}
+  .what-grid{grid-template-columns:1fr;}
+  .output-grid{grid-template-columns:1fr;}
+  .hiw-steps{grid-template-columns:1fr 1fr;}
+  .who-grid{grid-template-columns:1fr;}
+  .sources-grid{grid-template-columns:1fr 1fr;}
+  .hire-grid{grid-template-columns:1fr;}
+  .ft{grid-template-columns:1fr;}
+  .hero-h{font-size:44px;}
+  .section-h{font-size:36px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">Joyn<span class="nav-logo-dot">.</span></a>
+  <a href="../index.html" class="nav-back">All AI Staff</a>
+  <a href="#hire" class="btn-hire-nav">Hire Iris →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        <span class="hero-badge-text">Now Hiring · Joyn Solo & Team · Insurance</span>
+      </div>
+      <div class="always-on-badge">
+        <span class="always-on-dot"></span>
+        <span>Always On — No configuration · Live in 10 minutes</span>
+      </div>
+      <div class="hero-eyebrow">AI Regulatory Intelligence Specialist</div>
+      <h1 class="hero-h">Every filing.<br>Every state.<br><em>Instantly clear.</em></h1>
+      <p class="hero-p">Insurance product documents — policy forms, endorsements, rate filings, regulatory updates — are public but buried across 50 state DOI portals and SERFF. <strong>Iris monitors all of them continuously.</strong> Select a state and line of business. Get a curated document pack with plain-English summaries, what changed, and source citations — in minutes, not hours.</p>
+      <div class="hero-ctas">
+        <a href="#hire" class="btn-primary">Hire Iris →</a>
+        <button class="btn-secondary" onclick="document.getElementById('what-iris-does').scrollIntoView({behavior:'smooth'})">See what she delivers</button>
+      </div>
+      <div class="hero-proof">
+        <div class="hp">50 states covered</div>
+        <div class="hp">Always On — runs continuously</div>
+        <div class="hp">No carrier data required</div>
+        <div class="hp">Source citations on every document</div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-stats">
+        <div class="hs">
+          <div class="hs-n">50</div>
+          <div class="hs-l">States monitored continuously</div>
+        </div>
+        <div class="hs">
+          <div class="hs-n">0</div>
+          <div class="hs-l">Hours of portal hunting required</div>
+        </div>
+        <div class="hs">
+          <div class="hs-n">∞</div>
+          <div class="hs-l">Queries. No limits.</div>
+        </div>
+      </div>
+      <div style="margin-top:1px;background:rgba(255,255,255,0.02);border:1px solid var(--nb);border-top:none;padding:20px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);margin-bottom:14px;">Sample output · Texas · Commercial Auto</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:700;color:var(--ntext);margin-bottom:6px;">Texas DOI — Commercial Auto Pack</div>
+        <div style="font-size:12px;color:var(--nmuted);line-height:1.7;margin-bottom:14px;">3 filings updated in the last 90 days. 1 new endorsement form effective March 1. Rate filing approved — +4.2% statewide. Plain-English summary and source links included.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <span style="font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(184,144,42,0.25);color:var(--gold2);">3 Documents</span>
+          <span style="font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border:1px solid rgba(90,171,122,0.25);color:#5aab7a;">1 New Filing</span>
+          <span style="font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--nb);color:var(--ndim);">Source Verified</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LIVE TICKER -->
+<div class="ticker">
+  <div class="ticker-inner" id="tickerEl"></div>
+</div>
+
+<!-- WHAT IRIS DOES -->
+<section class="what-sec" id="what-iris-does">
+  <div class="eyebrow">What Iris Does</div>
+  <h2 class="section-h">Regulatory intelligence.<br><em>Without the research hours.</em></h2>
+  <p class="section-sub">Every insurance professional spends time they do not have hunting across DOI portals, validating form applicability, and explaining regulatory differences to clients and colleagues. <strong>Iris handles all of it — continuously, automatically, with source citations on everything.</strong></p>
+  <div class="what-grid">
+    <div class="what-card">
+      <div class="wc-icon">🗂️</div>
+      <div class="wc-t">Public Product Pack</div>
+      <div class="wc-b">Select state + line of business + optional carrier. Iris delivers the most relevant publicly available filings and documents — <strong>curated, not just a search result list.</strong> Policy forms, endorsements, rate filings, regulatory bulletins.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">📋</div>
+      <div class="wc-t">Plain-English Summaries</div>
+      <div class="wc-b">Every document in the pack comes with a plain-English summary. <strong>What it says. What it means. What changed.</strong> Written for sales, service, underwriting, and compliance — not just lawyers.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">🔍</div>
+      <div class="wc-t">What Changed</div>
+      <div class="wc-b">Iris tracks version history across all documents. <strong>Every update is flagged with exactly what changed</strong> — new exclusion language, revised definitions, rate adjustments, effective dates. Never miss a material change again.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">🔗</div>
+      <div class="wc-t">Source Citations</div>
+      <div class="wc-b">Every document links directly to its public source — SERFF filing access, state DOI portal, carrier website. <strong>Full auditability for compliance confidence.</strong> Your team can verify anything Iris delivers.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">📡</div>
+      <div class="wc-t">Continuous Monitoring</div>
+      <div class="wc-b">Iris does not wait to be asked. She monitors every state DOI and SERFF portal continuously. <strong>When a filing updates, she knows.</strong> Your team gets notified for states and lines you care about.</div>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">⚖️</div>
+      <div class="wc-t">Cross-State Comparison</div>
+      <div class="wc-b">Ask Iris to compare requirements across multiple states for the same line of business. <strong>Normalised cross-state experience</strong> — no more manually reconciling 12 different portal formats to answer one question.</div>
+    </div>
+  </div>
+</section>
+
+<!-- THE OUTPUT -->
+<section class="output-sec">
+  <div class="output-grid">
+    <div>
+      <div class="eyebrow" style="color:var(--gold2);">The Output</div>
+      <h2 class="section-h" style="color:var(--ntext);">A document pack your<br>whole team can <em style="color:var(--gold2);">use.</em></h2>
+      <p class="section-sub" style="color:var(--nmuted);">Every output from Iris is immediately usable — not a raw search result that requires hours of interpretation. Summaries for sales. Citations for compliance. Change tracking for underwriting. One pack serves your whole team.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--nb);">
+          <span style="color:var(--gold2);font-size:18px;flex-shrink:0;">→</span>
+          <div><div style="font-size:14px;font-weight:600;color:var(--ntext);margin-bottom:3px;">Sales teams</div><div style="font-size:13px;color:var(--nmuted);line-height:1.6;">Explain product differences by state to prospects in plain language — instantly.</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--nb);">
+          <span style="color:var(--gold2);font-size:18px;flex-shrink:0;">→</span>
+          <div><div style="font-size:14px;font-weight:600;color:var(--ntext);margin-bottom:3px;">Underwriting support</div><div style="font-size:13px;color:var(--nmuted);line-height:1.6;">Validate what applies for a risk — without hunting four portals to confirm it.</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--nb);">
+          <span style="color:var(--gold2);font-size:18px;flex-shrink:0;">→</span>
+          <div><div style="font-size:14px;font-weight:600;color:var(--ntext);margin-bottom:3px;">Compliance teams</div><div style="font-size:13px;color:var(--nmuted);line-height:1.6;">Track regulatory changes automatically. Source citations on everything for audit confidence.</div></div>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:14px;padding:16px;background:rgba(255,255,255,0.03);border:1px solid var(--nb);">
+          <span style="color:var(--gold2);font-size:18px;flex-shrink:0;">→</span>
+          <div><div style="font-size:14px;font-weight:600;color:var(--ntext);margin-bottom:3px;">Client services</div><div style="font-size:13px;color:var(--nmuted);line-height:1.6;">Answer coverage questions accurately and quickly — backed by source documents.</div></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="output-pack">
+        <div class="op-header">
+          <div class="op-title">Iris · Public Product Pack</div>
+          <div class="op-badge">Delivered</div>
+        </div>
+        <div class="op-meta">
+          <div class="op-m">Florida · Homeowners · All Carriers</div>
+          <div class="op-m">Generated: 4 mins ago</div>
+        </div>
+        <div class="op-doc">
+          <div class="op-doc-icon">📄</div>
+          <div class="op-doc-info">
+            <div class="op-doc-name">FL HO-3 Homeowners Policy Form</div>
+            <div class="op-doc-meta">Florida OIR · Effective Jan 1 2026 · Form OIR-B1-1802</div>
+          </div>
+          <div class="op-doc-badge current">Current</div>
+        </div>
+        <div class="op-doc">
+          <div class="op-doc-icon">📄</div>
+          <div class="op-doc-info">
+            <div class="op-doc-name">Citizens Wind Mitigation Endorsement</div>
+            <div class="op-doc-meta">Florida OIR · Updated Feb 2026 · Rate filing 260142</div>
+          </div>
+          <div class="op-doc-badge new">Updated</div>
+        </div>
+        <div class="op-doc">
+          <div class="op-doc-icon">📄</div>
+          <div class="op-doc-info">
+            <div class="op-doc-name">Assignment of Benefits Restriction Notice</div>
+            <div class="op-doc-meta">Florida OIR · Mandatory disclosure · All carriers</div>
+          </div>
+          <div class="op-doc-badge current">Current</div>
+        </div>
+        <div class="op-doc">
+          <div class="op-doc-icon">📋</div>
+          <div class="op-doc-info">
+            <div class="op-doc-name">Flood Exclusion Clarification Bulletin</div>
+            <div class="op-doc-meta">Florida OIR · Regulatory Bulletin 2025-07 · New</div>
+          </div>
+          <div class="op-doc-badge new">New</div>
+        </div>
+        <div class="op-summary">
+          <div class="op-summary-lbl">Iris Plain-English Summary</div>
+          <div class="op-summary-text">Florida homeowners filings saw two material changes in the last 90 days. <strong>The wind mitigation endorsement was updated</strong> — premium credit calculations changed for hip roof classification. <strong>A new regulatory bulletin clarifies flood exclusion language</strong> required in all policies effective March 1. Both require immediate attention for renewal communications.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="hiw-sec">
+  <div class="eyebrow">How It Works</div>
+  <h2 class="section-h">From hire to intelligence<br>in <em>10 minutes.</em></h2>
+  <p class="section-sub" style="margin-bottom:40px;">Iris is Always On. There is no configuration, no setup, no IT project. You hire her, tell her which states and lines matter to your business, and she starts working immediately.</p>
+  <div class="hiw-steps">
+    <div class="hiw-step">
+      <div class="hs-num">01</div>
+      <div class="hs-t">Hire Iris</div>
+      <div class="hs-b">Fill in your business name, the states you operate in, and the lines of business you cover. <strong>Takes 5 minutes.</strong> No technical setup required.</div>
+    </div>
+    <div class="hiw-step">
+      <div class="hs-num">02</div>
+      <div class="hs-t">Iris Goes to Work</div>
+      <div class="hs-b">Immediately begins monitoring SERFF and state DOI portals for your states and lines. <strong>No waiting period.</strong> First intelligence pack delivered within 24 hours.</div>
+    </div>
+    <div class="hiw-step">
+      <div class="hs-num">03</div>
+      <div class="hs-t">Query Anytime</div>
+      <div class="hs-b">Need specific information? Ask Iris directly. State + line of business + optional carrier. <strong>Curated document pack delivered in minutes,</strong> not hours of portal hunting.</div>
+    </div>
+    <div class="hiw-step">
+      <div class="hs-num">04</div>
+      <div class="hs-t">Stay Current Automatically</div>
+      <div class="hs-b">Iris monitors continuously. <strong>When something changes, you find out — not when you happen to check.</strong> Regulatory changes tracked, summarised, and delivered to your team.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO HIRES IRIS -->
+<section class="who-sec">
+  <div class="eyebrow">Who Hires Iris</div>
+  <h2 class="section-h">Every insurance business<br>that operates across <em>states.</em></h2>
+  <p class="section-sub">Iris serves any insurance professional who needs to know what applies where — without spending their day in DOI portals.</p>
+  <div class="who-grid">
+    <div class="who-card">
+      <div class="wh-role">Independent Agents & Brokers</div>
+      <div class="wh-t">Stop losing hours to portal hunting</div>
+      <div class="wh-b">You write business across multiple states. Every renewal, every new account, every coverage question requires knowing what applies where. <strong>Iris answers that question before you even ask it.</strong></div>
+      <div class="wh-use">Iris handles the research. You handle the relationship.</div>
+    </div>
+    <div class="who-card">
+      <div class="wh-role">MGAs & Wholesale Brokers</div>
+      <div class="wh-t">Regulatory intelligence at submission speed</div>
+      <div class="wh-b">Your underwriters need to move fast. State-specific form and rate requirements slow everything down. <strong>Iris keeps your team current across every state you write in — automatically.</strong></div>
+      <div class="wh-use">First-to-file advantage starts with Iris.</div>
+    </div>
+    <div class="who-card">
+      <div class="wh-role">Carriers & Insurtechs</div>
+      <div class="wh-t">Compliance monitoring without the analyst hours</div>
+      <div class="wh-b">Regulatory changes affect your products, your rates, and your communications. <strong>Iris monitors every state DOI continuously</strong> so your compliance team knows about material changes before they become problems.</div>
+      <div class="wh-use">Always current. Always cited. Always auditable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA SOURCES -->
+<section class="sources-sec">
+  <div class="eyebrow" style="color:var(--gold2);">Data Sources</div>
+  <h2 class="section-h" style="color:var(--ntext);">Public data only.<br><em style="color:var(--gold2);">No carrier integrations.</em></h2>
+  <p class="section-sub" style="color:var(--nmuted);margin-bottom:0;">Iris works entirely from publicly available sources. No internal carrier data. No proprietary system access. No data sharing agreements required. <strong style="color:var(--ntext);">Everything she delivers is verifiable and citable.</strong></p>
+  <div class="sources-grid">
+    <div class="source-card">
+      <div class="sc-icon">🏛️</div>
+      <div class="sc-t">SERFF Filing Access</div>
+      <div class="sc-b">System for Electronic Rate and Form Filing. Rate filings, form filings, objections, and approvals across all states.</div>
+      <div class="sc-coverage">All 50 states · All lines</div>
+    </div>
+    <div class="source-card">
+      <div class="sc-icon">📋</div>
+      <div class="sc-t">State DOI Portals</div>
+      <div class="sc-b">All 50 state Department of Insurance websites. Regulatory bulletins, approved forms, compliance notices, market conduct information.</div>
+      <div class="sc-coverage">50 DOI portals monitored</div>
+    </div>
+    <div class="source-card">
+      <div class="sc-icon">🌐</div>
+      <div class="sc-t">Carrier Public Filings</div>
+      <div class="sc-b">Publicly filed policy forms, endorsements, and rate schedules from carriers who publish to state portals and their own websites.</div>
+      <div class="sc-coverage">Public filings only</div>
+    </div>
+    <div class="source-card">
+      <div class="sc-icon">📰</div>
+      <div class="sc-t">Regulatory Bulletins</div>
+      <div class="sc-b">State DOI bulletins, guidance documents, and commissioner notices that affect product requirements, coverage language, and policyholder communications.</div>
+      <div class="sc-coverage">Real-time monitoring</div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRE FORM -->
+<section class="hire-sec" id="hire">
+  <div class="hire-grid">
+    <div>
+      <div class="eyebrow">Hire Iris</div>
+      <h2 class="section-h">Your AI Regulatory<br>Intelligence Specialist.<br><em>Live in 10 minutes.</em></h2>
+      <p class="section-sub">Iris is an Always On AI staff member. There is no contract, no implementation project, and no IT involvement required. Fill in the intake form — she starts work immediately.</p>
+      <div style="padding:24px;background:var(--gold-bg);border:1px solid rgba(184,144,42,0.2);margin-top:32px;">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Always On — What this means</div>
+        <p style="font-size:14px;line-height:1.75;color:var(--muted);">Iris runs continuously without your involvement. You do not direct her or check her work — she delivers intelligence to you. No calibration. No correction log. No practitioner oversight required. She is pre-trained for her role by insurance domain experts and works the same way for every client from day one.</p>
+      </div>
+    </div>
+    <div>
+      <div class="hire-form" id="hireForm">
+        <div class="hf-title">Hire Iris</div>
+        <div class="hf-sub">Tell Iris about your business. She will start monitoring your states and lines immediately.</div>
+        <div class="form-row">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" type="text" id="h-name" placeholder="Your full name">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Business Name</label>
+          <input class="form-input" type="text" id="h-biz" placeholder="Agency, MGA, carrier, or company name">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Work Email</label>
+          <input class="form-input" type="email" id="h-email" placeholder="your@company.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Business Type</label>
+          <select class="form-select" id="h-type">
+            <option value="">Select your business type</option>
+            <option>Independent Agent / Broker</option>
+            <option>MGA / Wholesale Broker</option>
+            <option>Carrier</option>
+            <option>Insurtech</option>
+            <option>TPAdministrator</option>
+            <option>Compliance / Legal Team</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">Primary Lines of Business</label>
+          <select class="form-select" id="h-lob">
+            <option value="">Select primary line</option>
+            <option>Personal Auto</option>
+            <option>Commercial Auto</option>
+            <option>Homeowners</option>
+            <option>Commercial Property</option>
+            <option>General Liability</option>
+            <option>Workers Compensation</option>
+            <option>Professional Liability / E&O</option>
+            <option>Multiple lines</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label class="form-label">States You Operate In</label>
+          <input class="form-input" type="text" id="h-states" placeholder="e.g. TX, FL, CA, NY or All States">
+        </div>
+        <button class="btn-hire" onclick="hireIris()">Hire Iris — Start in 10 minutes →</button>
+        <div style="margin-top:14px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--ndim);text-align:center;">Questions? hire@tryjoyn.me</div>
+      </div>
+      <div class="hire-success" id="hireSuccess">
+        <div class="hire-success-icon">✓</div>
+        <div class="hire-success-t">Iris is on her way.</div>
+        <div class="hire-success-b">We will confirm within 2 business hours and Iris will begin monitoring your states and lines immediately. Check your email — we will send onboarding instructions and your first intelligence pack within 24 hours.<br><br>Questions? <a href="mailto:hire@tryjoyn.me" style="color:var(--gold2);">hire@tryjoyn.me</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="f-brand">
+      <div class="f-logo">Joyn<span class="f-logo-dot">.</span></div>
+      <p>The world's AI Workforce Operating System. Built by domain experts. Measured in outcomes. Yours in 10 minutes.</p>
+    </div>
+    <div class="f-col">
+      <h4>AI Staff</h4>
+      <a href="#">Iris — Regulatory Intelligence</a>
+      <a href="../practice/tdd-practice-team.html">TDD Practice Team</a>
+      <a href="#">All AI Staff →</a>
+    </div>
+    <div class="f-col">
+      <h4>Joyn</h4>
+      <a href="../index.html">Homepage</a>
+      <a href="#">Creator Studio</a>
+      <a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a>
+      <a href="https://tryjoyn.me">tryjoyn.me</a>
+    </div>
+  </div>
+  <div class="fb">
+    <div class="fb-c">© 2026 Joyn · tryjoyn.me · All rights reserved</div>
+    <div class="fb-t">Where human expertise comes to scale itself.</div>
+  </div>
+</footer>
+
+<script>
+// TICKER
+const ticks = [
+  {name:'Iris',state:'Texas · Commercial Auto',action:'3 new filings indexed'},
+  {name:'Iris',state:'Florida · Homeowners',action:'Wind mitigation update flagged'},
+  {name:'Iris',state:'California · Personal Auto',action:'Rate filing approved — +2.1%'},
+  {name:'Iris',state:'New York · Workers Comp',action:'Regulatory bulletin issued'},
+  {name:'Iris',state:'Illinois · General Liability',action:'Form endorsement updated'},
+  {name:'Iris',state:'Georgia · Commercial Property',action:'New exclusion language detected'},
+  {name:'Iris',state:'Ohio · Professional Liability',action:'Coverage clarification published'},
+  {name:'Iris',state:'Pennsylvania · Homeowners',action:'AOB restriction effective March 1'},
+];
+const tickEl = document.getElementById('tickerEl');
+tickEl.innerHTML = [...ticks,...ticks].map(t =>
+  `<div class="tick-item">
+    <span class="tick-name">${t.name}</span>
+    <span class="tick-state">${t.state}</span>
+    <span class="tick-action">${t.action}</span>
+  </div>`
+).join('');
+
+// HIRE FORM
+function hireIris() {
+  const name = document.getElementById('h-name').value.trim();
+  const biz = document.getElementById('h-biz').value.trim();
+  const email = document.getElementById('h-email').value.trim();
+  const type = document.getElementById('h-type').value;
+
+  if (!name || !biz || !email || !type) {
+    alert('Please fill in your name, business name, email, and business type to continue.');
+    return;
+  }
+
+  const data = {
+    access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
+    name: name,
+    business: biz,
+    email: email,
+    business_type: type,
+    lines_of_business: document.getElementById('h-lob').value,
+    states: document.getElementById('h-states').value,
+    subject: 'New Iris Hire Request — ' + biz,
+    from_name: 'Joyn Iris Hire Form',
+    staff_member: 'Iris — Insurance Regulatory Intelligence'
+  };
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('hireForm').style.display = 'none';
+      document.getElementById('hireSuccess').style.display = 'block';
+      document.getElementById('hireSuccess').scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
+    }
+  })
+  .catch(() => {
+    alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
+  });
+}
+</script>
+</body>
+</html>
 
