@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Studio — Build AI Staff · Joyn · tryjoyn.me</title>
+<meta name="description" content="Apply to build AI staff on Joyn. 20 open roles across Insurance, Healthcare Admin, and Financial Advisory. Encode your expertise and earn 25–75% revenue share on every hire.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f5f1e8;--cream:#ede8db;--warm:#e4dece;
+  --ink:#0d0c0a;--ink2:#1a1916;--ink3:#252320;
+  --muted:#6a6560;--dim:#9c9790;--rule:#d4cec2;
+  --gold:#b8902a;--gold2:#c9a84c;--gold-bg:rgba(184,144,42,0.08);
+  --green:#3a7a58;--accent:#bf3a1e;
+  --night:#0d0c0a;--night2:#161513;--night3:#1e1d1b;
+  --nb:rgba(255,255,255,0.06);--nb2:rgba(255,255,255,0.11);
+  --ntext:#f0ece3;--nmuted:rgba(240,236,227,0.5);--ndim:rgba(240,236,227,0.25);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--night);color:var(--ntext);font-family:'Syne',sans-serif;font-size:16px;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 56px;background:rgba(13,12,10,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);text-decoration:none;display:flex;align-items:baseline;gap:2px;}
+.nav-logo-dot{color:var(--gold);font-size:32px;line-height:0.6;}
+.nav-back{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);text-decoration:none;display:flex;align-items:center;gap:8px;transition:color 0.2s;}
+.nav-back:hover{color:var(--ntext);}
+.nav-back::before{content:'←';}
+.btn-apply-nav{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink);background:var(--gold2);text-decoration:none;padding:10px 22px;transition:background 0.2s;border:none;cursor:pointer;}
+.btn-apply-nav:hover{background:#d4b05a;}
+
+/* ── HERO ── */
+.hero{background:var(--night);padding:120px 56px 80px;position:relative;overflow:hidden;border-bottom:1px solid var(--nb);}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:900px;height:600px;background:radial-gradient(ellipse,rgba(184,144,42,0.06) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;}
+.hero-eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:20px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--gold2);opacity:0.4;}
+.hero-h{font-family:'Cormorant Garamond',serif;font-size:68px;font-weight:700;line-height:0.95;letter-spacing:-0.03em;color:var(--ntext);margin-bottom:24px;}
+.hero-h em{font-style:italic;color:var(--gold2);}
+.hero-p{font-size:18px;line-height:1.8;color:var(--nmuted);max-width:620px;margin:0 auto 40px;}
+.hero-p strong{color:var(--ntext);}
+.hero-ctas{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:48px;}
+.btn-primary{display:inline-flex;align-items:center;gap:10px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);background:var(--gold2);padding:16px 32px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s;}
+.btn-primary:hover{background:#d4b05a;}
+.btn-secondary{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);text-decoration:none;transition:color 0.2s;}
+.btn-secondary:hover{color:var(--ntext);}
+.btn-secondary::after{content:'→';}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);max-width:700px;margin:0 auto;}
+.hs{background:rgba(255,255,255,0.02);padding:20px 18px;text-align:center;}
+.hs-n{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold2);line-height:1;margin-bottom:4px;}
+.hs-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+
+/* ── HOW IT WORKS ── */
+.hiw-sec{background:var(--night2);padding:80px 56px;border-top:1px solid var(--nb);border-bottom:1px solid var(--nb);}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
+.section-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--gold2);opacity:0.5;}
+.section-h{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;line-height:1.02;letter-spacing:-0.02em;color:var(--ntext);margin-bottom:14px;}
+.section-h em{font-style:italic;color:var(--gold2);}
+.section-sub{font-size:17px;line-height:1.8;color:var(--nmuted);max-width:600px;margin-bottom:48px;}
+.section-sub strong{color:var(--ntext);}
+.hiw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);}
+.hiw-card{background:rgba(255,255,255,0.02);padding:36px 30px;transition:background 0.2s;}
+.hiw-card:hover{background:rgba(255,255,255,0.04);}
+.hiw-n{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:400;font-style:italic;color:var(--gold2);opacity:0.18;line-height:1;margin-bottom:14px;}
+.hiw-t{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);margin-bottom:8px;}
+.hiw-s{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--nb);}
+.hiw-b{font-size:15px;line-height:1.75;color:var(--nmuted);}
+.hiw-b strong{color:var(--ntext);}
+
+/* ── EARNINGS BAND ── */
+.earn-band{background:rgba(184,144,42,0.05);border-top:1px solid rgba(184,144,42,0.15);border-bottom:1px solid rgba(184,144,42,0.15);padding:36px 56px;}
+.earn-inner{display:flex;align-items:center;justify-content:space-between;gap:40px;}
+.earn-left h3{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);line-height:1.1;margin-bottom:8px;}
+.earn-left h3 em{font-style:italic;color:var(--gold2);}
+.earn-left p{font-size:14px;color:var(--nmuted);line-height:1.7;max-width:480px;}
+.earn-rates{display:flex;gap:1px;background:var(--nb);}
+.er{background:rgba(255,255,255,0.02);padding:20px 28px;text-align:center;min-width:120px;}
+.er-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold2);line-height:1;margin-bottom:4px;}
+.er-l{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+
+/* ── ROLES SECTION ── */
+.roles-sec{background:var(--night);padding:80px 56px;}
+.filter-bar{display:flex;align-items:center;gap:8px;margin-bottom:40px;flex-wrap:wrap;}
+.filter-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ndim);margin-right:8px;flex-shrink:0;}
+.filter-btn{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:7px 16px;border:1px solid var(--nb2);color:var(--ndim);background:transparent;cursor:pointer;transition:all 0.2s;}
+.filter-btn.active{border-color:var(--gold2);color:var(--gold2);background:rgba(201,168,76,0.06);}
+.filter-btn:hover:not(.active){border-color:rgba(255,255,255,0.15);color:var(--ntext);}
+.filter-count{margin-left:auto;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.filter-count span{color:var(--gold2);}
+.roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--nb);border:1px solid var(--nb);}
+
+/* ── ROLE CARD ── */
+.role-card{background:rgba(255,255,255,0.02);padding:28px 26px;cursor:pointer;transition:background 0.2s;display:flex;flex-direction:column;position:relative;}
+.role-card:hover{background:rgba(255,255,255,0.05);}
+.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.rc-vertical{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:3px 9px;border:1px solid var(--nb2);color:var(--ndim);}
+.rc-vertical.insurance{border-color:rgba(184,144,42,0.3);color:var(--gold2);}
+.rc-vertical.healthcare{border-color:rgba(58,122,88,0.3);color:#5aab7a;}
+.rc-vertical.financial{border-color:rgba(26,58,92,0.4);color:#5a8ab8;}
+.rc-mode{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);display:flex;align-items:center;gap:5px;}
+.rc-mode-dot{width:5px;height:5px;border-radius:50%;background:currentColor;}
+.rc-mode.always-on{color:#5aab7a;}
+.rc-mode.craft{color:var(--gold2);}
+.rc-codename{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:700;color:var(--ntext);line-height:0.9;margin-bottom:8px;letter-spacing:-0.02em;}
+.rc-title{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--nb);}
+.rc-desc{font-size:13px;line-height:1.7;color:var(--nmuted);flex:1;}
+.rc-cta{margin-top:20px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);display:flex;align-items:center;gap:6px;transition:gap 0.2s;}
+.role-card:hover .rc-cta{gap:10px;}
+.rc-cta::after{content:'→';}
+.rc-open{position:absolute;top:14px;right:14px;font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:3px 8px;background:rgba(58,122,88,0.12);border:1px solid rgba(58,122,88,0.25);color:#5aab7a;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity 0.25s;}
+.modal-overlay.open{opacity:1;pointer-events:auto;}
+.modal{background:var(--night2);border:1px solid var(--nb2);max-width:680px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:32px 36px 24px;border-bottom:1px solid var(--nb);}
+.modal-close{position:absolute;top:20px;right:24px;font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--ndim);background:none;border:1px solid var(--nb2);cursor:pointer;padding:6px 12px;transition:all 0.2s;}
+.modal-close:hover{color:var(--ntext);border-color:rgba(255,255,255,0.2);}
+.modal-badges{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+.modal-vertical-badge{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+.modal-mode-badge{font-family:'DM Mono',monospace;font-size:8px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;padding:4px 10px;border:1px solid;}
+.modal-codename{font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:700;color:var(--ntext);line-height:0.9;margin-bottom:10px;letter-spacing:-0.02em;}
+.modal-title{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);}
+.modal-body{padding:28px 36px 36px;}
+.modal-section{margin-bottom:24px;}
+.modal-section:last-child{margin-bottom:0;}
+.ms-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);margin-bottom:10px;}
+.ms-text{font-size:15px;line-height:1.8;color:var(--nmuted);}
+.ms-text strong{color:var(--ntext);}
+.modal-earn{display:flex;align-items:center;gap:16px;padding:16px 18px;background:rgba(184,144,42,0.06);border:1px solid rgba(184,144,42,0.2);}
+.me-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:var(--gold2);line-height:1;}
+.me-l{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.me-text{font-size:13px;color:var(--nmuted);line-height:1.65;}
+.modal-apply-btn{display:block;width:100%;margin-top:24px;padding:16px;text-align:center;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);background:var(--gold2);border:none;cursor:pointer;transition:background 0.2s;text-decoration:none;}
+.modal-apply-btn:hover{background:#d4b05a;}
+
+/* ── APPLY SECTION ── */
+.apply-sec{background:var(--night2);padding:80px 56px;border-top:1px solid var(--nb);}
+.apply-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.apply-form-wrap{background:var(--night3);border:1px solid var(--nb2);padding:40px;}
+.af-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);margin-bottom:8px;}
+.af-sub{font-size:14px;color:var(--nmuted);margin-bottom:28px;line-height:1.7;}
+.form-group{margin-bottom:18px;}
+.form-label{display:block;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ndim);margin-bottom:7px;}
+.form-input{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--nb2);color:var(--ntext);font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:rgba(201,168,76,0.4);}
+.form-input::placeholder{color:var(--ndim);}
+.form-select{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--nb2);color:var(--ntext);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.06em;outline:none;cursor:pointer;appearance:none;transition:border-color 0.2s;}
+.form-select:focus{border-color:rgba(201,168,76,0.4);}
+.form-select option{background:var(--night2);color:var(--ntext);}
+.form-textarea{width:100%;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--nb2);color:var(--ntext);font-family:'Syne',sans-serif;font-size:14px;outline:none;transition:border-color 0.2s;resize:vertical;min-height:90px;}
+.form-textarea:focus{border-color:rgba(201,168,76,0.4);}
+.form-textarea::placeholder{color:var(--ndim);}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.btn-submit{width:100%;padding:16px;background:var(--gold2);color:var(--ink);font-family:'DM Mono',monospace;font-size:12px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;margin-top:6px;}
+.btn-submit:hover{background:#d4b05a;}
+.apply-success{display:none;padding:32px;background:rgba(58,122,88,0.08);border:1px solid rgba(58,122,88,0.2);text-align:center;}
+.as-icon{font-size:32px;margin-bottom:12px;}
+.as-t{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--ntext);margin-bottom:8px;}
+.as-b{font-size:14px;color:var(--nmuted);line-height:1.75;}
+.apply-right{display:flex;flex-direction:column;gap:20px;}
+.ar-info{padding:24px;background:rgba(255,255,255,0.02);border:1px solid var(--nb);}
+.ar-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.ar-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--nb);font-size:14px;}
+.ar-item:last-child{border:none;padding-bottom:0;}
+.ar-k{color:var(--ndim);}
+.ar-v{color:var(--ntext);font-weight:600;}
+.ar-principle{padding:20px 22px;background:rgba(184,144,42,0.05);border:1px solid rgba(184,144,42,0.15);}
+.ar-principle-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.ar-principle-text{font-size:14px;line-height:1.8;color:var(--nmuted);}
+.ar-principle-text strong{color:var(--ntext);}
+.ar-tracks{padding:20px 22px;background:rgba(255,255,255,0.02);border:1px solid var(--nb);}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);border-top:1px solid var(--nb);padding:48px 56px 32px;}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:32px;}
+.f-brand{}
+.f-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:700;color:var(--ntext);margin-bottom:10px;display:flex;align-items:baseline;gap:2px;}
+.f-logo-dot{color:var(--gold);font-size:34px;line-height:0.6;}
+.f-brand p{font-size:14px;line-height:1.75;color:var(--ndim);max-width:280px;}
+.f-col h4{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.f-col a{display:block;font-size:14px;color:var(--ndim);text-decoration:none;margin-bottom:8px;transition:color 0.2s;}
+.f-col a:hover{color:var(--ntext);}
+.fb{display:flex;align-items:center;justify-content:space-between;padding-top:24px;border-top:1px solid var(--nb);}
+.fb-c{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ndim);}
+.fb-t{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--ndim);}
+
+@media(max-width:900px){
+  .nav{padding:0 24px;}
+  .hero{padding:100px 24px 60px;}
+  .hero-h{font-size:44px;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .hiw-sec,.roles-sec,.apply-sec{padding:60px 24px;}
+  .hiw-grid{grid-template-columns:1fr;}
+  .roles-grid{grid-template-columns:1fr;}
+  .apply-grid{grid-template-columns:1fr;}
+  .earn-band{padding:36px 24px;}
+  .earn-inner{flex-direction:column;gap:24px;}
+  .earn-rates{flex-wrap:wrap;}
+  .ft{grid-template-columns:1fr 1fr;gap:32px;}
+  .form-row-2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">Joyn<span class="nav-logo-dot">.</span></a>
+  <a href="../index.html" class="nav-back">Back to Joyn</a>
+  <a href="#apply" class="btn-apply-nav">Apply to Build →</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Creator Studio · Build AI Staff</div>
+    <h1 class="hero-h">Your expertise<br>should work while<br><em>you sleep.</em></h1>
+    <p class="hero-p">You have spent a career building knowledge no textbook could teach. <strong>Encode it once. Let it work for thousands of businesses simultaneously.</strong> Apply to build AI staff on Joyn and earn 25–75% revenue share on every hire.</p>
+    <div class="hero-ctas">
+      <a href="#apply" class="btn-primary">Apply to Build →</a>
+      <a href="#open-roles" class="btn-secondary">See 20 open roles</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">20</div><div class="hs-l">Open roles now</div></div>
+      <div class="hs"><div class="hs-n">25–75%</div><div class="hs-l">Revenue share</div></div>
+      <div class="hs"><div class="hs-n">3</div><div class="hs-l">Creator tracks</div></div>
+      <div class="hs"><div class="hs-n">∞</div><div class="hs-l">Businesses you can reach</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="hiw-sec" id="how-it-works">
+  <div class="section-eyebrow">How Building Works</div>
+  <h2 class="section-h">From application<br>to <em>earning.</em></h2>
+  <p class="section-sub">The admission bar is deliberately high. Every creator undergoes a rigorous application. <strong>That selectivity is what makes your credential worth something</strong> — and what buyers pay for.</p>
+  <div class="hiw-grid">
+    <div class="hiw-card">
+      <div class="hiw-n">01</div>
+      <div class="hiw-t">Apply</div>
+      <div class="hiw-s">Admission — vetted by Joyn</div>
+      <div class="hiw-b">Submit your application with your domain credentials. We review career depth, not CVs. <strong>Domain Experts need no technical experience</strong> — only verified expertise in their field. Joyn handles the rest.</div>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-n">02</div>
+      <div class="hiw-t">Build</div>
+      <div class="hiw-s">Knowledge extraction</div>
+      <div class="hiw-b">Domain Experts go through Joyn's <strong>Knowledge Extraction Interface</strong> — a guided conversation that draws out the tacit, judgment-based knowledge that machines cannot replicate on their own. You explain your craft. Joyn handles the technical execution.</div>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-n">03</div>
+      <div class="hiw-t">Publish &amp; Earn</div>
+      <div class="hiw-s">Live in the marketplace</div>
+      <div class="hiw-b">Your AI staff member enters a pilot deployment with real businesses. When it demonstrates measurable outcomes, it receives a Verified badge and goes live in the marketplace. <strong>Every hire generates revenue for you</strong> — at rates that increase as performance improves.</div>
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS BAND -->
+<div class="earn-band">
+  <div class="earn-inner">
+    <div class="earn-left">
+      <h3>Performance-linked <em>revenue share.</em></h3>
+      <p>You earn on every subscription your AI staff member generates — with rates that increase as your staff member delivers better outcomes for buyers. Attribution is transparent and reported monthly. No cap on earnings.</p>
+    </div>
+    <div class="earn-rates">
+      <div class="er"><div class="er-n">25%</div><div class="er-l">Base rate · Builder tier</div></div>
+      <div class="er"><div class="er-n">40%</div><div class="er-l">Verified tier</div></div>
+      <div class="er"><div class="er-n">60%</div><div class="er-l">Certified tier</div></div>
+      <div class="er"><div class="er-n">75%</div><div class="er-l">Top performer</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- THREE TRACKS -->
+<section class="hiw-sec" id="tracks" style="background:var(--night3);border-bottom:1px solid var(--nb);">
+  <div class="section-eyebrow">Creator Tracks</div>
+  <h2 class="section-h">One standard.<br><em>Three paths</em> to meet it.</h2>
+  <p class="section-sub">Every agent must demonstrate performance in real business deployments before receiving a Verified badge. What changes is the path to getting there.</p>
+  <div class="hiw-grid">
+    <div class="hiw-card">
+      <div class="hiw-n">1</div>
+      <div class="hiw-t">Domain Expert</div>
+      <div class="hiw-s">30-year practitioner · No technical requirement</div>
+      <div class="hiw-b">The retired insurance SVP. The PE partner with 200 deals. The physician-consultant. <strong>Domain depth is profound; technical capability is irrelevant.</strong> Joyn's Knowledge Extraction Interface captures your expertise through a guided conversation. Publishes directly to Verified tier on the strength of career credentials alone.</div>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-n">2</div>
+      <div class="hiw-t">Domain-Technical Hybrid</div>
+      <div class="hiw-s">Rarest and most immediately productive</div>
+      <div class="hiw-b">The engineer who spent a decade as a licensed financial advisor. The nurse practitioner who builds clinical tools on weekends. <strong>Domain expertise and technical execution in the same mind.</strong> No translation layer needed. Joyn's most actively recruited creator profile.</div>
+    </div>
+    <div class="hiw-card">
+      <div class="hiw-n">3</div>
+      <div class="hiw-t">Emerging Creator</div>
+      <div class="hiw-s">Structured development pathway</div>
+      <div class="hiw-b">Great talent does not always arrive with a 30-year resume. <strong>A structured pathway lets emerging creators contribute and progress</strong> — from pilot deployments to Verified to Certified — based entirely on demonstrated outcomes. The path from Builder to Certified is available to anyone willing to do the work.</div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN ROLES -->
+<section class="roles-sec" id="open-roles">
+  <div class="section-eyebrow">Open Roles</div>
+  <h2 class="section-h">20 roles waiting<br>to be <em>built.</em></h2>
+  <p class="section-sub">Each role below is an open brief — a role Joyn has defined and is actively seeking a creator to build. Select the role that matches your expertise and apply to build it.</p>
+
+  <div class="filter-bar">
+    <span class="filter-lbl">Vertical</span>
+    <button class="filter-btn active" onclick="filterRoles('all',this)">All Roles</button>
+    <button class="filter-btn" onclick="filterRoles('insurance',this)">Insurance</button>
+    <button class="filter-btn" onclick="filterRoles('healthcare',this)">Healthcare Admin</button>
+    <button class="filter-btn" onclick="filterRoles('financial',this)">Financial Advisory</button>
+    <div class="filter-count"><span id="roleCount">20</span> roles shown</div>
+  </div>
+
+  <div class="roles-grid" id="rolesGrid">
+
+    <!-- INSURANCE ROLES -->
+    <div class="role-card" data-vertical="insurance" onclick="openModal('renew')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Renew</div>
+      <div class="rc-title">Insurance Renewal Specialist</div>
+      <div class="rc-desc">Monitors a policy book and manages renewal outreach automatically starting 90 days before expiration, flagging at-risk accounts before they're lost.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('audit')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Audit</div>
+      <div class="rc-title">Insurance Compliance Auditor</div>
+      <div class="rc-desc">Reviews policy files and client documentation against state regulatory requirements, flagging gaps and producing remediation checklists.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('quote')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Quote</div>
+      <div class="rc-title">Commercial Lines Quote Specialist</div>
+      <div class="rc-desc">Generates multi-carrier quote comparisons for commercial lines submissions and identifies coverage gaps before the client ever sees the options.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('claim')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Claim</div>
+      <div class="rc-title">First Notice of Loss Specialist</div>
+      <div class="rc-desc">Handles FNOL intake end-to-end — documents incidents, captures required fields, and routes to the right adjuster with a complete intake record.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('bond')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Bond</div>
+      <div class="rc-title">Surety Bond Analyst</div>
+      <div class="rc-desc">Evaluates bond requests, reviews supporting financials, and produces underwriting recommendations with a summary of key risk factors and recommended bond terms.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('expose')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Expose</div>
+      <div class="rc-title">Exposure Analyst</div>
+      <div class="rc-desc">Reviews a book of business for underinsurance risk, compares declared values against replacement cost benchmarks, and flags accounts needing remediation.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="insurance" onclick="openModal('screen')">
+      <div class="rc-top"><span class="rc-vertical insurance">Insurance</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Screen</div>
+      <div class="rc-title">E&amp;S Lines Screener</div>
+      <div class="rc-desc">Pre-qualifies excess and surplus lines submissions against carrier appetites before formal submission, reducing declination rates and saving wholesaler time.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <!-- HEALTHCARE ADMIN ROLES -->
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('prior')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Prior</div>
+      <div class="rc-title">Prior Authorization Specialist</div>
+      <div class="rc-desc">Manages prior auth submissions across payers — prepares clinical documentation packages, submits to portals, tracks status, and builds appeal letters on denial.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('intake')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Intake</div>
+      <div class="rc-title">Patient Intake Coordinator</div>
+      <div class="rc-desc">Handles new patient registration end-to-end — collects demographics, verifies insurance eligibility in real time, confirms benefits, and schedules the appointment.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('bill')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Bill</div>
+      <div class="rc-title">Medical Billing Specialist</div>
+      <div class="rc-desc">Reviews encounter data, validates diagnosis and procedure codes, applies payer-specific billing rules, and submits clean claims to reduce denial rates before submission.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('deny')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Deny</div>
+      <div class="rc-title">Denial Management Analyst</div>
+      <div class="rc-desc">Identifies denial patterns across remittance data, builds appeal letters matched to the denial reason and payer, and tracks resolution rates to flag systemic issues.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('refer')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Refer</div>
+      <div class="rc-title">Referral Coordinator</div>
+      <div class="rc-desc">Processes specialist referrals — verifies patient insurance with the receiving practice, prepares the documentation package, and coordinates scheduling between practices.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('comply')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Comply</div>
+      <div class="rc-title">Healthcare Compliance Monitor</div>
+      <div class="rc-desc">Monitors HIPAA requirements, flags policy gaps against current guidance, tracks required training completion, and prepares documentation for annual compliance audits.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="healthcare" onclick="openModal('cred')">
+      <div class="rc-top"><span class="rc-vertical healthcare">Healthcare Admin</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Cred</div>
+      <div class="rc-title">Provider Credentialing Specialist</div>
+      <div class="rc-desc">Manages credentialing applications, tracks expiration dates for licences and certifications, coordinates payer enrollment, and maintains current provider profiles across all active payers.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <!-- FINANCIAL ADVISORY ROLES -->
+    <div class="role-card" data-vertical="financial" onclick="openModal('prospect')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Prospect</div>
+      <div class="rc-title">Client Prospect Analyst</div>
+      <div class="rc-desc">Researches prospect profiles before first meetings — compiles financial signals, identifies likely planning gaps, and produces a meeting brief so advisors walk in prepared.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="financial" onclick="openModal('review')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Review</div>
+      <div class="rc-title">Annual Review Specialist</div>
+      <div class="rc-desc">Prepares comprehensive annual review packages — pulls account performance, calculates goal progress, identifies plan drift, and drafts the advisor's talking points before the meeting.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="financial" onclick="openModal('plan')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode craft"><span class="rc-mode-dot"></span>Craft</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Plan</div>
+      <div class="rc-title">Financial Plan Analyst</div>
+      <div class="rc-desc">Works alongside the advisor to build draft financial plans — takes client data, applies the firm's planning methodology, and delivers a structured draft the advisor finalises with the client.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="financial" onclick="openModal('watch')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Watch</div>
+      <div class="rc-title">Portfolio Alert Monitor</div>
+      <div class="rc-desc">Monitors client portfolios for rebalancing triggers, tax loss harvesting opportunities, allocation drift, and concentration risk — delivering prioritised action alerts each morning.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="financial" onclick="openModal('reg')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode always-on"><span class="rc-mode-dot"></span>Always On</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Reg</div>
+      <div class="rc-title">Regulatory Filing Monitor</div>
+      <div class="rc-desc">Tracks Form ADV amendments, Form CRS updates, state registration deadlines, and CE requirements — generating filing checklists and deadline alerts before regulators ask.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+    <div class="role-card" data-vertical="financial" onclick="openModal('estate')">
+      <div class="rc-top"><span class="rc-vertical financial">Financial Advisory</span><span class="rc-mode craft"><span class="rc-mode-dot"></span>Craft</span></div>
+      <div class="rc-open">Open</div>
+      <div class="rc-codename">Estate</div>
+      <div class="rc-title">Estate Planning Coordinator</div>
+      <div class="rc-desc">Works alongside the advisor on estate planning engagements — prepares estate summaries, identifies planning gaps, and coordinates with the client's estate attorney and CPA.</div>
+      <div class="rc-cta">View role details</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <button class="modal-close" onclick="closeModal()">Close ✕</button>
+      <div class="modal-badges" id="modalBadges"></div>
+      <div class="modal-codename" id="modalCodename"></div>
+      <div class="modal-title" id="modalTitle"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <div class="ms-lbl">What this staff member does</div>
+        <div class="ms-text" id="modalDesc"></div>
+      </div>
+      <div class="modal-section">
+        <div class="ms-lbl">What the creator brings</div>
+        <div class="ms-text" id="modalCreator"></div>
+      </div>
+      <div class="modal-earn" id="modalEarn">
+        <div><div class="me-n" id="modalEarnRate"></div><div class="me-l">Revenue share range</div></div>
+        <div class="me-text" id="modalEarnText"></div>
+      </div>
+      <a href="#apply" class="modal-apply-btn" onclick="closeModal();document.getElementById('f-role').value=document.getElementById('modalCodename').textContent;">Apply to Build This Role →</a>
+    </div>
+  </div>
+</div>
+
+<!-- APPLY SECTION -->
+<section class="apply-sec" id="apply">
+  <div class="apply-grid">
+    <div>
+      <div class="section-eyebrow">Apply to Build</div>
+      <h2 class="section-h" style="margin-bottom:8px;">Start the<br><em>conversation.</em></h2>
+      <p style="font-size:16px;line-height:1.8;color:var(--nmuted);margin-bottom:32px;max-width:400px;">Tell us about your expertise. We will review your application and schedule a conversation to determine the right track and role for you.</p>
+      <div class="apply-form-wrap" id="applyForm">
+        <div class="af-title">Apply to Build</div>
+        <div class="af-sub">Applications are reviewed within 3 business days. The bar is high — that is what makes the credential worth something.</div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input class="form-input" type="text" id="f-name" placeholder="Full name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Work Email</label>
+            <input class="form-input" type="email" id="f-email" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Role You Want to Build</label>
+          <select class="form-select" id="f-role">
+            <option value="">Select a role (or choose open to any)</option>
+            <optgroup label="Insurance">
+              <option>Renew — Insurance Renewal Specialist</option>
+              <option>Audit — Insurance Compliance Auditor</option>
+              <option>Quote — Commercial Lines Quote Specialist</option>
+              <option>Claim — First Notice of Loss Specialist</option>
+              <option>Bond — Surety Bond Analyst</option>
+              <option>Expose — Exposure Analyst</option>
+              <option>Screen — E&amp;S Lines Screener</option>
+            </optgroup>
+            <optgroup label="Healthcare Admin">
+              <option>Prior — Prior Authorization Specialist</option>
+              <option>Intake — Patient Intake Coordinator</option>
+              <option>Bill — Medical Billing Specialist</option>
+              <option>Deny — Denial Management Analyst</option>
+              <option>Refer — Referral Coordinator</option>
+              <option>Comply — Healthcare Compliance Monitor</option>
+              <option>Cred — Provider Credentialing Specialist</option>
+            </optgroup>
+            <optgroup label="Financial Advisory">
+              <option>Prospect — Client Prospect Analyst</option>
+              <option>Review — Annual Review Specialist</option>
+              <option>Plan — Financial Plan Analyst</option>
+              <option>Watch — Portfolio Alert Monitor</option>
+              <option>Reg — Regulatory Filing Monitor</option>
+              <option>Estate — Estate Planning Coordinator</option>
+            </optgroup>
+            <option value="open">Open to any matching role</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Your Domain Expertise</label>
+          <textarea class="form-textarea" id="f-expertise" placeholder="Describe your professional background — years of experience, specific domain knowledge, and what qualifies you to build this role…"></textarea>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Creator Track</label>
+            <select class="form-select" id="f-track">
+              <option value="">Which track fits you?</option>
+              <option>Domain Expert — deep expertise, no technical requirement</option>
+              <option>Domain-Technical Hybrid — expertise and build capability</option>
+              <option>Emerging Creator — structured pathway</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Years in Domain</label>
+            <select class="form-select" id="f-years">
+              <option value="">Select range</option>
+              <option>1–3 years</option>
+              <option>3–7 years</option>
+              <option>7–15 years</option>
+              <option>15–25 years</option>
+              <option>25+ years</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">LinkedIn or Portfolio URL (optional)</label>
+          <input class="form-input" type="url" id="f-url" placeholder="https://linkedin.com/in/yourprofile">
+        </div>
+        <button class="btn-submit" onclick="submitApplication()">Submit Application →</button>
+        <div style="margin-top:14px;font-family:'DM Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--ndim);text-align:center;">Questions? hire@tryjoyn.me</div>
+      </div>
+      <div class="apply-success" id="applySuccess">
+        <div class="as-icon">✓</div>
+        <div class="as-t">Application received.</div>
+        <div class="as-b">We review every application within 3 business days. If your credentials match what we are looking for, we will schedule a conversation to discuss the right path forward.<br><br>Questions? <a href="mailto:hire@tryjoyn.me" style="color:var(--gold2);">hire@tryjoyn.me</a></div>
+      </div>
+    </div>
+    <div class="apply-right">
+      <div class="ar-info">
+        <div class="ar-lbl">What to expect</div>
+        <div class="ar-item"><span class="ar-k">Application review</span><span class="ar-v">3 business days</span></div>
+        <div class="ar-item"><span class="ar-k">First conversation</span><span class="ar-v">30 minutes</span></div>
+        <div class="ar-item"><span class="ar-k">Knowledge extraction</span><span class="ar-v">2–3 sessions</span></div>
+        <div class="ar-item"><span class="ar-k">Pilot deployment</span><span class="ar-v">Real businesses</span></div>
+        <div class="ar-item"><span class="ar-k">Time to first earnings</span><span class="ar-v">Varies by role</span></div>
+        <div class="ar-item"><span class="ar-k">Revenue share</span><span class="ar-v">25–75%</span></div>
+      </div>
+      <div class="ar-principle">
+        <div class="ar-principle-lbl">The Chick-fil-A Principle</div>
+        <p class="ar-principle-text">Chick-fil-A receives 60,000+ applications per year and approves fewer than 100. The scarcity is the product. <strong>Every Joyn agent carries the promise it was built by someone who qualified.</strong> That trust is what buyers pay for. It is what you earn from.</p>
+      </div>
+      <div class="ar-tracks">
+        <div class="ar-lbl">Not sure which track fits you?</div>
+        <p style="font-size:14px;color:var(--nmuted);line-height:1.75;">Send us a note at <a href="mailto:hire@tryjoyn.me" style="color:var(--gold2);text-decoration:none;">hire@tryjoyn.me</a> before applying. We will help you figure out the right path before you put in the time to write an application.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft">
+    <div class="f-brand">
+      <div class="f-logo">Joyn<span class="f-logo-dot">.</span></div>
+      <p>The world's AI Workforce Operating System. Built by domain experts. Measured in outcomes. Yours in 10 minutes.</p>
+    </div>
+    <div class="f-col">
+      <h4>Hire Staff</h4>
+      <a href="index.html">Marketplace</a>
+      <a href="iris-insurance-regulatory.html">Iris — Regulatory Intelligence</a>
+      <a href="../practice/tdd-practice-team.html">TDD Practice Team</a>
+    </div>
+    <div class="f-col">
+      <h4>Build Staff</h4>
+      <a href="creator-studio.html">Creator Studio</a>
+      <a href="creator-studio.html#tracks">The Three Tracks</a>
+      <a href="creator-studio.html#how-it-works">How Creators Earn</a>
+      <a href="creator-studio.html#apply">Apply to Build</a>
+    </div>
+    <div class="f-col">
+      <h4>Joyn</h4>
+      <a href="../index.html">Homepage</a>
+      <a href="../index.html#faq">FAQ</a>
+      <a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a>
+      <a href="https://tryjoyn.me">tryjoyn.me</a>
+    </div>
+  </div>
+  <div class="fb">
+    <div class="fb-c">© 2026 Joyn · tryjoyn.me · All rights reserved</div>
+    <div class="fb-t">Where human expertise comes to scale itself.</div>
+  </div>
+</footer>
+
+<script>
+// ── ROLE DATA ──
+const roles = {
+  renew: {
+    codename: 'Renew',
+    title: 'Insurance Renewal Specialist',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Monitors a policy book continuously and manages renewal outreach automatically starting 90 days before each expiration date. Flags at-risk accounts based on renewal signals — rate sensitivity, claims history, competitive shopping behaviour — generates personalised outreach messages, and tracks retention rates across the book. Delivers a weekly renewal pipeline report to the agent or team.',
+    creator: 'A working knowledge of renewal workflows across personal or commercial lines. Experience identifying the signals that predict non-renewal — rate sensitivity, life event changes, claims history, competitive shopping patterns. Ideally a background as an independent agent, MGA, or carrier renewal specialist with direct renewal management responsibility.',
+    earnRate: '25–40%',
+    earnText: 'Strong demand from independent agents and MGAs. High-frequency use case with a large addressable market across every line of business.'
+  },
+  audit: {
+    codename: 'Audit',
+    title: 'Insurance Compliance Auditor',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Reviews policy files, coverage confirmations, and client documentation against state regulatory requirements. Flags compliance gaps, produces remediation checklists prioritised by severity, and tracks open items through to resolution. Monitors state DOI bulletins for changes that affect existing files and alerts the compliance team before a regulatory exam finds a gap first.',
+    creator: 'Compliance or E&O experience in insurance. Knowledge of what documentation gaps look like before they become claims or regulatory findings. Background as a carrier compliance officer, MGA compliance manager, or E&O specialist with direct audit or file review responsibility.',
+    earnRate: '30–45%',
+    earnText: 'Carriers and MGAs are the primary buyers. Compliance is non-negotiable — budget exists before the role is offered.'
+  },
+  quote: {
+    codename: 'Quote',
+    title: 'Commercial Lines Quote Specialist',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Accepts submission inputs — ACORD data, exposure schedules, prior loss runs — and produces multi-carrier comparison summaries for commercial lines accounts. Identifies coverage gaps between competing quotes, flags risks the prospect has not considered, and presents options in client-ready format. Reduces the time from submission to quote presentation from days to hours.',
+    creator: 'Commercial lines underwriting or wholesale brokerage experience. Carrier appetite knowledge across the major commercial lines markets. The ability to read between the lines of a quote comparison and identify what a client is actually buying versus what they think they are buying.',
+    earnRate: '35–50%',
+    earnText: 'High frequency use case for retail brokers handling commercial accounts. Every renewal cycle is a revenue event.'
+  },
+  claim: {
+    codename: 'Claim',
+    title: 'First Notice of Loss Specialist',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Handles FNOL intake end-to-end — documents the incident, captures all required fields for the applicable line of business, categorises the claim type, and routes to the appropriate adjuster or carrier portal with a complete intake record already prepared. Eliminates the back-and-forth that delays claim acknowledgement and sets the wrong tone with the insured from the start.',
+    creator: 'Claims experience from the carrier, TPA, or independent adjuster side. Knowledge of what information matters at first contact for different claim types and what consistently gets missed in manual intake. A background in claims handling rather than sales or underwriting.',
+    earnRate: '25–40%',
+    earnText: 'Agencies and TPAs handling high claim volumes are the buyers. Volume-driven use case with strong retention once embedded in the workflow.'
+  },
+  bond: {
+    codename: 'Bond',
+    title: 'Surety Bond Analyst',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Evaluates bond requests — contract, commercial, and miscellaneous — reviews supporting financials and project details, and produces underwriting recommendations with a structured summary of key risk factors, recommended bond terms, and the indemnity considerations that matter for each account type. Reduces underwriter review time on routine submissions.',
+    creator: 'Surety underwriting background, ideally with a specialist surety carrier or surety-focused wholesale broker. The ability to read a contractor\'s financial statements and translate working capital, net worth, and backlog ratios into bond risk. Knowledge of what makes a surety account attractive versus problematic before the formal application.',
+    earnRate: '40–60%',
+    earnText: 'Specialty niche with limited competition and well-defined buyer need. Surety underwriters and wholesale brokers are the core market.'
+  },
+  expose: {
+    codename: 'Expose',
+    title: 'Exposure Analyst',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Reviews a book of business for underinsurance risk — compares declared values against replacement cost benchmarks using Marshall & Swift or equivalent valuation methodology, identifies accounts with significant coverage gaps, and generates remediation recommendations for the agent including suggested coverage adjustments and client talking points. Flags the accounts most likely to become E&O claims at renewal.',
+    creator: 'Property underwriting, appraisal, or risk management background. Familiarity with replacement cost valuation methodology and the patterns that indicate chronic underinsurance — especially in commercial property and homeowners lines where inflation has created widespread exposure gaps.',
+    earnRate: '30–45%',
+    earnText: 'High value to carriers and larger independent agencies managing property-heavy books. E&O exposure is the motivating factor — budget exists.'
+  },
+  screen: {
+    codename: 'Screen',
+    title: 'E&S Lines Screener',
+    vertical: 'Insurance',
+    verticalClass: 'insurance',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Pre-qualifies excess and surplus lines submissions against known carrier appetites before formal submission. Reviews the risk, maps it to the most likely markets based on appetite signals, identifies the presentation elements that will matter most for each market, and returns a ranked list of target carriers with submission positioning guidance. Reduces declination rates and saves wholesaler time on accounts that were never going to find a market as submitted.',
+    creator: 'Wholesale brokerage or E&S underwriting background. Deep knowledge of which specialty markets want which risks and how to position a submission for maximum acceptance probability. The tacit knowledge of carrier appetite that experienced wholesalers accumulate over years of placement experience.',
+    earnRate: '40–55%',
+    earnText: 'Wholesale brokers and MGAs are the core market. Placement efficiency is directly measurable — strong ROI case for buyers.'
+  },
+  prior: {
+    codename: 'Prior',
+    title: 'Prior Authorization Specialist',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Manages prior authorisation submissions across payers — prepares clinical documentation packages using the clinical language each payer\'s utilisation management team responds to, submits to payer portals, tracks status, escalates stalled requests before they expire, and builds appeal letters when authorisation is denied. Tracks approval rates by payer and procedure to identify patterns the practice can use to improve future submissions.',
+    creator: 'Prior auth experience from a practice management, health system, utilisation management, or payer perspective. Knowledge of which payers require which clinical language to get approvals and where the criteria actually live versus where they claim they live. The specific expertise that comes from doing this work every day, not from reading coverage policies.',
+    earnRate: '30–45%',
+    earnText: 'Every medical practice that submits prior auths is a potential buyer. The time and denial cost make the ROI case immediate and obvious.'
+  },
+  intake: {
+    codename: 'Intake',
+    title: 'Patient Intake Coordinator',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Handles new patient registration end-to-end — collects and validates demographic information, verifies insurance eligibility in real time against payer portals, confirms benefits and cost-sharing for the scheduled service, identifies secondary insurance, and schedules the appointment based on the practice\'s availability rules and provider preferences. Reduces front-desk burden on new patient days and eliminates the insurance surprises that generate billing disputes after the visit.',
+    creator: 'Front-desk or practice management experience, ideally across multiple specialties. Knowledge of what patients consistently get wrong on intake forms and what insurance verification actually requires from the payer side to come back clean. The specific expertise that prevents the errors that generate downstream billing problems.',
+    earnRate: '25–40%',
+    earnText: 'Extremely broad market — every practice, every specialty, every size. High-volume use case with strong retention once embedded.'
+  },
+  bill: {
+    codename: 'Bill',
+    title: 'Medical Billing Specialist',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Reviews encounter data from the EHR, validates diagnosis and procedure code combinations against payer-specific billing rules, applies modifier logic, flags coding mismatches and medical necessity issues before submission, and submits clean claims to reduce denial rates. Tracks clean claim rates by payer and identifies the rule changes that are generating new denial patterns before they affect a full billing cycle.',
+    creator: 'Medical billing and coding experience with CPC, CCS, or equivalent certification preferred. Knowledge of the coding patterns that trigger automatic denials and the payer rules that differ from the standard fee schedule in ways that billers only learn through experience. Ideally experience across multiple specialties.',
+    earnRate: '35–50%',
+    earnText: 'Billing offices, revenue cycle companies, and practices with in-house billing are all buyers. Clean claim rate improvement is directly measurable.'
+  },
+  deny: {
+    codename: 'Deny',
+    title: 'Denial Management Analyst',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Identifies denial patterns across a practice\'s remittance data — categorises denials by reason code, payer, provider, and procedure, surfaces the systemic billing issues generating the highest dollar volume of denied claims, builds appeal letters matched to the specific denial reason and payer appeal process, and tracks resolution rates through the full appeal cycle. Turns reactive denial management into a proactive revenue recovery programme.',
+    creator: 'Revenue cycle or denial management experience. The ability to read an EOB, identify the real reason for denial under the denial code, and write an appeal that actually gets paid. Knowledge of which payer appeal processes respond to clinical arguments versus technical billing corrections versus peer-to-peer escalations.',
+    earnRate: '35–50%',
+    earnText: 'Practices losing 10%+ of revenue to denials are the immediate market. The ROI case writes itself — recovery on existing revenue.'
+  },
+  refer: {
+    codename: 'Refer',
+    title: 'Referral Coordinator',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Processes specialist referrals from primary care practices — verifies patient insurance with the receiving specialist\'s office, prepares the referral documentation package with the clinical information the specialist actually needs, coordinates scheduling between the referring and receiving practices, and tracks pending referrals through completion to close the loop for the referring provider. Eliminates the lost referrals that fall through the coordination gap between practices.',
+    creator: 'Healthcare coordination experience from a primary care practice, specialty practice, or health system care coordination programme. Knowledge of what information specialists actually need versus what typically gets sent in a referral packet. The specific expertise that comes from being on both sides of the referral process.',
+    earnRate: '25–35%',
+    earnText: 'Primary care practices and health systems are the buyers. High volume use case — primary care practices generate hundreds of referrals monthly.'
+  },
+  comply: {
+    codename: 'Comply',
+    title: 'Healthcare Compliance Monitor',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Monitors HIPAA Privacy and Security Rule requirements, flags policy and procedure gaps against current OCR guidance, tracks required workforce training completion by role, monitors for changes to applicable regulations and guidance documents, and prepares summary documentation for annual compliance reviews and audits. Generates a compliance dashboard the practice administrator can review monthly rather than discovering gaps during an OCR investigation.',
+    creator: 'Healthcare compliance experience from a practice, health system, or healthcare law background. Familiarity with OCR audit focus areas and the specific documentation gaps that get practices in trouble. Knowledge of what a practice\'s compliance programme actually needs to demonstrate versus what looks good on paper.',
+    earnRate: '35–50%',
+    earnText: 'Small and mid-size practices that lack a dedicated compliance officer are the core market. Risk-driven purchase — budget exists before the relationship starts.'
+  },
+  cred: {
+    codename: 'Cred',
+    title: 'Provider Credentialing Specialist',
+    vertical: 'Healthcare Admin',
+    verticalClass: 'healthcare',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Manages credentialing applications for new providers — assembles the application documentation package, tracks submission status across medical staff offices and payer enrollment departments, monitors expiration dates for licences, certifications, DEA registrations, and board certifications, and maintains a current provider profile that keeps the practice in-network across all active payers. Eliminates the lapsed credentials that generate claim denials and delayed revenue.',
+    creator: 'Medical staff services, credentialing, or payer enrollment experience. Knowledge of the specific documentation each payer requires for enrollment and where applications consistently stall. The specific expertise that comes from managing credentialing across multiple providers and payers simultaneously.',
+    earnRate: '30–45%',
+    earnText: 'Group practices, management services organisations, and health systems are buyers. Lapsed credentials directly affect revenue — strong urgency.'
+  },
+  prospect: {
+    codename: 'Prospect',
+    title: 'Client Prospect Analyst',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Researches prospect profiles before first client meetings — compiles financial signals from public sources including business ownership, real estate holdings, executive compensation indicators, and life event triggers, identifies the most likely financial planning gaps based on the prospect\'s profile, and produces a structured meeting brief that lets the advisor walk in with the right questions already prepared. Turns cold introductions into warm conversations.',
+    creator: 'Financial planning or wealth management experience. Knowledge of what the right questions are before a first prospect meeting and what public signals actually indicate about a prospect\'s financial situation and planning gaps. Ideally experience conducting initial client discovery conversations.',
+    earnRate: '30–45%',
+    earnText: 'Independent RIAs and hybrid advisors with active business development pipelines. Every advisor meeting is a revenue opportunity.'
+  },
+  review: {
+    codename: 'Review',
+    title: 'Annual Review Specialist',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Prepares comprehensive annual review packages for client meetings — pulls account performance from custodian data, calculates progress toward each stated goal, identifies drift from the financial plan and its causes, surfaces life changes that may warrant plan adjustments, and produces a structured agenda with the advisor\'s talking points already drafted. Lets advisors scale their review meeting capacity without reducing meeting quality.',
+    creator: 'Wealth management or financial planning experience. Knowledge of how a well-run annual review is structured and what clients actually want to discuss versus what advisors want to present. Understanding of what the numbers mean in the context of a client relationship, not just as performance data.',
+    earnRate: '35–50%',
+    earnText: 'RIAs and wirehouse advisors with large client books. Every advisor has annual review obligations — this replaces hours of preparation per client.'
+  },
+  plan: {
+    codename: 'Plan',
+    title: 'Financial Plan Analyst',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Craft',
+    modeClass: 'craft',
+    desc: 'Works alongside the advisor in Craft mode to build draft financial plans — takes client data inputs including income, expenses, assets, liabilities, and stated goals, applies the firm\'s specific planning methodology and assumption set, produces scenario analyses for key variables including retirement timing and savings rates, and delivers a structured draft plan the advisor reviews, adjusts, and finalises with the client. The advisor directs; Plan accelerates the analytical work.',
+    creator: 'CFP designation or equivalent financial planning experience. A specific planning methodology, not just process knowledge — the kind of expertise that comes from building hundreds of plans and knowing which assumptions matter and which scenarios clients actually need to see.',
+    earnRate: '40–65%',
+    earnText: 'Craft mode commands higher rates. Fee-based planning practices with high plan volume are the buyers. Significant time savings per plan produced.'
+  },
+  watch: {
+    codename: 'Watch',
+    title: 'Portfolio Alert Monitor',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Monitors client portfolios continuously for rebalancing triggers when allocations drift beyond policy bands, tax loss harvesting opportunities when positions are in loss positions, concentration risk when a single holding exceeds the client\'s stated limit, and cash drag when uninvested cash exceeds the target threshold. Delivers a prioritised action alert list to the advisor each morning, ranked by urgency and dollar impact.',
+    creator: 'Portfolio management or investment operations experience. Knowledge of what alert thresholds actually matter versus what generates noise without producing action. The specific expertise that comes from managing rebalancing and tax management across a large number of client accounts simultaneously.',
+    earnRate: '35–50%',
+    earnText: 'RIAs with AUM-based practices and discretionary management. Every alert acted upon is a tangible demonstration of value to the client.'
+  },
+  reg: {
+    codename: 'Reg',
+    title: 'Regulatory Filing Monitor',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Always On',
+    modeClass: 'always-on',
+    desc: 'Tracks Form ADV amendment triggers — material changes that require prompt amendment within 30 days — Form CRS update obligations, state registration renewal deadlines across all states where the firm is registered, individual IAR registration requirements, and continuing education obligations. Generates filing checklists and deadline alerts 60 days before each deadline so the compliance team is never caught flat-footed by a regulatory calendar.',
+    creator: 'RIA compliance or securities regulatory experience. The specific knowledge of what triggers an ADV amendment and what the SEC or state regulators actually care about in an examination. Background as a compliance officer, compliance consultant, or securities attorney serving RIA clients.',
+    earnRate: '35–50%',
+    earnText: 'Independent RIAs and small broker-dealers without dedicated compliance staff. Regulatory deadlines are non-negotiable — the purchase decision makes itself.'
+  },
+  estate: {
+    codename: 'Estate',
+    title: 'Estate Planning Coordinator',
+    vertical: 'Financial Advisory',
+    verticalClass: 'financial',
+    mode: 'Craft',
+    modeClass: 'craft',
+    desc: 'Works alongside the advisor in Craft mode on estate planning client engagements — prepares structured estate summaries from client documents including wills, trusts, beneficiary designations, and entity ownership, identifies planning gaps relative to the client\'s stated objectives and current estate tax exposure, surfaces coordination opportunities between the financial plan and the estate plan, and manages communication with the client\'s estate attorney and CPA to ensure the advisory, legal, and tax teams are working from the same set of facts.',
+    creator: 'Estate planning experience from the advisory, trust officer, estate planning attorney, or wealth management side. The ability to read an estate plan and identify what is missing, what is inadequate, and what creates unintended consequences for the client\'s situation — not just what the documents say.',
+    earnRate: '45–65%',
+    earnText: 'Craft mode commands higher rates. High-net-worth advisory practices with complex estate planning clients. Significant engagement value per client.'
+  }
+};
+
+// ── MODAL ──
+function openModal(roleId) {
+  const r = roles[roleId];
+  if (!r) return;
+
+  const vertColors = {
+    insurance: 'border-color:rgba(184,144,42,0.35);color:var(--gold2);',
+    healthcare: 'border-color:rgba(58,122,88,0.35);color:#5aab7a;',
+    financial: 'border-color:rgba(26,58,92,0.5);color:#5a8ab8;'
+  };
+  const modeColors = {
+    'always-on': 'border-color:rgba(58,122,88,0.35);color:#5aab7a;',
+    'craft': 'border-color:rgba(184,144,42,0.35);color:var(--gold2);'
+  };
+
+  document.getElementById('modalBadges').innerHTML =
+    `<span class="modal-vertical-badge" style="${vertColors[r.verticalClass]}">${r.vertical}</span>` +
+    `<span class="modal-mode-badge" style="${modeColors[r.modeClass]}">${r.mode}</span>`;
+  document.getElementById('modalCodename').textContent = r.codename;
+  document.getElementById('modalTitle').textContent = r.title;
+  document.getElementById('modalDesc').innerHTML = r.desc;
+  document.getElementById('modalCreator').innerHTML = r.creator;
+  document.getElementById('modalEarnRate').textContent = r.earnRate;
+  document.getElementById('modalEarnText').textContent = r.earnText;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+// ── FILTER ──
+let currentVertical = 'all';
+
+function filterRoles(vertical, btn) {
+  currentVertical = vertical;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  let count = 0;
+  document.querySelectorAll('.role-card').forEach(card => {
+    const match = vertical === 'all' || card.dataset.vertical === vertical;
+    card.style.display = match ? '' : 'none';
+    if (match) count++;
+  });
+  document.getElementById('roleCount').textContent = count;
+}
+
+// ── FORM ──
+function submitApplication() {
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const role = document.getElementById('f-role').value;
+  const expertise = document.getElementById('f-expertise').value.trim();
+  const track = document.getElementById('f-track').value;
+
+  if (!name || !email || !role || !expertise || !track) {
+    alert('Please complete all required fields to continue.');
+    return;
+  }
+
+  const data = {
+    access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
+    name: name,
+    email: email,
+    role: role,
+    expertise: expertise,
+    track: track,
+    years: document.getElementById('f-years').value,
+    portfolio_url: document.getElementById('f-url').value,
+    subject: 'Creator Studio Application — ' + name + ' · ' + role,
+    from_name: 'Joyn Creator Studio',
+    page: 'creator-studio.html'
+  };
+
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(data)
+  })
+  .then(r => r.json())
+  .then(data => {
+    if (data.success) {
+      document.getElementById('applyForm').style.display = 'none';
+      document.getElementById('applySuccess').style.display = 'block';
+      document.getElementById('applySuccess').scrollIntoView({behavior:'smooth', block:'center'});
+    } else {
+      alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
+    }
+  })
+  .catch(() => {
+    alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
+  });
+}
+</script>
+</body>
+</html>
