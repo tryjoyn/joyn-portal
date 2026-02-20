@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joyn — We Staff Your Business With AI · tryjoyn.me</title>
-<meta name="description" content="Joyn is the AI Workforce Operating System. Browse and hire AI staff built by vetted domain experts. Always On staff run autonomously from day one. Craft staff work alongside your practitioners.">
+<title>Joyn — AI Staff for Your Business · tryjoyn.me</title>
+<meta name="description" content="Joyn connects businesses with expert-built AI staff. Hire AI staff that works from day one — or encode your domain expertise and earn while you sleep.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -23,14 +23,13 @@
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1.0625rem; line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-img, video { max-width: 100%; height: auto; }
 :focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
 .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
 .skip-link:focus { top: 1rem; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
 
 h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
-h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
+h1 { font-size: clamp(2.75rem, 6vw, 5rem); }
 h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
 h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
 h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
@@ -48,50 +47,62 @@ a { color: inherit; }
 .nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; transition: color 0.2s; }
 .nav-cta:hover { color: var(--gold-hover); }
 
-/* HERO */
-.hero { padding: clamp(5rem,10vw,9rem) clamp(1.5rem,5vw,4rem) clamp(4rem,8vw,7rem); border-bottom: 1px solid var(--rule); }
-.hero-inner { max-width: 820px; }
+/* SPLIT ENTRY */
+.split-entry { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--rule); }
+.entry-panel { padding: clamp(4rem,9vw,8rem) clamp(2rem,5vw,4rem); display: flex; flex-direction: column; min-height: 78vh; text-decoration: none; color: var(--ink); transition: background 0.25s; }
+.entry-panel:first-child { border-right: 1px solid var(--rule); }
+.entry-panel.build-panel { background: var(--surface); }
+.entry-panel:hover { background: #ece8df; }
+.entry-panel.build-panel:hover { background: #ede9e0; }
+.entry-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: auto; }
+.entry-body { margin-top: 3rem; }
+.entry-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.25rem,4.5vw,4rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1.5rem; }
+.entry-h em { font-style: italic; color: var(--gold-display); }
+.entry-detail { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); line-height: 1.9; margin-bottom: 2.5rem; }
+.entry-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.5rem; }
 
-/* TWO MODES */
-.modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+/* SECTION SHARED */
+.section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.section h2 { margin-bottom: 3rem; }
+.section-desc { max-width: 54ch; margin-bottom: 3rem; font-size: 1.05rem; margin-top: -1.5rem; }
+
+/* BUTTON */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* TAG */
+.tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; display: inline-block; }
+.tag-live { border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
+.tag-always { background: var(--ink); color: var(--white); }
+.tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
+.tag-soon { border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
+
+/* MODES */
+.modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
 .mode-card { background: var(--white); padding: 2.5rem; }
-.mode-card:hover { background: var(--surface); }
 .mode-tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.3rem 0.7rem; margin-bottom: 1.25rem; display: inline-block; }
-.mode-tag-always { background: var(--ink); color: var(--white); }
+.mode-tag-instant { background: var(--ink); color: var(--white); }
 .mode-tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
 .mode-card h3 { margin-bottom: 0.75rem; }
-.mode-card p { font-size: 0.975rem; margin-bottom: 1.5rem; max-width: none; }
+.mode-card p { font-size: 0.975rem; margin-bottom: 1.25rem; max-width: none; }
 .mode-detail { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); padding-top: 1.25rem; border-top: 1px solid var(--rule); }
 
-/* TIERS */
-.tiers-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
-.tiers-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
-.tier-card { background: var(--white); padding: 2rem 1.75rem; }
-.tier-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
-.tier-card h4 { margin-bottom: 0.5rem; }
-.tier-who { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
-.tier-card p { font-size: 0.9rem; max-width: none; }
-.tier-mode { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-top: 1rem; }
-
-/* HOW IT WORKS */
-.hiw-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
-.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+/* STEPS */
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.steps-grid.three { grid-template-columns: repeat(3,1fr); }
 .step { background: var(--white); padding: 2rem 1.75rem; }
 .step-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--rule-mid); line-height: 1; margin-bottom: 1rem; }
 .step h4 { margin-bottom: 0.5rem; }
 .step p { font-size: 0.9rem; max-width: none; }
 
 /* STAFF PREVIEW */
-.staff-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
-.staff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.staff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
 .staff-card { background: var(--white); padding: 2.25rem; text-decoration: none; color: var(--ink); display: block; transition: background 0.2s; }
 .staff-card:hover { background: var(--surface); }
 .staff-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
-.tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; display: inline-block; }
-.tag-live { border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
-.tag-always { background: var(--ink); color: var(--white); }
-.tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
-.tag-soon { border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
 .staff-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,3.5rem); font-weight: 400; line-height: 1; color: var(--ink); margin-bottom: 0.35rem; }
 .staff-role { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
 .staff-desc { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 1.5rem; line-height: 1.75; }
@@ -99,6 +110,24 @@ a { color: inherit; }
 .staff-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
 .staff-card.soon { background: var(--surface); border: 1.5px dashed var(--rule-mid); pointer-events: none; }
 .staff-card.soon .staff-name { color: var(--ink-secondary); }
+
+/* CREATOR TRACKS */
+.tracks-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.track-card { background: var(--white); padding: 2.5rem; }
+.track-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
+.track-card h4 { margin-bottom: 0.5rem; }
+.track-who { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.track-card p { font-size: 0.9rem; max-width: none; }
+
+/* EARNINGS PREVIEW */
+.earn-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.earn-cell { background: var(--white); padding: 1.75rem; }
+.earn-rate { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 400; color: var(--gold-display); line-height: 1; margin-bottom: 0.4rem; }
+.earn-cell h4 { font-size: 1rem; margin-bottom: 0.3rem; }
+.earn-cell p { font-size: 0.85rem; max-width: none; }
+
+/* DIVIDER BAND */
+.journey-divider { border-top: 3px solid var(--rule-mid); }
 
 /* FAQ */
 .faq-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
@@ -112,21 +141,6 @@ a { color: inherit; }
 .faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.5rem; }
 .faq-a p { font-size: 1rem; }
 
-/* CTA BAND */
-.cta-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); text-align: center; }
-.cta-section h2 { margin-bottom: 1rem; }
-.cta-section p { margin: 0 auto 2.5rem; font-size: 1.1rem; }
-.cta-actions { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
-
-/* BUTTON */
-.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
-.btn-primary { background: var(--ink); color: var(--white); }
-.btn-primary:hover { background: #2a2a29; }
-.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
-.btn-outline:hover { background: var(--ink); color: var(--white); }
-.btn-gold { background: var(--gold-text); color: var(--white); }
-.btn-gold:hover { background: var(--gold-hover); }
-
 /* FOOTER */
 .footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
 .footer-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
@@ -138,17 +152,19 @@ a { color: inherit; }
 /* MOBILE */
 @media (max-width: 768px) {
   .nav { padding: 0 1.25rem; }
-  .modes-grid, .tiers-grid, .steps-grid, .staff-grid, .faq-grid { grid-template-columns: 1fr; }
-  .tiers-grid, .steps-grid { grid-template-columns: 1fr 1fr; }
-  .cta-actions { flex-direction: column; align-items: center; }
-  .btn { width: 100%; max-width: 320px; }
+  .split-entry { grid-template-columns: 1fr; }
+  .entry-panel { min-height: 50vh; }
+  .entry-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  .modes-grid, .tracks-grid, .staff-grid, .faq-grid { grid-template-columns: 1fr; }
+  .steps-grid, .steps-grid.three { grid-template-columns: 1fr 1fr; }
+  .earn-grid { grid-template-columns: 1fr 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-nav { display: flex; flex-wrap: wrap; }
   .footer-nav a { margin-left: 0; margin-right: 1rem; }
   .footer-tag { display: none; }
 }
 @media (max-width: 480px) {
-  .tiers-grid, .steps-grid { grid-template-columns: 1fr; }
+  .steps-grid, .steps-grid.three, .earn-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -160,94 +176,83 @@ a { color: inherit; }
 <nav class="nav" aria-label="Main navigation">
   <a href="index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
   <div style="display:flex;gap:1.5rem;align-items:center;">
-    <a href="marketplace/index.html" class="nav-cta">Hire AI Staff</a>
-    <a href="marketplace/creator-studio.html" class="nav-cta">Build AI Staff</a>
+    <a href="#hire" class="nav-cta">Hire AI Staff</a>
+    <a href="#build" class="nav-cta">Build AI Staff</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero" id="main">
-  <div class="hero-inner">
-    <div class="label">AI Workforce Operating System</div>
-    <h1 style="margin-bottom:1.5rem;">We staff your<br>business with <em>AI.</em></h1>
-    <p style="font-size:1.2rem; max-width:54ch; margin-bottom:2.5rem;">Browse a catalogue of AI staff built by vetted domain experts. Hire in minutes. Every staff member runs autonomously from day one — <strong>no technical setup required.</strong></p>
-    <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-      <a href="marketplace/index.html" class="btn btn-primary">Hire AI Staff</a>
-      <a href="marketplace/creator-studio.html" class="btn btn-outline">Build AI Staff</a>
-    </div>
+<!-- SPLIT ENTRY -->
+<section class="split-entry" id="main" aria-label="Choose your path">
 
-    <!-- TWO MODES -->
-    <div class="modes-grid" role="list" aria-label="Staffing modes">
-      <div class="mode-card" role="listitem">
-        <div class="mode-tag mode-tag-always">Always On</div>
-        <h3>Hire once.<br>Running from day one.</h3>
-        <p>Pre-trained by vetted domain experts. Connect to your business in minutes — runs autonomously, no configuration, no oversight required. <strong>Best for Solo and Team tiers.</strong></p>
-        <div class="mode-detail">Live in 10 minutes · No technical setup · 24/7 autonomous</div>
+  <a href="#hire" class="entry-panel" aria-label="Explore the hire journey">
+    <div class="entry-eyebrow">For businesses</div>
+    <div class="entry-body">
+      <h1 class="entry-h">Hire AI staff that works from <em>day one.</em></h1>
+      <div class="entry-detail">
+        Expert-built · Vetted domain experts<br>
+        Instant deployment · No technical setup<br>
+        Live in 10 minutes
       </div>
-      <div class="mode-card" role="listitem">
-        <div class="mode-tag mode-tag-craft">Craft</div>
-        <h3>Shaped by your<br>practitioners over time.</h3>
-        <p>Works alongside your team on complex, judgment-intensive engagements. Calibrates to your firm's methodology. Private corpus belongs to you. <strong>Best for Practice and Enterprise.</strong></p>
-        <div class="mode-detail">Practitioner-led · Calibrates to your methodology · Private corpus</div>
+      <span class="entry-cta">How it works ↓</span>
+    </div>
+  </a>
+
+  <a href="#build" class="entry-panel build-panel" aria-label="Explore the build journey">
+    <div class="entry-eyebrow">For domain experts</div>
+    <div class="entry-body">
+      <h1 class="entry-h">Encode your expertise.<br>Earn while <em>you sleep.</em></h1>
+      <div class="entry-detail">
+        20 open roles · 3 creator tracks<br>
+        25–75% revenue share<br>
+        Your knowledge · Infinite reach
       </div>
+      <span class="entry-cta">How it works ↓</span>
+    </div>
+  </a>
+
+</section>
+
+<!-- ─────────────── HIRE JOURNEY ─────────────── -->
+
+<!-- HIRE: TWO MODES -->
+<section class="section" id="hire" aria-labelledby="modes-heading">
+  <div class="label">Two modes</div>
+  <h2 id="modes-heading">AI staff that fits<br>how <em>you work.</em></h2>
+  <p class="section-desc">Not every role works the same way. Instant staff run autonomously from day one. Craft staff work alongside your practitioners on judgment-intensive engagements.</p>
+  <div class="modes-grid" role="list">
+    <div class="mode-card" role="listitem">
+      <div class="mode-tag mode-tag-instant">Instant</div>
+      <h3>Hire once.<br>Running from day one.</h3>
+      <p>Pre-trained by vetted domain experts. Connect your business context in a 10-minute intake — no configuration, no technical setup, no oversight required. Your AI staff member handles real work immediately.</p>
+      <div class="mode-detail">Live in 10 minutes · 24/7 autonomous · No technical setup</div>
+    </div>
+    <div class="mode-card" role="listitem">
+      <div class="mode-tag mode-tag-craft">Craft</div>
+      <h3>Shaped by your<br>practitioners over time.</h3>
+      <p>Works alongside your team on complex, judgment-intensive engagements. Calibrates to your firm's methodology through an ongoing partnership. Private corpus belongs to your firm.</p>
+      <div class="mode-detail">Practitioner-led · Calibrates over time · Private corpus yours</div>
     </div>
   </div>
 </section>
 
-<!-- TIERS -->
-<section class="tiers-section" aria-labelledby="tiers-heading">
-  <div class="label">Four tiers</div>
-  <h2 id="tiers-heading">A size for every<br><em>business.</em></h2>
-  <div class="tiers-grid" role="list">
-    <div class="tier-card" role="listitem">
-      <div class="tier-num">01</div>
-      <h4>Joyn Solo</h4>
-      <div class="tier-who">Independent operators</div>
-      <p>One AI staff member. Always On. Live in 10 minutes. Handles the work that keeps you from growing.</p>
-      <div class="tier-mode">Always On</div>
-    </div>
-    <div class="tier-card" role="listitem">
-      <div class="tier-num">02</div>
-      <h4>Joyn Team</h4>
-      <div class="tier-who">Growing businesses</div>
-      <p>Up to five AI staff who coordinate with each other. Briefed once on how your business works.</p>
-      <div class="tier-mode">Always On</div>
-    </div>
-    <div class="tier-card" role="listitem">
-      <div class="tier-num">03</div>
-      <h4>Joyn Practice</h4>
-      <div class="tier-who">Professional services firms</div>
-      <p>Engagement-scoped AI teams working under your practitioners. Calibrates to your methodology.</p>
-      <div class="tier-mode">Craft</div>
-    </div>
-    <div class="tier-card" role="listitem">
-      <div class="tier-num">04</div>
-      <h4>Joyn Enterprise</h4>
-      <div class="tier-who">Large organisations</div>
-      <p>Right-to-hire model. AI staff placed, trained, then owned outright — deployed in your environment.</p>
-      <div class="tier-mode">Craft</div>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="hiw-section" id="how-it-works" aria-labelledby="hiw-heading">
+<!-- HIRE: HOW IT WORKS -->
+<section class="section" style="background:var(--surface);" aria-labelledby="hiw-heading">
   <div class="label">How hiring works</div>
   <h2 id="hiw-heading">From browsing to working,<br>in <em>minutes.</em></h2>
   <div class="steps-grid" role="list">
     <div class="step" role="listitem">
       <div class="step-num" aria-hidden="true">01</div>
       <h4>Browse the Marketplace</h4>
-      <p>Every listing shows creator credentials and documented outcomes. You know exactly who built it before you hire.</p>
+      <p>Every listing shows creator credentials and documented outcomes. You know exactly who built it and what it delivers before you hire.</p>
     </div>
     <div class="step" role="listitem">
       <div class="step-num" aria-hidden="true">02</div>
       <h4>Complete the Intake</h4>
-      <p>A guided 10-minute intake — not a configuration panel. Share your business context and workflow. Your AI staff learns who they work for.</p>
+      <p>A guided 10-minute intake — not a configuration panel. Share your business context, tone, and workflow. Your AI staff learns who they work for.</p>
     </div>
     <div class="step" role="listitem">
       <div class="step-num" aria-hidden="true">03</div>
-      <h4>Go Live in 10 Minutes</h4>
+      <h4>Go Live Immediately</h4>
       <p>Your staff member handles real interactions from day one. Your clients see your brand. Joyn stays invisible.</p>
     </div>
     <div class="step" role="listitem">
@@ -258,8 +263,8 @@ a { color: inherit; }
   </div>
 </section>
 
-<!-- STAFF PREVIEW -->
-<section class="staff-section" aria-labelledby="staff-heading">
+<!-- HIRE: STAFF PREVIEW -->
+<section class="section" aria-labelledby="staff-heading">
   <div class="label">AI Staff</div>
   <h2 id="staff-heading">Available to hire <em>now.</em></h2>
   <div class="staff-grid">
@@ -267,7 +272,7 @@ a { color: inherit; }
     <a href="marketplace/iris-insurance-regulatory.html" class="staff-card" aria-label="Hire Iris — Insurance Regulatory Intelligence">
       <div class="staff-card-top">
         <span class="tag tag-live">Live</span>
-        <span class="tag tag-always">Always On</span>
+        <span class="tag tag-always">Instant</span>
       </div>
       <div class="staff-name">Iris</div>
       <div class="staff-role">Insurance Regulatory Intelligence</div>
@@ -289,7 +294,7 @@ a { color: inherit; }
     <div class="staff-card soon" aria-label="Renew — coming soon" role="article">
       <div class="staff-card-top">
         <span class="tag tag-soon">Coming Soon</span>
-        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Instant</span>
       </div>
       <div class="staff-name">Renew</div>
       <div class="staff-role" style="color:var(--ink-secondary);">Insurance Renewal Specialist</div>
@@ -297,12 +302,102 @@ a { color: inherit; }
     </div>
 
   </div>
-  <div style="margin-top:2rem; text-align:center;">
-    <a href="marketplace/index.html" class="btn btn-outline">Browse all AI Staff</a>
+  <div style="margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="marketplace/index.html" class="btn btn-primary">Browse AI Staff</a>
+    <a href="mailto:hire@tryjoyn.me" class="btn btn-outline">hire@tryjoyn.me</a>
   </div>
 </section>
 
-<!-- FAQ -->
+<!-- DIVIDER: HIRE → BUILD -->
+<div class="journey-divider" aria-hidden="true"></div>
+
+<!-- ─────────────── BUILD JOURNEY ─────────────── -->
+
+<!-- BUILD: CREATOR TRACKS -->
+<section class="section" id="build" style="background:var(--surface);" aria-labelledby="tracks-heading">
+  <div class="label">Three creator tracks</div>
+  <h2 id="tracks-heading">Which creator <em>are you?</em></h2>
+  <p class="section-desc">You do not need to be a developer. You need domain expertise. The Joyn team handles everything technical.</p>
+  <div class="tracks-grid" role="list">
+    <div class="track-card" role="listitem">
+      <div class="track-num">Track 01</div>
+      <h4>Domain Expert</h4>
+      <div class="track-who">Practitioners with deep field experience</div>
+      <p>5+ years in your field. A clear point of view on how the work should be done. No code required — the Joyn team handles the technical build.</p>
+    </div>
+    <div class="track-card" role="listitem">
+      <div class="track-num">Track 02</div>
+      <h4>Domain-Technical Hybrid</h4>
+      <div class="track-who">Practitioners who also build</div>
+      <p>You combine deep expertise with an ability to contribute to workflow design or output review. Higher earning potential and faster time to market.</p>
+    </div>
+    <div class="track-card" role="listitem">
+      <div class="track-num">Track 03</div>
+      <h4>Emerging Creator</h4>
+      <div class="track-who">Earlier-career practitioners with a clear specialisation</div>
+      <p>Building expertise in a defined area with a sharp point of view. Supported pathway with a more structured build process.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD: HOW IT WORKS -->
+<section class="section" aria-labelledby="build-hiw-heading">
+  <div class="label">How building works</div>
+  <h2 id="build-hiw-heading">Apply. Build. <em>Earn.</em></h2>
+  <div class="steps-grid three" role="list">
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">01</div>
+      <h4>Apply to Build</h4>
+      <p>Submit your credentials against an open role. We review every application within 3 business days and match accepted creators to the right role.</p>
+    </div>
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">02</div>
+      <h4>Build Your Staff Member</h4>
+      <p>Work with the Joyn team to encode your expertise. Your knowledge, your methodology, your standards — captured precisely and built to perform.</p>
+    </div>
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">03</div>
+      <h4>Publish &amp; Earn</h4>
+      <p>Your staff member goes live on the marketplace. Every hire earns you a share of the revenue — continuously, for as long as they are deployed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUILD: EARNINGS -->
+<section class="section" style="background:var(--surface);" aria-labelledby="earnings-heading">
+  <div class="label">Revenue share</div>
+  <h2 id="earnings-heading">You earn more as <em>you grow.</em></h2>
+  <p class="section-desc">Your rate advances as your staff member's deployments, client outcomes, and performance reviews improve.</p>
+  <div class="earn-grid" role="list">
+    <div class="earn-cell" role="listitem">
+      <div class="earn-rate">25%</div>
+      <h4>Builder</h4>
+      <p>New creator. Just published. Establishing baseline performance.</p>
+    </div>
+    <div class="earn-cell" role="listitem">
+      <div class="earn-rate">40%</div>
+      <h4>Verified</h4>
+      <p>5+ active deployments. Strong client retention.</p>
+    </div>
+    <div class="earn-cell" role="listitem">
+      <div class="earn-rate">60%</div>
+      <h4>Certified</h4>
+      <p>Proven track record. Reference implementation in the vertical.</p>
+    </div>
+    <div class="earn-cell" role="listitem">
+      <div class="earn-rate">75%</div>
+      <h4>Top Performer</h4>
+      <p>Consistently top cohort by deployments and client outcomes.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
+    <a href="marketplace/creator-studio.html" class="btn btn-primary">See open roles to build</a>
+    <a href="mailto:hire@tryjoyn.me" class="btn btn-outline">hire@tryjoyn.me</a>
+  </div>
+</section>
+
+<!-- ─────────────── SHARED: FAQ ─────────────── -->
+
 <section class="faq-section" aria-labelledby="faq-heading">
   <div class="label">Questions</div>
   <h2 id="faq-heading">Worth <em>asking.</em></h2>
@@ -310,7 +405,7 @@ a { color: inherit; }
     <div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How is this different from a chatbot? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>A chatbot answers questions. A Joyn staff member holds a role, carries institutional knowledge about your business, and is accountable to outcomes — renewal rates, bookings secured, assessments delivered. Your AI colleague learns your business, your voice, and your standards over time.</p></div>
+        <div class="faq-a" role="region"><p>A chatbot answers questions. A Joyn staff member holds a role, carries institutional knowledge about your business, and is accountable to outcomes — renewal rates, bookings secured, assessments delivered. They learn your business, your voice, and your standards over time.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Who builds the AI staff? <span class="faq-icon" aria-hidden="true">+</span></button>
@@ -318,42 +413,23 @@ a { color: inherit; }
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Does Joyn replace my existing team? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>No — and this is a values commitment, not just a product position. Joyn measures success in <strong>outcomes amplified</strong>. The businesses we celebrate are those whose team members bring their full attention to their highest-value work because Joyn staff handle the rest alongside them.</p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What if I want to let a staff member go? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>You can end any staff member's engagement at any time. No lock-in contracts for Solo and Team tiers. Practice and Enterprise arrangements include agreed notice periods reflecting the depth of integration involved.</p></div>
+        <div class="faq-a" role="region"><p>No — and this is a values commitment. Joyn measures success in <strong>outcomes amplified</strong>. The businesses we celebrate are those whose team members bring their full attention to highest-value work because Joyn staff handle the rest alongside them.</p></div>
       </div>
     </div>
     <div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What does the intake process involve? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p><strong>Always On</strong> staff require a 10-minute intake — your business context, tone, and workflow. They start immediately. <strong>Craft</strong> staff involve a deeper onboarding: a scoping call, engagement brief, and ongoing calibration with your practitioners.</p></div>
+        <div class="faq-a" role="region"><p><strong>Instant</strong> staff require a 10-minute intake — your business context, tone, and workflow. They start immediately. <strong>Craft</strong> staff involve a deeper onboarding: a scoping call, engagement brief, and ongoing calibration with your practitioners.</p></div>
       </div>
       <div class="faq-item">
         <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What happens to my business data? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>Your engagement data improves your AI staff only. It is never used to train agents for other buyers or shared with other firms. For Practice engagements, all credentials are scoped, read-only, and automatically revoked when the engagement closes.</p></div>
+        <div class="faq-a" role="region"><p>Your engagement data improves your AI staff only. It is never used to train agents for other buyers or shared with other firms. For Craft engagements, all credentials are scoped, read-only, and automatically revoked when the engagement closes.</p></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How does Joyn's quality standard work? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>Every creator undergoes rigorous admission. Every AI staff member must demonstrate performance in real deployments before going live. An insurance specialist is verified not because it follows a workflow — but because it <strong>measurably improved outcomes for real clients.</strong></p></div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Is there a free trial? <span class="faq-icon" aria-hidden="true">+</span></button>
-        <div class="faq-a" role="region"><p>Joyn Team includes a <strong>14-day free trial.</strong> Solo offers a 7-day trial. Practice and Enterprise begin with a scoped pilot — contact us to arrange the right structure for your firm.</p></div>
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Who can apply to build? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>Any practitioner with genuine domain expertise in an open role. You do not need to be a developer — the Joyn team handles the technical build. You need deep field experience, a clear point of view, and the ability to transfer that knowledge into a structured, repeatable output.</p></div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="label" style="justify-content:center;">Get started</div>
-  <h2 style="margin-bottom:1rem;">Two ways to join <em>the workforce.</em></h2>
-  <p style="font-size:1.1rem; max-width:54ch;">Hire AI staff built by vetted experts — live in minutes. Or encode your own expertise and earn while you sleep.</p>
-  <div class="cta-actions">
-    <a href="marketplace/index.html" class="btn btn-primary">Hire AI Staff</a>
-    <a href="marketplace/creator-studio.html" class="btn btn-outline">Build AI Staff</a>
   </div>
 </section>
 
