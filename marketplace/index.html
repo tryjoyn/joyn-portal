@@ -139,7 +139,10 @@ a { color: inherit; }
 
 <nav class="nav" aria-label="Main navigation">
   <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
-  <a href="../index.html" class="nav-back">← Home</a>
+  <div style="display:flex;gap:1.5rem;align-items:center;">
+    <a href="../index.html" class="nav-back">← Home</a>
+    <a href="creator-studio.html" class="nav-cta">Build AI Staff</a>
+  </div>
 </nav>
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -152,10 +155,6 @@ a { color: inherit; }
   <div class="label">AI Staff Marketplace</div>
   <h1>Browse. Hire.<br><em>They start today.</em></h1>
   <p>Every AI staff member is built by a <strong>vetted domain expert</strong> and measured by real business outcomes. Browse by vertical or mode — then hire in minutes.</p>
-  <div style="display:flex; gap:1rem; flex-wrap:wrap;">
-    <a href="iris-insurance-regulatory.html" class="btn btn-primary">Hire Iris — Live Now</a>
-    <a href="../practice/tdd-practice-team.html" class="btn btn-outline">View TDD Team</a>
-  </div>
 </section>
 
 <div class="filter-bar" role="search" aria-label="Filter staff">
@@ -170,9 +169,6 @@ a { color: inherit; }
     <button class="filter-btn active" onclick="filterVertical('all',this)">All</button>
     <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance</button>
     <button class="filter-btn" onclick="filterVertical('technology',this)">Technology</button>
-    <button class="filter-btn" onclick="filterVertical('real-estate',this)">Real Estate</button>
-    <button class="filter-btn" onclick="filterVertical('trades',this)">Trades</button>
-    <button class="filter-btn" onclick="filterVertical('marketing',this)">Marketing</button>
   </div>
   <div class="filter-count" aria-live="polite"><strong id="count-display">2</strong> available</div>
 </div>
@@ -214,70 +210,61 @@ a { color: inherit; }
       <span class="card-cta">View Team →</span>
     </a>
 
-    <div class="staff-card soon" data-mode="always-on" data-vertical="trades" aria-label="Dispatch — coming soon" role="article">
-      <div class="card-top">
-        <span class="tag tag-soon">Coming Soon</span>
-        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
-      </div>
-      <div class="card-name">Dispatch</div>
-      <div class="card-role">Field Services Dispatcher</div>
-      <p class="card-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am. For plumbers, HVAC, electricians, and any field service business.</p>
-      <div class="card-signals">
-        <span class="card-signal">Trades</span>
-        <span class="card-signal">Always On</span>
-        <span class="card-signal">24/7</span>
-      </div>
-      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-text);">Join waitlist →</span>
-    </div>
+  </div>
+</section>
 
-    <div class="staff-card soon" data-mode="always-on" data-vertical="real-estate" aria-label="Scout — coming soon" role="article">
-      <div class="card-top">
-        <span class="tag tag-soon">Coming Soon</span>
-        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
-      </div>
-      <div class="card-name">Scout</div>
-      <div class="card-role">Lead Qualifier &amp; Showing Coordinator</div>
-      <p class="card-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar. Works while you are with clients. Never misses an inbound lead.</p>
-      <div class="card-signals">
-        <span class="card-signal">Real Estate</span>
-        <span class="card-signal">Always On</span>
-        <span class="card-signal">60s response</span>
-      </div>
-      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-text);">Join waitlist →</span>
-    </div>
+<!-- PIPELINE -->
+<section style="padding:0 clamp(1.5rem,5vw,4rem) clamp(4rem,7vw,6rem);">
+  <div style="border-top:1px solid var(--rule); padding-top:clamp(3rem,5vw,4rem);">
+    <div class="label">In development</div>
+    <h3 style="margin-bottom:0.5rem; font-size:clamp(1.5rem,2.5vw,2rem);">More AI staff coming soon.</h3>
+    <p style="margin-bottom:2.5rem; font-size:0.975rem; max-width:52ch; color:var(--ink-secondary);">Built by vetted domain experts — arriving on the marketplace soon. Contact us to be notified when they go live.</p>
+    <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--rule); background:var(--rule);" id="pipeline-grid">
 
-    <div class="staff-card soon" data-mode="always-on" data-vertical="insurance" aria-label="Renew — coming soon" role="article">
-      <div class="card-top">
-        <span class="tag tag-soon">Coming Soon</span>
-        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+      <div class="staff-card soon" role="article" aria-label="Dispatch — coming soon">
+        <div class="staff-card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+        </div>
+        <div class="staff-name">Dispatch</div>
+        <div class="staff-role" style="color:var(--ink-secondary);">Field Services Dispatcher · Trades</div>
+        <p class="staff-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am.</p>
       </div>
-      <div class="card-name">Renew</div>
-      <div class="card-role">Renewal Specialist</div>
-      <p class="card-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically. Protects your book without adding to your workload. Built by a 30-year insurance veteran.</p>
-      <div class="card-signals">
-        <span class="card-signal">Insurance</span>
-        <span class="card-signal">Always On</span>
-        <span class="card-signal">90-day lead time</span>
-      </div>
-      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-text);">Join waitlist →</span>
-    </div>
 
-    <div class="staff-card soon" data-mode="always-on" data-vertical="marketing" aria-label="Publish — coming soon" role="article">
-      <div class="card-top">
-        <span class="tag tag-soon">Coming Soon</span>
-        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+      <div class="staff-card soon" role="article" aria-label="Scout — coming soon">
+        <div class="staff-card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+        </div>
+        <div class="staff-name">Scout</div>
+        <div class="staff-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator · Real Estate</div>
+        <p class="staff-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar.</p>
       </div>
-      <div class="card-name">Publish</div>
-      <div class="card-role">Content Strategist</div>
-      <p class="card-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles. Generates schema markup and meta content. Your agency delivers more with the same team.</p>
-      <div class="card-signals">
-        <span class="card-signal">Marketing</span>
-        <span class="card-signal">Always On</span>
-        <span class="card-signal">SEO-driven</span>
-      </div>
-      <span style="font-family:'DM Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold-text);">Join waitlist →</span>
-    </div>
 
+      <div class="staff-card soon" role="article" aria-label="Renew — coming soon">
+        <div class="staff-card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+        </div>
+        <div class="staff-name">Renew</div>
+        <div class="staff-role" style="color:var(--ink-secondary);">Renewal Specialist · Insurance</div>
+        <p class="staff-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically.</p>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Publish — coming soon">
+        <div class="staff-card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Always On</span>
+        </div>
+        <div class="staff-name">Publish</div>
+        <div class="staff-role" style="color:var(--ink-secondary);">Content Strategist · Marketing</div>
+        <p class="staff-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles.</p>
+      </div>
+
+    </div>
+    <div style="margin-top:1.5rem;">
+      <a href="mailto:hire@tryjoyn.me?subject=Waitlist — New AI Staff" class="btn btn-outline">Join the waitlist</a>
+    </div>
   </div>
 </section>
 
@@ -317,6 +304,7 @@ a { color: inherit; }
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="../index.html">Home</a>
       <a href="index.html">Marketplace</a>
+      <a href="creator-studio.html">Creator Studio</a>
       <a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a>
     </nav>
   </div>
@@ -339,12 +327,12 @@ function filterVertical(vertical, btn) {
 }
 function applyFilters() {
   let available = 0;
-  document.querySelectorAll('.staff-card').forEach(card => {
+  document.querySelectorAll('#staff-grid .staff-card').forEach(card => {
     const modeMatch = currentMode === 'all' || card.dataset.mode === currentMode;
     const vertMatch = currentVertical === 'all' || card.dataset.vertical === currentVertical;
     const show = modeMatch && vertMatch;
     card.style.display = show ? '' : 'none';
-    if (show && !card.classList.contains('soon')) available++;
+    if (show) available++;
   });
   document.getElementById('count-display').textContent = available;
 }
