@@ -322,7 +322,13 @@ a { color: inherit; }
   <h2 id="roles-heading">20 roles available<br>to <em>build now.</em></h2>
   <p>Click any role to see the full brief — what the staff member does, what creator we are looking for, and the earnings range.</p>
 
-  <div class="filter-bar" role="search" aria-label="Filter roles by vertical">
+  <div class="filter-bar" role="search" aria-label="Filter roles">
+    <span class="filter-label" id="mode-label-cs">Mode</span>
+    <div class="filter-group" role="group" aria-labelledby="mode-label-cs">
+      <button class="filter-btn active" onclick="filterRoleMode('all',this)">All</button>
+      <button class="filter-btn" onclick="filterRoleMode('instant',this)">Instant</button>
+      <button class="filter-btn" onclick="filterRoleMode('craft',this)">Craft</button>
+    </div>
     <span class="filter-label" id="vert-label">Vertical</span>
     <div class="filter-group" role="group" aria-labelledby="vert-label">
       <button class="filter-btn active" onclick="filterRoles('all',this)">All</button>
@@ -336,7 +342,7 @@ a { color: inherit; }
   <div class="roles-grid" id="roles-grid">
 
     <!-- INSURANCE (7) -->
-    <div class="role-card" data-vertical="insurance" onclick="openModal('renew')" role="button" tabindex="0" aria-label="View Renew role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('renew')" role="button" tabindex="0" aria-label="View Renew role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Renew</div>
       <div class="rc-title">Insurance Renewal Specialist</div>
@@ -344,7 +350,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('audit')" role="button" tabindex="0" aria-label="View Audit role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('audit')" role="button" tabindex="0" aria-label="View Audit role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Audit</div>
       <div class="rc-title">Insurance Compliance Auditor</div>
@@ -352,7 +358,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('quote')" role="button" tabindex="0" aria-label="View Quote role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('quote')" role="button" tabindex="0" aria-label="View Quote role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Quote</div>
       <div class="rc-title">Commercial Lines Quote Specialist</div>
@@ -360,7 +366,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('claim')" role="button" tabindex="0" aria-label="View Claim role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('claim')" role="button" tabindex="0" aria-label="View Claim role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Claim</div>
       <div class="rc-title">First Notice of Loss Specialist</div>
@@ -368,7 +374,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('bond')" role="button" tabindex="0" aria-label="View Bond role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('bond')" role="button" tabindex="0" aria-label="View Bond role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Bond</div>
       <div class="rc-title">Surety Bond Analyst</div>
@@ -376,7 +382,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('expose')" role="button" tabindex="0" aria-label="View Expose role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('expose')" role="button" tabindex="0" aria-label="View Expose role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Expose</div>
       <div class="rc-title">Exposure Analyst</div>
@@ -384,7 +390,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="insurance" onclick="openModal('screen')" role="button" tabindex="0" aria-label="View Screen role brief">
+    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('screen')" role="button" tabindex="0" aria-label="View Screen role brief">
       <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Screen</div>
       <div class="rc-title">E&amp;S Lines Screener</div>
@@ -393,7 +399,7 @@ a { color: inherit; }
     </div>
 
     <!-- HEALTHCARE ADMIN (7) -->
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('prior')" role="button" tabindex="0" aria-label="View Prior role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('prior')" role="button" tabindex="0" aria-label="View Prior role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Prior</div>
       <div class="rc-title">Prior Authorization Specialist</div>
@@ -401,7 +407,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('intake')" role="button" tabindex="0" aria-label="View Intake role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('intake')" role="button" tabindex="0" aria-label="View Intake role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Intake</div>
       <div class="rc-title">Patient Intake Coordinator</div>
@@ -409,7 +415,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('bill')" role="button" tabindex="0" aria-label="View Bill role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('bill')" role="button" tabindex="0" aria-label="View Bill role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Bill</div>
       <div class="rc-title">Medical Billing Specialist</div>
@@ -417,7 +423,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('deny')" role="button" tabindex="0" aria-label="View Deny role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('deny')" role="button" tabindex="0" aria-label="View Deny role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Deny</div>
       <div class="rc-title">Denial Management Analyst</div>
@@ -425,7 +431,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('refer')" role="button" tabindex="0" aria-label="View Refer role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('refer')" role="button" tabindex="0" aria-label="View Refer role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Refer</div>
       <div class="rc-title">Referral Coordinator</div>
@@ -433,7 +439,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('comply')" role="button" tabindex="0" aria-label="View Comply role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('comply')" role="button" tabindex="0" aria-label="View Comply role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Comply</div>
       <div class="rc-title">Healthcare Compliance Monitor</div>
@@ -441,7 +447,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="healthcare" onclick="openModal('cred')" role="button" tabindex="0" aria-label="View Cred role brief">
+    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('cred')" role="button" tabindex="0" aria-label="View Cred role brief">
       <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Cred</div>
       <div class="rc-title">Provider Credentialing Specialist</div>
@@ -450,7 +456,7 @@ a { color: inherit; }
     </div>
 
     <!-- FINANCIAL ADVISORY (6) -->
-    <div class="role-card" data-vertical="financial" onclick="openModal('prospect')" role="button" tabindex="0" aria-label="View Prospect role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('prospect')" role="button" tabindex="0" aria-label="View Prospect role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Prospect</div>
       <div class="rc-title">Client Prospect Analyst</div>
@@ -458,7 +464,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="financial" onclick="openModal('review')" role="button" tabindex="0" aria-label="View Review role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('review')" role="button" tabindex="0" aria-label="View Review role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Review</div>
       <div class="rc-title">Annual Review Specialist</div>
@@ -466,7 +472,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="financial" onclick="openModal('plan')" role="button" tabindex="0" aria-label="View Plan role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('plan')" role="button" tabindex="0" aria-label="View Plan role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-craft">Craft</span></div>
       <div class="rc-name">Plan</div>
       <div class="rc-title">Financial Plan Analyst</div>
@@ -474,7 +480,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="financial" onclick="openModal('watch')" role="button" tabindex="0" aria-label="View Watch role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('watch')" role="button" tabindex="0" aria-label="View Watch role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Watch</div>
       <div class="rc-title">Portfolio Alert Monitor</div>
@@ -482,7 +488,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="financial" onclick="openModal('reg')" role="button" tabindex="0" aria-label="View Reg role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('reg')" role="button" tabindex="0" aria-label="View Reg role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Instant</span></div>
       <div class="rc-name">Reg</div>
       <div class="rc-title">Regulatory Filing Monitor</div>
@@ -490,7 +496,7 @@ a { color: inherit; }
       <span class="rc-cta">View role brief →</span>
     </div>
 
-    <div class="role-card" data-vertical="financial" onclick="openModal('estate')" role="button" tabindex="0" aria-label="View Estate role brief">
+    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('estate')" role="button" tabindex="0" aria-label="View Estate role brief">
       <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-craft">Craft</span></div>
       <div class="rc-name">Estate</div>
       <div class="rc-title">Estate Planning Coordinator</div>
@@ -913,15 +919,28 @@ document.querySelectorAll('.role-card').forEach(card => {
 });
 
 // ── FILTER ──
-function filterRoles(vertical, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+let csMode = 'all', csVert = 'all';
 
+function filterRoleMode(mode, btn) {
+  csMode = mode;
+  btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyRoleFilters();
+}
+function filterRoles(vertical, btn) {
+  csVert = vertical;
+  btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyRoleFilters();
+}
+function applyRoleFilters() {
   let count = 0;
   document.querySelectorAll('.role-card').forEach(card => {
-    const match = vertical === 'all' || card.dataset.vertical === vertical;
-    card.style.display = match ? '' : 'none';
-    if (match) count++;
+    const modeMatch = csMode === 'all' || card.dataset.mode === csMode;
+    const vertMatch = csVert === 'all' || card.dataset.vertical === csVert;
+    const show = modeMatch && vertMatch;
+    card.style.display = show ? '' : 'none';
+    if (show) count++;
   });
   document.getElementById('roleCount').textContent = count;
 }
