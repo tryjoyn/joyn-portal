@@ -90,9 +90,36 @@ a { color: inherit; }
 .card-cta:hover { color: var(--gold-hover); }
 
 /* COMING SOON CARD */
-.staff-card.soon { background: var(--surface); border: 1.5px dashed var(--rule-mid); pointer-events: none; }
+.staff-card.soon { background: var(--surface); border: 1.5px dashed var(--rule-mid); }
 .staff-card.soon .card-name { color: var(--ink-secondary); }
 .staff-card.soon .card-role { color: var(--ink-secondary); border-bottom-color: var(--rule); }
+.staff-card.soon:hover { background: var(--surface); }
+
+/* INTEREST BUTTON */
+.interest-btn { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; margin-top: auto; display: inline-flex; align-items: center; gap: 0.4rem; }
+.interest-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+/* MODALS */
+.modal-overlay { position: fixed; inset: 0; background: rgba(17,17,16,0.65); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--white); max-width: 520px; width: 100%; border: 1px solid var(--rule-mid); max-height: 90vh; overflow-y: auto; }
+.modal-hd { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.modal-hd-text h3 { font-size: clamp(1.25rem,2.5vw,1.75rem); margin-bottom: 0.25rem; }
+.modal-hd-text p { font-size: 0.875rem; color: var(--ink-secondary); margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; font-size: 1.5rem; line-height: 1; color: var(--ink-secondary); min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: color 0.2s; }
+.modal-close:hover { color: var(--ink); }
+.modal-bd { padding: 1.75rem 2rem; }
+.modal-success { display: none; text-align: center; padding: 3rem 2rem; }
+.modal-success h3 { margin-bottom: 0.5rem; }
+.modal-success p { font-size: 0.9rem; }
+.mfg { margin-bottom: 1.125rem; }
+.mfl { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); display: block; margin-bottom: 0.4rem; }
+.mfi, .mfs, .mft { width: 100%; padding: 0.7rem 0.9rem; background: var(--white); border: 1px solid var(--rule-mid); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 0.9rem; border-radius: 0; transition: border-color 0.2s; }
+.mfi:focus, .mfs:focus, .mft:focus { outline: none; border-color: var(--ink); }
+.mfi[readonly] { background: var(--surface); color: var(--ink-secondary); cursor: default; }
+.mft { resize: vertical; min-height: 80px; line-height: 1.65; }
+.mfs { appearance: none; cursor: pointer; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
 
 
 /* CTA */
@@ -256,6 +283,7 @@ a { color: inherit; }
         <div class="staff-name">Dispatch</div>
         <div class="staff-role" style="color:var(--ink-secondary);">Field Services Dispatcher · Trades</div>
         <p class="staff-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am.</p>
+        <button class="interest-btn" onclick="openInterest('Dispatch','Field Services Dispatcher · Trades')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Scout — coming soon">
@@ -266,6 +294,7 @@ a { color: inherit; }
         <div class="staff-name">Scout</div>
         <div class="staff-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator · Real Estate</div>
         <p class="staff-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar.</p>
+        <button class="interest-btn" onclick="openInterest('Scout','Lead Qualifier &amp; Showing Coordinator · Real Estate')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Renew — coming soon">
@@ -276,6 +305,7 @@ a { color: inherit; }
         <div class="staff-name">Renew</div>
         <div class="staff-role" style="color:var(--ink-secondary);">Renewal Specialist · Insurance</div>
         <p class="staff-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically.</p>
+        <button class="interest-btn" onclick="openInterest('Renew','Renewal Specialist · Insurance')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Publish — coming soon">
@@ -286,11 +316,12 @@ a { color: inherit; }
         <div class="staff-name">Publish</div>
         <div class="staff-role" style="color:var(--ink-secondary);">Content Strategist · Marketing</div>
         <p class="staff-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles.</p>
+        <button class="interest-btn" onclick="openInterest('Publish','Content Strategist · Marketing')">Express interest →</button>
       </div>
 
     </div>
     <div style="margin-top:1.5rem;">
-      <a href="mailto:hire@tryjoyn.me?subject=Waitlist — New AI Staff" class="btn btn-outline">Join the waitlist</a>
+      <button class="btn btn-outline" onclick="openWaitlist()">Join the waitlist</button>
     </div>
   </div>
 </section>
@@ -318,6 +349,100 @@ a { color: inherit; }
   </div>
 </footer>
 
+<!-- WAITLIST MODAL -->
+<div class="modal-overlay" id="modal-waitlist" role="dialog" aria-modal="true" aria-labelledby="wl-title" onclick="closeOnOverlay(event,'modal-waitlist')">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-text">
+        <h3 id="wl-title">Join the waitlist</h3>
+        <p>We'll notify you the moment new AI staff go live.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-waitlist')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-bd" id="wl-form-wrap">
+      <div class="mfg">
+        <label class="mfl" for="wl-name">Your name *</label>
+        <input class="mfi" type="text" id="wl-name" placeholder="Jane Smith" autocomplete="name">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="wl-email">Work email *</label>
+        <input class="mfi" type="email" id="wl-email" placeholder="jane@company.com" autocomplete="email">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="wl-company">Company</label>
+        <input class="mfi" type="text" id="wl-company" placeholder="Acme Corp" autocomplete="organization">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="wl-looking">What are you looking for?</label>
+        <textarea class="mft" id="wl-looking" placeholder="I need someone to handle our renewal follow-ups..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="submitWaitlist()" style="flex:1;">Join waitlist</button>
+        <button class="btn btn-outline" onclick="closeModal('modal-waitlist')">Cancel</button>
+      </div>
+    </div>
+    <div class="modal-success" id="wl-success">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <h3>You're on the list.</h3>
+      <p>We'll email you as soon as relevant AI staff go live.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EXPRESS INTEREST MODAL -->
+<div class="modal-overlay" id="modal-interest" role="dialog" aria-modal="true" aria-labelledby="int-title" onclick="closeOnOverlay(event,'modal-interest')">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-text">
+        <h3 id="int-title">Express interest</h3>
+        <p>Tell us your timeline and we'll prioritise accordingly.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-interest')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-bd" id="int-form-wrap">
+      <div class="mfg">
+        <label class="mfl" for="int-staff">AI staff member</label>
+        <input class="mfi" type="text" id="int-staff" readonly>
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-name">Your name *</label>
+        <input class="mfi" type="text" id="int-name" placeholder="Jane Smith" autocomplete="name">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-email">Work email *</label>
+        <input class="mfi" type="email" id="int-email" placeholder="jane@company.com" autocomplete="email">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-company">Company</label>
+        <input class="mfi" type="text" id="int-company" placeholder="Acme Corp" autocomplete="organization">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-timeline">When do you plan to hire?</label>
+        <select class="mfs" id="int-timeline">
+          <option value="As soon as possible">As soon as possible</option>
+          <option value="In 1–3 months">In 1–3 months</option>
+          <option value="In 3–6 months">In 3–6 months</option>
+          <option value="6+ months out">6+ months out</option>
+          <option value="Just exploring">Just exploring</option>
+        </select>
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-notes">Additional notes</label>
+        <textarea class="mft" id="int-notes" placeholder="Any specific requirements, context, or questions..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="submitInterest()" style="flex:1;">Submit interest</button>
+        <button class="btn btn-outline" onclick="closeModal('modal-interest')">Cancel</button>
+      </div>
+    </div>
+    <div class="modal-success" id="int-success">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <h3>Interest noted.</h3>
+      <p>We'll be in touch about <strong id="int-success-name"></strong> — and if your timeline is urgent, we may reach out sooner to explore early access.</p>
+    </div>
+  </div>
+</div>
+
 <script>
 let currentMode = 'all', currentVertical = 'all';
 
@@ -343,6 +468,97 @@ function applyFilters() {
     if (show) available++;
   });
   document.getElementById('count-display').textContent = available;
+}
+
+// ── MODAL CORE ──
+function openModal(id) {
+  const m = document.getElementById(id);
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  m.querySelector('input:not([readonly]), textarea, select')?.focus();
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open'); document.body.style.overflow = '';
+    });
+  }
+});
+
+// ── WAITLIST ──
+function openWaitlist() {
+  document.getElementById('wl-form-wrap').style.display = '';
+  document.getElementById('wl-success').style.display = 'none';
+  ['wl-name','wl-email','wl-company','wl-looking'].forEach(id => document.getElementById(id).value = '');
+  openModal('modal-waitlist');
+}
+async function submitWaitlist() {
+  const name  = document.getElementById('wl-name').value.trim();
+  const email = document.getElementById('wl-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
+  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
+        subject: 'Waitlist — New AI Staff · tryjoyn.me',
+        name, email,
+        company:     document.getElementById('wl-company').value.trim(),
+        looking_for: document.getElementById('wl-looking').value.trim()
+      })
+    });
+    document.getElementById('wl-form-wrap').style.display = 'none';
+    document.getElementById('wl-success').style.display = 'block';
+  } catch {
+    btn.textContent = 'Join waitlist'; btn.disabled = false;
+    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
+  }
+}
+
+// ── EXPRESS INTEREST ──
+function openInterest(staffName, staffRole) {
+  document.getElementById('int-staff').value = staffName + ' — ' + staffRole;
+  document.getElementById('int-success-name').textContent = staffName;
+  ['int-name','int-email','int-company','int-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('int-timeline').selectedIndex = 0;
+  document.getElementById('int-form-wrap').style.display = '';
+  document.getElementById('int-success').style.display = 'none';
+  openModal('modal-interest');
+}
+async function submitInterest() {
+  const name  = document.getElementById('int-name').value.trim();
+  const email = document.getElementById('int-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
+  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key:    '5b972adb-feba-4546-a657-02d5e29b6e29',
+        subject:       'Interest — ' + document.getElementById('int-staff').value.split(' —')[0] + ' · tryjoyn.me',
+        name, email,
+        company:       document.getElementById('int-company').value.trim(),
+        interested_in: document.getElementById('int-staff').value,
+        hire_timeline: document.getElementById('int-timeline').value,
+        notes:         document.getElementById('int-notes').value.trim()
+      })
+    });
+    document.getElementById('int-form-wrap').style.display = 'none';
+    document.getElementById('int-success').style.display = 'block';
+  } catch {
+    btn.textContent = 'Submit interest'; btn.disabled = false;
+    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
+  }
 }
 </script>
 </body>
