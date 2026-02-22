@@ -89,25 +89,6 @@ a { color: inherit; }
 .step h4 { margin-bottom: 0.5rem; }
 .step p { font-size: 0.9rem; max-width: none; }
 
-/* CREATOR TRACKS */
-.tracks-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
-.tracks-section h2 { margin-bottom: 3rem; }
-.tracks-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
-.track-card { background: var(--white); padding: 2.5rem; }
-.track-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
-.track-card h4 { margin-bottom: 0.5rem; }
-.track-who { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
-.track-card p { font-size: 0.9rem; max-width: none; }
-
-/* EARNINGS */
-.earnings-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
-.earnings-section h2 { margin-bottom: 0.75rem; }
-.earnings-section > p { margin-bottom: 3rem; max-width: 54ch; }
-.earn-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
-.earn-tier { background: var(--white); padding: 2rem 1.75rem; }
-.earn-rate { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,2.75rem); font-weight: 400; color: var(--gold-display); line-height: 1; margin-bottom: 0.5rem; }
-.earn-tier h4 { margin-bottom: 0.5rem; font-size: 1rem; }
-.earn-tier p { font-size: 0.875rem; max-width: none; }
 
 /* FILTER BAR */
 .filter-bar { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
@@ -184,8 +165,7 @@ a { color: inherit; }
   .nav { padding: 0 1.25rem; }
   .breadcrumb { padding: 0.875rem 1.25rem; }
   .stats-bar { grid-template-columns: repeat(2,1fr); max-width: none; }
-  .steps-grid, .tracks-grid { grid-template-columns: 1fr; }
-  .earn-grid { grid-template-columns: 1fr 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
   .roles-grid { grid-template-columns: 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .form-field.full { grid-column: 1; }
@@ -194,9 +174,6 @@ a { color: inherit; }
   .footer-nav { display: flex; flex-wrap: wrap; }
   .footer-nav a { margin-left: 0; margin-right: 1rem; }
   .footer-tag { display: none; }
-}
-@media (max-width: 480px) {
-  .earn-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -232,8 +209,7 @@ a { color: inherit; }
   </div>
   <div class="stats-bar" role="list" aria-label="Creator Studio stats">
     <div class="stat" role="listitem"><span class="stat-n">20</span><span class="stat-l">Open Roles</span></div>
-    <div class="stat" role="listitem"><span class="stat-n">25–75%</span><span class="stat-l">Revenue Share</span></div>
-    <div class="stat" role="listitem"><span class="stat-n">3</span><span class="stat-l">Creator Tracks</span></div>
+    <div class="stat" role="listitem"><span class="stat-n">Revenue</span><span class="stat-l">Share on Every Hire</span></div>
     <div class="stat" role="listitem"><span class="stat-n">∞</span><span class="stat-l">Reach</span></div>
   </div>
 </section>
@@ -261,60 +237,6 @@ a { color: inherit; }
   </div>
 </section>
 
-<!-- CREATOR TRACKS -->
-<section class="tracks-section" id="tracks" aria-labelledby="tracks-heading">
-  <div class="label">Three creator tracks</div>
-  <h2 id="tracks-heading">Which creator <em>are you?</em></h2>
-  <div class="tracks-grid" role="list">
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 01</div>
-      <h4>Domain Expert</h4>
-      <div class="track-who">Practitioners with deep field experience</div>
-      <p>You have 5+ years in your field and a clear point of view on how work in your domain should be done. You do not need to write code. The Joyn team handles everything technical — you bring the expertise.</p>
-    </div>
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 02</div>
-      <h4>Domain-Technical Hybrid</h4>
-      <div class="track-who">Practitioners who also build</div>
-      <p>You combine domain expertise with an ability to contribute to the build process — workflow design, prompt architecture, or output review. Higher earning potential and faster time to market.</p>
-    </div>
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 03</div>
-      <h4>Emerging Creator</h4>
-      <div class="track-who">Earlier-career practitioners with a specialisation</div>
-      <p>You are building deep expertise in a defined area and have a clear point of view, even if your career history is shorter. Supported pathway with a more structured build process.</p>
-    </div>
-  </div>
-</section>
-
-<!-- EARNINGS -->
-<section class="earnings-section" aria-labelledby="earnings-heading">
-  <div class="label">Revenue share</div>
-  <h2 id="earnings-heading">You earn more as <em>you grow.</em></h2>
-  <p>Your rate tier advances as your staff member's deployment count, client outcomes, and performance reviews improve.</p>
-  <div class="earn-grid" role="list">
-    <div class="earn-tier" role="listitem">
-      <div class="earn-rate">25%</div>
-      <h4>Builder</h4>
-      <p>New creator. Staff member just published. Establishes baseline performance data.</p>
-    </div>
-    <div class="earn-tier" role="listitem">
-      <div class="earn-rate">40%</div>
-      <h4>Verified</h4>
-      <p>5+ active deployments. Strong client retention. Consistent performance reviews.</p>
-    </div>
-    <div class="earn-tier" role="listitem">
-      <div class="earn-rate">60%</div>
-      <h4>Certified</h4>
-      <p>Proven track record. Recognised as a reference implementation in the vertical.</p>
-    </div>
-    <div class="earn-tier" role="listitem">
-      <div class="earn-rate">75%</div>
-      <h4>Top Performer</h4>
-      <p>Consistently in the top cohort of creators by deployment count and client outcomes.</p>
-    </div>
-  </div>
-</section>
 
 <!-- OPEN ROLES -->
 <section class="roles-section" id="open-roles" aria-labelledby="roles-heading">
@@ -516,97 +438,50 @@ a { color: inherit; }
     <div id="modalTitle" class="modal-role-title"></div>
     <div class="modal-sec-label">What this staff member does</div>
     <p id="modalDesc" class="modal-sec-body"></p>
-    <div class="modal-sec-label">Creator we are looking for</div>
-    <p id="modalCreator" class="modal-sec-body"></p>
     <div class="modal-earn-box">
       <div id="modalEarnRate" class="modal-earn-rate"></div>
       <p id="modalEarnText" class="modal-earn-text"></p>
     </div>
-    <a href="#apply" class="btn btn-primary modal-apply-btn" onclick="closeModal();document.getElementById('f-role').value=document.getElementById('modalCodename').textContent;">Apply to Build This Role →</a>
+    <a href="#apply" class="btn btn-primary modal-apply-btn" onclick="closeModal();document.getElementById('f-idea').value=document.getElementById('modalCodename').textContent+' — '+document.getElementById('modalTitle').textContent;">Express interest in this role →</a>
   </div>
 </div>
 
 <!-- APPLY -->
 <section class="apply-section" id="apply" aria-labelledby="apply-heading">
-  <div class="label">Apply to build</div>
-  <h2 id="apply-heading">Start your <em>application.</em></h2>
-  <p>Tell us about your expertise and the role you want to build. We review every application within 3 business days.</p>
+  <div class="label">Express interest</div>
+  <h2 id="apply-heading">Are you a <em>Joyn creator?</em></h2>
+  <p style="max-width:54ch; margin-bottom:2.5rem;">Joyn is looking for credentialed domain experts with real field experience who want to build AI staff in their vertical. You do not need to be a developer — the Joyn team handles the technical build. You bring the expertise. Joyn decides who builds.</p>
 
-  <div id="applyForm">
-    <div class="form-grid">
-      <div class="form-field">
-        <label class="form-label" for="f-name">Full name <span aria-hidden="true">*</span></label>
-        <input class="form-input" id="f-name" type="text" placeholder="Your name" required>
-      </div>
-      <div class="form-field">
-        <label class="form-label" for="f-email">Email address <span aria-hidden="true">*</span></label>
-        <input class="form-input" id="f-email" type="email" placeholder="you@example.com" required>
-      </div>
-      <div class="form-field full">
-        <label class="form-label" for="f-role">Role you want to build <span aria-hidden="true">*</span></label>
-        <select class="form-select" id="f-role" required>
-          <option value="">Select a role</option>
-          <optgroup label="Insurance">
-            <option value="Renew">Renew — Insurance Renewal Specialist</option>
-            <option value="Audit">Audit — Insurance Compliance Auditor</option>
-            <option value="Quote">Quote — Commercial Lines Quote Specialist</option>
-            <option value="Claim">Claim — First Notice of Loss Specialist</option>
-            <option value="Bond">Bond — Surety Bond Analyst</option>
-            <option value="Expose">Expose — Exposure Analyst</option>
-            <option value="Screen">Screen — E&amp;S Lines Screener</option>
-          </optgroup>
-          <optgroup label="Healthcare Admin">
-            <option value="Prior">Prior — Prior Authorization Specialist</option>
-            <option value="Intake">Intake — Patient Intake Coordinator</option>
-            <option value="Bill">Bill — Medical Billing Specialist</option>
-            <option value="Deny">Deny — Denial Management Analyst</option>
-            <option value="Refer">Refer — Referral Coordinator</option>
-            <option value="Comply">Comply — Healthcare Compliance Monitor</option>
-            <option value="Cred">Cred — Provider Credentialing Specialist</option>
-          </optgroup>
-          <optgroup label="Financial Advisory">
-            <option value="Prospect">Prospect — Client Prospect Analyst</option>
-            <option value="Review">Review — Annual Review Specialist</option>
-            <option value="Plan">Plan — Financial Plan Analyst</option>
-            <option value="Watch">Watch — Portfolio Alert Monitor</option>
-            <option value="Reg">Reg — Regulatory Filing Monitor</option>
-            <option value="Estate">Estate — Estate Planning Coordinator</option>
-          </optgroup>
-        </select>
-      </div>
-      <div class="form-field full">
-        <label class="form-label" for="f-track">Creator track <span aria-hidden="true">*</span></label>
-        <select class="form-select" id="f-track" required>
-          <option value="">Select your track</option>
-          <option value="Domain Expert">Track 01 — Domain Expert</option>
-          <option value="Domain-Technical Hybrid">Track 02 — Domain-Technical Hybrid</option>
-          <option value="Emerging Creator">Track 03 — Emerging Creator</option>
-        </select>
-      </div>
-      <div class="form-field full">
-        <label class="form-label" for="f-expertise">Your domain expertise <span aria-hidden="true">*</span></label>
-        <textarea class="form-textarea" id="f-expertise" placeholder="Describe your background, years in the field, and specific expertise relevant to the role you want to build." required></textarea>
-      </div>
-      <div class="form-field">
-        <label class="form-label" for="f-years">Years of experience</label>
-        <input class="form-input" id="f-years" type="text" placeholder="e.g. 12 years">
-        <span class="form-note">Optional</span>
-      </div>
-      <div class="form-field">
-        <label class="form-label" for="f-url">LinkedIn or portfolio URL</label>
-        <input class="form-input" id="f-url" type="url" placeholder="https://...">
-        <span class="form-note">Optional</span>
-      </div>
-      <div class="form-field full">
-        <button type="button" class="btn btn-primary" onclick="submitApplication()" style="max-width:280px;">Submit Application →</button>
-        <span class="form-note" style="margin-top:0.75rem;">We review every application within 3 business days. Questions? <a href="mailto:hire@tryjoyn.me" style="color:var(--gold-text);">hire@tryjoyn.me</a></span>
-      </div>
+  <div id="applyForm" style="max-width:560px;">
+    <div class="form-field" style="margin-bottom:1.25rem;">
+      <label class="form-label" for="f-name">Full name <span aria-hidden="true">*</span></label>
+      <input class="form-input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
     </div>
+    <div class="form-field" style="margin-bottom:1.25rem;">
+      <label class="form-label" for="f-email">Email address <span aria-hidden="true">*</span></label>
+      <input class="form-input" id="f-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+    </div>
+    <div class="form-field" style="margin-bottom:1.25rem;">
+      <label class="form-label" for="f-vertical">Your vertical <span aria-hidden="true">*</span></label>
+      <select class="form-select" id="f-vertical" required>
+        <option value="">Select your vertical</option>
+        <option value="Insurance">Insurance</option>
+        <option value="Healthcare Admin">Healthcare Admin</option>
+        <option value="Financial Advisory">Financial Advisory</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="form-field" style="margin-bottom:2rem;">
+      <label class="form-label" for="f-idea">What do you want to build? <span aria-hidden="true">*</span></label>
+      <input class="form-input" id="f-idea" type="text" placeholder="e.g. An AI staff member that handles prior authorisation for outpatient clinics" required>
+    </div>
+    <button type="button" class="btn btn-primary" onclick="submitApplication()">Submit →</button>
+    <p class="form-note" style="margin-top:1rem;">Joyn reviews every submission and responds within 5 business days. Questions? <a href="mailto:hire@tryjoyn.me" style="color:var(--gold-text);">hire@tryjoyn.me</a></p>
   </div>
 
-  <div id="applySuccess">
-    <h3>Application received.</h3>
-    <p>We will review your credentials and be in touch within 3 business days. Thank you for applying to build on Joyn.</p>
+  <div id="applySuccess" style="display:none;">
+    <h3>Interest noted.</h3>
+    <p>We'll review your submission and be in touch. Joyn decides who builds — and if you're the right fit, we'll reach out directly.</p>
   </div>
 </section>
 
@@ -890,7 +765,6 @@ function openModal(roleId) {
   document.getElementById('modalCodename').textContent = r.codename;
   document.getElementById('modalTitle').textContent = r.title;
   document.getElementById('modalDesc').innerHTML = r.desc;
-  document.getElementById('modalCreator').innerHTML = r.creator;
   document.getElementById('modalEarnRate').textContent = r.earnRate;
   document.getElementById('modalEarnText').textContent = r.earnText;
 
@@ -946,50 +820,37 @@ function applyRoleFilters() {
 }
 
 // ── FORM ──
-function submitApplication() {
-  const name = document.getElementById('f-name').value.trim();
-  const email = document.getElementById('f-email').value.trim();
-  const role = document.getElementById('f-role').value;
-  const expertise = document.getElementById('f-expertise').value.trim();
-  const track = document.getElementById('f-track').value;
+async function submitApplication() {
+  const name     = document.getElementById('f-name').value.trim();
+  const email    = document.getElementById('f-email').value.trim();
+  const vertical = document.getElementById('f-vertical').value;
+  const idea     = document.getElementById('f-idea').value.trim();
 
-  if (!name || !email || !role || !expertise || !track) {
-    alert('Please complete all required fields to continue.');
+  if (!name || !email || !vertical || !idea) {
+    alert('Please complete all fields to continue.');
     return;
   }
 
-  const data = {
-    access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
-    name: name,
-    email: email,
-    role: role,
-    expertise: expertise,
-    track: track,
-    years: document.getElementById('f-years').value,
-    portfolio_url: document.getElementById('f-url').value,
-    subject: 'Creator Studio Application — ' + name + ' · ' + role,
-    from_name: 'Joyn Creator Studio',
-    page: 'creator-studio.html'
-  };
+  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
 
-  fetch('https://api.web3forms.com/submit', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify(data)
-  })
-  .then(r => r.json())
-  .then(data => {
-    if (data.success) {
-      document.getElementById('applyForm').style.display = 'none';
-      document.getElementById('applySuccess').style.display = 'block';
-      document.getElementById('applySuccess').scrollIntoView({behavior:'smooth', block:'center'});
-    } else {
-      alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
-    }
-  })
-  .catch(() => {
-    alert('Something went wrong. Please email us directly at hire@tryjoyn.me');
-  });
+  try {
+    await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
+        subject: 'Creator Interest — ' + name + ' · ' + vertical + ' · tryjoyn.me',
+        name, email, vertical,
+        what_to_build: idea
+      })
+    });
+    document.getElementById('applyForm').style.display = 'none';
+    document.getElementById('applySuccess').style.display = 'block';
+    document.getElementById('applySuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch {
+    btn.textContent = 'Submit →'; btn.disabled = false;
+    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
+  }
 }
 </script>
 </body>

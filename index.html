@@ -134,20 +134,6 @@ a { color: inherit; }
 .mfs { appearance: none; cursor: pointer; }
 .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
 
-/* CREATOR TRACKS */
-.tracks-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
-.track-card { background: var(--white); padding: 2.5rem; }
-.track-num { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
-.track-card h4 { margin-bottom: 0.5rem; }
-.track-who { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
-.track-card p { font-size: 0.9rem; max-width: none; }
-
-/* EARNINGS PREVIEW */
-.earn-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
-.earn-cell { background: var(--white); padding: 1.75rem; }
-.earn-rate { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 400; color: var(--gold-display); line-height: 1; margin-bottom: 0.4rem; }
-.earn-cell h4 { font-size: 1rem; margin-bottom: 0.3rem; }
-.earn-cell p { font-size: 0.85rem; max-width: none; }
 
 /* DIVIDER BAND */
 .journey-divider { border-top: 3px solid var(--rule-mid); }
@@ -178,16 +164,15 @@ a { color: inherit; }
   .split-entry { grid-template-columns: 1fr; }
   .entry-panel { min-height: 50vh; }
   .entry-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
-  .modes-grid, .tracks-grid, .staff-grid, .faq-grid { grid-template-columns: 1fr; }
+  .modes-grid, .staff-grid, .faq-grid { grid-template-columns: 1fr; }
   .steps-grid, .steps-grid.three { grid-template-columns: 1fr 1fr; }
-  .earn-grid { grid-template-columns: 1fr 1fr; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-nav { display: flex; flex-wrap: wrap; }
   .footer-nav a { margin-left: 0; margin-right: 1rem; }
   .footer-tag { display: none; }
 }
 @media (max-width: 480px) {
-  .steps-grid, .steps-grid.three, .earn-grid { grid-template-columns: 1fr; }
+  .steps-grid, .steps-grid.three { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -225,8 +210,8 @@ a { color: inherit; }
     <div class="entry-body">
       <h1 class="entry-h">Encode your expertise.<br>Earn while <em>you sleep.</em></h1>
       <div class="entry-detail">
-        20 open roles · 3 creator tracks<br>
-        25–75% revenue share<br>
+        20 open roles across 3 verticals<br>
+        Revenue share on every hire<br>
         Your knowledge · Infinite reach
       </div>
       <span class="entry-cta">How it works ↓</span>
@@ -336,35 +321,8 @@ a { color: inherit; }
 
 <!-- ─────────────── BUILD JOURNEY ─────────────── -->
 
-<!-- BUILD: CREATOR TRACKS -->
-<section class="section" id="build" style="background:var(--surface);" aria-labelledby="tracks-heading">
-  <div class="label">Three creator tracks</div>
-  <h2 id="tracks-heading">Which creator <em>are you?</em></h2>
-  <p class="section-desc">You do not need to be a developer. You need domain expertise. The Joyn team handles everything technical.</p>
-  <div class="tracks-grid" role="list">
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 01</div>
-      <h4>Domain Expert</h4>
-      <div class="track-who">Practitioners with deep field experience</div>
-      <p>5+ years in your field. A clear point of view on how the work should be done. No code required — the Joyn team handles the technical build.</p>
-    </div>
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 02</div>
-      <h4>Domain-Technical Hybrid</h4>
-      <div class="track-who">Practitioners who also build</div>
-      <p>You combine deep expertise with an ability to contribute to workflow design or output review. Higher earning potential and faster time to market.</p>
-    </div>
-    <div class="track-card" role="listitem">
-      <div class="track-num">Track 03</div>
-      <h4>Emerging Creator</h4>
-      <div class="track-who">Earlier-career practitioners with a clear specialisation</div>
-      <p>Building expertise in a defined area with a sharp point of view. Supported pathway with a more structured build process.</p>
-    </div>
-  </div>
-</section>
-
 <!-- BUILD: HOW IT WORKS -->
-<section class="section" aria-labelledby="build-hiw-heading">
+<section class="section" id="build" aria-labelledby="build-hiw-heading">
   <div class="label">How building works</div>
   <h2 id="build-hiw-heading">Apply. Build. <em>Earn.</em></h2>
   <div class="steps-grid three" role="list">
@@ -386,37 +344,9 @@ a { color: inherit; }
   </div>
 </section>
 
-<!-- BUILD: EARNINGS -->
-<section class="section" style="background:var(--surface);" aria-labelledby="earnings-heading">
-  <div class="label">Revenue share</div>
-  <h2 id="earnings-heading">You earn more as <em>you grow.</em></h2>
-  <p class="section-desc">Your rate advances as your staff member's deployments, client outcomes, and performance reviews improve.</p>
-  <div class="earn-grid" role="list">
-    <div class="earn-cell" role="listitem">
-      <div class="earn-rate">25%</div>
-      <h4>Builder</h4>
-      <p>New creator. Just published. Establishing baseline performance.</p>
-    </div>
-    <div class="earn-cell" role="listitem">
-      <div class="earn-rate">40%</div>
-      <h4>Verified</h4>
-      <p>5+ active deployments. Strong client retention.</p>
-    </div>
-    <div class="earn-cell" role="listitem">
-      <div class="earn-rate">60%</div>
-      <h4>Certified</h4>
-      <p>Proven track record. Reference implementation in the vertical.</p>
-    </div>
-    <div class="earn-cell" role="listitem">
-      <div class="earn-rate">75%</div>
-      <h4>Top Performer</h4>
-      <p>Consistently top cohort by deployments and client outcomes.</p>
-    </div>
-  </div>
-  <div style="margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap;">
-    <a href="marketplace/creator-studio.html" class="btn btn-primary">See open roles to build</a>
-  </div>
-</section>
+<div style="padding:2rem var(--page-x); display:flex; gap:1rem; flex-wrap:wrap;">
+  <a href="marketplace/creator-studio.html" class="btn btn-primary">See open roles to build</a>
+</div>
 
 <!-- ─────────────── SHARED: FAQ ─────────────── -->
 
