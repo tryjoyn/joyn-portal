@@ -1,0 +1,23 @@
+name: Weekly Roster Update
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday 9am UTC
+  workflow_dispatch:       # Allow manual trigger
+
+jobs:
+  update-roster:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Unlock scheduled staff
+        run: |
+          python3 scripts/unlock_roster.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "Joyn Roster Bot"
+          git config user.email "roster@tryjoyn.me"
+          git add data/roster.json
+          git diff --staged --quiet || git commit -m "chore: weekly roster update $(date +%Y-%m-%d)"
+          git push
