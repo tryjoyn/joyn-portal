@@ -4,21 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creator Studio — Build AI Staff · Joyn · tryjoyn.me</title>
-<meta name="description" content="Apply to build AI staff on Joyn. 20 open roles across Insurance, Healthcare Admin, and Financial Advisory. Encode your expertise and earn 25–75% revenue share on every hire.">
+<meta name="description" content="Apply to build AI staff on Joyn. Encode your domain expertise and earn performance-linked income on every hire. Open roles across Insurance, Financial Services, Healthcare, Legal, Real Estate, and Operations.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --white:          #fafaf8;
-  --ink:            #111110;
-  --ink-secondary:  #3f3f3e;
-  --rule:           #e8e4dc;
-  --rule-mid:       #d0ccc4;
-  --surface:        #f4f1eb;
-  --gold-display:   #b8902a;
-  --gold-text:      #8B6914;
-  --gold-hover:     #7a5c10;
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
 }
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
@@ -27,7 +21,6 @@ body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-se
 .skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
 .skip-link:focus { top: 1rem; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
-
 h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
 h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
 h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
@@ -42,115 +35,146 @@ a { color: inherit; }
 .label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
 
 /* NAV */
-.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem, 5vw, 4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
 .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
 .nav-back { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
 .nav-back:hover { color: var(--ink); }
-.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; transition: color 0.2s; }
-.nav-cta:hover { color: var(--gold-hover); }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
+.nav-cta:hover { background: var(--gold-hover); }
 
 /* BREADCRUMB */
-.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem, 5vw, 4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
 .breadcrumb a { color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
 .breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
 .breadcrumb-sep { color: var(--ink-secondary); }
 .breadcrumb-current { color: var(--gold-text); font-weight: 500; }
 
-/* BUTTON */
+/* BUTTONS */
 .btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
 .btn-primary { background: var(--ink); color: var(--white); }
 .btn-primary:hover { background: #2a2a29; }
-.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
-.btn-outline:hover { background: var(--ink); color: var(--white); }
 .btn-gold { background: var(--gold-text); color: var(--white); }
 .btn-gold:hover { background: var(--gold-hover); }
-
-/* TAG */
-.tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; display: inline-block; }
-.tag-always { background: var(--ink); color: var(--white); }
-.tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
 
 /* HERO */
 .hero { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
-.hero h1 { margin-bottom: 1.5rem; max-width: 14ch; }
-.hero p { font-size: 1.1rem; max-width: 54ch; margin-bottom: 2.5rem; }
-.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
-.stats-bar { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); max-width: 680px; }
-.stat { background: var(--white); padding: 1.5rem; text-align: center; }
-.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 400; color: var(--gold-display); display: block; line-height: 1; }
-.stat-l { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); display: block; margin-top: 0.4rem; }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.hero h1 { margin-bottom: 1.25rem; }
+.hero p { font-size: 1.1rem; max-width: 52ch; margin-bottom: 2rem; }
+.hero-proof { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.proof-item { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); display: flex; align-items: center; gap: 0.4rem; }
+.proof-item::before { content: '✓'; color: var(--gold-text); }
+.hero-qualifiers { border: 1px solid var(--rule); background: var(--white); }
+.hq-hd { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--rule); font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); }
+.hq-item { padding: 1rem 1.5rem; border-bottom: 1px solid var(--rule); display: flex; align-items: flex-start; gap: 0.75rem; }
+.hq-item:last-child { border-bottom: none; }
+.hq-check { color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.hq-text { font-size: 0.9rem; color: var(--ink-secondary); }
+.hq-text strong { color: var(--ink); }
 
-/* HOW IT WORKS */
-.hiw-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
-.hiw-section h2 { margin-bottom: 3rem; }
-.steps-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
-.step { background: var(--white); padding: 2rem 1.75rem; }
-.step-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--rule-mid); line-height: 1; margin-bottom: 1rem; }
-.step h4 { margin-bottom: 0.5rem; }
-.step p { font-size: 0.9rem; max-width: none; }
+/* PLATFORM TILES */
+.platforms-section { padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.platforms-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 2rem; }
+.platform-tile { background: var(--white); padding: 2rem 1.75rem; text-align: center; transition: background 0.2s; }
+.platform-tile:hover { background: var(--surface); }
+.platform-icon { font-size: 2rem; margin-bottom: 0.75rem; line-height: 1; }
+.platform-name { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem; }
+.platform-desc { font-size: 0.85rem; color: var(--ink-secondary); }
 
+/* KNOWLEDGE ARCHITECTURE */
+.knowledge-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.knowledge-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(3rem,6vw,6rem); align-items: start; margin-top: 3rem; }
+.knowledge-layers { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); background: var(--rule); }
+.layer { background: var(--white); padding: 1.25rem 1.75rem; display: flex; align-items: center; gap: 1.25rem; border-bottom: 1px solid var(--rule); position: relative; transition: background 0.2s; }
+.layer:last-child { border-bottom: none; }
+.layer:hover { background: #ece8df; }
+.layer-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--rule-mid); line-height: 1; min-width: 2rem; }
+.layer-body {}
+.layer-name { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.2rem; }
+.layer-desc { font-size: 0.875rem; color: var(--ink-secondary); }
+.knowledge-copy p { margin-bottom: 1.25rem; font-size: 1rem; }
+.knowledge-copy p:last-child { margin-bottom: 0; }
 
-/* FILTER BAR */
-.filter-bar { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-.filter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); flex-shrink: 0; }
-.filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.filter-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
-.filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
-.filter-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
-.filter-count { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
-.filter-count strong { color: var(--gold-text); }
+/* EARNINGS CALCULATOR */
+.calc-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.calc-wrap { max-width: 640px; margin-top: 3rem; }
+.calc-slider-row { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
+.calc-label-group { flex: 1; }
+.calc-slider-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.5rem; display: block; }
+.calc-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--rule-mid); outline: none; }
+.calc-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--ink); cursor: pointer; border-radius: 50%; }
+.calc-slider::-moz-range-thumb { width: 18px; height: 18px; background: var(--ink); cursor: pointer; border-radius: 50%; border: none; }
+.calc-value-display { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: var(--ink); line-height: 1; min-width: 5rem; text-align: right; }
+.calc-output { border: 1px solid var(--rule); background: var(--surface); padding: 2rem; }
+.calc-output-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.75rem; }
+.calc-income-display { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.5rem; }
+.calc-note { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink-secondary); border-top: 1px solid var(--rule); padding-top: 0.875rem; margin-top: 0.875rem; }
 
-/* ROLES SECTION */
-.roles-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
-.roles-section h2 { margin-bottom: 0.75rem; }
-.roles-section > p { margin-bottom: 3rem; max-width: 54ch; }
-.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+/* OPEN ROLES */
+.roles-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.role-card { background: var(--white); padding: 2.25rem; display: flex; flex-direction: column; transition: background 0.2s; }
+.role-card:hover { background: #ece8df; }
+.role-vertical { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
+.role-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem,2.5vw,2rem); font-weight: 400; color: var(--ink); line-height: 1.1; margin-bottom: 0.75rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--rule); }
+.role-desc { font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.75; margin-bottom: 1.5rem; flex: 1; }
+.role-desc strong { color: var(--ink); }
+.role-prereqs { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); padding: 0.75rem; border: 1px solid var(--rule); background: var(--surface); margin-bottom: 1.25rem; }
+.role-apply-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+.role-apply-btn:hover { color: var(--gold-hover); }
+.roles-pagination { display: flex; gap: 0.5rem; align-items: center; margin-top: 2rem; }
+.page-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
+.page-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.page-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
 
-/* ROLE CARD */
-.role-card { background: var(--white); padding: 2rem; cursor: pointer; transition: background 0.2s; display: flex; flex-direction: column; }
-.role-card:hover { background: #f0ece4; }
-.rc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
-.rc-vert { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.6rem; border: 1px solid; }
-.rc-vert.insurance { color: var(--gold-text); border-color: rgba(139,105,20,0.35); background: rgba(139,105,20,0.06); }
-.rc-vert.healthcare { color: #2d6a4f; border-color: rgba(45,106,79,0.35); background: rgba(45,106,79,0.05); }
-.rc-vert.financial { color: #1a3a5c; border-color: rgba(26,58,92,0.35); background: rgba(26,58,92,0.05); }
-.rc-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 400; color: var(--ink); line-height: 1; margin-bottom: 0.25rem; }
-.rc-title { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
-.rc-earn { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-top: auto; padding-top: 1rem; }
-.rc-cta { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.4rem; margin-top: 0.5rem; }
+/* APPLICATION FORM */
+.apply-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.apply-context h2 { margin-bottom: 1rem; }
+.apply-context p { margin-bottom: 1.5rem; }
+.apply-points { display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.apply-point { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.975rem; color: var(--ink-secondary); }
+.apply-point::before { content: '✓'; color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.apply-point strong { color: var(--ink); }
+.apply-form-wrap { border: 1px solid var(--rule-mid); padding: 2.5rem; background: var(--surface); }
+.apply-form-wrap h3 { margin-bottom: 0.5rem; }
+.apply-form-wrap > p { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--ink); background: var(--white); border: 1.5px solid var(--rule-mid); padding: 0.85rem 1rem; min-height: 44px; width: 100%; border-radius: 0; appearance: none; outline: none; transition: border-color 0.2s; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--ink-secondary); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold-text); }
+.form-textarea { min-height: 100px; resize: vertical; line-height: 1.65; }
+.form-submit { width: 100%; padding: 1rem; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s; min-height: 44px; margin-top: 0.5rem; }
+.form-submit:hover { background: #2a2a29; }
+.form-success { display: none; padding: 2rem; border: 1px solid rgba(139,105,20,0.3); background: rgba(139,105,20,0.06); text-align: center; }
+.form-success h4 { margin-bottom: 0.5rem; }
+.form-success p { font-size: 0.975rem; max-width: none; }
+.form-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); text-align: center; margin-top: 1rem; }
 
-/* MODAL */
-.modal-overlay { position: fixed; inset: 0; z-index: 200; background: rgba(17,17,16,0.5); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
-.modal-overlay.open { opacity: 1; pointer-events: auto; }
-.modal-box { background: var(--white); border: 1px solid var(--rule); max-width: 700px; width: 100%; max-height: 85vh; overflow-y: auto; padding: clamp(2rem,4vw,3rem); position: relative; }
-.modal-close { position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--ink-secondary); line-height: 1; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; transition: color 0.2s; }
+/* MODAL (role apply shortcut) */
+.modal-overlay { position: fixed; inset: 0; background: rgba(17,17,16,0.65); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--white); max-width: 480px; width: 100%; border: 1px solid var(--rule-mid); max-height: 90vh; overflow-y: auto; }
+.modal-hd { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.modal-hd-text h3 { font-size: clamp(1.25rem,2.5vw,1.75rem); margin-bottom: 0.25rem; }
+.modal-hd-text p { font-size: 0.875rem; color: var(--ink-secondary); margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; font-size: 1.5rem; line-height: 1; color: var(--ink-secondary); min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: color 0.2s; }
 .modal-close:hover { color: var(--ink); }
-.modal-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.modal-badge { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid; }
-.modal-codename { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,4rem); font-weight: 400; color: var(--ink); line-height: 1; margin-bottom: 0.35rem; }
-.modal-role-title { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
-.modal-sec-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.6rem; }
-.modal-sec-body { font-size: 0.975rem; line-height: 1.8; color: var(--ink-secondary); margin-bottom: 2rem; }
-.modal-earn-box { background: var(--surface); border: 1px solid var(--rule); padding: 1.5rem 2rem; margin-bottom: 2rem; display: flex; gap: 2rem; align-items: flex-start; }
-.modal-earn-rate { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: var(--gold-display); line-height: 1; flex-shrink: 0; }
-.modal-earn-text { font-size: 0.9rem; line-height: 1.75; color: var(--ink-secondary); padding-top: 0.4rem; }
-.modal-apply-btn { width: 100%; justify-content: center; }
-
-/* APPLY SECTION */
-.apply-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
-.apply-section h2 { margin-bottom: 0.75rem; }
-.apply-section > p { max-width: 54ch; margin-bottom: 3rem; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 760px; }
-.form-field { display: flex; flex-direction: column; gap: 0.5rem; }
-.form-field.full { grid-column: 1 / -1; }
-.form-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); }
-.form-input, .form-select, .form-textarea { width: 100%; font-family: 'Syne', sans-serif; font-size: 0.975rem; color: var(--ink); background: var(--white); border: 1px solid var(--rule-mid); padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0; }
-.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ink); }
-.form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
-.form-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--ink-secondary); }
-#applySuccess { display: none; padding: 2.5rem; border: 1px solid var(--rule); background: var(--surface); text-align: center; max-width: 480px; }
-#applySuccess h3 { margin-bottom: 0.75rem; }
-#applySuccess p { font-size: 0.975rem; }
+.modal-bd { padding: 1.75rem 2rem; }
+.mfg { margin-bottom: 1.125rem; }
+.mfl { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); display: block; margin-bottom: 0.4rem; }
+.mfi, .mfs, .mft { width: 100%; padding: 0.7rem 0.9rem; background: var(--white); border: 1px solid var(--rule-mid); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 0.9rem; border-radius: 0; transition: border-color 0.2s; }
+.mfi:focus, .mfs:focus, .mft:focus { outline: none; border-color: var(--ink); }
+.mfi[readonly] { background: var(--surface); color: var(--ink-secondary); cursor: default; }
+.mft { resize: vertical; min-height: 80px; line-height: 1.65; }
+.mfs { appearance: none; cursor: pointer; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.modal-success { display: none; text-align: center; padding: 3rem 2rem; }
+.modal-success h3 { margin-bottom: 0.5rem; }
+.modal-success p { font-size: 0.9rem; }
 
 /* FOOTER */
 .footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
@@ -160,20 +184,20 @@ a { color: inherit; }
 .footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; margin-left: 1.5rem; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
 .footer-nav a:hover { color: var(--ink); text-decoration: underline; }
 
-/* MOBILE */
 @media (max-width: 768px) {
   .nav { padding: 0 1.25rem; }
   .breadcrumb { padding: 0.875rem 1.25rem; }
-  .stats-bar { grid-template-columns: repeat(2,1fr); max-width: none; }
-  .steps-grid { grid-template-columns: 1fr; }
+  .hero-grid, .apply-grid, .knowledge-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .platforms-grid { grid-template-columns: repeat(2,1fr); }
   .roles-grid { grid-template-columns: 1fr; }
-  .form-grid { grid-template-columns: 1fr; }
-  .form-field.full { grid-column: 1; }
-  .modal-earn-box { flex-direction: column; gap: 1rem; }
+  .apply-form-wrap { padding: 1.5rem; }
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-nav { display: flex; flex-wrap: wrap; }
   .footer-nav a { margin-left: 0; margin-right: 1rem; }
   .footer-tag { display: none; }
+}
+@media (max-width: 480px) {
+  .platforms-grid { grid-template-columns: 1fr 1fr; }
 }
 </style>
 </head>
@@ -181,7 +205,6 @@ a { color: inherit; }
 
 <a href="#main" class="skip-link">Skip to main content</a>
 
-<!-- NAV -->
 <nav class="nav" aria-label="Main navigation">
   <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
   <div style="display:flex;gap:1.5rem;align-items:center;">
@@ -200,292 +223,238 @@ a { color: inherit; }
 
 <!-- HERO -->
 <section class="hero" id="main">
-  <div class="label">Creator Studio</div>
-  <h1>Build AI staff.<br>Earn while <em>you sleep.</em></h1>
-  <p>Encode your domain expertise into AI staff that works for thousands of businesses simultaneously. Apply once. Build once. Earn continuously.</p>
-  <div class="hero-ctas">
-    <a href="#apply" class="btn btn-primary">Apply to Build</a>
-    <a href="#open-roles" class="btn btn-outline">See open roles to build</a>
-  </div>
-  <div class="stats-bar" role="list" aria-label="Creator Studio stats">
-    <div class="stat" role="listitem"><span class="stat-n">20</span><span class="stat-l">Open Roles</span></div>
-    <div class="stat" role="listitem"><span class="stat-n">Revenue</span><span class="stat-l">Share on Every Hire</span></div>
-    <div class="stat" role="listitem"><span class="stat-n">∞</span><span class="stat-l">Reach</span></div>
+  <div class="hero-grid">
+    <div>
+      <div class="label">Creator Studio</div>
+      <h1>Your expertise,<br>encoded. <em>Earning.</em></h1>
+      <p>Joyn is built by practitioners — people who have worked the roles they now encode. If you have deep domain expertise and a clear point of view, we want to hear from you.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
+        <a href="#apply" class="btn btn-primary">Apply to Build</a>
+        <a href="#roles" class="btn btn-outline">See open roles</a>
+      </div>
+      <div class="hero-proof" role="list" aria-label="Key facts">
+        <div class="proof-item" role="listitem">No technical build required</div>
+        <div class="proof-item" role="listitem">Performance-linked income</div>
+        <div class="proof-item" role="listitem">Your knowledge, infinite reach</div>
+        <div class="proof-item" role="listitem">Reviewed within 3 business days</div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-qualifiers" role="region" aria-label="Who Joyn looks for">
+        <div class="hq-hd">Who Joyn looks for</div>
+        <div class="hq-item">
+          <span class="hq-check">✓</span>
+          <span class="hq-text"><strong>Genuine domain depth</strong> — 5+ years in the specific role, not adjacent to it</span>
+        </div>
+        <div class="hq-item">
+          <span class="hq-check">✓</span>
+          <span class="hq-text"><strong>A clear point of view</strong> — a methodology, a standard, a way of working that is yours</span>
+        </div>
+        <div class="hq-item">
+          <span class="hq-check">✓</span>
+          <span class="hq-text"><strong>Transfer ability</strong> — you can explain your knowledge precisely and completely</span>
+        </div>
+        <div class="hq-item">
+          <span class="hq-check">✓</span>
+          <span class="hq-text"><strong>Outcomes orientation</strong> — you think in deliverables, not activities</span>
+        </div>
+        <div class="hq-item">
+          <span class="hq-check" style="color:var(--rule-mid);">✕</span>
+          <span class="hq-text" style="color:var(--rule-mid);">You do not need to be a developer or AI expert</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section class="hiw-section" id="how-it-works" aria-labelledby="hiw-heading">
-  <div class="label">How it works</div>
-  <h2 id="hiw-heading">Apply. Build. <em>Earn.</em></h2>
-  <div class="steps-grid" role="list">
-    <div class="step" role="listitem">
-      <div class="step-num" aria-hidden="true">01</div>
-      <h4>Apply to Build</h4>
-      <p>Submit your credentials and domain expertise against an open role. We review every application within 3 business days and match accepted creators to the right role.</p>
+<!-- PLATFORMS -->
+<section class="platforms-section" aria-labelledby="platforms-heading">
+  <div class="label">Build on</div>
+  <h2 id="platforms-heading">The platforms we <em>build with.</em></h2>
+  <div class="platforms-grid" role="list">
+    <div class="platform-tile" role="listitem">
+      <div class="platform-icon" aria-hidden="true">◆</div>
+      <div class="platform-name">Claude</div>
+      <p class="platform-desc">Anthropic's model family. The default platform for most Joyn builds — reasoning, precision, deep context.</p>
     </div>
-    <div class="step" role="listitem">
-      <div class="step-num" aria-hidden="true">02</div>
-      <h4>Build Your Staff Member</h4>
-      <p>Work with the Joyn team to encode your expertise into an AI staff member. Your knowledge, your methodology, your standards — captured precisely and built to perform.</p>
+    <div class="platform-tile" role="listitem">
+      <div class="platform-icon" aria-hidden="true">⬡</div>
+      <div class="platform-name">Emergent</div>
+      <p class="platform-desc">Multi-agent orchestration. Used when a role requires coordinated parallel workstreams across multiple domains.</p>
     </div>
-    <div class="step" role="listitem">
-      <div class="step-num" aria-hidden="true">03</div>
-      <h4>Publish &amp; Earn</h4>
-      <p>Your staff member goes live on the marketplace. Every time a business hires them, you earn a percentage of the revenue — continuously, for as long as they are deployed.</p>
+    <div class="platform-tile" role="listitem">
+      <div class="platform-icon" aria-hidden="true">◎</div>
+      <div class="platform-name">Manus</div>
+      <p class="platform-desc">Browser and computer use. Used for roles that require navigating portals, extracting data, or taking direct action.</p>
+    </div>
+    <div class="platform-tile" role="listitem">
+      <div class="platform-icon" aria-hidden="true">⟳</div>
+      <div class="platform-name">make.com</div>
+      <p class="platform-desc">Workflow automation. Used for roles that need to connect systems, move data, and trigger actions across your stack.</p>
     </div>
   </div>
 </section>
 
+<!-- KNOWLEDGE ARCHITECTURE -->
+<section class="knowledge-section" aria-labelledby="knowledge-heading">
+  <div class="label">How we encode expertise</div>
+  <h2 id="knowledge-heading">Five layers. One <em>cohesive staff member.</em></h2>
+  <div class="knowledge-grid">
+    <div class="knowledge-layers" role="list" aria-label="Knowledge architecture layers">
+      <div class="layer" role="listitem">
+        <div class="layer-num" aria-hidden="true">1</div>
+        <div class="layer-body">
+          <div class="layer-name">Domain</div>
+          <div class="layer-desc">The substantive knowledge of the field — what matters, what doesn't, and why</div>
+        </div>
+      </div>
+      <div class="layer" role="listitem">
+        <div class="layer-num" aria-hidden="true">2</div>
+        <div class="layer-body">
+          <div class="layer-name">Methodology</div>
+          <div class="layer-desc">Your specific approach — the sequence, the frameworks, the way you think through problems</div>
+        </div>
+      </div>
+      <div class="layer" role="listitem">
+        <div class="layer-num" aria-hidden="true">3</div>
+        <div class="layer-body">
+          <div class="layer-name">Workflow</div>
+          <div class="layer-desc">The operational steps — what triggers each action, what gets handed off and when</div>
+        </div>
+      </div>
+      <div class="layer" role="listitem">
+        <div class="layer-num" aria-hidden="true">4</div>
+        <div class="layer-body">
+          <div class="layer-name">Voice</div>
+          <div class="layer-desc">How the staff member communicates — the tone, the register, the language of the field</div>
+        </div>
+      </div>
+      <div class="layer" role="listitem">
+        <div class="layer-num" aria-hidden="true">5</div>
+        <div class="layer-body">
+          <div class="layer-name">Standards</div>
+          <div class="layer-desc">The quality bars — what counts as a good output, and what falls short</div>
+        </div>
+      </div>
+    </div>
+    <div class="knowledge-copy">
+      <p>Every Joyn AI staff member is built through a structured knowledge transfer — not a prompt, not a fine-tune. You work with the Joyn team to articulate each of the five layers in your domain. The Joyn team handles the technical implementation.</p>
+      <p>This process takes 4–8 weeks for most roles. The depth of transfer is what separates a Joyn staff member from a generic AI assistant. The more precisely you can articulate your methodology, the higher the quality of the final product.</p>
+      <p>Once built, your staff member is tested against real scenarios before going to market. You review the outputs. You sign off on the quality. Your name is on it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS CALCULATOR -->
+<section class="calc-section" aria-labelledby="calc-heading">
+  <div class="label">Income potential</div>
+  <h2 id="calc-heading">Income scales with <em>deployments.</em></h2>
+  <p style="max-width:52ch; margin-top:-1.5rem; margin-bottom:0;">Your income grows with every business that hires your staff member. The rate is confirmed at offer — this calculator shows you the shape of the opportunity.</p>
+  <div class="calc-wrap">
+    <div class="calc-slider-row">
+      <div class="calc-label-group">
+        <span class="calc-slider-label" id="slider-label">Active deployments</span>
+        <input type="range" class="calc-slider" id="deploy-slider" min="0" max="100" value="30" step="1" aria-labelledby="slider-label" oninput="updateCalc()">
+      </div>
+      <div class="calc-value-display" id="deploy-display" aria-live="polite">30</div>
+    </div>
+    <div class="calc-output" role="region" aria-labelledby="income-label">
+      <div class="calc-output-label" id="income-label">Estimated monthly income range</div>
+      <div class="calc-income-display" id="income-display" aria-live="polite">Calculating...</div>
+      <div class="calc-note">Income scales with active deployments. Exact rate confirmed at offer — varies by role, vertical, and pricing tier. This range is illustrative, not guaranteed.</div>
+    </div>
+  </div>
+</section>
 
 <!-- OPEN ROLES -->
-<section class="roles-section" id="open-roles" aria-labelledby="roles-heading">
+<section class="roles-section" id="roles" aria-labelledby="roles-heading">
   <div class="label">Open roles</div>
-  <h2 id="roles-heading">20 roles available<br>to <em>build now.</em></h2>
-  <p>Click any role to see the full brief — what the staff member does, what creator we are looking for, and the earnings range.</p>
+  <h2 id="roles-heading">Apply to build <em>one of these.</em></h2>
+  <p style="max-width:52ch; margin-top:-1.5rem; margin-bottom:0;">Six verticals. One open creator role per vertical. If none fits your expertise, you can describe your domain in the application form.</p>
 
-  <div class="filter-bar" role="search" aria-label="Filter roles">
-    <span class="filter-label" id="mode-label-cs">Mode</span>
-    <div class="filter-group" role="group" aria-labelledby="mode-label-cs">
-      <button class="filter-btn active" onclick="filterRoleMode('all',this)">All</button>
-      <button class="filter-btn" onclick="filterRoleMode('instant',this)">Ready</button>
-      <button class="filter-btn" onclick="filterRoleMode('craft',this)">Custom</button>
-    </div>
-    <span class="filter-label" id="vert-label">Vertical</span>
-    <div class="filter-group" role="group" aria-labelledby="vert-label">
-      <button class="filter-btn active" onclick="filterRoles('all',this)">All</button>
-      <button class="filter-btn" onclick="filterRoles('insurance',this)">Insurance</button>
-      <button class="filter-btn" onclick="filterRoles('healthcare',this)">Healthcare Admin</button>
-      <button class="filter-btn" onclick="filterRoles('financial',this)">Financial Advisory</button>
-    </div>
-    <div class="filter-count" aria-live="polite"><strong id="roleCount">20</strong> open roles</div>
+  <div class="roles-grid" id="roles-grid" role="list">
+    <!-- Populated by JS -->
   </div>
 
-  <div class="roles-grid" id="roles-grid">
-
-    <!-- INSURANCE (7) -->
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('renew')" role="button" tabindex="0" aria-label="View Renew role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Renew</div>
-      <div class="rc-title">Insurance Renewal Specialist</div>
-      <div class="rc-earn">25–40% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('audit')" role="button" tabindex="0" aria-label="View Audit role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Audit</div>
-      <div class="rc-title">Insurance Compliance Auditor</div>
-      <div class="rc-earn">30–45% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('quote')" role="button" tabindex="0" aria-label="View Quote role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Quote</div>
-      <div class="rc-title">Commercial Lines Quote Specialist</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('claim')" role="button" tabindex="0" aria-label="View Claim role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Claim</div>
-      <div class="rc-title">First Notice of Loss Specialist</div>
-      <div class="rc-earn">25–40% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('bond')" role="button" tabindex="0" aria-label="View Bond role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Bond</div>
-      <div class="rc-title">Surety Bond Analyst</div>
-      <div class="rc-earn">40–60% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('expose')" role="button" tabindex="0" aria-label="View Expose role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Expose</div>
-      <div class="rc-title">Exposure Analyst</div>
-      <div class="rc-earn">30–45% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="insurance" onclick="openModal('screen')" role="button" tabindex="0" aria-label="View Screen role brief">
-      <div class="rc-top"><span class="rc-vert insurance">Insurance</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Screen</div>
-      <div class="rc-title">E&amp;S Lines Screener</div>
-      <div class="rc-earn">40–55% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <!-- HEALTHCARE ADMIN (7) -->
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('prior')" role="button" tabindex="0" aria-label="View Prior role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Prior</div>
-      <div class="rc-title">Prior Authorization Specialist</div>
-      <div class="rc-earn">30–45% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('intake')" role="button" tabindex="0" aria-label="View Intake role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Intake</div>
-      <div class="rc-title">Patient Intake Coordinator</div>
-      <div class="rc-earn">25–40% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('bill')" role="button" tabindex="0" aria-label="View Bill role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Bill</div>
-      <div class="rc-title">Medical Billing Specialist</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('deny')" role="button" tabindex="0" aria-label="View Deny role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Deny</div>
-      <div class="rc-title">Denial Management Analyst</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('refer')" role="button" tabindex="0" aria-label="View Refer role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Refer</div>
-      <div class="rc-title">Referral Coordinator</div>
-      <div class="rc-earn">25–35% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('comply')" role="button" tabindex="0" aria-label="View Comply role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Comply</div>
-      <div class="rc-title">Healthcare Compliance Monitor</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="healthcare" onclick="openModal('cred')" role="button" tabindex="0" aria-label="View Cred role brief">
-      <div class="rc-top"><span class="rc-vert healthcare">Healthcare Admin</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Cred</div>
-      <div class="rc-title">Provider Credentialing Specialist</div>
-      <div class="rc-earn">30–45% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <!-- FINANCIAL ADVISORY (6) -->
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('prospect')" role="button" tabindex="0" aria-label="View Prospect role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Prospect</div>
-      <div class="rc-title">Client Prospect Analyst</div>
-      <div class="rc-earn">30–45% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('review')" role="button" tabindex="0" aria-label="View Review role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Review</div>
-      <div class="rc-title">Annual Review Specialist</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('plan')" role="button" tabindex="0" aria-label="View Plan role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-craft">Custom</span></div>
-      <div class="rc-name">Plan</div>
-      <div class="rc-title">Financial Plan Analyst</div>
-      <div class="rc-earn">40–65% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('watch')" role="button" tabindex="0" aria-label="View Watch role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Watch</div>
-      <div class="rc-title">Portfolio Alert Monitor</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('reg')" role="button" tabindex="0" aria-label="View Reg role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-always">Ready</span></div>
-      <div class="rc-name">Reg</div>
-      <div class="rc-title">Regulatory Filing Monitor</div>
-      <div class="rc-earn">35–50% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
-    <div class="role-card" data-mode="instant" data-vertical="financial" onclick="openModal('estate')" role="button" tabindex="0" aria-label="View Estate role brief">
-      <div class="rc-top"><span class="rc-vert financial">Financial Advisory</span><span class="tag tag-craft">Custom</span></div>
-      <div class="rc-name">Estate</div>
-      <div class="rc-title">Estate Planning Coordinator</div>
-      <div class="rc-earn">45–65% revenue share</div>
-      <span class="rc-cta">View role brief →</span>
-    </div>
-
+  <div class="roles-pagination" id="roles-pagination" role="navigation" aria-label="Role pages">
+    <!-- Populated by JS -->
   </div>
 </section>
 
-<!-- ROLE MODAL -->
-<div id="modalOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalCodename" onclick="closeModalOnOverlay(event)">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()" aria-label="Close role brief">×</button>
-    <div id="modalBadges" class="modal-badges"></div>
-    <div id="modalCodename" class="modal-codename"></div>
-    <div id="modalTitle" class="modal-role-title"></div>
-    <div class="modal-sec-label">What this staff member does</div>
-    <p id="modalDesc" class="modal-sec-body"></p>
-    <div class="modal-earn-box">
-      <div id="modalEarnRate" class="modal-earn-rate"></div>
-      <p id="modalEarnText" class="modal-earn-text"></p>
-    </div>
-    <a href="#apply" class="btn btn-primary modal-apply-btn" onclick="closeModal();document.getElementById('f-idea').value=document.getElementById('modalCodename').textContent+' — '+document.getElementById('modalTitle').textContent;">Express interest in this role →</a>
-  </div>
-</div>
-
-<!-- APPLY -->
+<!-- APPLICATION FORM -->
 <section class="apply-section" id="apply" aria-labelledby="apply-heading">
-  <div class="label">Express interest</div>
-  <h2 id="apply-heading">Are you a <em>Joyn creator?</em></h2>
-  <p style="max-width:54ch; margin-bottom:2.5rem;">Joyn is looking for credentialed domain experts with real field experience who want to build AI staff in their vertical. You do not need to be a developer — the Joyn team handles the technical build. You bring the expertise. Joyn decides who builds.</p>
-
-  <div id="applyForm" style="max-width:560px;">
-    <div class="form-field" style="margin-bottom:1.25rem;">
-      <label class="form-label" for="f-name">Full name <span aria-hidden="true">*</span></label>
-      <input class="form-input" id="f-name" type="text" placeholder="Your name" autocomplete="name" required>
+  <div class="apply-grid">
+    <div class="apply-context">
+      <div class="label">Apply to build</div>
+      <h2 id="apply-heading">Your expertise.<br><em>Applied.</em></h2>
+      <p>Submit your application and we'll review it within 3 business days. If there's a fit, we'll schedule a 45-minute call to explore the role further. No commitment required from either side.</p>
+      <div class="apply-points">
+        <div class="apply-point"><strong>Reviewed within 3 days</strong> — every application read by a person</div>
+        <div class="apply-point"><strong>45-minute intro call</strong> — if there's a fit, we explore together</div>
+        <div class="apply-point"><strong>No technical background needed</strong> — Joyn builds, you transfer</div>
+        <div class="apply-point"><strong>Rate confirmed at offer</strong> — performance-linked income on every hire</div>
+      </div>
     </div>
-    <div class="form-field" style="margin-bottom:1.25rem;">
-      <label class="form-label" for="f-email">Email address <span aria-hidden="true">*</span></label>
-      <input class="form-input" id="f-email" type="email" placeholder="you@example.com" autocomplete="email" required>
+    <div>
+      <div class="apply-form-wrap">
+        <h3 style="margin-bottom:0.5rem;">Apply to build</h3>
+        <p>Tell us about yourself and the role you want to build.</p>
+        <form id="apply-form" onsubmit="submitApplyForm(event)" aria-label="Creator application form">
+          <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
+          <input type="hidden" name="subject" value="Creator Application — tryjoyn.me">
+          <div class="form-group">
+            <label class="form-label" for="apply-name">Your name *</label>
+            <input class="form-input" id="apply-name" name="name" type="text" autocomplete="name" required placeholder="Sarah Chen">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-email">Email address *</label>
+            <input class="form-input" id="apply-email" name="email" type="email" autocomplete="email" required placeholder="sarah@domain.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-vertical">Vertical *</label>
+            <select class="form-select" id="apply-vertical" name="vertical" required>
+              <option value="" disabled selected>Select your vertical</option>
+              <option value="Insurance & Risk">Insurance &amp; Risk</option>
+              <option value="Financial Services">Financial Services</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Legal & Compliance">Legal &amp; Compliance</option>
+              <option value="Real Estate">Real Estate</option>
+              <option value="Operations">Operations</option>
+              <option value="Technology">Technology</option>
+              <option value="Other">Other — I'll describe below</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-description">What role would you build? *</label>
+            <input class="form-input" id="apply-description" name="role_description" type="text" required placeholder="e.g. Commercial lines underwriting review specialist">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-platform">Platform preference</label>
+            <select class="form-select" id="apply-platform" name="platform">
+              <option value="No preference">No preference — happy to be guided</option>
+              <option value="Claude">Claude</option>
+              <option value="Emergent">Emergent</option>
+              <option value="Manus">Manus</option>
+              <option value="make.com">make.com</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="apply-background">Brief background</label>
+            <textarea class="form-textarea" id="apply-background" name="background" placeholder="A sentence or two about your experience in this domain..."></textarea>
+          </div>
+          <button type="submit" class="form-submit">Submit Application</button>
+          <p class="form-note">Submission goes to hire@tryjoyn.me · Reviewed within 3 business days</p>
+        </form>
+        <div class="form-success" id="apply-success" role="alert" aria-live="polite">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+          <h4 style="margin-bottom:0.5rem;">Application received.</h4>
+          <p>We'll review your application and be in touch within 3 business days. If there's a fit, we'll invite you to a 45-minute intro call.</p>
+        </div>
+      </div>
     </div>
-    <div class="form-field" style="margin-bottom:1.25rem;">
-      <label class="form-label" for="f-vertical">Your vertical <span aria-hidden="true">*</span></label>
-      <select class="form-select" id="f-vertical" required>
-        <option value="">Select your vertical</option>
-        <option value="Insurance">Insurance</option>
-        <option value="Healthcare Admin">Healthcare Admin</option>
-        <option value="Financial Advisory">Financial Advisory</option>
-        <option value="Other">Other</option>
-      </select>
-    </div>
-    <div class="form-field" style="margin-bottom:2rem;">
-      <label class="form-label" for="f-idea">What do you want to build? <span aria-hidden="true">*</span></label>
-      <input class="form-input" id="f-idea" type="text" placeholder="e.g. An AI staff member that handles prior authorisation for outpatient clinics" required>
-    </div>
-    <button type="button" class="btn btn-primary" onclick="submitApplication()">Submit →</button>
-    <p class="form-note" style="margin-top:1rem;">Joyn reviews every submission and responds within 5 business days. Questions? <a href="mailto:hire@tryjoyn.me" style="color:var(--gold-text);">hire@tryjoyn.me</a></p>
-  </div>
-
-  <div id="applySuccess" style="display:none;">
-    <h3>Interest noted.</h3>
-    <p>We'll review your submission and be in touch. Joyn decides who builds — and if you're the right fit, we'll reach out directly.</p>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer class="footer" role="contentinfo">
   <div class="footer-inner">
     <span class="footer-logo">JOYN.</span>
@@ -494,362 +463,224 @@ a { color: inherit; }
       <a href="../index.html">Home</a>
       <a href="index.html">Marketplace</a>
       <a href="creator-studio.html">Creator Studio</a>
-      <a href="mailto:hire@tryjoyn.me">hire@tryjoyn.me</a>
     </nav>
   </div>
 </footer>
 
+<!-- ROLE APPLY MODAL -->
+<div class="modal-overlay" id="modal-role" role="dialog" aria-modal="true" aria-labelledby="role-modal-title" onclick="closeOnOverlay(event,'modal-role')">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-text">
+        <h3 id="role-modal-title">Apply for this role</h3>
+        <p id="role-modal-sub">Fill in your details to apply.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-role')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-bd" id="role-modal-form-wrap">
+      <div class="mfg">
+        <label class="mfl" for="rm-role">Role</label>
+        <input class="mfi" type="text" id="rm-role" readonly>
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="rm-name">Your name *</label>
+        <input class="mfi" type="text" id="rm-name" placeholder="Jane Smith" autocomplete="name">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="rm-email">Email address *</label>
+        <input class="mfi" type="email" id="rm-email" placeholder="jane@domain.com" autocomplete="email">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="rm-desc">One-line description of your background</label>
+        <input class="mfi" type="text" id="rm-desc" placeholder="e.g. 12 years Florida P&C underwriting at Citizens">
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="submitRoleModal()" style="flex:1;">Submit</button>
+        <button class="btn btn-outline" onclick="closeModal('modal-role')">Cancel</button>
+      </div>
+    </div>
+    <div class="modal-success" id="role-modal-success">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <h3>Application received.</h3>
+      <p>We'll be in touch within 3 business days.</p>
+    </div>
+  </div>
+</div>
+
 <script>
-// ── ROLE DATA ──
-const roles = {
-  renew: {
-    codename: 'Renew',
-    title: 'Insurance Renewal Specialist',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Monitors a policy book continuously and manages renewal outreach automatically starting 90 days before each expiration date. Flags at-risk accounts based on renewal signals — rate sensitivity, claims history, competitive shopping behaviour — generates personalised outreach messages, and tracks retention rates across the book. Delivers a weekly renewal pipeline report to the agent or team.',
-    creator: 'A working knowledge of renewal workflows across personal or commercial lines. Experience identifying the signals that predict non-renewal — rate sensitivity, life event changes, claims history, competitive shopping patterns. Ideally a background as an independent agent, MGA, or carrier renewal specialist with direct renewal management responsibility.',
-    earnRate: '25–40%',
-    earnText: 'Strong demand from independent agents and MGAs. High-frequency use case with a large addressable market across every line of business.'
-  },
-  audit: {
-    codename: 'Audit',
-    title: 'Insurance Compliance Auditor',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Reviews policy files, coverage confirmations, and client documentation against state regulatory requirements. Flags compliance gaps, produces remediation checklists prioritised by severity, and tracks open items through to resolution. Monitors state DOI bulletins for changes that affect existing files and alerts the compliance team before a regulatory exam finds a gap first.',
-    creator: 'Compliance or E&O experience in insurance. Knowledge of what documentation gaps look like before they become claims or regulatory findings. Background as a carrier compliance officer, MGA compliance manager, or E&O specialist with direct audit or file review responsibility.',
-    earnRate: '30–45%',
-    earnText: 'Carriers and MGAs are the primary buyers. Compliance is non-negotiable — budget exists before the role is offered.'
-  },
-  quote: {
-    codename: 'Quote',
-    title: 'Commercial Lines Quote Specialist',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Accepts submission inputs — ACORD data, exposure schedules, prior loss runs — and produces multi-carrier comparison summaries for commercial lines accounts. Identifies coverage gaps between competing quotes, flags risks the prospect has not considered, and presents options in client-ready format. Reduces the time from submission to quote presentation from days to hours.',
-    creator: 'Commercial lines underwriting or wholesale brokerage experience. Carrier appetite knowledge across the major commercial lines markets. The ability to read between the lines of a quote comparison and identify what a client is actually buying versus what they think they are buying.',
-    earnRate: '35–50%',
-    earnText: 'High frequency use case for retail brokers handling commercial accounts. Every renewal cycle is a revenue event.'
-  },
-  claim: {
-    codename: 'Claim',
-    title: 'First Notice of Loss Specialist',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Handles FNOL intake end-to-end — documents the incident, captures all required fields for the applicable line of business, categorises the claim type, and routes to the appropriate adjuster or carrier portal with a complete intake record already prepared. Eliminates the back-and-forth that delays claim acknowledgement and sets the wrong tone with the insured from the start.',
-    creator: 'Claims experience from the carrier, TPA, or independent adjuster side. Knowledge of what information matters at first contact for different claim types and what consistently gets missed in manual intake. A background in claims handling rather than sales or underwriting.',
-    earnRate: '25–40%',
-    earnText: 'Agencies and TPAs handling high claim volumes are the buyers. Volume-driven use case with strong retention once embedded in the workflow.'
-  },
-  bond: {
-    codename: 'Bond',
-    title: 'Surety Bond Analyst',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Evaluates bond requests — contract, commercial, and miscellaneous — reviews supporting financials and project details, and produces underwriting recommendations with a structured summary of key risk factors, recommended bond terms, and the indemnity considerations that matter for each account type. Reduces underwriter review time on routine submissions.',
-    creator: 'Surety underwriting background, ideally with a specialist surety carrier or surety-focused wholesale broker. The ability to read a contractor\'s financial statements and translate working capital, net worth, and backlog ratios into bond risk. Knowledge of what makes a surety account attractive versus problematic before the formal application.',
-    earnRate: '40–60%',
-    earnText: 'Specialty niche with limited competition and well-defined buyer need. Surety underwriters and wholesale brokers are the core market.'
-  },
-  expose: {
-    codename: 'Expose',
-    title: 'Exposure Analyst',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Reviews a book of business for underinsurance risk — compares declared values against replacement cost benchmarks using Marshall & Swift or equivalent valuation methodology, identifies accounts with significant coverage gaps, and generates remediation recommendations for the agent including suggested coverage adjustments and client talking points. Flags the accounts most likely to become E&O claims at renewal.',
-    creator: 'Property underwriting, appraisal, or risk management background. Familiarity with replacement cost valuation methodology and the patterns that indicate chronic underinsurance — especially in commercial property and homeowners lines where inflation has created widespread exposure gaps.',
-    earnRate: '30–45%',
-    earnText: 'High value to carriers and larger independent agencies managing property-heavy books. E&O exposure is the motivating factor — budget exists.'
-  },
-  screen: {
-    codename: 'Screen',
-    title: 'E&S Lines Screener',
-    vertical: 'Insurance',
-    verticalClass: 'insurance',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Pre-qualifies excess and surplus lines submissions against known carrier appetites before formal submission. Reviews the risk, maps it to the most likely markets based on appetite signals, identifies the presentation elements that will matter most for each market, and returns a ranked list of target carriers with submission positioning guidance. Reduces declination rates and saves wholesaler time on accounts that were never going to find a market as submitted.',
-    creator: 'Wholesale brokerage or E&S underwriting background. Deep knowledge of which specialty markets want which risks and how to position a submission for maximum acceptance probability. The tacit knowledge of carrier appetite that experienced wholesalers accumulate over years of placement experience.',
-    earnRate: '40–55%',
-    earnText: 'Wholesale brokers and MGAs are the core market. Placement efficiency is directly measurable — strong ROI case for buyers.'
-  },
-  prior: {
-    codename: 'Prior',
-    title: 'Prior Authorization Specialist',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Manages prior authorisation submissions across payers — prepares clinical documentation packages using the clinical language each payer\'s utilisation management team responds to, submits to payer portals, tracks status, escalates stalled requests before they expire, and builds appeal letters when authorisation is denied. Tracks approval rates by payer and procedure to identify patterns the practice can use to improve future submissions.',
-    creator: 'Prior auth experience from a practice management, health system, utilisation management, or payer perspective. Knowledge of which payers require which clinical language to get approvals and where the criteria actually live versus where they claim they live. The specific expertise that comes from doing this work every day, not from reading coverage policies.',
-    earnRate: '30–45%',
-    earnText: 'Every medical practice that submits prior auths is a potential buyer. The time and denial cost make the ROI case immediate and obvious.'
-  },
-  intake: {
-    codename: 'Intake',
-    title: 'Patient Intake Coordinator',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Handles new patient registration end-to-end — collects and validates demographic information, verifies insurance eligibility in real time against payer portals, confirms benefits and cost-sharing for the scheduled service, identifies secondary insurance, and schedules the appointment based on the practice\'s availability rules and provider preferences. Reduces front-desk burden on new patient days and eliminates the insurance surprises that generate billing disputes after the visit.',
-    creator: 'Front-desk or practice management experience, ideally across multiple specialties. Knowledge of what patients consistently get wrong on intake forms and what insurance verification actually requires from the payer side to come back clean. The specific expertise that prevents the errors that generate downstream billing problems.',
-    earnRate: '25–40%',
-    earnText: 'Extremely broad market — every practice, every specialty, every size. High-volume use case with strong retention once embedded.'
-  },
-  bill: {
-    codename: 'Bill',
-    title: 'Medical Billing Specialist',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Reviews encounter data from the EHR, validates diagnosis and procedure code combinations against payer-specific billing rules, applies modifier logic, flags coding mismatches and medical necessity issues before submission, and submits clean claims to reduce denial rates. Tracks clean claim rates by payer and identifies the rule changes that are generating new denial patterns before they affect a full billing cycle.',
-    creator: 'Medical billing and coding experience with CPC, CCS, or equivalent certification preferred. Knowledge of the coding patterns that trigger automatic denials and the payer rules that differ from the standard fee schedule in ways that billers only learn through experience. Ideally experience across multiple specialties.',
-    earnRate: '35–50%',
-    earnText: 'Billing offices, revenue cycle companies, and practices with in-house billing are all buyers. Clean claim rate improvement is directly measurable.'
-  },
-  deny: {
-    codename: 'Deny',
-    title: 'Denial Management Analyst',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Identifies denial patterns across a practice\'s remittance data — categorises denials by reason code, payer, provider, and procedure, surfaces the systemic billing issues generating the highest dollar volume of denied claims, builds appeal letters matched to the specific denial reason and payer appeal process, and tracks resolution rates through the full appeal cycle. Turns reactive denial management into a proactive revenue recovery programme.',
-    creator: 'Revenue cycle or denial management experience. The ability to read an EOB, identify the real reason for denial under the denial code, and write an appeal that actually gets paid. Knowledge of which payer appeal processes respond to clinical arguments versus technical billing corrections versus peer-to-peer escalations.',
-    earnRate: '35–50%',
-    earnText: 'Practices losing 10%+ of revenue to denials are the immediate market. The ROI case writes itself — recovery on existing revenue.'
-  },
-  refer: {
-    codename: 'Refer',
-    title: 'Referral Coordinator',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Processes specialist referrals from primary care practices — verifies patient insurance with the receiving specialist\'s office, prepares the referral documentation package with the clinical information the specialist actually needs, coordinates scheduling between the referring and receiving practices, and tracks pending referrals through completion to close the loop for the referring provider. Eliminates the lost referrals that fall through the coordination gap between practices.',
-    creator: 'Healthcare coordination experience from a primary care practice, specialty practice, or health system care coordination programme. Knowledge of what information specialists actually need versus what typically gets sent in a referral packet. The specific expertise that comes from being on both sides of the referral process.',
-    earnRate: '25–35%',
-    earnText: 'Primary care practices and health systems are the buyers. High volume use case — primary care practices generate hundreds of referrals monthly.'
-  },
-  comply: {
-    codename: 'Comply',
-    title: 'Healthcare Compliance Monitor',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Monitors HIPAA Privacy and Security Rule requirements, flags policy and procedure gaps against current OCR guidance, tracks required workforce training completion by role, monitors for changes to applicable regulations and guidance documents, and prepares summary documentation for annual compliance reviews and audits. Generates a compliance dashboard the practice administrator can review monthly rather than discovering gaps during an OCR investigation.',
-    creator: 'Healthcare compliance experience from a practice, health system, or healthcare law background. Familiarity with OCR audit focus areas and the specific documentation gaps that get practices in trouble. Knowledge of what a practice\'s compliance programme actually needs to demonstrate versus what looks good on paper.',
-    earnRate: '35–50%',
-    earnText: 'Small and mid-size practices that lack a dedicated compliance officer are the core market. Risk-driven purchase — budget exists before the relationship starts.'
-  },
-  cred: {
-    codename: 'Cred',
-    title: 'Provider Credentialing Specialist',
-    vertical: 'Healthcare Admin',
-    verticalClass: 'healthcare',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Manages credentialing applications for new providers — assembles the application documentation package, tracks submission status across medical staff offices and payer enrollment departments, monitors expiration dates for licences, certifications, DEA registrations, and board certifications, and maintains a current provider profile that keeps the practice in-network across all active payers. Eliminates the lapsed credentials that generate claim denials and delayed revenue.',
-    creator: 'Medical staff services, credentialing, or payer enrollment experience. Knowledge of the specific documentation each payer requires for enrollment and where applications consistently stall. The specific expertise that comes from managing credentialing across multiple providers and payers simultaneously.',
-    earnRate: '30–45%',
-    earnText: 'Group practices, management services organisations, and health systems are buyers. Lapsed credentials directly affect revenue — strong urgency.'
-  },
-  prospect: {
-    codename: 'Prospect',
-    title: 'Client Prospect Analyst',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Researches prospect profiles before first client meetings — compiles financial signals from public sources including business ownership, real estate holdings, executive compensation indicators, and life event triggers, identifies the most likely financial planning gaps based on the prospect\'s profile, and produces a structured meeting brief that lets the advisor walk in with the right questions already prepared. Turns cold introductions into warm conversations.',
-    creator: 'Financial planning or wealth management experience. Knowledge of what the right questions are before a first prospect meeting and what public signals actually indicate about a prospect\'s financial situation and planning gaps. Ideally experience conducting initial client discovery conversations.',
-    earnRate: '30–45%',
-    earnText: 'Independent RIAs and hybrid advisors with active business development pipelines. Every advisor meeting is a revenue opportunity.'
-  },
-  review: {
-    codename: 'Review',
-    title: 'Annual Review Specialist',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Prepares comprehensive annual review packages for client meetings — pulls account performance from custodian data, calculates progress toward each stated goal, identifies drift from the financial plan and its causes, surfaces life changes that may warrant plan adjustments, and produces a structured agenda with the advisor\'s talking points already drafted. Lets advisors scale their review meeting capacity without reducing meeting quality.',
-    creator: 'Wealth management or financial planning experience. Knowledge of how a well-run annual review is structured and what clients actually want to discuss versus what advisors want to present. Understanding of what the numbers mean in the context of a client relationship, not just as performance data.',
-    earnRate: '35–50%',
-    earnText: 'RIAs and wirehouse advisors with large client books. Every advisor has annual review obligations — this replaces hours of preparation per client.'
-  },
-  plan: {
-    codename: 'Plan',
-    title: 'Financial Plan Analyst',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Custom',
-    modeClass: 'craft',
-    desc: 'Works alongside the advisor in Custom mode to build draft financial plans — takes client data inputs including income, expenses, assets, liabilities, and stated goals, applies the firm\'s specific planning methodology and assumption set, produces scenario analyses for key variables including retirement timing and savings rates, and delivers a structured draft plan the advisor reviews, adjusts, and finalises with the client. The advisor directs; Plan accelerates the analytical work.',
-    creator: 'CFP designation or equivalent financial planning experience. A specific planning methodology, not just process knowledge — the kind of expertise that comes from building hundreds of plans and knowing which assumptions matter and which scenarios clients actually need to see.',
-    earnRate: '40–65%',
-    earnText: 'Custom mode commands higher rates. Fee-based planning practices with high plan volume are the buyers. Significant time savings per plan produced.'
-  },
-  watch: {
-    codename: 'Watch',
-    title: 'Portfolio Alert Monitor',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Monitors client portfolios continuously for rebalancing triggers when allocations drift beyond policy bands, tax loss harvesting opportunities when positions are in loss positions, concentration risk when a single holding exceeds the client\'s stated limit, and cash drag when uninvested cash exceeds the target threshold. Delivers a prioritised action alert list to the advisor each morning, ranked by urgency and dollar impact.',
-    creator: 'Portfolio management or investment operations experience. Knowledge of what alert thresholds actually matter versus what generates noise without producing action. The specific expertise that comes from managing rebalancing and tax management across a large number of client accounts simultaneously.',
-    earnRate: '35–50%',
-    earnText: 'RIAs with AUM-based practices and discretionary management. Every alert acted upon is a tangible demonstration of value to the client.'
-  },
-  reg: {
-    codename: 'Reg',
-    title: 'Regulatory Filing Monitor',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Ready',
-    modeClass: 'always-on',
-    desc: 'Tracks Form ADV amendment triggers — material changes that require prompt amendment within 30 days — Form CRS update obligations, state registration renewal deadlines across all states where the firm is registered, individual IAR registration requirements, and continuing education obligations. Generates filing checklists and deadline alerts 60 days before each deadline so the compliance team is never caught flat-footed by a regulatory calendar.',
-    creator: 'RIA compliance or securities regulatory experience. The specific knowledge of what triggers an ADV amendment and what the SEC or state regulators actually care about in an examination. Background as a compliance officer, compliance consultant, or securities attorney serving RIA clients.',
-    earnRate: '35–50%',
-    earnText: 'Independent RIAs and small broker-dealers without dedicated compliance staff. Regulatory deadlines are non-negotiable — the purchase decision makes itself.'
-  },
-  estate: {
-    codename: 'Estate',
-    title: 'Estate Planning Coordinator',
-    vertical: 'Financial Advisory',
-    verticalClass: 'financial',
-    mode: 'Custom',
-    modeClass: 'craft',
-    desc: 'Works alongside the advisor in Custom mode on estate planning client engagements — prepares structured estate summaries from client documents including wills, trusts, beneficiary designations, and entity ownership, identifies planning gaps relative to the client\'s stated objectives and current estate tax exposure, surfaces coordination opportunities between the financial plan and the estate plan, and manages communication with the client\'s estate attorney and CPA to ensure the advisory, legal, and tax teams are working from the same set of facts.',
-    creator: 'Estate planning experience from the advisory, trust officer, estate planning attorney, or wealth management side. The ability to read an estate plan and identify what is missing, what is inadequate, and what creates unintended consequences for the client\'s situation — not just what the documents say.',
-    earnRate: '45–65%',
-    earnText: 'Custom mode commands higher rates. High-net-worth advisory practices with complex estate planning clients. Significant engagement value per client.'
-  }
-};
+// ── EARNINGS CALCULATOR ──
+const SLIDER_MIN = 0, SLIDER_MAX = 100;
+const LOG_MIN = Math.log(10), LOG_MAX = Math.log(500);
 
-// ── MODAL ──
-function openModal(roleId) {
-  const r = roles[roleId];
-  if (!r) return;
-
-  const vertColors = {
-    insurance: 'border-color:rgba(139,105,20,0.4);color:var(--gold-text);background:rgba(139,105,20,0.06);',
-    healthcare: 'border-color:rgba(45,106,79,0.4);color:#2d6a4f;background:rgba(45,106,79,0.05);',
-    financial: 'border-color:rgba(26,58,92,0.4);color:#1a3a5c;background:rgba(26,58,92,0.05);'
-  };
-  const modeColors = {
-    'always-on': 'background:var(--ink);color:var(--white);border-color:var(--ink);',
-    'craft': 'background:transparent;border-color:var(--ink);color:var(--ink);'
-  };
-
-  document.getElementById('modalBadges').innerHTML =
-    `<span class="modal-badge" style="${vertColors[r.verticalClass]}">${r.vertical}</span>` +
-    `<span class="modal-badge" style="${modeColors[r.modeClass]}">${r.mode}</span>`;
-  document.getElementById('modalCodename').textContent = r.codename;
-  document.getElementById('modalTitle').textContent = r.title;
-  document.getElementById('modalDesc').innerHTML = r.desc;
-  document.getElementById('modalEarnRate').textContent = r.earnRate;
-  document.getElementById('modalEarnText').textContent = r.earnText;
-
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+function sliderToDeployments(v) {
+  if (v <= 0) return 0;
+  const t = v / 100;
+  return Math.round(Math.exp(LOG_MIN + t * (LOG_MAX - LOG_MIN)));
 }
 
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
-
-// keyboard activation for role cards
-document.querySelectorAll('.role-card').forEach(card => {
-  card.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
-  });
-});
-
-// ── FILTER ──
-let csMode = 'all', csVert = 'all';
-
-function filterRoleMode(mode, btn) {
-  csMode = mode;
-  btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  applyRoleFilters();
-}
-function filterRoles(vertical, btn) {
-  csVert = vertical;
-  btn.closest('.filter-group').querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  applyRoleFilters();
-}
-function applyRoleFilters() {
-  let count = 0;
-  document.querySelectorAll('.role-card').forEach(card => {
-    const modeMatch = csMode === 'all' || card.dataset.mode === csMode;
-    const vertMatch = csVert === 'all' || card.dataset.vertical === csVert;
-    const show = modeMatch && vertMatch;
-    card.style.display = show ? '' : 'none';
-    if (show) count++;
-  });
-  document.getElementById('roleCount').textContent = count;
-}
-
-// ── FORM ──
-async function submitApplication() {
-  const name     = document.getElementById('f-name').value.trim();
-  const email    = document.getElementById('f-email').value.trim();
-  const vertical = document.getElementById('f-vertical').value;
-  const idea     = document.getElementById('f-idea').value.trim();
-
-  if (!name || !email || !vertical || !idea) {
-    alert('Please complete all fields to continue.');
+function updateCalc() {
+  const v = parseInt(document.getElementById('deploy-slider').value);
+  const deployments = sliderToDeployments(v);
+  document.getElementById('deploy-display').textContent = deployments;
+  if (deployments < 10) {
+    document.getElementById('income-display').textContent = '—';
     return;
   }
+  // Illustrative range: income per deployment ~£50–£120/month depending on tier
+  const low = Math.round(deployments * 50 / 100) * 100;
+  const high = Math.round(deployments * 120 / 100) * 100;
+  document.getElementById('income-display').textContent = '£' + low.toLocaleString() + ' – £' + high.toLocaleString() + '/mo';
+}
+updateCalc();
 
+// ── ROLES DATA ──
+const roles = [
+  {
+    vertical: 'Insurance & Risk',
+    title: 'Regulatory Intelligence Analyst',
+    desc: 'Monitors state DOIs and carrier appetite changes. Builds the knowledge base that keeps insurance professionals ahead of every bulletin. <strong>Deep P&C or L&H specialisation required.</strong>',
+    prereqs: '5+ yrs insurance · State regulatory experience · P&C or L&H focus'
+  },
+  {
+    vertical: 'Financial Services',
+    title: 'Commercial Credit Analyst',
+    desc: 'Assesses credit risk on commercial lending requests. Encodes underwriting methodology into a repeatable, consistent evaluation process. <strong>Commercial banking or credit fund background preferred.</strong>',
+    prereqs: '5+ yrs commercial credit · Underwriting methodology · Deal structuring'
+  },
+  {
+    vertical: 'Healthcare',
+    title: 'Clinical Documentation Specialist',
+    desc: 'Reviews and improves clinical documentation for accuracy, completeness, and compliance. Reduces denials and supports audit readiness. <strong>RN, HIM, or CDI certification required.</strong>',
+    prereqs: 'RN / HIM / CDI credential · Payer knowledge · ICD-10 proficiency'
+  },
+  {
+    vertical: 'Legal & Compliance',
+    title: 'Contract Review Specialist',
+    desc: 'Reviews commercial contracts against standard positions. Flags deviations, non-standard terms, and risk exposure. <strong>In-house or private practice commercial law experience required.</strong>',
+    prereqs: '5+ yrs commercial contracts · Common law jurisdiction · M&A or commercial focus'
+  },
+  {
+    vertical: 'Real Estate',
+    title: 'Deal Qualification Analyst',
+    desc: 'Qualifies inbound buyer and tenant enquiries, assesses deal fit, and prepares briefing notes for agents. <strong>Residential or commercial agency experience, with a proven sales process.</strong>',
+    prereqs: '5+ yrs property agency · Buyer qualification · Pipeline management'
+  },
+  {
+    vertical: 'Operations',
+    title: 'Process Documentation Specialist',
+    desc: 'Captures and structures operational procedures into clear, actionable SOPs. Ensures consistency across teams and enables effective onboarding. <strong>Operations management or BPO background required.</strong>',
+    prereqs: 'Operations management · SOP writing · Process improvement background'
+  }
+];
+
+const ROLES_PER_PAGE = 6;
+let currentPage = 0;
+
+function renderRoles() {
+  const grid = document.getElementById('roles-grid');
+  const pagination = document.getElementById('roles-pagination');
+  const start = currentPage * ROLES_PER_PAGE;
+  const pageRoles = roles.slice(start, start + ROLES_PER_PAGE);
+
+  grid.innerHTML = pageRoles.map(r => `
+    <div class="role-card" role="listitem">
+      <div class="role-vertical">${r.vertical}</div>
+      <div class="role-title">${r.title}</div>
+      <p class="role-desc">${r.desc}</p>
+      <div class="role-prereqs">${r.prereqs}</div>
+      <button class="role-apply-btn" onclick="openRoleModal('${r.title.replace(/'/g,"\\'")}','${r.vertical.replace(/'/g,"\\'")}')">Apply for this role →</button>
+    </div>
+  `).join('');
+
+  const totalPages = Math.ceil(roles.length / ROLES_PER_PAGE);
+  if (totalPages > 1) {
+    pagination.innerHTML = Array.from({length: totalPages}, (_, i) =>
+      `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})" aria-label="Page ${i+1}">${i+1}</button>`
+    ).join('');
+  }
+}
+
+function goPage(n) {
+  currentPage = n;
+  renderRoles();
+  document.getElementById('roles').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+renderRoles();
+
+// ── MODAL ──
+function openModal(id) {
+  const m = document.getElementById(id);
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  m.querySelector('input:not([readonly]), textarea, select')?.focus();
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open'); document.body.style.overflow = '';
+    });
+  }
+});
+
+function openRoleModal(title, vertical) {
+  document.getElementById('rm-role').value = title + ' · ' + vertical;
+  document.getElementById('role-modal-sub').textContent = vertical + ' · Open role';
+  ['rm-name','rm-email','rm-desc'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('role-modal-form-wrap').style.display = '';
+  document.getElementById('role-modal-success').style.display = 'none';
+  openModal('modal-role');
+}
+
+async function submitRoleModal() {
+  const name = document.getElementById('rm-name').value.trim();
+  const email = document.getElementById('rm-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
   const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
-
   try {
     await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject: 'Creator Interest — ' + name + ' · ' + vertical + ' · tryjoyn.me',
-        name, email, vertical,
-        what_to_build: idea
+        subject: 'Creator Application — ' + document.getElementById('rm-role').value.split(' ·')[0] + ' · tryjoyn.me',
+        name, email,
+        role: document.getElementById('rm-role').value,
+        background: document.getElementById('rm-desc').value.trim()
       })
     });
-    document.getElementById('applyForm').style.display = 'none';
-    document.getElementById('applySuccess').style.display = 'block';
-    document.getElementById('applySuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.getElementById('role-modal-form-wrap').style.display = 'none';
+    document.getElementById('role-modal-success').style.display = 'block';
   } catch {
-    btn.textContent = 'Submit →'; btn.disabled = false;
+    btn.textContent = 'Submit'; btn.disabled = false;
     alert('Something went wrong. Please email hire@tryjoyn.me directly.');
+  }
+}
+
+// ── APPLY FORM ──
+async function submitApplyForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('apply-form');
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+  try {
+    const data = new FormData(form);
+    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('apply-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Try again'; btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Try again'; btn.disabled = false;
   }
 }
 </script>

@@ -213,16 +213,19 @@ a { color: inherit; }
   <span class="filter-label" id="mode-label">Mode</span>
   <div class="filter-group" role="group" aria-labelledby="mode-label">
     <button class="filter-btn active" onclick="filterMode('all',this)">All</button>
-    <button class="filter-btn" onclick="filterMode('always-on',this)">Ready</button>
-    <button class="filter-btn" onclick="filterMode('craft',this)">Custom</button>
+    <button class="filter-btn" onclick="filterMode('always-on',this)">Autonomous</button>
+    <button class="filter-btn" onclick="filterMode('craft',this)">Supervised</button>
   </div>
   <span class="filter-label" id="vert-label">Vertical</span>
   <div class="filter-group" role="group" aria-labelledby="vert-label">
     <button class="filter-btn active" onclick="filterVertical('all',this)">All</button>
-    <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance</button>
+    <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance &amp; Risk</button>
+    <button class="filter-btn" onclick="filterVertical('financial-services',this)">Financial Services</button>
+    <button class="filter-btn" onclick="filterVertical('healthcare',this)">Healthcare</button>
+    <button class="filter-btn" onclick="filterVertical('legal-compliance',this)">Legal &amp; Compliance</button>
+    <button class="filter-btn" onclick="filterVertical('real-estate',this)">Real Estate</button>
+    <button class="filter-btn" onclick="filterVertical('operations',this)">Operations</button>
     <button class="filter-btn" onclick="filterVertical('technology',this)">Technology</button>
-    <button class="filter-btn" onclick="filterVertical('healthcare',this)">Healthcare Admin</button>
-    <button class="filter-btn" onclick="filterVertical('financial',this)">Financial Advisory</button>
   </div>
   <div class="filter-count" aria-live="polite"><strong id="count-display">2</strong> available</div>
 </div>
@@ -233,7 +236,7 @@ a { color: inherit; }
     <a href="iris-insurance-regulatory.html" class="staff-card" data-mode="always-on" data-vertical="insurance" aria-label="Hire Iris — Insurance Regulatory Intelligence">
       <div class="card-top">
         <span class="tag tag-live">Live</span>
-        <span class="tag tag-always">Ready</span>
+        <span class="tag tag-always">Autonomous</span>
       </div>
       <div class="card-name">Iris</div>
       <div class="card-role">Insurance Regulatory Intelligence</div>
@@ -241,8 +244,10 @@ a { color: inherit; }
       <div class="card-signals">
         <span class="card-signal">Florida</span>
         <span class="card-signal">Homeowners</span>
-        <span class="card-signal">Ready</span>
+        <span class="card-signal">Autonomous</span>
         <span class="card-signal">Real-time alerts</span>
+        <span class="card-signal">~4h analyst time saved/week</span>
+        <span class="card-signal">0 missed bulletins</span>
       </div>
       <span class="card-cta">Hire Iris →</span>
     </a>
@@ -250,7 +255,7 @@ a { color: inherit; }
     <a href="../practice/tdd-practice-team.html" class="staff-card" data-mode="craft" data-vertical="technology" aria-label="View TDD Practice Team">
       <div class="card-top">
         <span class="tag tag-live">Live</span>
-        <span class="tag tag-craft">Custom</span>
+        <span class="tag tag-craft">Supervised</span>
       </div>
       <div class="card-name" style="font-size:clamp(1.75rem,3.5vw,2.5rem); line-height:1.1;">TDD Practice<br>Team</div>
       <div class="card-role">Technology Due Diligence · 8 Agents</div>
@@ -260,6 +265,8 @@ a { color: inherit; }
         <span class="card-signal">72h turnaround</span>
         <span class="card-signal">IC-ready output</span>
         <span class="card-signal">PE &amp; Corp Dev</span>
+        <span class="card-signal">vs 2–4 week standard</span>
+        <span class="card-signal">8 analysts in parallel</span>
       </div>
       <span class="card-cta">View Team →</span>
     </a>
@@ -276,47 +283,113 @@ a { color: inherit; }
     <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--rule); background:var(--rule);" id="pipeline-grid">
 
       <div class="staff-card soon" role="article" aria-label="Dispatch — coming soon">
-        <div class="staff-card-top">
+        <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
-          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Ready</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
-        <div class="staff-name">Dispatch</div>
-        <div class="staff-role" style="color:var(--ink-secondary);">Field Services Dispatcher · Trades</div>
-        <p class="staff-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am.</p>
+        <div class="card-name">Dispatch</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Field Services Dispatcher · Trades</div>
+        <p class="card-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am.</p>
         <button class="interest-btn" onclick="openInterest('Dispatch','Field Services Dispatcher · Trades')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Scout — coming soon">
-        <div class="staff-card-top">
+        <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
-          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Ready</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
-        <div class="staff-name">Scout</div>
-        <div class="staff-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator · Real Estate</div>
-        <p class="staff-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar.</p>
+        <div class="card-name">Scout</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator · Real Estate</div>
+        <p class="card-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar.</p>
         <button class="interest-btn" onclick="openInterest('Scout','Lead Qualifier &amp; Showing Coordinator · Real Estate')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Renew — coming soon">
-        <div class="staff-card-top">
+        <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
-          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Ready</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
-        <div class="staff-name">Renew</div>
-        <div class="staff-role" style="color:var(--ink-secondary);">Renewal Specialist · Insurance</div>
-        <p class="staff-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically.</p>
+        <div class="card-name">Renew</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Renewal Specialist · Insurance</div>
+        <p class="card-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically.</p>
         <button class="interest-btn" onclick="openInterest('Renew','Renewal Specialist · Insurance')">Express interest →</button>
       </div>
 
       <div class="staff-card soon" role="article" aria-label="Publish — coming soon">
-        <div class="staff-card-top">
+        <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
-          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Ready</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
-        <div class="staff-name">Publish</div>
-        <div class="staff-role" style="color:var(--ink-secondary);">Content Strategist · Marketing</div>
-        <p class="staff-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles.</p>
+        <div class="card-name">Publish</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Content Strategist · Marketing</div>
+        <p class="card-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles.</p>
         <button class="interest-btn" onclick="openInterest('Publish','Content Strategist · Marketing')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Comply — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
+        </div>
+        <div class="card-name">Comply</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Compliance Monitor · Legal &amp; Compliance</div>
+        <p class="card-desc">Continuously monitors regulatory feeds across your jurisdictions and flags compliance obligations before they become exposure.</p>
+        <button class="interest-btn" onclick="openInterest('Comply','Compliance Monitor · Legal &amp; Compliance')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Brief — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
+        </div>
+        <div class="card-name">Brief</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Client Brief Specialist · Operations</div>
+        <p class="card-desc">Converts intake calls and intake forms into structured, actionable client briefs — ready for your team to execute against.</p>
+        <button class="interest-btn" onclick="openInterest('Brief','Client Brief Specialist · Operations')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="File — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
+        </div>
+        <div class="card-name">File</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Document Filing Specialist · Operations</div>
+        <p class="card-desc">Classifies, names, and routes inbound documents into the right folders with the right metadata. Zero manual filing.</p>
+        <button class="interest-btn" onclick="openInterest('File','Document Filing Specialist · Operations')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Counsel — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
+        </div>
+        <div class="card-name">Counsel</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Legal Counsel Support · Legal &amp; Compliance</div>
+        <p class="card-desc">Works alongside your legal team — researching precedent, summarising case law, and drafting first-pass memos under practitioner direction.</p>
+        <button class="interest-btn" onclick="openInterest('Counsel','Legal Counsel Support · Legal &amp; Compliance')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Accord — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
+        </div>
+        <div class="card-name">Accord</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Contract Review Specialist · Legal &amp; Compliance</div>
+        <p class="card-desc">Reads contracts against your standard positions, flags deviations, and produces a redline summary — ready for partner review.</p>
+        <button class="interest-btn" onclick="openInterest('Accord','Contract Review Specialist · Legal &amp; Compliance')">Express interest →</button>
+      </div>
+
+      <div class="staff-card soon" role="article" aria-label="Ledger — coming soon">
+        <div class="card-top">
+          <span class="tag tag-soon">Coming Soon</span>
+          <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
+        </div>
+        <div class="card-name">Ledger</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Financial Reconciliation · Financial Services</div>
+        <p class="card-desc">Reconciles accounts, flags discrepancies, and produces period-end summaries — working under your finance team's oversight.</p>
+        <button class="interest-btn" onclick="openInterest('Ledger','Financial Reconciliation · Financial Services')">Express interest →</button>
       </div>
 
     </div>
