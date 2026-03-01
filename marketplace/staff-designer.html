@@ -170,7 +170,7 @@ p { color: var(--ink-secondary); }
 /* ── VERTICAL GRID ── */
 .vertical-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 2px;
   margin-bottom: 3rem;
 }
@@ -676,7 +676,7 @@ p { color: var(--ink-secondary); }
     <div class="vertical-grid" id="verticalGrid">
       <div class="v-card" data-v="insurance" onclick="selectVertical(this)">
         <div class="v-check">✓</div>
-        <div class="v-tag">Insurance</div>
+        <div class="v-tag">Insurance & Risk</div>
         <div class="v-name">Insurance Agency</div>
         <div class="v-desc">Independent agents, brokerages, MGAs</div>
       </div>
@@ -688,9 +688,9 @@ p { color: var(--ink-secondary); }
       </div>
       <div class="v-card" data-v="finance" onclick="selectVertical(this)">
         <div class="v-check">✓</div>
-        <div class="v-tag">Financial Advisory</div>
-        <div class="v-name">RIA / Financial Advisor</div>
-        <div class="v-desc">Independent advisors, small RIAs</div>
+        <div class="v-tag">Financial Services</div>
+        <div class="v-name">Financial Services Firm</div>
+        <div class="v-desc">Financial advisors, wealth managers, RIAs</div>
       </div>
       <div class="v-card" data-v="realestate" onclick="selectVertical(this)">
         <div class="v-check">✓</div>
@@ -700,15 +700,21 @@ p { color: var(--ink-secondary); }
       </div>
       <div class="v-card" data-v="legal" onclick="selectVertical(this)">
         <div class="v-check">✓</div>
-        <div class="v-tag">Legal</div>
-        <div class="v-name">Law Firm</div>
-        <div class="v-desc">Small to mid-size practices</div>
+        <div class="v-tag">Legal & Compliance</div>
+        <div class="v-name">Law Firm / Compliance</div>
+        <div class="v-desc">Law firms, compliance teams, legal ops</div>
       </div>
-      <div class="v-card" data-v="other" onclick="selectVertical(this)">
+      <div class="v-card" data-v="operations" onclick="selectVertical(this)">
         <div class="v-check">✓</div>
-        <div class="v-tag">Other</div>
-        <div class="v-name">Other Licensed Profession</div>
-        <div class="v-desc">Accounting, construction, trades</div>
+        <div class="v-tag">Operations</div>
+        <div class="v-name">Field Operations</div>
+        <div class="v-desc">Trades, field services, SMB operations</div>
+      </div>
+      <div class="v-card" data-v="technology" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Technology</div>
+        <div class="v-name">Tech Business</div>
+        <div class="v-desc">Software, SaaS, tech-enabled services</div>
       </div>
     </div>
 
@@ -775,12 +781,13 @@ p { color: var(--ink-secondary); }
 //   outcomes[], hireCta, hireUrl, hireNote
 
 const CHIPS = {
-  insurance:  ['Tracking Florida OIR bulletins','Missing carrier rate filings','CE deadline monitoring','Renewal prep across my book','E&O exposure changes'],
-  healthcare: ['Tracking HIPAA guidance updates','Monitoring billing code changes','Credentialing requirement shifts','Medicare/Medicaid policy changes'],
-  finance:    ['Monitoring SEC rule updates','Tracking FINRA guidance','ADV filing deadline tracking','State securities law changes'],
-  realestate: ['Zoning code changes','MLS compliance updates','Permit requirement shifts','Fair housing regulation changes'],
-  legal:      ['Court rule amendments','Ethics opinion updates','Bar requirement changes','Malpractice exposure signals'],
-  other:      ['Ongoing regulatory monitoring','Compliance requirement tracking','Licensing deadline management']
+  insurance:   ['Tracking Florida OIR bulletins','Missing carrier rate filings','CE deadline monitoring','Renewal prep across my book','E&O exposure changes'],
+  healthcare:  ['Tracking HIPAA guidance updates','Monitoring billing code changes','Credentialing requirement shifts','Medicare/Medicaid policy changes'],
+  finance:     ['Monitoring SEC rule updates','Tracking FINRA guidance','ADV filing deadline tracking','State securities law changes'],
+  realestate:  ['Zoning code changes','MLS compliance updates','Permit requirement shifts','Fair housing regulation changes'],
+  legal:       ['Court rule amendments','Ethics opinion updates','Bar requirement changes','Malpractice exposure signals'],
+  operations:  ['Answering inbound calls after hours','Booking and scheduling jobs','Dispatching field staff','Managing client intake','Document filing and routing'],
+  technology:  ['Technology due diligence on acquisition targets','Pre-LOI screening','IC-ready output timelines','Vendor and platform assessment']
 };
 
 const CATALOGUE = {
@@ -1019,46 +1026,97 @@ const CATALOGUE = {
       hireNote:'Both roles in development. Express interest to be first in line.'
     }
   },
-  other: {
+  operations: {
     solo: {
-      title: 'Your vertical is next. Help us build it right.',
-      summary: 'Joyn\'s catalogue is expanding into every licensed profession with ongoing compliance obligations. The pattern is always the same: regulatory monitoring that licensed professionals can\'t afford to miss but don\'t have time to do manually.',
+      title: 'One staff member. Every inbound call answered.',
+      summary: 'Dispatch handles every inbound call, books jobs, manages the schedule, and sends confirmations — including the ones that come in at 2am. Solo operators stop losing jobs to missed calls.',
       members: [
-        { name:'Coming', role:'Your Vertical Is Next', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'In Development',
-          what:'We\'re actively expanding into accounting, construction, trades, and HR. Your input shapes what we build and in what order. Express interest and describe your specific regulatory pain — it goes directly into the build queue.',
-          builtBy:'You', builtByCred:'Help us write the spec',
-          timeToLive:'Help us prioritise', ttlHighlight:false, coverage:'Your jurisdiction · Your licence obligations', outcome:'0 missed regulatory changes' }
+        { name:'Dispatch', role:'Field Services Dispatcher', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Answers every inbound call, books jobs, manages the schedule, and sends confirmations automatically. No missed calls, no manual scheduling, no after-hours gaps.',
+          builtBy:'Operations Expert', builtByCred:'Field services & trades specialist',
+          timeToLive:'31 Mar 2026', ttlHighlight:true, coverage:'Inbound calls · Job booking · Schedule management · Confirmations', outcome:'0 missed inbound calls' }
       ],
       diagramType: 'solo',
       flow: [
-        {step:'01', text:'Tell us exactly which regulatory sources cost you the most time'},
-        {step:'02', text:'We assess it against our six-gate quality framework'},
-        {step:'03', text:'Verified domain expert builds the role to spec'},
-        {step:'04', text:'You get early access at first-hire pricing'}
+        {step:'01', text:'Client calls your business number at any hour'},
+        {step:'02', text:'Dispatch answers, qualifies the job, and books the slot'},
+        {step:'03', text:'Confirmation sent to client automatically'},
+        {step:'04', text:'Your calendar updated — you show up, job done'}
       ],
-      outcomes: [{num:'Phase 2',label:'Accounting & Tax'},{num:'Phase 2',label:'Construction & Trades'},{num:'Phase 3',label:'HR & Employment'}],
-      hireCta:'Tell us your problem', hireUrl:'mailto:hire@tryjoyn.me',
-      hireNote:'Email us directly. Your brief goes into the catalogue development queue immediately.'
+      outcomes: [{num:'0',label:'Missed inbound calls'},{num:'24/7',label:'Call coverage'},{num:'Auto',label:'Confirmations sent'}],
+      hireCta:'Express interest', hireUrl:'index.html',
+      hireNote:'Dispatch launches 31 March 2026. Express interest to be first in line.'
     },
     team: {
-      title: 'Your vertical. Your team. We\'ll build it.',
-      summary: 'Multi-person operations in underserved verticals are exactly where Joyn\'s model compounds. The more specific the compliance pain, the clearer the value. Tell us what you need.',
+      title: 'Three staff members. Dispatch, intake, and filing — fully covered.',
+      summary: 'Growing operations lose hours every week to scheduling calls, client intake, and document routing. Three autonomous staff members handle all of it — so your team focuses on the work, not the admin.',
       members: [
-        { name:'Coming', role:'Your Vertical Is Next', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'In Development',
-          what:'We\'re building the Joyn catalogue vertical by vertical. Multi-person operations with distinct compliance obligations are the ideal fit. Describe your team\'s biggest regulatory headache and we\'ll assess it for the build queue.',
-          builtBy:'You', builtByCred:'Help us write the spec',
-          timeToLive:'Help us prioritise', ttlHighlight:false, coverage:'Your jurisdiction · Your licence obligations', outcome:'0 missed regulatory changes' }
+        { name:'Dispatch', role:'Field Services Dispatcher', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Answers every inbound call, books jobs, manages the schedule, and sends confirmations automatically.',
+          builtBy:'Operations Expert', builtByCred:'Field services & trades specialist',
+          timeToLive:'31 Mar 2026', ttlHighlight:true, coverage:'Inbound calls · Job booking · Schedule management', outcome:'0 missed calls' },
+        { name:'Brief', role:'Client Brief Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Converts intake calls and forms into structured, actionable client briefs — ready for your team to execute against.',
+          builtBy:'Operations Expert', builtByCred:'Client intake specialist',
+          timeToLive:'12 May 2026', ttlHighlight:false, coverage:'Intake calls · Forms · Brief generation', outcome:'Structured briefs every time' },
+        { name:'File', role:'Document Filing Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Classifies, names, and routes inbound documents into the right folders with the right metadata. Zero manual filing.',
+          builtBy:'Operations Expert', builtByCred:'Document management specialist',
+          timeToLive:'26 May 2026', ttlHighlight:false, coverage:'Document classification · Naming · Routing', outcome:'Zero manual filing' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Dispatch', sub:'Call handler', center:false},
+        {name:'Your Business', sub:'Admin-free ops', center:true},
+        {name:'Brief', sub:'Intake briefs', center:false}
+      ],
+      teamArrows: ['Booked jobs & schedules', 'Structured client briefs'],
+      teamNote: 'Dispatch handles inbound calls and scheduling. Brief converts intake into structured briefs. File routes all inbound documents. Three autonomous staff — your team executes, not administrates.',
+      outcomes: [{num:'0',label:'Missed calls'},{num:'Auto',label:'Client briefs generated'},{num:'0',label:'Manual filing'}],
+      hireCta:'Express interest', hireUrl:'index.html',
+      hireNote:'All three roles launch between March and May 2026. Express interest to be first in line.'
+    }
+  },
+  technology: {
+    solo: {
+      title: 'Eight analysts. IC-ready output in 72 hours.',
+      summary: 'The TDD Practice Team runs pre-LOI technology due diligence from initial screening to IC-ready output. Works alongside your practitioners — calibrated to your firm\'s methodology.',
+      members: [
+        { name:'TDD Practice Team', role:'Technology Due Diligence · 8 Agents', mode:'Supervised', modeTag:'mode-sup', accentClass:'gold', statusTag:'status-live', statusLabel:'Live',
+          what:'Eight-agent supervised team running technology due diligence from pre-LOI screening through to IC-ready output. Calibrates to your firm\'s existing methodology and works under practitioner direction.',
+          builtBy:'PE / Corp Dev Expert', builtByCred:'Technology due diligence specialist',
+          timeToLive:'Available now', ttlHighlight:true, coverage:'Pre-LOI screening · Architecture review · Tech stack assessment · IC memo', outcome:'IC-ready in 72 hours' }
       ],
       diagramType: 'solo',
       flow: [
-        {step:'01', text:'Describe the specific regulatory bodies affecting your operation'},
-        {step:'02', text:'We assess whether it passes all six value gates'},
-        {step:'03', text:'Expert builders build to spec — vetted and quality-gated by Joyn'},
-        {step:'04', text:'Your team gets live access with early-access pricing locked in'}
+        {step:'01', text:'Share the target company and your firm\'s DD methodology'},
+        {step:'02', text:'Eight agents run parallel streams: architecture, stack, team, debt, risk'},
+        {step:'03', text:'Practitioner reviews and calibrates findings at each stage'},
+        {step:'04', text:'IC-ready output delivered in 72 hours'}
       ],
-      outcomes: [{num:'Phase 2',label:'Accounting & Tax'},{num:'Phase 2',label:'Construction & Trades'},{num:'Phase 3',label:'HR & Employment'}],
-      hireCta:'Tell us your problem', hireUrl:'mailto:hire@tryjoyn.me',
-      hireNote:'Email us directly and describe your team\'s biggest regulatory headache.'
+      outcomes: [{num:'72h',label:'Pre-LOI to IC-ready'},{num:'8',label:'Analysts in parallel'},{num:'vs 2–4wk',label:'Standard timeline'}],
+      hireCta:'Hire TDD Practice Team', hireUrl:'../practice/tdd-practice-team.html',
+      hireNote:'Supervised mode — works under your practitioners\' direction. Calibrates to your methodology.'
+    },
+    team: {
+      title: 'Your entire DD pipeline. Practitioner-directed.',
+      summary: 'For corporate development and PE teams running multiple simultaneous deals, the TDD Practice Team operates across all of them — each calibrated to your firm\'s methodology, each under your practitioners\' direction.',
+      members: [
+        { name:'TDD Practice Team', role:'Technology Due Diligence · 8 Agents', mode:'Supervised', modeTag:'mode-sup', accentClass:'gold', statusTag:'status-live', statusLabel:'Live',
+          what:'Eight-agent supervised team running technology due diligence across multiple simultaneous targets. Scales with your deal flow — practitioners direct, agents execute in parallel.',
+          builtBy:'PE / Corp Dev Expert', builtByCred:'Technology due diligence specialist',
+          timeToLive:'Available now', ttlHighlight:true, coverage:'Multi-target DD · Architecture · Stack · Team · Risk · IC memo', outcome:'IC-ready in 72 hours per target' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Add each target and your practitioners\' methodology for that deal'},
+        {step:'02', text:'Eight agents run all DD streams in parallel across targets'},
+        {step:'03', text:'Your team reviews, calibrates, and approves at each stage gate'},
+        {step:'04', text:'IC-ready output per target — 72 hours, not 2–4 weeks'}
+      ],
+      outcomes: [{num:'72h',label:'Per target, IC-ready'},{num:'Multi',label:'Simultaneous deals'},{num:'8',label:'Agents per engagement'}],
+      hireCta:'Hire TDD Practice Team', hireUrl:'../practice/tdd-practice-team.html',
+      hireNote:'Supervised mode — works under your practitioners\' direction across all active engagements.'
     }
   }
 };
