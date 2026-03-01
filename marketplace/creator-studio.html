@@ -349,7 +349,7 @@ a { color: inherit; }
 <section class="calc-section" aria-labelledby="calc-heading">
   <div class="label">Income potential</div>
   <h2 id="calc-heading">Income scales with <em>deployments.</em></h2>
-  <p style="max-width:52ch; margin-top:-1.5rem; margin-bottom:0;">Your income grows with every business that hires your staff member. The rate is confirmed at offer — this calculator shows you the shape of the opportunity.</p>
+  <p style="max-width:52ch; margin-top:1.25rem; margin-bottom:0;">Your income grows with every business that hires your staff member. The rate is confirmed at offer — this calculator shows you the shape of the opportunity.</p>
   <div class="calc-wrap">
     <div class="calc-slider-row">
       <div class="calc-label-group">
@@ -369,8 +369,8 @@ a { color: inherit; }
 <!-- OPEN ROLES -->
 <section class="roles-section" id="roles" aria-labelledby="roles-heading">
   <div class="label">Open roles</div>
-  <h2 id="roles-heading">Apply to build <em>one of these.</em></h2>
-  <p style="max-width:52ch; margin-top:-1.5rem; margin-bottom:0;">Six verticals. One open creator role per vertical. If none fits your expertise, you can describe your domain in the application form.</p>
+  <h2 id="roles-heading">Current openings, by <em>vertical.</em></h2>
+  <p style="max-width:52ch; margin-top:1.25rem; margin-bottom:0;">Twenty-one roles across seven verticals. If none fits your expertise precisely, describe your domain in the application below.</p>
 
   <div class="roles-grid" id="roles-grid" role="list">
     <!-- Populated by JS -->
@@ -535,6 +535,7 @@ updateCalc();
 
 // ── ROLES DATA ──
 const roles = [
+  // ── Insurance & Risk ──
   {
     vertical: 'Insurance & Risk',
     title: 'Regulatory Intelligence Analyst',
@@ -542,11 +543,37 @@ const roles = [
     prereqs: '5+ yrs insurance · State regulatory experience · P&C or L&H focus'
   },
   {
+    vertical: 'Insurance & Risk',
+    title: 'Renewal & Retention Specialist',
+    desc: 'Identifies at-risk accounts 90 days before renewal, prepares retention briefs, and manages outreach cadences. <strong>Agency or carrier-side renewal experience essential.</strong>',
+    prereqs: '5+ yrs P&C renewals · Book management · Carrier relationships'
+  },
+  {
+    vertical: 'Insurance & Risk',
+    title: 'Claims Triage Analyst',
+    desc: 'Reviews first notice of loss submissions, assesses coverage applicability, and routes claims to the right handler with a structured summary. <strong>Claims adjusting or coverage analysis background required.</strong>',
+    prereqs: '5+ yrs claims · Coverage analysis · FNOL processing'
+  },
+  // ── Financial Services ──
+  {
     vertical: 'Financial Services',
     title: 'Commercial Credit Analyst',
     desc: 'Assesses credit risk on commercial lending requests. Encodes underwriting methodology into a repeatable, consistent evaluation process. <strong>Commercial banking or credit fund background preferred.</strong>',
     prereqs: '5+ yrs commercial credit · Underwriting methodology · Deal structuring'
   },
+  {
+    vertical: 'Financial Services',
+    title: 'AML Transaction Monitoring Analyst',
+    desc: 'Reviews flagged transaction alerts, assesses typology fit, and prepares disposition narratives for SAR filing decisions. <strong>CAMS certification or equivalent AML investigations experience required.</strong>',
+    prereqs: 'CAMS or equivalent · AML investigations · SAR writing'
+  },
+  {
+    vertical: 'Financial Services',
+    title: 'Portfolio Risk Reviewer',
+    desc: 'Conducts periodic credit reviews across loan or investment portfolios, flags deterioration signals, and prepares risk committee briefings. <strong>Portfolio management or credit risk background required.</strong>',
+    prereqs: '5+ yrs portfolio credit · Risk rating methodology · Committee reporting'
+  },
+  // ── Healthcare ──
   {
     vertical: 'Healthcare',
     title: 'Clinical Documentation Specialist',
@@ -554,11 +581,37 @@ const roles = [
     prereqs: 'RN / HIM / CDI credential · Payer knowledge · ICD-10 proficiency'
   },
   {
+    vertical: 'Healthcare',
+    title: 'Prior Authorisation Specialist',
+    desc: 'Prepares and submits prior authorisation requests with supporting clinical documentation. Tracks payer timelines and manages peer-to-peer escalations. <strong>Clinical or PA coordination background required.</strong>',
+    prereqs: 'PA coordination experience · Payer portal proficiency · Clinical knowledge'
+  },
+  {
+    vertical: 'Healthcare',
+    title: 'Denial Management Analyst',
+    desc: 'Analyses denial patterns, identifies root causes, and prepares appeal letters with supporting evidence. <strong>Revenue cycle or billing background with denial analytics experience required.</strong>',
+    prereqs: 'Revenue cycle · Denial analytics · Appeal writing · Payer rules'
+  },
+  // ── Legal & Compliance ──
+  {
     vertical: 'Legal & Compliance',
     title: 'Contract Review Specialist',
     desc: 'Reviews commercial contracts against standard positions. Flags deviations, non-standard terms, and risk exposure. <strong>In-house or private practice commercial law experience required.</strong>',
     prereqs: '5+ yrs commercial contracts · Common law jurisdiction · M&A or commercial focus'
   },
+  {
+    vertical: 'Legal & Compliance',
+    title: 'Regulatory Change Monitor',
+    desc: 'Tracks legislative and regulatory developments across assigned jurisdictions, assesses operational impact, and prepares change summaries for compliance teams. <strong>Regulatory affairs or in-house compliance background required.</strong>',
+    prereqs: '5+ yrs regulatory compliance · Jurisdictional monitoring · Impact assessment'
+  },
+  {
+    vertical: 'Legal & Compliance',
+    title: 'Privacy & Data Compliance Analyst',
+    desc: 'Reviews data processing activities against GDPR, CCPA, or sector-specific frameworks. Prepares DPIAs and responds to subject access requests. <strong>CIPP certification or equivalent privacy law experience required.</strong>',
+    prereqs: 'CIPP or equivalent · GDPR / CCPA · DPIA writing · SAR handling'
+  },
+  // ── Real Estate ──
   {
     vertical: 'Real Estate',
     title: 'Deal Qualification Analyst',
@@ -566,10 +619,54 @@ const roles = [
     prereqs: '5+ yrs property agency · Buyer qualification · Pipeline management'
   },
   {
+    vertical: 'Real Estate',
+    title: 'Lease Abstract Specialist',
+    desc: 'Extracts and structures key commercial lease terms into standardised abstracts for portfolio management and transaction due diligence. <strong>Commercial property or legal background with lease review experience required.</strong>',
+    prereqs: 'Commercial leases · Lease abstraction · Portfolio due diligence'
+  },
+  {
+    vertical: 'Real Estate',
+    title: 'Lettings Progression Coordinator',
+    desc: 'Manages the administrative pipeline from offer acceptance to tenancy commencement — referencing, legal documents, move-in coordination. <strong>Residential lettings experience with end-to-end progression required.</strong>',
+    prereqs: 'Residential lettings · Progression management · Referencing & compliance'
+  },
+  // ── Operations ──
+  {
     vertical: 'Operations',
     title: 'Process Documentation Specialist',
     desc: 'Captures and structures operational procedures into clear, actionable SOPs. Ensures consistency across teams and enables effective onboarding. <strong>Operations management or BPO background required.</strong>',
     prereqs: 'Operations management · SOP writing · Process improvement background'
+  },
+  {
+    vertical: 'Operations',
+    title: 'Onboarding Coordinator',
+    desc: 'Manages the end-to-end client or employee onboarding process — checklists, communications, document collection, and progress tracking. <strong>Client onboarding or HR operations experience required.</strong>',
+    prereqs: 'Onboarding management · Client or HR ops · Workflow coordination'
+  },
+  {
+    vertical: 'Operations',
+    title: 'Supplier Communication Manager',
+    desc: 'Handles structured communication with supplier networks — order acknowledgements, delivery queries, issue escalations, and performance reporting. <strong>Procurement or supply chain operations background required.</strong>',
+    prereqs: 'Procurement or supply chain · Supplier management · Structured communication'
+  },
+  // ── Technology ──
+  {
+    vertical: 'Technology',
+    title: 'Technical Specification Writer',
+    desc: 'Converts product requirements and engineering discussions into precise, structured technical specifications ready for development. <strong>Software product or engineering background with specification writing experience required.</strong>',
+    prereqs: 'Software product or engineering · Spec writing · Agile / SDLC familiarity'
+  },
+  {
+    vertical: 'Technology',
+    title: 'Support Ticket Classifier',
+    desc: 'Triages inbound support tickets, assigns priority and category, and drafts first-response acknowledgements based on issue type. <strong>Technical support or product operations background required.</strong>',
+    prereqs: 'Technical support · Ticket triage · Product knowledge · SLA management'
+  },
+  {
+    vertical: 'Technology',
+    title: 'Release Notes Author',
+    desc: 'Translates engineering changelogs and pull request summaries into clear, user-facing release notes across multiple audience levels. <strong>Technical writing or developer relations background required.</strong>',
+    prereqs: 'Technical writing · Developer relations · Changelog management'
   }
 ];
 
