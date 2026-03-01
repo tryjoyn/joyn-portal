@@ -40,6 +40,10 @@ a { color: inherit; }
 .nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
 .nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
 .nav-cta:hover { background: var(--gold-hover); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
 
 /* BREADCRUMB */
 .breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
@@ -191,10 +195,11 @@ a { color: inherit; }
 
 <nav class="nav" aria-label="Main navigation">
   <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
-  <div style="display:flex;gap:1.5rem;align-items:center;">
-    <a href="../marketplace/index.html" class="nav-back">← Marketplace</a>
-    <a href="#brief" class="nav-cta">Brief This Team</a>
+  <div class="nav-links">
+    <a href="../marketplace/index.html" class="nav-link" aria-current="page">Marketplace</a>
+    <a href="../marketplace/creator-studio.html" class="nav-link">Creator Studio</a>
   </div>
+  <a href="#brief" class="nav-cta">Brief This Team</a>
 </nav>
 
 <nav class="breadcrumb" aria-label="Breadcrumb">

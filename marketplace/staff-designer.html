@@ -31,38 +31,21 @@ body {
 h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
 p { color: var(--ink-secondary); }
 
-/* ── HEADER ── */
-.header {
-  padding: 2rem clamp(1.5rem, 5vw, 4rem);
-  border-bottom: 1px solid var(--rule);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.header-logo {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  color: var(--ink);
-  text-decoration: none;
-}
-.header-nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-.header-nav a {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.header-nav a:hover { color: var(--ink); }
-.header-nav a.active { color: var(--gold-text); }
+/* ── NAV ── */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem, 5vw, 4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
+.nav-cta:hover { background: var(--gold-hover); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+/* ── BREADCRUMB ── */
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem, 5vw, 4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb a { color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
+.breadcrumb-sep { color: var(--ink-secondary); }
+.breadcrumb-current { color: var(--gold-text); font-weight: 500; }
 
 /* ── HERO ── */
 .hero {
@@ -635,14 +618,22 @@ p { color: var(--ink-secondary); }
 </head>
 <body>
 
-<div class="header">
-  <a href="../index.html" class="header-logo">JOYN.</a>
-  <nav class="header-nav">
-    <a href="index.html">Marketplace</a>
-    <a href="staff-designer.html" class="active">Design Your Staff</a>
-    <a href="../index.html#hire">Hire</a>
-  </nav>
-</div>
+<nav class="nav" aria-label="Main navigation">
+  <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link" aria-current="page">Marketplace</a>
+    <a href="creator-studio.html" class="nav-link">Creator Studio</a>
+  </div>
+  <a href="#submit" class="nav-cta">Design Your Staff</a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <a href="index.html">Marketplace</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <span class="breadcrumb-current" aria-current="page">Design Your Staff</span>
+</nav>
 
 <div class="hero">
   <div class="label">AI Staff Design Tool</div>
