@@ -107,10 +107,6 @@ Roster data lives in `data/roster.json`. Auto-unlock runs every Monday 9am UTC v
 
 ---
 
-## Known Issues (fix on next relevant build)
-
-- **Browse AI Staff button** on homepage links to `#` — should link to `marketplace/index.html`
-
 ---
 
 ## Locked Decisions (do not reverse without explicit instruction)
