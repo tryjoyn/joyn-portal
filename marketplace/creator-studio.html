@@ -114,7 +114,16 @@ a { color: inherit; }
 
 /* OPEN ROLES */
 .roles-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
-.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.roles-filter-bar { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; margin-bottom: 0; padding: 1rem 1.5rem; border: 1px solid var(--rule); background: var(--white); }
+.roles-filter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); flex-shrink: 0; }
+.roles-filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
+.filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.filter-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
+.roles-filter-count { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); white-space: nowrap; }
+.roles-filter-count strong { color: var(--gold-text); }
+.roles-empty { padding: 3rem 2rem; text-align: center; color: var(--ink-secondary); font-size: 0.975rem; border: 1px solid var(--rule); background: var(--white); }
+.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 0; }
 .role-card { background: var(--white); padding: 2.25rem; display: flex; flex-direction: column; transition: background 0.2s; }
 .role-card:hover { background: #ece8df; }
 .role-vertical { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
@@ -372,6 +381,27 @@ a { color: inherit; }
   <h2 id="roles-heading">Current openings, by <em>vertical.</em></h2>
   <p style="max-width:52ch; margin-top:1.25rem; margin-bottom:0;">Twenty-one roles across seven verticals. If none fits your expertise precisely, describe your domain in the application below.</p>
 
+  <div class="roles-filter-bar" role="search" aria-label="Filter open roles">
+    <span class="roles-filter-label" id="rf-mode-label">Mode</span>
+    <div class="roles-filter-group" id="role-mode-filters" role="group" aria-labelledby="rf-mode-label">
+      <button class="filter-btn active" onclick="filterRoleMode('all',this)">All</button>
+      <button class="filter-btn" onclick="filterRoleMode('autonomous',this)">Autonomous</button>
+      <button class="filter-btn" onclick="filterRoleMode('supervised',this)">Supervised</button>
+    </div>
+    <span class="roles-filter-label" id="rf-vert-label">Vertical</span>
+    <div class="roles-filter-group" id="role-vert-filters" role="group" aria-labelledby="rf-vert-label">
+      <button class="filter-btn active" onclick="filterRoleVertical('all',this)">All</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Insurance &amp; Risk',this)">Insurance &amp; Risk</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Financial Services',this)">Financial Services</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Healthcare',this)">Healthcare</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Legal &amp; Compliance',this)">Legal &amp; Compliance</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Real Estate',this)">Real Estate</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Operations',this)">Operations</button>
+      <button class="filter-btn" onclick="filterRoleVertical('Technology',this)">Technology</button>
+    </div>
+    <div class="roles-filter-count" aria-live="polite"><strong id="roles-count">21</strong> open</div>
+  </div>
+
   <div class="roles-grid" id="roles-grid" role="list">
     <!-- Populated by JS -->
   </div>
@@ -536,152 +566,153 @@ updateCalc();
 // ── ROLES DATA ──
 const roles = [
   // ── Insurance & Risk ──
-  {
-    vertical: 'Insurance & Risk',
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
     title: 'Regulatory Intelligence Analyst',
     desc: 'Monitors state DOIs and carrier appetite changes. Builds the knowledge base that keeps insurance professionals ahead of every bulletin. <strong>Deep P&C or L&H specialisation required.</strong>',
-    prereqs: '5+ yrs insurance · State regulatory experience · P&C or L&H focus'
-  },
-  {
-    vertical: 'Insurance & Risk',
+    prereqs: '5+ yrs insurance · State regulatory experience · P&C or L&H focus' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
     title: 'Renewal & Retention Specialist',
     desc: 'Identifies at-risk accounts 90 days before renewal, prepares retention briefs, and manages outreach cadences. <strong>Agency or carrier-side renewal experience essential.</strong>',
-    prereqs: '5+ yrs P&C renewals · Book management · Carrier relationships'
-  },
-  {
-    vertical: 'Insurance & Risk',
+    prereqs: '5+ yrs P&C renewals · Book management · Carrier relationships' },
+  { vertical: 'Insurance & Risk', mode: 'supervised',
     title: 'Claims Triage Analyst',
     desc: 'Reviews first notice of loss submissions, assesses coverage applicability, and routes claims to the right handler with a structured summary. <strong>Claims adjusting or coverage analysis background required.</strong>',
-    prereqs: '5+ yrs claims · Coverage analysis · FNOL processing'
-  },
+    prereqs: '5+ yrs claims · Coverage analysis · FNOL processing' },
   // ── Financial Services ──
-  {
-    vertical: 'Financial Services',
+  { vertical: 'Financial Services', mode: 'supervised',
     title: 'Commercial Credit Analyst',
     desc: 'Assesses credit risk on commercial lending requests. Encodes underwriting methodology into a repeatable, consistent evaluation process. <strong>Commercial banking or credit fund background preferred.</strong>',
-    prereqs: '5+ yrs commercial credit · Underwriting methodology · Deal structuring'
-  },
-  {
-    vertical: 'Financial Services',
+    prereqs: '5+ yrs commercial credit · Underwriting methodology · Deal structuring' },
+  { vertical: 'Financial Services', mode: 'supervised',
     title: 'AML Transaction Monitoring Analyst',
     desc: 'Reviews flagged transaction alerts, assesses typology fit, and prepares disposition narratives for SAR filing decisions. <strong>CAMS certification or equivalent AML investigations experience required.</strong>',
-    prereqs: 'CAMS or equivalent · AML investigations · SAR writing'
-  },
-  {
-    vertical: 'Financial Services',
+    prereqs: 'CAMS or equivalent · AML investigations · SAR writing' },
+  { vertical: 'Financial Services', mode: 'supervised',
     title: 'Portfolio Risk Reviewer',
     desc: 'Conducts periodic credit reviews across loan or investment portfolios, flags deterioration signals, and prepares risk committee briefings. <strong>Portfolio management or credit risk background required.</strong>',
-    prereqs: '5+ yrs portfolio credit · Risk rating methodology · Committee reporting'
-  },
+    prereqs: '5+ yrs portfolio credit · Risk rating methodology · Committee reporting' },
   // ── Healthcare ──
-  {
-    vertical: 'Healthcare',
+  { vertical: 'Healthcare', mode: 'supervised',
     title: 'Clinical Documentation Specialist',
     desc: 'Reviews and improves clinical documentation for accuracy, completeness, and compliance. Reduces denials and supports audit readiness. <strong>RN, HIM, or CDI certification required.</strong>',
-    prereqs: 'RN / HIM / CDI credential · Payer knowledge · ICD-10 proficiency'
-  },
-  {
-    vertical: 'Healthcare',
+    prereqs: 'RN / HIM / CDI credential · Payer knowledge · ICD-10 proficiency' },
+  { vertical: 'Healthcare', mode: 'autonomous',
     title: 'Prior Authorisation Specialist',
     desc: 'Prepares and submits prior authorisation requests with supporting clinical documentation. Tracks payer timelines and manages peer-to-peer escalations. <strong>Clinical or PA coordination background required.</strong>',
-    prereqs: 'PA coordination experience · Payer portal proficiency · Clinical knowledge'
-  },
-  {
-    vertical: 'Healthcare',
+    prereqs: 'PA coordination experience · Payer portal proficiency · Clinical knowledge' },
+  { vertical: 'Healthcare', mode: 'supervised',
     title: 'Denial Management Analyst',
     desc: 'Analyses denial patterns, identifies root causes, and prepares appeal letters with supporting evidence. <strong>Revenue cycle or billing background with denial analytics experience required.</strong>',
-    prereqs: 'Revenue cycle · Denial analytics · Appeal writing · Payer rules'
-  },
+    prereqs: 'Revenue cycle · Denial analytics · Appeal writing · Payer rules' },
   // ── Legal & Compliance ──
-  {
-    vertical: 'Legal & Compliance',
+  { vertical: 'Legal & Compliance', mode: 'supervised',
     title: 'Contract Review Specialist',
     desc: 'Reviews commercial contracts against standard positions. Flags deviations, non-standard terms, and risk exposure. <strong>In-house or private practice commercial law experience required.</strong>',
-    prereqs: '5+ yrs commercial contracts · Common law jurisdiction · M&A or commercial focus'
-  },
-  {
-    vertical: 'Legal & Compliance',
+    prereqs: '5+ yrs commercial contracts · Common law jurisdiction · M&A or commercial focus' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
     title: 'Regulatory Change Monitor',
     desc: 'Tracks legislative and regulatory developments across assigned jurisdictions, assesses operational impact, and prepares change summaries for compliance teams. <strong>Regulatory affairs or in-house compliance background required.</strong>',
-    prereqs: '5+ yrs regulatory compliance · Jurisdictional monitoring · Impact assessment'
-  },
-  {
-    vertical: 'Legal & Compliance',
+    prereqs: '5+ yrs regulatory compliance · Jurisdictional monitoring · Impact assessment' },
+  { vertical: 'Legal & Compliance', mode: 'supervised',
     title: 'Privacy & Data Compliance Analyst',
     desc: 'Reviews data processing activities against GDPR, CCPA, or sector-specific frameworks. Prepares DPIAs and responds to subject access requests. <strong>CIPP certification or equivalent privacy law experience required.</strong>',
-    prereqs: 'CIPP or equivalent · GDPR / CCPA · DPIA writing · SAR handling'
-  },
+    prereqs: 'CIPP or equivalent · GDPR / CCPA · DPIA writing · SAR handling' },
   // ── Real Estate ──
-  {
-    vertical: 'Real Estate',
+  { vertical: 'Real Estate', mode: 'autonomous',
     title: 'Deal Qualification Analyst',
     desc: 'Qualifies inbound buyer and tenant enquiries, assesses deal fit, and prepares briefing notes for agents. <strong>Residential or commercial agency experience, with a proven sales process.</strong>',
-    prereqs: '5+ yrs property agency · Buyer qualification · Pipeline management'
-  },
-  {
-    vertical: 'Real Estate',
+    prereqs: '5+ yrs property agency · Buyer qualification · Pipeline management' },
+  { vertical: 'Real Estate', mode: 'supervised',
     title: 'Lease Abstract Specialist',
     desc: 'Extracts and structures key commercial lease terms into standardised abstracts for portfolio management and transaction due diligence. <strong>Commercial property or legal background with lease review experience required.</strong>',
-    prereqs: 'Commercial leases · Lease abstraction · Portfolio due diligence'
-  },
-  {
-    vertical: 'Real Estate',
+    prereqs: 'Commercial leases · Lease abstraction · Portfolio due diligence' },
+  { vertical: 'Real Estate', mode: 'autonomous',
     title: 'Lettings Progression Coordinator',
     desc: 'Manages the administrative pipeline from offer acceptance to tenancy commencement — referencing, legal documents, move-in coordination. <strong>Residential lettings experience with end-to-end progression required.</strong>',
-    prereqs: 'Residential lettings · Progression management · Referencing & compliance'
-  },
+    prereqs: 'Residential lettings · Progression management · Referencing & compliance' },
   // ── Operations ──
-  {
-    vertical: 'Operations',
+  { vertical: 'Operations', mode: 'supervised',
     title: 'Process Documentation Specialist',
     desc: 'Captures and structures operational procedures into clear, actionable SOPs. Ensures consistency across teams and enables effective onboarding. <strong>Operations management or BPO background required.</strong>',
-    prereqs: 'Operations management · SOP writing · Process improvement background'
-  },
-  {
-    vertical: 'Operations',
+    prereqs: 'Operations management · SOP writing · Process improvement background' },
+  { vertical: 'Operations', mode: 'autonomous',
     title: 'Onboarding Coordinator',
     desc: 'Manages the end-to-end client or employee onboarding process — checklists, communications, document collection, and progress tracking. <strong>Client onboarding or HR operations experience required.</strong>',
-    prereqs: 'Onboarding management · Client or HR ops · Workflow coordination'
-  },
-  {
-    vertical: 'Operations',
+    prereqs: 'Onboarding management · Client or HR ops · Workflow coordination' },
+  { vertical: 'Operations', mode: 'autonomous',
     title: 'Supplier Communication Manager',
     desc: 'Handles structured communication with supplier networks — order acknowledgements, delivery queries, issue escalations, and performance reporting. <strong>Procurement or supply chain operations background required.</strong>',
-    prereqs: 'Procurement or supply chain · Supplier management · Structured communication'
-  },
+    prereqs: 'Procurement or supply chain · Supplier management · Structured communication' },
   // ── Technology ──
-  {
-    vertical: 'Technology',
+  { vertical: 'Technology', mode: 'supervised',
     title: 'Technical Specification Writer',
     desc: 'Converts product requirements and engineering discussions into precise, structured technical specifications ready for development. <strong>Software product or engineering background with specification writing experience required.</strong>',
-    prereqs: 'Software product or engineering · Spec writing · Agile / SDLC familiarity'
-  },
-  {
-    vertical: 'Technology',
+    prereqs: 'Software product or engineering · Spec writing · Agile / SDLC familiarity' },
+  { vertical: 'Technology', mode: 'autonomous',
     title: 'Support Ticket Classifier',
     desc: 'Triages inbound support tickets, assigns priority and category, and drafts first-response acknowledgements based on issue type. <strong>Technical support or product operations background required.</strong>',
-    prereqs: 'Technical support · Ticket triage · Product knowledge · SLA management'
-  },
-  {
-    vertical: 'Technology',
+    prereqs: 'Technical support · Ticket triage · Product knowledge · SLA management' },
+  { vertical: 'Technology', mode: 'supervised',
     title: 'Release Notes Author',
     desc: 'Translates engineering changelogs and pull request summaries into clear, user-facing release notes across multiple audience levels. <strong>Technical writing or developer relations background required.</strong>',
-    prereqs: 'Technical writing · Developer relations · Changelog management'
-  }
+    prereqs: 'Technical writing · Developer relations · Changelog management' }
 ];
 
 const ROLES_PER_PAGE = 6;
 let currentPage = 0;
+let activeRoleMode = 'all';
+let activeRoleVertical = 'all';
+
+function getFilteredRoles() {
+  return roles.filter(r => {
+    const modeMatch = activeRoleMode === 'all' || r.mode === activeRoleMode;
+    const vertMatch = activeRoleVertical === 'all' || r.vertical === activeRoleVertical;
+    return modeMatch && vertMatch;
+  });
+}
+
+function filterRoleMode(mode, btn) {
+  activeRoleMode = mode;
+  document.querySelectorAll('#role-mode-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage = 0;
+  renderRoles();
+}
+
+function filterRoleVertical(vertical, btn) {
+  activeRoleVertical = vertical;
+  document.querySelectorAll('#role-vert-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage = 0;
+  renderRoles();
+}
 
 function renderRoles() {
+  const filtered = getFilteredRoles();
   const grid = document.getElementById('roles-grid');
   const pagination = document.getElementById('roles-pagination');
+  const countEl = document.getElementById('roles-count');
+
+  countEl.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.className = '';
+    grid.innerHTML = '<div class="roles-empty">No roles match these filters. Try broadening your selection — or describe your expertise in the application below.</div>';
+    pagination.innerHTML = '';
+    return;
+  }
+
+  grid.className = 'roles-grid';
   const start = currentPage * ROLES_PER_PAGE;
-  const pageRoles = roles.slice(start, start + ROLES_PER_PAGE);
+  const pageRoles = filtered.slice(start, start + ROLES_PER_PAGE);
+
+  const modeTag = m => m === 'autonomous'
+    ? '<span style="font-family:\'DM Mono\',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:0.15rem 0.45rem;margin-left:0.5rem;">Autonomous</span>'
+    : '<span style="font-family:\'DM Mono\',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--ink);color:var(--ink);padding:0.15rem 0.45rem;margin-left:0.5rem;">Supervised</span>';
 
   grid.innerHTML = pageRoles.map(r => `
     <div class="role-card" role="listitem">
-      <div class="role-vertical">${r.vertical}</div>
+      <div class="role-vertical">${r.vertical}${modeTag(r.mode)}</div>
       <div class="role-title">${r.title}</div>
       <p class="role-desc">${r.desc}</p>
       <div class="role-prereqs">${r.prereqs}</div>
@@ -689,12 +720,12 @@ function renderRoles() {
     </div>
   `).join('');
 
-  const totalPages = Math.ceil(roles.length / ROLES_PER_PAGE);
-  if (totalPages > 1) {
-    pagination.innerHTML = Array.from({length: totalPages}, (_, i) =>
-      `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})" aria-label="Page ${i+1}">${i+1}</button>`
-    ).join('');
-  }
+  const totalPages = Math.ceil(filtered.length / ROLES_PER_PAGE);
+  pagination.innerHTML = totalPages > 1
+    ? Array.from({length: totalPages}, (_, i) =>
+        `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})" aria-label="Page ${i+1}">${i+1}</button>`
+      ).join('')
+    : '';
 }
 
 function goPage(n) {
