@@ -64,6 +64,14 @@ a { color: inherit; }
 .hero h1 { margin-bottom: 1rem; }
 .hero p { font-size: 1.1rem; max-width: 54ch; margin-bottom: 2rem; }
 
+/* DESIGNER STRIP */
+.designer-strip { border-bottom: 1px solid var(--rule); padding: 1.25rem clamp(1.5rem,5vw,4rem); }
+.designer-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+.designer-strip-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.25rem; }
+.designer-strip-desc { font-size: 0.9rem; color: var(--ink-secondary); margin: 0; }
+.designer-strip-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); text-decoration: none; white-space: nowrap; flex-shrink: 0; transition: color 0.15s; }
+.designer-strip-cta:hover { color: var(--gold-hover); }
+
 /* FILTER BAR */
 .filter-bar { padding: 1rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; position: sticky; top: 60px; background: var(--white); z-index: 50; }
 .filter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); flex-shrink: 0; }
@@ -169,9 +177,7 @@ a { color: inherit; }
   <div class="nav-links">
     <a href="index.html" class="nav-link" aria-current="page">Marketplace</a>
     <a href="creator-studio.html" class="nav-link">Creator Studio</a>
-    <a href="staff-designer.html" class="nav-link">Design Your Staff</a>
   </div>
-  <a href="creator-studio.html" class="nav-cta">Build AI Staff</a>
 </nav>
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -210,6 +216,16 @@ a { color: inherit; }
       <h4>Go live</h4>
       <p>Your AI staff member starts working. From day one.</p>
     </div>
+  </div>
+</section>
+
+<section class="designer-strip">
+  <div class="designer-strip-inner">
+    <div>
+      <div class="designer-strip-label">Not sure where to start?</div>
+      <p class="designer-strip-desc">Tell us what's costing you time. We'll match you to the right AI staff member.</p>
+    </div>
+    <a href="staff-designer.html" class="designer-strip-cta">Design Your Staff →</a>
   </div>
 </section>
 
