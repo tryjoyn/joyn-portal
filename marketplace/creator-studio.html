@@ -100,19 +100,10 @@ a { color: inherit; }
 .knowledge-copy p:last-child { margin-bottom: 0; }
 
 /* EARNINGS CALCULATOR */
-.calc-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
-.calc-wrap { max-width: 640px; margin-top: 3rem; }
-.calc-slider-row { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
-.calc-label-group { flex: 1; }
-.calc-slider-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.5rem; display: block; }
-.calc-slider { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--rule-mid); outline: none; }
-.calc-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--ink); cursor: pointer; border-radius: 50%; }
-.calc-slider::-moz-range-thumb { width: 18px; height: 18px; background: var(--ink); cursor: pointer; border-radius: 50%; border: none; }
-.calc-value-display { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: var(--ink); line-height: 1; min-width: 5rem; text-align: right; }
-.calc-output { border: 1px solid var(--rule); background: var(--surface); padding: 2rem; }
-.calc-output-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.75rem; }
-.calc-income-display { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3.5rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.5rem; }
-.calc-note { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--ink-secondary); border-top: 1px solid var(--rule); padding-top: 0.875rem; margin-top: 0.875rem; }
+.income-preview { border: 1px solid var(--rule); background: var(--surface); padding: 1.25rem 1.5rem; margin: 0.25rem 0 1.25rem; }
+.income-preview-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.5rem; }
+.income-preview-range { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.5rem; }
+.income-preview-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.04em; color: var(--ink-secondary); border-top: 1px solid var(--rule); padding-top: 0.625rem; margin-top: 0.625rem; }
 
 /* OPEN ROLES */
 .roles-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
@@ -357,27 +348,6 @@ a { color: inherit; }
   </div>
 </section>
 
-<!-- EARNINGS CALCULATOR -->
-<section class="calc-section" aria-labelledby="calc-heading">
-  <div class="label">Income potential</div>
-  <h2 id="calc-heading">Income scales with <em>deployments.</em></h2>
-  <p style="max-width:52ch; margin-top:1.25rem; margin-bottom:0;">Your income grows with every business that hires your staff member. The rate is confirmed at offer — this calculator shows you the shape of the opportunity.</p>
-  <div class="calc-wrap">
-    <div class="calc-slider-row">
-      <div class="calc-label-group">
-        <span class="calc-slider-label" id="slider-label">Active deployments</span>
-        <input type="range" class="calc-slider" id="deploy-slider" min="0" max="100" value="30" step="1" aria-labelledby="slider-label" oninput="updateCalc()">
-      </div>
-      <div class="calc-value-display" id="deploy-display" aria-live="polite">30</div>
-    </div>
-    <div class="calc-output" role="region" aria-labelledby="income-label">
-      <div class="calc-output-label" id="income-label">Estimated monthly income range</div>
-      <div class="calc-income-display" id="income-display" aria-live="polite">Calculating...</div>
-      <div class="calc-note">Income scales with active deployments. Exact rate confirmed at offer — varies by role, vertical, and pricing tier. This range is illustrative, not guaranteed.</div>
-    </div>
-  </div>
-</section>
-
 <!-- OPEN ROLES -->
 <section class="roles-section" id="roles" aria-labelledby="roles-heading">
   <div class="label">Open roles</div>
@@ -445,7 +415,7 @@ a { color: inherit; }
           </div>
           <div class="form-group">
             <label class="form-label" for="apply-vertical">Vertical *</label>
-            <select class="form-select" id="apply-vertical" name="vertical" required>
+            <select class="form-select" id="apply-vertical" name="vertical" required onchange="updateIncomeEstimate()">
               <option value="" disabled selected>Select your vertical</option>
               <option value="Insurance & Risk">Insurance &amp; Risk</option>
               <option value="Financial Services">Financial Services</option>
@@ -456,6 +426,11 @@ a { color: inherit; }
               <option value="Technology">Technology</option>
               <option value="Other">Other — I'll describe below</option>
             </select>
+          </div>
+          <div class="income-preview" id="income-preview" style="display:none;" role="region" aria-label="Estimated income potential">
+            <div class="income-preview-label">Estimated income potential · 20 active deployments</div>
+            <div class="income-preview-range" id="income-range" aria-live="polite">—</div>
+            <div class="income-preview-note">Income scales with every additional deployment. Rate confirmed at offer — varies by role, vertical, and pricing tier. Illustrative, not guaranteed.</div>
           </div>
           <div class="form-group">
             <label class="form-label" for="apply-description">What role would you build? *</label>
@@ -540,30 +515,28 @@ a { color: inherit; }
 </div>
 
 <script>
-// ── EARNINGS CALCULATOR ──
-const SLIDER_MIN = 0, SLIDER_MAX = 100;
-const LOG_MIN = Math.log(10), LOG_MAX = Math.log(500);
-
-function sliderToDeployments(v) {
-  if (v <= 0) return 0;
-  const t = v / 100;
-  return Math.round(Math.exp(LOG_MIN + t * (LOG_MAX - LOG_MIN)));
+// ── INCOME ESTIMATE ──
+function updateIncomeEstimate() {
+  const vertical = document.getElementById('apply-vertical').value;
+  const preview = document.getElementById('income-preview');
+  if (!vertical) { preview.style.display = 'none'; return; }
+  const rates = {
+    'Insurance & Risk':   { low: 60,  high: 130 },
+    'Financial Services': { low: 65,  high: 140 },
+    'Healthcare':         { low: 55,  high: 120 },
+    'Legal & Compliance': { low: 65,  high: 140 },
+    'Real Estate':        { low: 50,  high: 100 },
+    'Operations':         { low: 45,  high: 90  },
+    'Technology':         { low: 50,  high: 110 },
+    'Other':              { low: 50,  high: 120 },
+  };
+  const r = rates[vertical] || rates['Other'];
+  const ref = 20;
+  const low  = (r.low  * ref).toLocaleString();
+  const high = (r.high * ref).toLocaleString();
+  document.getElementById('income-range').textContent = '£' + low + ' – £' + high + '/mo';
+  preview.style.display = 'block';
 }
-
-function updateCalc() {
-  const v = parseInt(document.getElementById('deploy-slider').value);
-  const deployments = sliderToDeployments(v);
-  document.getElementById('deploy-display').textContent = deployments;
-  if (deployments < 10) {
-    document.getElementById('income-display').textContent = '—';
-    return;
-  }
-  // Illustrative range: income per deployment ~£50–£120/month depending on tier
-  const low = Math.round(deployments * 50 / 100) * 100;
-  const high = Math.round(deployments * 120 / 100) * 100;
-  document.getElementById('income-display').textContent = '£' + low.toLocaleString() + ' – £' + high.toLocaleString() + '/mo';
-}
-updateCalc();
 
 // ── ROLES DATA ──
 const roles = [
