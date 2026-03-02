@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Staff Marketplace — Joyn · tryjoyn.me</title>
+<title>AI Staff Marketplace â€” Joyn Â· tryjoyn.me</title>
 <meta name="description" content="Browse and hire AI staff built by vetted domain experts. Ready staff work autonomously from day one. Custom staff work alongside your practitioners.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -161,6 +161,526 @@ a { color: inherit; }
   .footer-nav a { margin-left: 0; margin-right: 1rem; }
   .footer-tag { display: none; }
 }
+
+/* -- STAFF DESIGNER (scoped) -- */
+/* ── NAV ── */
+/* ── BREADCRUMB ── */
+
+/* ── HERO ── */
+#sd-wrap .hero {
+  padding: clamp(3rem, 6vw, 6rem) clamp(1.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+  max-width: 1100px;
+  border-bottom: 1px solid var(--rule);
+}
+#sd-wrap .hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+  max-width: 700px;
+}
+#sd-wrap .hero h1 em { font-style: italic; color: var(--gold-text); }
+#sd-wrap .hero p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink-secondary);
+  max-width: 520px;
+}
+
+/* ── MAIN ── */
+#sd-wrap .main {
+  padding: clamp(2rem, 4vw, 4rem) clamp(1.5rem, 5vw, 4rem);
+  max-width: 1100px;
+}
+
+/* ── STEP INDICATOR ── */
+#sd-wrap .steps {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+#sd-wrap .step-item { display: flex; align-items: center; gap: 0.75rem; }
+#sd-wrap .step-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  width: 26px; height: 26px;
+  border: 1px solid var(--rule-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-secondary);
+  transition: all 0.15s;
+}
+#sd-wrap .step-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  transition: color 0.15s;
+}
+#sd-wrap .step-item.active .step-num { background: var(--ink); border-color: var(--ink); color: var(--white); }
+#sd-wrap .step-item.active .step-label { color: var(--ink); }
+#sd-wrap .step-item.done .step-num { background: var(--gold-text); border-color: var(--gold-text); color: var(--white); }
+#sd-wrap .step-divider { width: 3rem; height: 1px; background: var(--rule); margin: 0 1rem; flex-shrink: 0; }
+
+/* ── STAGE VISIBILITY ── */
+#sd-wrap .stage { display: none; }
+#sd-wrap .stage.active { display: block; }
+
+/* ── SECTION HEADING ── */
+#sd-wrap .section-hd {
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+#sd-wrap .section-hd h2 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+#sd-wrap .section-hd p {
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: var(--ink-secondary);
+  margin-top: 0.35rem;
+}
+
+/* ── VERTICAL GRID ── */
+#sd-wrap .vertical-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-bottom: 3rem;
+}
+#sd-wrap .v-card {
+  border: 1px solid var(--rule);
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  background: var(--white);
+  transition: border-color 0.15s;
+  position: relative;
+}
+#sd-wrap .v-card:hover { border-color: var(--rule-mid); }
+#sd-wrap .v-card.selected { border-color: var(--ink); background: var(--ink); }
+#sd-wrap .v-card.selected .v-tag { color: rgba(250,250,248,0.5); }
+#sd-wrap .v-card.selected .v-name { color: var(--white); }
+#sd-wrap .v-card.selected .v-desc { color: rgba(250,250,248,0.45); }
+#sd-wrap .v-check {
+  position: absolute;
+  top: 0.75rem; right: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--gold-text);
+  display: none;
+}
+#sd-wrap .v-card.selected .v-check { display: block; color: rgba(250,250,248,0.6); }
+#sd-wrap .v-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.5rem;
+}
+#sd-wrap .v-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.25rem;
+  line-height: 1.15;
+}
+#sd-wrap .v-desc { font-size: 0.78rem; line-height: 1.5; color: var(--ink-secondary); }
+
+/* ── PROBLEM TEXTAREA ── */
+#sd-wrap .field-block { margin-bottom: 1.5rem; }
+#sd-wrap .field-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+#sd-wrap .field-input, #sd-wrap .field-textarea {
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rule-mid);
+  background: var(--white);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+  -webkit-appearance: none;
+}
+#sd-wrap .field-input:focus, #sd-wrap .field-textarea:focus { border-color: var(--ink); }
+#sd-wrap .field-textarea { resize: vertical; min-height: 100px; line-height: 1.7; }
+#sd-wrap .field-textarea::placeholder { color: var(--rule-mid); }
+
+/* ── QUICK CHIPS ── */
+#sd-wrap .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+}
+#sd-wrap .chip {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--rule-mid);
+  padding: 0.25rem 0.65rem;
+  cursor: pointer;
+  color: var(--ink-secondary);
+  background: transparent;
+  transition: all 0.15s;
+}
+#sd-wrap .chip:hover { border-color: var(--gold-text); color: var(--gold-text); }
+
+/* ── SCALE OPTIONS ── */
+#sd-wrap .scale-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-bottom: 2.5rem;
+}
+#sd-wrap .scale-opt {
+  border: 1px solid var(--rule);
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+#sd-wrap .scale-opt:hover { border-color: var(--rule-mid); }
+#sd-wrap .scale-opt.selected { border-color: var(--ink); background: var(--surface); }
+#sd-wrap .scale-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.35rem;
+}
+#sd-wrap .scale-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.2rem;
+}
+#sd-wrap .scale-desc { font-size: 0.78rem; color: var(--ink-secondary); line-height: 1.5; }
+
+/* ── BUTTONS ── */
+#sd-wrap .btn-row { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; }
+
+/* ── LOADING ── */
+#sd-wrap .loading { display: none; flex-direction: column; align-items: center; padding: 5rem 2rem; gap: 1.5rem; }
+#sd-wrap .loading.active { display: flex; }
+#sd-wrap .loading-dots { display: flex; gap: 0.5rem; }
+#sd-wrap .dot {
+  width: 6px; height: 6px;
+  background: var(--gold-text);
+  animation: dotBlink 1.2s ease-in-out infinite;
+}
+#sd-wrap .dot:nth-child(2) { animation-delay: 0.2s; }
+#sd-wrap .dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBlink {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+#sd-wrap .loading-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* ── RECOMMENDATION: HEADER ── */
+#sd-wrap .rec-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+#sd-wrap .rec-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.15;
+}
+#sd-wrap .rec-summary { font-size: 0.9rem; line-height: 1.7; color: var(--ink-secondary); margin-top: 0.5rem; }
+
+/* ── STAFF CARDS (recommendation) ── */
+#sd-wrap .staff-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 2rem; }
+#sd-wrap .staff-rec {
+  border: 1px solid var(--rule);
+  background: var(--white);
+  display: grid;
+  grid-template-columns: 4px 1fr 180px;
+  transition: border-color 0.15s;
+}
+#sd-wrap .staff-rec:hover { border-color: var(--rule-mid); }
+#sd-wrap .staff-accent { background: var(--ink); }
+#sd-wrap .staff-accent.gold { background: var(--gold-text); }
+#sd-wrap .staff-body { padding: 1.5rem 1.75rem; }
+#sd-wrap .staff-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; margin-bottom: 0.75rem; }
+#sd-wrap .staff-name { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 400; line-height: 1; }
+#sd-wrap .staff-role {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-top: 0.25rem;
+}
+#sd-wrap .mode-auto {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--ink);
+  color: var(--white);
+  padding: 0.2rem 0.5rem;
+  flex-shrink: 0;
+}
+#sd-wrap .mode-sup {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 0.2rem 0.5rem;
+  flex-shrink: 0;
+}
+#sd-wrap .staff-what { font-size: 0.875rem; line-height: 1.7; color: var(--ink-secondary); margin-bottom: 1rem; }
+#sd-wrap .staff-attrs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--rule);
+}
+#sd-wrap .attr { padding: 0.65rem 0; border-right: 1px solid var(--rule); padding-right: 1rem; margin-right: 1rem; }
+#sd-wrap .attr:last-child { border-right: none; }
+#sd-wrap .attr-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-bottom: 0.15rem;
+}
+#sd-wrap .attr-val { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+#sd-wrap .attr-val.highlight { color: var(--gold-text); }
+#sd-wrap .staff-expert {
+  border-left: 1px solid var(--rule);
+  padding: 1.5rem;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.4rem;
+}
+#sd-wrap .expert-init {
+  width: 40px; height: 40px;
+  background: var(--ink);
+  color: var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.25rem;
+}
+#sd-wrap .expert-name { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.06em; color: var(--ink); }
+#sd-wrap .expert-cred { font-size: 0.72rem; color: var(--ink-secondary); line-height: 1.4; }
+
+/* ── HOW IT WORKS / COLLABORATION PANEL ── */
+#sd-wrap .collab-panel {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  margin-bottom: 2rem;
+}
+#sd-wrap .collab-head {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+#sd-wrap .collab-body { padding: 1.5rem; }
+
+/* Solo flow */
+#sd-wrap .flow-list { display: flex; flex-direction: column; gap: 0; }
+#sd-wrap .flow-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+#sd-wrap .flow-item:last-child { border-bottom: none; }
+#sd-wrap .flow-step {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--gold-text);
+  flex-shrink: 0;
+  padding-top: 3px;
+  width: 2rem;
+}
+#sd-wrap .flow-text { font-size: 0.875rem; color: var(--ink); line-height: 1.6; }
+
+/* Team flow */
+#sd-wrap .team-flow {
+  display: grid;
+  align-items: center;
+  gap: 0;
+}
+#sd-wrap .team-node {
+  border: 1px solid var(--rule);
+  padding: 1rem 1.25rem;
+  background: var(--white);
+  text-align: center;
+}
+#sd-wrap .team-node.center { background: var(--ink); }
+#sd-wrap .team-node.center .node-name { color: var(--white); }
+#sd-wrap .team-node.center .node-sub { color: rgba(250,250,248,0.5); }
+#sd-wrap .node-name { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 400; color: var(--ink); }
+#sd-wrap .node-sub { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--ink-secondary); text-transform: uppercase; margin-top: 0.2rem; }
+#sd-wrap .team-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+}
+#sd-wrap .arrow-line { width: 1px; flex: 1; background: var(--rule-mid); }
+#sd-wrap .arrow-label { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.08em; color: var(--ink-secondary); text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); padding: 0.4rem 0; }
+#sd-wrap .arrow-tip { font-size: 0.6rem; color: var(--rule-mid); }
+
+#sd-wrap .collab-note { font-size: 0.85rem; color: var(--ink-secondary); line-height: 1.65; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+
+/* ── OUTCOMES BAR ── */
+#sd-wrap .outcomes-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 2rem;
+}
+#sd-wrap .outcome-cell {
+  border: 1px solid var(--rule);
+  padding: 1.25rem 1.5rem;
+  background: var(--white);
+}
+#sd-wrap .outcome-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.25rem;
+  font-weight: 300;
+  color: var(--gold-text);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+#sd-wrap .outcome-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* ── HIRE CTA PANEL ── */
+#sd-wrap .hire-panel {
+  background: var(--ink);
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+#sd-wrap .hire-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 0.4rem;
+}
+#sd-wrap .hire-note { font-size: 0.85rem; color: rgba(250,250,248,0.45); line-height: 1.6; }
+#sd-wrap .btn-hire {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.875rem 2rem;
+  background: var(--gold-text);
+  color: var(--white);
+  border: 1px solid var(--gold-text);
+  cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+#sd-wrap .btn-hire:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+
+/* ── STATUS BADGES (inline) ── */
+#sd-wrap .status-live {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgba(139,105,20,0.3);
+  color: var(--gold-text);
+  background: rgba(139,105,20,0.07);
+}
+#sd-wrap .status-soon {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--rule-mid);
+  color: var(--ink-secondary);
+  background: var(--surface);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+#sd-wrap .vertical-grid { grid-template-columns: 1fr 1fr; }
+#sd-wrap .scale-row { grid-template-columns: 1fr; }
+#sd-wrap .staff-rec { grid-template-columns: 4px 1fr; }
+#sd-wrap .staff-expert { display: none; }
+#sd-wrap .staff-attrs { grid-template-columns: 1fr 1fr; }
+#sd-wrap .outcomes-bar { grid-template-columns: 1fr; }
+#sd-wrap .hire-panel { grid-template-columns: 1fr; }
+#sd-wrap .rec-header { grid-template-columns: 1fr; }
+#sd-wrap .steps { flex-wrap: wrap; gap: 0.5rem; }
+#sd-wrap .step-divider { display: none; }
+}
+@media (max-width: 480px) {
+#sd-wrap .vertical-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -177,17 +697,17 @@ a { color: inherit; }
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
   <a href="../index.html">Home</a>
-  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <span class="breadcrumb-sep" aria-hidden="true">â†’</span>
   <span class="breadcrumb-current" aria-current="page">Marketplace</span>
 </nav>
 
 <section class="hero" id="main">
   <div class="label">AI Staff Marketplace</div>
   <h1>Browse. Hire.<br><em>They start today.</em></h1>
-  <p>Every AI staff member is built by a <strong>vetted domain expert</strong> and measured by real business outcomes. Browse by vertical or mode — then hire in minutes.</p>
+  <p>Every AI staff member is built by a <strong>vetted domain expert</strong> and measured by real business outcomes. Browse by vertical or mode â€” then hire in minutes.</p>
   <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:2rem;">
     <a href="#main-content" class="btn btn-primary">Ready to Hire</a>
-    <a href="staff-designer.html" class="btn btn-outline">Design Your Staffing Needs</a>
+    <a href="#staff-designer" class="btn btn-outline">Design Your Staffing Needs</a>
     <a href="#pipeline" class="btn btn-outline">In the Making</a>
   </div>
 </section>
@@ -203,8 +723,8 @@ a { color: inherit; }
     </div>
     <div class="hiw-step">
       <div class="hiw-num">02</div>
-      <h4>Intake call</h4>
-      <p>30 minutes to confirm fit and walk through your specific setup.</p>
+      <h4>Complete the Intake</h4>
+      <p>A guided 10-minute intake. Share your business context, tone, and workflow — your AI staff learns who they work for.</p>
     </div>
     <div class="hiw-step">
       <div class="hiw-num">03</div>
@@ -243,7 +763,7 @@ a { color: inherit; }
 <section class="staff-section" id="main-content">
   <div class="staff-grid" id="staff-grid">
 
-    <a href="iris-insurance-regulatory.html" class="staff-card" data-mode="always-on" data-vertical="insurance" aria-label="Hire Iris — Insurance Regulatory Intelligence">
+    <a href="iris-insurance-regulatory.html" class="staff-card" data-mode="always-on" data-vertical="insurance" aria-label="Hire Iris â€” Insurance Regulatory Intelligence">
       <div class="card-top">
         <span class="tag tag-live">Live</span>
         <span class="tag tag-always">Autonomous</span>
@@ -259,7 +779,7 @@ a { color: inherit; }
         <span class="card-signal">~4h analyst time saved/week</span>
         <span class="card-signal">0 missed bulletins</span>
       </div>
-      <span class="card-cta">Hire Iris →</span>
+      <span class="card-cta">Hire Iris â†’</span>
     </a>
 
     <a href="../practice/tdd-practice-team.html" class="staff-card" data-mode="craft" data-vertical="technology" aria-label="View TDD Practice Team">
@@ -268,138 +788,270 @@ a { color: inherit; }
         <span class="tag tag-craft">Supervised</span>
       </div>
       <div class="card-name" style="font-size:clamp(1.75rem,3.5vw,2.5rem); line-height:1.1;">TDD Practice<br>Team</div>
-      <div class="card-role">Technology Due Diligence · 8 Agents</div>
-      <p class="card-desc">Alex, Morgan, Jordan, Riley, Casey, Taylor, Drew, and Sam — eight AI colleagues each owning a distinct domain. <strong>Pre-LOI screening to IC-ready output in 72 hours.</strong></p>
+      <div class="card-role">Technology Due Diligence Â· 8 Agents</div>
+      <p class="card-desc">Alex, Morgan, Jordan, Riley, Casey, Taylor, Drew, and Sam â€” eight AI colleagues each owning a distinct domain. <strong>Pre-LOI screening to IC-ready output in 72 hours.</strong></p>
       <div class="card-signals">
         <span class="card-signal">8 Agents</span>
         <span class="card-signal">72h turnaround</span>
         <span class="card-signal">IC-ready output</span>
         <span class="card-signal">PE &amp; Corp Dev</span>
-        <span class="card-signal">vs 2–4 week standard</span>
+        <span class="card-signal">vs 2â€“4 week standard</span>
         <span class="card-signal">8 analysts in parallel</span>
       </div>
-      <span class="card-cta">View Team →</span>
+      <span class="card-cta">View Team â†’</span>
     </a>
 
   </div>
 </section>
+
+<section id="staff-designer" style="border-top:1px solid var(--rule);">
+<div id="sd-wrap">
+<div class="hero">
+  <div class="label">AI Staff Design Tool</div>
+  <h1>Tell us your problem.<br>We'll staff the <em>solution.</em></h1>
+  <p>Describe what's costing you time. We match you to the right AI staff member — or the right team — and show you exactly how they work.</p>
+</div>
+
+<main class="main">
+
+  <!-- Step indicators -->
+  <div class="steps" id="stepIndicator">
+    <div class="step-item active" id="step1">
+      <div class="step-num">01</div>
+      <div class="step-label">Your situation</div>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step-item" id="step2">
+      <div class="step-num">02</div>
+      <div class="step-label">Recommendation</div>
+    </div>
+  </div>
+
+  <!-- ── STAGE 1 ── -->
+  <div class="stage active" id="stage1">
+
+    <div class="section-hd" style="margin-bottom:1.5rem;">
+      <h2>What vertical are you in?</h2>
+      <p>Choose the closest match. This determines which AI staff are available to you.</p>
+    </div>
+
+    <div class="vertical-grid" id="verticalGrid">
+      <div class="v-card" data-v="insurance" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Insurance & Risk</div>
+        <div class="v-name">Insurance Agency</div>
+        <div class="v-desc">Independent agents, brokerages, MGAs</div>
+      </div>
+      <div class="v-card" data-v="healthcare" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Healthcare</div>
+        <div class="v-name">Healthcare Practice</div>
+        <div class="v-desc">Independent practices, admin operations</div>
+      </div>
+      <div class="v-card" data-v="finance" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Financial Services</div>
+        <div class="v-name">Financial Services Firm</div>
+        <div class="v-desc">Financial advisors, wealth managers, RIAs</div>
+      </div>
+      <div class="v-card" data-v="realestate" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Real Estate</div>
+        <div class="v-name">Real Estate</div>
+        <div class="v-desc">Brokerages, developers, commercial RE</div>
+      </div>
+      <div class="v-card" data-v="legal" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Legal & Compliance</div>
+        <div class="v-name">Law Firm / Compliance</div>
+        <div class="v-desc">Law firms, compliance teams, legal ops</div>
+      </div>
+      <div class="v-card" data-v="operations" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Operations</div>
+        <div class="v-name">Field Operations</div>
+        <div class="v-desc">Trades, field services, SMB operations</div>
+      </div>
+      <div class="v-card" data-v="technology" onclick="selectVertical(this)">
+        <div class="v-check">✓</div>
+        <div class="v-tag">Technology</div>
+        <div class="v-name">Tech Business</div>
+        <div class="v-desc">Software, SaaS, tech-enabled services</div>
+      </div>
+    </div>
+
+    <div class="section-hd" style="margin-bottom:1.25rem;">
+      <h2>What's costing you the most time?</h2>
+      <p>Describe the work. Be specific — the closer to your actual pain, the better the match.</p>
+    </div>
+
+    <div class="field-block">
+      <label class="field-label" for="problemText">Your situation</label>
+      <textarea
+        class="field-textarea"
+        id="problemText"
+        placeholder="e.g. I spend hours every week hunting through the Florida OIR website for regulatory changes that affect my homeowners clients. I miss things and find out too late."
+        oninput="updateBtn()"
+      ></textarea>
+      <div class="chips" id="chipSet"></div>
+    </div>
+
+    <div class="section-hd" style="margin-top:2.5rem; margin-bottom:1.25rem;">
+      <h2>Are you working alone or with a team?</h2>
+      <p>This determines whether we recommend a single AI staff member or a coordinated team.</p>
+    </div>
+
+    <div class="scale-row" id="scaleRow">
+      <div class="scale-opt selected" data-s="solo" onclick="selectScale(this)">
+        <div class="scale-tag">Solo</div>
+        <div class="scale-name">Just me</div>
+        <div class="scale-desc">Independent operator — I handle most things myself</div>
+      </div>
+      <div class="scale-opt" data-s="team" onclick="selectScale(this)">
+        <div class="scale-tag">Team</div>
+        <div class="scale-name">My team</div>
+        <div class="scale-desc">Multiple people who'd benefit from coordinated AI staff</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" id="designBtn" onclick="runRecommendation()" disabled>Design My Staff →</button>
+    </div>
+
+  </div><!-- /stage1 -->
+
+  <!-- Loading -->
+  <div class="loading" id="loadingState">
+    <div class="loading-dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="loading-text">Matching your problem to the catalogue</div>
+  </div>
+
+  <!-- ── STAGE 2 ── -->
+  <div class="stage" id="stage2">
+    <div id="recOutput"></div>
+  </div>
+
+</main>
+</div></section>
 
 <!-- PIPELINE -->
 <section id="pipeline" style="padding:0 clamp(1.5rem,5vw,4rem) clamp(4rem,7vw,6rem);">
   <div style="border-top:1px solid var(--rule); padding-top:clamp(3rem,5vw,4rem);">
     <div class="label">In development</div>
     <h3 style="margin-bottom:0.5rem; font-size:clamp(1.5rem,2.5vw,2rem);">More AI staff coming soon.</h3>
-    <p style="margin-bottom:2.5rem; font-size:0.975rem; max-width:52ch; color:var(--ink-secondary);">Built by vetted domain experts — arriving on the marketplace soon. Contact us to be notified when they go live.</p>
+    <p style="margin-bottom:2.5rem; font-size:0.975rem; max-width:52ch; color:var(--ink-secondary);">Built by vetted domain experts â€” arriving on the marketplace soon. Contact us to be notified when they go live.</p>
     <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:1px; border:1px solid var(--rule); background:var(--rule);" id="pipeline-grid">
 
-      <div class="staff-card soon" role="article" aria-label="Dispatch — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Dispatch â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Dispatch</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Field Services Dispatcher · Trades</div>
-        <p class="card-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am.</p>
-        <button class="interest-btn" onclick="openInterest('Dispatch','Field Services Dispatcher · Trades')">Express interest →</button>
+        <div class="card-role" style="color:var(--ink-secondary);">Field Services Dispatcher Â· Trades</div>
+        <p class="card-desc">Answers every inbound call, books jobs, manages the schedule, and sends confirmations â€” including the calls that come in at 2am.</p>
+        <button class="interest-btn" onclick="openInterest('Dispatch','Field Services Dispatcher Â· Trades')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Scout — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Scout â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Scout</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator · Real Estate</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Lead Qualifier &amp; Showing Coordinator Â· Real Estate</div>
         <p class="card-desc">Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar.</p>
-        <button class="interest-btn" onclick="openInterest('Scout','Lead Qualifier &amp; Showing Coordinator · Real Estate')">Express interest →</button>
+        <button class="interest-btn" onclick="openInterest('Scout','Lead Qualifier &amp; Showing Coordinator Â· Real Estate')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Renew — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Renew â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Renew</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Renewal Specialist · Insurance</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Renewal Specialist Â· Insurance</div>
         <p class="card-desc">Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically.</p>
-        <button class="interest-btn" onclick="openInterest('Renew','Renewal Specialist · Insurance')">Express interest →</button>
+        <button class="interest-btn" onclick="openInterest('Renew','Renewal Specialist Â· Insurance')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Publish — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Publish â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Publish</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Content Strategist · Marketing</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Content Strategist Â· Marketing</div>
         <p class="card-desc">Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles.</p>
-        <button class="interest-btn" onclick="openInterest('Publish','Content Strategist · Marketing')">Express interest →</button>
+        <button class="interest-btn" onclick="openInterest('Publish','Content Strategist Â· Marketing')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Comply — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Comply â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Comply</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Compliance Monitor · Legal &amp; Compliance</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Compliance Monitor Â· Legal &amp; Compliance</div>
         <p class="card-desc">Continuously monitors regulatory feeds across your jurisdictions and flags compliance obligations before they become exposure.</p>
-        <button class="interest-btn" onclick="openInterest('Comply','Compliance Monitor · Legal &amp; Compliance')">Express interest →</button>
+        <button class="interest-btn" onclick="openInterest('Comply','Compliance Monitor Â· Legal &amp; Compliance')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Brief — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Brief â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">Brief</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Client Brief Specialist · Operations</div>
-        <p class="card-desc">Converts intake calls and intake forms into structured, actionable client briefs — ready for your team to execute against.</p>
-        <button class="interest-btn" onclick="openInterest('Brief','Client Brief Specialist · Operations')">Express interest →</button>
+        <div class="card-role" style="color:var(--ink-secondary);">Client Brief Specialist Â· Operations</div>
+        <p class="card-desc">Converts intake calls and intake forms into structured, actionable client briefs â€” ready for your team to execute against.</p>
+        <button class="interest-btn" onclick="openInterest('Brief','Client Brief Specialist Â· Operations')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="File — coming soon">
+      <div class="staff-card soon" role="article" aria-label="File â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
         </div>
         <div class="card-name">File</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Document Filing Specialist · Operations</div>
+        <div class="card-role" style="color:var(--ink-secondary);">Document Filing Specialist Â· Operations</div>
         <p class="card-desc">Classifies, names, and routes inbound documents into the right folders with the right metadata. Zero manual filing.</p>
-        <button class="interest-btn" onclick="openInterest('File','Document Filing Specialist · Operations')">Express interest →</button>
+        <button class="interest-btn" onclick="openInterest('File','Document Filing Specialist Â· Operations')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Counsel — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Counsel â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
         </div>
         <div class="card-name">Counsel</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Legal Counsel Support · Legal &amp; Compliance</div>
-        <p class="card-desc">Works alongside your legal team — researching precedent, summarising case law, and drafting first-pass memos under practitioner direction.</p>
-        <button class="interest-btn" onclick="openInterest('Counsel','Legal Counsel Support · Legal &amp; Compliance')">Express interest →</button>
+        <div class="card-role" style="color:var(--ink-secondary);">Legal Counsel Support Â· Legal &amp; Compliance</div>
+        <p class="card-desc">Works alongside your legal team â€” researching precedent, summarising case law, and drafting first-pass memos under practitioner direction.</p>
+        <button class="interest-btn" onclick="openInterest('Counsel','Legal Counsel Support Â· Legal &amp; Compliance')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Accord — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Accord â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
         </div>
         <div class="card-name">Accord</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Contract Review Specialist · Legal &amp; Compliance</div>
-        <p class="card-desc">Reads contracts against your standard positions, flags deviations, and produces a redline summary — ready for partner review.</p>
-        <button class="interest-btn" onclick="openInterest('Accord','Contract Review Specialist · Legal &amp; Compliance')">Express interest →</button>
+        <div class="card-role" style="color:var(--ink-secondary);">Contract Review Specialist Â· Legal &amp; Compliance</div>
+        <p class="card-desc">Reads contracts against your standard positions, flags deviations, and produces a redline summary â€” ready for partner review.</p>
+        <button class="interest-btn" onclick="openInterest('Accord','Contract Review Specialist Â· Legal &amp; Compliance')">Express interest â†’</button>
       </div>
 
-      <div class="staff-card soon" role="article" aria-label="Ledger — coming soon">
+      <div class="staff-card soon" role="article" aria-label="Ledger â€” coming soon">
         <div class="card-top">
           <span class="tag tag-soon">Coming Soon</span>
           <span class="tag tag-craft" style="opacity:0.35;" aria-hidden="true">Supervised</span>
         </div>
         <div class="card-name">Ledger</div>
-        <div class="card-role" style="color:var(--ink-secondary);">Financial Reconciliation · Financial Services</div>
-        <p class="card-desc">Reconciles accounts, flags discrepancies, and produces period-end summaries — working under your finance team's oversight.</p>
-        <button class="interest-btn" onclick="openInterest('Ledger','Financial Reconciliation · Financial Services')">Express interest →</button>
+        <div class="card-role" style="color:var(--ink-secondary);">Financial Reconciliation Â· Financial Services</div>
+        <p class="card-desc">Reconciles accounts, flags discrepancies, and produces period-end summaries â€” working under your finance team's oversight.</p>
+        <button class="interest-btn" onclick="openInterest('Ledger','Financial Reconciliation Â· Financial Services')">Express interest â†’</button>
       </div>
 
     </div>
@@ -425,7 +1077,7 @@ a { color: inherit; }
     <span class="footer-tag">Where Human Expertise Comes to Scale Itself</span>
     <nav class="footer-nav" aria-label="Footer navigation">
       <a href="../index.html">Home</a>
-      <a href="staff-designer.html">Design Your Staff</a>
+      <a href="#staff-designer">Design Your Staff</a>
     </nav>
   </div>
 </footer>
@@ -438,7 +1090,7 @@ a { color: inherit; }
         <h3 id="wl-title">Join the waitlist</h3>
         <p>We'll notify you the moment new AI staff go live.</p>
       </div>
-      <button class="modal-close" onclick="closeModal('modal-waitlist')" aria-label="Close">×</button>
+      <button class="modal-close" onclick="closeModal('modal-waitlist')" aria-label="Close">Ã—</button>
     </div>
     <div class="modal-bd" id="wl-form-wrap">
       <div class="mfg">
@@ -463,7 +1115,7 @@ a { color: inherit; }
       </div>
     </div>
     <div class="modal-success" id="wl-success">
-      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">âœ“</div>
       <h3>You're on the list.</h3>
       <p>We'll email you as soon as relevant AI staff go live.</p>
     </div>
@@ -478,7 +1130,7 @@ a { color: inherit; }
         <h3 id="int-title">Express interest</h3>
         <p>Tell us your timeline and we'll prioritise accordingly.</p>
       </div>
-      <button class="modal-close" onclick="closeModal('modal-interest')" aria-label="Close">×</button>
+      <button class="modal-close" onclick="closeModal('modal-interest')" aria-label="Close">Ã—</button>
     </div>
     <div class="modal-bd" id="int-form-wrap">
       <div class="mfg">
@@ -501,8 +1153,8 @@ a { color: inherit; }
         <label class="mfl" for="int-timeline">When do you plan to hire?</label>
         <select class="mfs" id="int-timeline">
           <option value="As soon as possible">As soon as possible</option>
-          <option value="In 1–3 months">In 1–3 months</option>
-          <option value="In 3–6 months">In 3–6 months</option>
+          <option value="In 1â€“3 months">In 1â€“3 months</option>
+          <option value="In 3â€“6 months">In 3â€“6 months</option>
           <option value="6+ months out">6+ months out</option>
           <option value="Just exploring">Just exploring</option>
         </select>
@@ -517,9 +1169,9 @@ a { color: inherit; }
       </div>
     </div>
     <div class="modal-success" id="int-success">
-      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">âœ“</div>
       <h3>Interest noted.</h3>
-      <p>We'll be in touch about <strong id="int-success-name"></strong> — and if your timeline is urgent, we may reach out sooner to explore early access.</p>
+      <p>We'll be in touch about <strong id="int-success-name"></strong> â€” and if your timeline is urgent, we may reach out sooner to explore early access.</p>
     </div>
   </div>
 </div>
@@ -551,7 +1203,7 @@ function applyFilters() {
   document.getElementById('count-display').textContent = available;
 }
 
-// ── MODAL CORE ──
+// â”€â”€ MODAL CORE â”€â”€
 function openModal(id) {
   const m = document.getElementById(id);
   m.classList.add('open');
@@ -573,7 +1225,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// ── WAITLIST ──
+// â”€â”€ WAITLIST â”€â”€
 function openWaitlist() {
   document.getElementById('wl-form-wrap').style.display = '';
   document.getElementById('wl-success').style.display = 'none';
@@ -584,14 +1236,14 @@ async function submitWaitlist() {
   const name  = document.getElementById('wl-name').value.trim();
   const email = document.getElementById('wl-email').value.trim();
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
-  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
+  const btn = event.target; btn.textContent = 'Sendingâ€¦'; btn.disabled = true;
   try {
     await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject: 'Waitlist — New AI Staff · tryjoyn.me',
+        subject: 'Waitlist â€” New AI Staff Â· tryjoyn.me',
         name, email,
         company:     document.getElementById('wl-company').value.trim(),
         looking_for: document.getElementById('wl-looking').value.trim()
@@ -605,9 +1257,9 @@ async function submitWaitlist() {
   }
 }
 
-// ── EXPRESS INTEREST ──
+// â”€â”€ EXPRESS INTEREST â”€â”€
 function openInterest(staffName, staffRole) {
-  document.getElementById('int-staff').value = staffName + ' — ' + staffRole;
+  document.getElementById('int-staff').value = staffName + ' â€” ' + staffRole;
   document.getElementById('int-success-name').textContent = staffName;
   ['int-name','int-email','int-company','int-notes'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('int-timeline').selectedIndex = 0;
@@ -619,14 +1271,14 @@ async function submitInterest() {
   const name  = document.getElementById('int-name').value.trim();
   const email = document.getElementById('int-email').value.trim();
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
-  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
+  const btn = event.target; btn.textContent = 'Sendingâ€¦'; btn.disabled = true;
   try {
     await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         access_key:    '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject:       'Interest — ' + document.getElementById('int-staff').value.split(' —')[0] + ' · tryjoyn.me',
+        subject:       'Interest â€” ' + document.getElementById('int-staff').value.split(' â€”')[0] + ' Â· tryjoyn.me',
         name, email,
         company:       document.getElementById('int-company').value.trim(),
         interested_in: document.getElementById('int-staff').value,
@@ -641,10 +1293,540 @@ async function submitInterest() {
     alert('Something went wrong. Please email hire@tryjoyn.me directly.');
   }
 }
+
+/* -- STAFF DESIGNER JS -- */
+// ─── DETERMINISTIC DATA CATALOGUE ────────────────────────────────────────────
+// Schema per member: name, role, mode, modeTag, accentClass, what,
+//   builtBy, builtByCred, timeToLive, ttlHighlight, coverage, outcome
+// Schema per rec: title, summary, members[], diagramType, flow/team data,
+//   outcomes[], hireCta, hireUrl, hireNote
+
+const CHIPS = {
+  insurance:   ['Tracking Florida OIR bulletins','Missing carrier rate filings','CE deadline monitoring','Renewal prep across my book','E&O exposure changes'],
+  healthcare:  ['Tracking HIPAA guidance updates','Monitoring billing code changes','Credentialing requirement shifts','Medicare/Medicaid policy changes'],
+  finance:     ['Monitoring SEC rule updates','Tracking FINRA guidance','ADV filing deadline tracking','State securities law changes'],
+  realestate:  ['Zoning code changes','MLS compliance updates','Permit requirement shifts','Fair housing regulation changes'],
+  legal:       ['Court rule amendments','Ethics opinion updates','Bar requirement changes','Malpractice exposure signals'],
+  operations:  ['Answering inbound calls after hours','Booking and scheduling jobs','Dispatching field staff','Managing client intake','Document filing and routing'],
+  technology:  ['Technology due diligence on acquisition targets','Pre-LOI screening','IC-ready output timelines','Vendor and platform assessment']
+};
+
+const CATALOGUE = {
+  insurance: {
+    solo: {
+      title: 'One staff member covers this.',
+      summary: 'Your problem is a solved one. Iris, our Insurance Regulatory Intelligence Specialist, was built specifically to monitor Florida\'s Office of Insurance Regulation so independent agents never miss a change that affects their clients.',
+      members: [
+        { name:'Iris', role:'Insurance Regulatory Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-live', statusLabel:'Live',
+          what:'Monitors Florida OIR around the clock — every bulletin, rate filing, and rule change assessed for impact on your specific line of business. When something material happens, you\'re notified before your clients feel it.',
+          builtBy:'Carmen V.', builtByCred:'28yr Florida OIR counsel',
+          timeToLive:'10 minutes', ttlHighlight:true, coverage:'Florida OIR · All LOBs', outcome:'Zero missed regulatory events' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Iris monitors Florida OIR every 2–3 hours, automatically'},
+        {step:'02', text:'Every document assessed: severity, line-of-business match, effective date'},
+        {step:'03', text:'Material change detected — alert fires to your inbox immediately'},
+        {step:'04', text:'Alert includes: what changed, why it matters, source link, effective date'}
+      ],
+      outcomes: [{num:'0', label:'Missed regulatory events'},{num:'10 min',label:'Time to hire and go live'},{num:'2–3 hrs',label:'Monitoring frequency'}],
+      hireCta:'Hire Iris', hireUrl:'iris-insurance-regulatory.html',
+      hireNote:'Iris is live and available now. Florida homeowners insurance active. Additional states in progress.'
+    },
+    team: {
+      title: 'Two staff members. One watches the market. One protects your book.',
+      summary: 'For an agency with multiple producers, a coordinated pair covers both what\'s changing in the regulatory environment and what\'s at risk in your specific book — simultaneously, Always On.',
+      members: [
+        { name:'Iris', role:'Insurance Regulatory Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-live', statusLabel:'Live',
+          what:'Monitors Florida OIR continuously. The moment a material regulatory change affects your line of business, every producer on your team is notified at the same time with the same intelligence.',
+          builtBy:'Carmen V.', builtByCred:'28yr Florida OIR counsel',
+          timeToLive:'10 minutes', ttlHighlight:true, coverage:'Florida OIR · All LOBs', outcome:'Zero missed regulatory events' },
+        { name:'Renew', role:'Renewal Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Starts working 90 days before every renewal in your book. Surfaces carrier appetite signals, rate change trends, and risk profile shifts so your producers walk into every renewal conversation prepared.',
+          builtBy:'Marcus B.', builtByCred:'30yr insurance veteran',
+          timeToLive:'Coming soon', ttlHighlight:false, coverage:'All carriers · All LOBs', outcome:'38% renewal retention improvement' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Iris', sub:'Continuous monitor', center:false},
+        {name:'Your Agency', sub:'Real-time intelligence', center:true},
+        {name:'Renew', sub:'90-day pre-renewal', center:false}
+      ],
+      teamArrows: ['Regulatory alerts', 'Renewal briefings'],
+      teamNote: 'Each staff member operates independently and Always On. No coordination overhead on your end — each monitors their domain and alerts you when something relevant happens. Intelligence arrives separately, each with full context and source citation.',
+      outcomes: [{num:'0',label:'Missed regulatory events'},{num:'90 days',label:'Renewal intelligence lead time'},{num:'38%',label:'Renewal retention improvement'}],
+      hireCta:'Hire Iris first', hireUrl:'iris-insurance-regulatory.html',
+      hireNote:'Iris is live now. Hire Iris today — Renew is in development and you\'ll be notified when it\'s ready.'
+    }
+  },
+  healthcare: {
+    solo: {
+      title: 'One staff member. HIPAA changes caught before they cost you.',
+      summary: 'Independent practices spend thousands on compliance consultants for changes a dedicated AI staff member would have caught automatically. Caduceus monitors so you can focus on practice.',
+      members: [
+        { name:'Caduceus', role:'Healthcare Regulation Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors HIPAA guidance updates, CMS policy changes, and state credentialing requirements continuously. Alerts you to changes that affect your practice type before effective dates — with enough lead time to actually act.',
+          builtBy:'Ananya R.', builtByCred:'FDA consultant · 20yr pharma',
+          timeToLive:'In development', ttlHighlight:false, coverage:'HIPAA · CMS · State regulation', outcome:'100% pre-deadline compliance rate' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Monitors HIPAA, CMS, and your state regulatory bodies continuously'},
+        {step:'02', text:'Each update assessed: does this affect your specific practice type?'},
+        {step:'03', text:'Material change → immediate alert with plain-English explanation'},
+        {step:'04', text:'Alert includes effective date, required action, and source document'}
+      ],
+      outcomes: [{num:'100%',label:'Pre-deadline alert rate'},{num:'0',label:'Missed compliance windows'},{num:'2–3 hrs',label:'Monitoring frequency'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Caduceus is in development. Express interest below and we\'ll notify you at launch.'
+    },
+    team: {
+      title: 'Compliance and billing code changes. Both covered, Always On.',
+      summary: 'For a practice with staff, the two biggest regulatory cost centres are compliance changes you missed and billing code shifts that trigger claim denials. A coordinated pair addresses both.',
+      members: [
+        { name:'Caduceus', role:'Healthcare Regulation Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors HIPAA and CMS regulation continuously. Alerts your admin team to compliance changes before effective dates.',
+          builtBy:'Ananya R.', builtByCred:'FDA consultant · 20yr pharma',
+          timeToLive:'In development', ttlHighlight:false, coverage:'HIPAA · CMS · State regulation', outcome:'100% pre-deadline alert rate' },
+        { name:'Biller', role:'Medical Billing Code Tracker', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Tracks ICD-10, CPT, and payer policy changes. Alerts your billing staff before code changes take effect so claims aren\'t rejected on rules that changed without notice.',
+          builtBy:'Coming soon', builtByCred:'Medical billing specialist',
+          timeToLive:'In development', ttlHighlight:false, coverage:'ICD-10 · CPT · Payer policy', outcome:'Prevent claim denials from unnoticed code changes' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Caduceus', sub:'Compliance monitor', center:false},
+        {name:'Your Practice', sub:'Alerts & updates', center:true},
+        {name:'Biller', sub:'Billing code monitor', center:false}
+      ],
+      teamArrows: ['Compliance alerts', 'Billing code alerts'],
+      teamNote: 'Both staff members run independently. Caduceus watches the regulatory environment; Biller watches the billing landscape. You receive separate, specific alerts for each — no noise, no overlap.',
+      outcomes: [{num:'0',label:'Missed compliance windows'},{num:'100%',label:'Billing code change coverage'},{num:'Early',label:'Alert timing vs. effective date'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Both roles in development. Express interest and help us prioritise the build order.'
+    }
+  },
+  finance: {
+    solo: {
+      title: 'Regulatory intelligence for independent advisors.',
+      summary: 'SEC and FINRA move fast. Independent RIAs rarely have a dedicated compliance officer watching the feeds daily. One AI staff member changes that — permanently.',
+      members: [
+        { name:'Compass', role:'RIA Regulatory Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors SEC guidance, FINRA rule updates, and state securities law continuously. Flags changes affecting your practice, your ADV obligations, and your fiduciary standards — with lead time before effective dates.',
+          builtBy:'Coming soon', builtByCred:'25yr compliance officer · SEC',
+          timeToLive:'In development', ttlHighlight:false, coverage:'SEC · FINRA · State securities', outcome:'0 missed regulatory deadlines' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Monitors SEC, FINRA, and your state securities regulator simultaneously'},
+        {step:'02', text:'Every guidance document assessed for RIA applicability and urgency'},
+        {step:'03', text:'Material change → immediate alert with deadline and action required'},
+        {step:'04', text:'ADV filing deadlines tracked automatically with advance notice windows'}
+      ],
+      outcomes: [{num:'0',label:'Missed regulatory deadlines'},{num:'3',label:'Regulators monitored simultaneously'},{num:'Real-time',label:'Alert timing'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Compass is in development. Express interest to be notified at launch.'
+    },
+    team: {
+      title: 'Regulation and market intelligence. Both covered.',
+      summary: 'For an advisory firm with multiple advisors, you need both the compliance picture and a market signal layer — so your team stays protected on regulatory exposure and informed on competitive landscape changes.',
+      members: [
+        { name:'Compass', role:'RIA Regulatory Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors SEC, FINRA, and state securities regulation continuously. Alerts your compliance lead the moment something material changes.',
+          builtBy:'Coming soon', builtByCred:'25yr compliance officer · SEC',
+          timeToLive:'In development', ttlHighlight:false, coverage:'SEC · FINRA · State securities', outcome:'0 missed regulatory deadlines' },
+        { name:'Signal', role:'Market Intelligence Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Tracks analyst commentary, competitor moves, and market narrative shifts. Weekly briefings your advisors can bring directly into client conversations.',
+          builtBy:'Coming soon', builtByCred:'18yr investment research',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Market data · Analyst coverage · Competitor intelligence', outcome:'8x signal coverage vs. manual reading' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Compass', sub:'Compliance monitor', center:false},
+        {name:'Your Firm', sub:'Alerts & briefings', center:true},
+        {name:'Signal', sub:'Weekly briefings', center:false}
+      ],
+      teamArrows: ['Regulatory alerts', 'Market briefings'],
+      teamNote: 'Compass and Signal operate in separate domains. One protects you from compliance exposure; the other keeps your advisors informed on the market. Both Always On, both independent.',
+      outcomes: [{num:'0',label:'Missed regulatory deadlines'},{num:'8x',label:'Signal coverage improvement'},{num:'Weekly',label:'Market intelligence cadence'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Both roles in development. Express interest to be first in line.'
+    }
+  },
+  realestate: {
+    solo: {
+      title: 'Zoning changes. You\'ll know before your clients ask.',
+      summary: 'Real estate professionals find out about zoning and permit changes when a deal falls through. One AI staff member watches the planning department so that never happens to you.',
+      members: [
+        { name:'Parcel', role:'Zoning & Planning Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors zoning changes, variance applications, planning commission decisions, and permit requirement updates. Alerts you to changes affecting your market before they affect your deals.',
+          builtBy:'Tom R.', builtByCred:'25yr commercial RE broker',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Municipal planning · Zoning · Permits', outcome:'100% zoning change coverage' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Monitors planning commission, zoning board, and permit office filings'},
+        {step:'02', text:'Every application and decision assessed for market relevance'},
+        {step:'03', text:'Material change → alert with location, impact, and timeline'},
+        {step:'04', text:'Historical data builds — a searchable planning intelligence corpus over time'}
+      ],
+      outcomes: [{num:'100%',label:'Zoning change coverage'},{num:'0',label:'Deal surprises from planning changes'},{num:'Before',label:'Alert timing vs. effective date'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Parcel is in development. Express interest at the link below.'
+    },
+    team: {
+      title: 'Planning intelligence plus MLS compliance. Both monitored.',
+      summary: 'For a brokerage, you need early warning on zoning changes that affect listings and current awareness of MLS and fair housing compliance requirements — both without dedicated staff.',
+      members: [
+        { name:'Parcel', role:'Zoning & Planning Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors zoning changes, variance applications, and planning decisions. Alerts your team before changes affect listings or active deals.',
+          builtBy:'Tom R.', builtByCred:'25yr commercial RE broker',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Municipal planning · Permits · Zoning', outcome:'100% zoning change coverage' },
+        { name:'Comply', role:'MLS & Fair Housing Compliance Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Tracks MLS rule changes and fair housing regulation updates. Keeps your brokerage current so agents aren\'t inadvertently out of compliance.',
+          builtBy:'Coming soon', builtByCred:'Fair housing attorney · 18yr',
+          timeToLive:'In development', ttlHighlight:false, coverage:'MLS rules · Fair Housing Act · State regulation', outcome:'0 inadvertent compliance violations' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Parcel', sub:'Planning monitor', center:false},
+        {name:'Your Brokerage', sub:'Alerts & updates', center:true},
+        {name:'Comply', sub:'Compliance monitor', center:false}
+      ],
+      teamArrows: ['Planning alerts', 'Compliance alerts'],
+      teamNote: 'Both run independently. Parcel watches the planning environment; Comply watches the regulatory landscape. Separate alerts, separate domains, zero coordination required from your team.',
+      outcomes: [{num:'100%',label:'Zoning change coverage'},{num:'0',label:'Compliance violations'},{num:'Early',label:'Alert timing on all changes'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Both roles in development. Express interest to shape the build.'
+    }
+  },
+  legal: {
+    solo: {
+      title: 'Court rules change. You\'ll always be the first to know.',
+      summary: 'Missing a court rule amendment or ethics opinion is a practice liability. One AI staff member watches your jurisdiction so you can focus on practice instead of portals.',
+      members: [
+        { name:'Lex', role:'Court Rule & Ethics Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors court rule amendments, ethics opinions, and bar requirement updates for your jurisdiction. Flags changes affecting your practice area before they affect your clients — with enough lead time to respond.',
+          builtBy:'Coming soon', builtByCred:'Partner · litigation · 22yr',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Court rules · Ethics opinions · Bar requirements', outcome:'0 missed court rule changes' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Monitors court rule amendments, bar bulletins, and ethics opinions'},
+        {step:'02', text:'Each change assessed: does this affect your practice area specifically?'},
+        {step:'03', text:'Material change → alert with effective date and practical impact summary'},
+        {step:'04', text:'Source link and citation included on every alert — no hunting required'}
+      ],
+      outcomes: [{num:'0',label:'Missed court rule changes'},{num:'100%',label:'Ethics opinion coverage'},{num:'Same day',label:'Alert timing on bar updates'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Lex is in development. Express interest to be notified at launch.'
+    },
+    team: {
+      title: 'Rule changes and malpractice signals. Both covered.',
+      summary: 'For a firm with multiple practice areas, court rule monitoring plus malpractice exposure intelligence give you protection from two different directions simultaneously.',
+      members: [
+        { name:'Lex', role:'Court Rule & Ethics Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors court rule changes and ethics opinions across your jurisdictions. Alerts the whole team when something changes that affects how they practice.',
+          builtBy:'Coming soon', builtByCred:'Partner · litigation · 22yr',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Court rules · Ethics opinions · Bar requirements', outcome:'0 missed court rule changes' },
+        { name:'Brief', role:'Malpractice Exposure Monitor', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Monitors case law patterns and disciplinary trend signals for emerging malpractice exposure in your practice areas. Early warning intelligence you can actually act on.',
+          builtBy:'Coming soon', builtByCred:'Malpractice defense attorney · 18yr',
+          timeToLive:'In development', ttlHighlight:false, coverage:'Case law trends · Disciplinary patterns · Insurance signals', outcome:'Early exposure signal detection' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Lex', sub:'Rule monitor', center:false},
+        {name:'Your Firm', sub:'Alerts & signals', center:true},
+        {name:'Brief', sub:'Exposure monitor', center:false}
+      ],
+      teamArrows: ['Rule change alerts', 'Exposure signals'],
+      teamNote: 'Both operate in distinct domains. Lex watches procedural and ethical obligations; Brief watches liability exposure trends. Each delivers intelligence independently — your firm receives both streams without managing either.',
+      outcomes: [{num:'0',label:'Missed rule changes'},{num:'Early',label:'Malpractice exposure signals'},{num:'2',label:'Practice areas protected simultaneously'}],
+      hireCta:'Join waitlist', hireUrl:'index.html',
+      hireNote:'Both roles in development. Express interest to be first in line.'
+    }
+  },
+  operations: {
+    solo: {
+      title: 'One staff member. Every inbound call answered.',
+      summary: 'Dispatch handles every inbound call, books jobs, manages the schedule, and sends confirmations — including the ones that come in at 2am. Solo operators stop losing jobs to missed calls.',
+      members: [
+        { name:'Dispatch', role:'Field Services Dispatcher', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Answers every inbound call, books jobs, manages the schedule, and sends confirmations automatically. No missed calls, no manual scheduling, no after-hours gaps.',
+          builtBy:'Operations Expert', builtByCred:'Field services & trades specialist',
+          timeToLive:'31 Mar 2026', ttlHighlight:true, coverage:'Inbound calls · Job booking · Schedule management · Confirmations', outcome:'0 missed inbound calls' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Client calls your business number at any hour'},
+        {step:'02', text:'Dispatch answers, qualifies the job, and books the slot'},
+        {step:'03', text:'Confirmation sent to client automatically'},
+        {step:'04', text:'Your calendar updated — you show up, job done'}
+      ],
+      outcomes: [{num:'0',label:'Missed inbound calls'},{num:'24/7',label:'Call coverage'},{num:'Auto',label:'Confirmations sent'}],
+      hireCta:'Express interest', hireUrl:'index.html',
+      hireNote:'Dispatch launches 31 March 2026. Express interest to be first in line.'
+    },
+    team: {
+      title: 'Three staff members. Dispatch, intake, and filing — fully covered.',
+      summary: 'Growing operations lose hours every week to scheduling calls, client intake, and document routing. Three autonomous staff members handle all of it — so your team focuses on the work, not the admin.',
+      members: [
+        { name:'Dispatch', role:'Field Services Dispatcher', mode:'Autonomous', modeTag:'mode-auto', accentClass:'gold', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Answers every inbound call, books jobs, manages the schedule, and sends confirmations automatically.',
+          builtBy:'Operations Expert', builtByCred:'Field services & trades specialist',
+          timeToLive:'31 Mar 2026', ttlHighlight:true, coverage:'Inbound calls · Job booking · Schedule management', outcome:'0 missed calls' },
+        { name:'Brief', role:'Client Brief Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Converts intake calls and forms into structured, actionable client briefs — ready for your team to execute against.',
+          builtBy:'Operations Expert', builtByCred:'Client intake specialist',
+          timeToLive:'12 May 2026', ttlHighlight:false, coverage:'Intake calls · Forms · Brief generation', outcome:'Structured briefs every time' },
+        { name:'File', role:'Document Filing Specialist', mode:'Autonomous', modeTag:'mode-auto', accentClass:'', statusTag:'status-soon', statusLabel:'Coming Soon',
+          what:'Classifies, names, and routes inbound documents into the right folders with the right metadata. Zero manual filing.',
+          builtBy:'Operations Expert', builtByCred:'Document management specialist',
+          timeToLive:'26 May 2026', ttlHighlight:false, coverage:'Document classification · Naming · Routing', outcome:'Zero manual filing' }
+      ],
+      diagramType: 'team',
+      teamNodes: [
+        {name:'Dispatch', sub:'Call handler', center:false},
+        {name:'Your Business', sub:'Admin-free ops', center:true},
+        {name:'Brief', sub:'Intake briefs', center:false}
+      ],
+      teamArrows: ['Booked jobs & schedules', 'Structured client briefs'],
+      teamNote: 'Dispatch handles inbound calls and scheduling. Brief converts intake into structured briefs. File routes all inbound documents. Three autonomous staff — your team executes, not administrates.',
+      outcomes: [{num:'0',label:'Missed calls'},{num:'Auto',label:'Client briefs generated'},{num:'0',label:'Manual filing'}],
+      hireCta:'Express interest', hireUrl:'index.html',
+      hireNote:'All three roles launch between March and May 2026. Express interest to be first in line.'
+    }
+  },
+  technology: {
+    solo: {
+      title: 'Eight analysts. IC-ready output in 72 hours.',
+      summary: 'The TDD Practice Team runs pre-LOI technology due diligence from initial screening to IC-ready output. Works alongside your practitioners — calibrated to your firm\'s methodology.',
+      members: [
+        { name:'TDD Practice Team', role:'Technology Due Diligence · 8 Agents', mode:'Supervised', modeTag:'mode-sup', accentClass:'gold', statusTag:'status-live', statusLabel:'Live',
+          what:'Eight-agent supervised team running technology due diligence from pre-LOI screening through to IC-ready output. Calibrates to your firm\'s existing methodology and works under practitioner direction.',
+          builtBy:'PE / Corp Dev Expert', builtByCred:'Technology due diligence specialist',
+          timeToLive:'Available now', ttlHighlight:true, coverage:'Pre-LOI screening · Architecture review · Tech stack assessment · IC memo', outcome:'IC-ready in 72 hours' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Share the target company and your firm\'s DD methodology'},
+        {step:'02', text:'Eight agents run parallel streams: architecture, stack, team, debt, risk'},
+        {step:'03', text:'Practitioner reviews and calibrates findings at each stage'},
+        {step:'04', text:'IC-ready output delivered in 72 hours'}
+      ],
+      outcomes: [{num:'72h',label:'Pre-LOI to IC-ready'},{num:'8',label:'Analysts in parallel'},{num:'vs 2–4wk',label:'Standard timeline'}],
+      hireCta:'Hire TDD Practice Team', hireUrl:'../practice/tdd-practice-team.html',
+      hireNote:'Supervised mode — works under your practitioners\' direction. Calibrates to your methodology.'
+    },
+    team: {
+      title: 'Your entire DD pipeline. Practitioner-directed.',
+      summary: 'For corporate development and PE teams running multiple simultaneous deals, the TDD Practice Team operates across all of them — each calibrated to your firm\'s methodology, each under your practitioners\' direction.',
+      members: [
+        { name:'TDD Practice Team', role:'Technology Due Diligence · 8 Agents', mode:'Supervised', modeTag:'mode-sup', accentClass:'gold', statusTag:'status-live', statusLabel:'Live',
+          what:'Eight-agent supervised team running technology due diligence across multiple simultaneous targets. Scales with your deal flow — practitioners direct, agents execute in parallel.',
+          builtBy:'PE / Corp Dev Expert', builtByCred:'Technology due diligence specialist',
+          timeToLive:'Available now', ttlHighlight:true, coverage:'Multi-target DD · Architecture · Stack · Team · Risk · IC memo', outcome:'IC-ready in 72 hours per target' }
+      ],
+      diagramType: 'solo',
+      flow: [
+        {step:'01', text:'Add each target and your practitioners\' methodology for that deal'},
+        {step:'02', text:'Eight agents run all DD streams in parallel across targets'},
+        {step:'03', text:'Your team reviews, calibrates, and approves at each stage gate'},
+        {step:'04', text:'IC-ready output per target — 72 hours, not 2–4 weeks'}
+      ],
+      outcomes: [{num:'72h',label:'Per target, IC-ready'},{num:'Multi',label:'Simultaneous deals'},{num:'8',label:'Agents per engagement'}],
+      hireCta:'Hire TDD Practice Team', hireUrl:'../practice/tdd-practice-team.html',
+      hireNote:'Supervised mode — works under your practitioners\' direction across all active engagements.'
+    }
+  }
+};
+
+// ─── STATE ──────────────────────────────────────────────────────────────────
+let state = { vertical: null, scale: 'solo' };
+
+// ─── INPUT HANDLERS ─────────────────────────────────────────────────────────
+function selectVertical(el) {
+  document.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.vertical = el.dataset.v;
+
+  const chips = CHIPS[state.vertical] || [];
+  document.getElementById('chipSet').innerHTML = chips
+    .map(c => `<button class="chip" onclick="fillProblem(this)">${c}</button>`)
+    .join('');
+
+  updateBtn();
+}
+
+function fillProblem(el) {
+  document.getElementById('problemText').value = el.textContent;
+  updateBtn();
+}
+
+function selectScale(el) {
+  document.querySelectorAll('.scale-opt').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  state.scale = el.dataset.s;
+}
+
+function updateBtn() {
+  const ready = state.vertical !== null && document.getElementById('problemText').value.trim().length > 8;
+  document.getElementById('designBtn').disabled = !ready;
+}
+
+// ─── RECOMMENDATION ENGINE ──────────────────────────────────────────────────
+function runRecommendation() {
+  document.getElementById('stage1').classList.remove('active');
+  document.getElementById('loadingState').classList.add('active');
+  document.getElementById('step1').classList.remove('active');
+  document.getElementById('step1').classList.add('done');
+  document.getElementById('step2').classList.add('active');
+
+  setTimeout(() => {
+    document.getElementById('loadingState').classList.remove('active');
+    const rec = CATALOGUE[state.vertical]?.[state.scale] || CATALOGUE.insurance.solo;
+    document.getElementById('recOutput').innerHTML = buildRec(rec);
+    document.getElementById('stage2').classList.add('active');
+    document.getElementById('stepIndicator').scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 1400);
+}
+
+function buildRec(r) {
+  let h = '';
+
+  // Header
+  h += `<div class="rec-header">
+    <div>
+      <h2 class="rec-title">${r.title}</h2>
+      <p class="rec-summary">${r.summary}</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.4rem;align-items:flex-end;flex-shrink:0;">
+      ${r.members.map(m => `<span class="${m.statusTag}">${m.statusLabel}</span>`).join('')}
+    </div>
+  </div>`;
+
+  // Staff cards
+  h += `<div class="staff-list">`;
+  r.members.forEach(m => {
+    h += `<div class="staff-rec">
+      <div class="staff-accent ${m.accentClass}"></div>
+      <div class="staff-body">
+        <div class="staff-top">
+          <div>
+            <div class="staff-name">${m.name}</div>
+            <div class="staff-role">${m.role}</div>
+          </div>
+          <span class="${m.modeTag}">${m.mode}</span>
+        </div>
+        <div class="staff-what">${m.what}</div>
+        <div class="staff-attrs">
+          <div class="attr">
+            <div class="attr-label">Built by</div>
+            <div class="attr-val">${m.builtBy}</div>
+          </div>
+          <div class="attr">
+            <div class="attr-label">Time to live</div>
+            <div class="attr-val${m.ttlHighlight ? ' highlight' : ''}">${m.timeToLive}</div>
+          </div>
+          <div class="attr">
+            <div class="attr-label">Coverage</div>
+            <div class="attr-val" style="font-size:0.72rem;">${m.coverage}</div>
+          </div>
+        </div>
+      </div>
+      <div class="staff-expert">
+        <div class="expert-init">${m.builtBy.charAt(0)}</div>
+        <div class="expert-name">${m.builtBy}</div>
+        <div class="expert-cred">${m.builtByCred}</div>
+      </div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Collaboration panel
+  h += `<div class="collab-panel">
+    <div class="collab-head">How ${r.members.length > 1 ? 'they work together' : 'it works'}</div>
+    <div class="collab-body">`;
+
+  if (r.diagramType === 'solo') {
+    h += `<div class="flow-list">`;
+    r.flow.forEach(f => {
+      h += `<div class="flow-item">
+        <span class="flow-step">${f.step}</span>
+        <span class="flow-text">${f.text}</span>
+      </div>`;
+    });
+    h += `</div>`;
+  } else {
+    // Team diagram — horizontal flow
+    const cols = r.teamNodes.map((_,i) => i < r.teamNodes.length-1 ? '1fr 32px' : '1fr').join(' ');
+    h += `<div class="team-flow" style="grid-template-columns:${cols};gap:2px;display:grid;align-items:stretch;margin-bottom:0">`;
+    r.teamNodes.forEach((n, i) => {
+      h += `<div class="team-node${n.center ? ' center' : ''}">
+        <div class="node-name">${n.name}</div>
+        <div class="node-sub">${n.sub}</div>
+      </div>`;
+      if (i < r.teamNodes.length - 1) {
+        h += `<div class="team-arrow">
+          <div class="arrow-line"></div>
+          <div class="arrow-label">${r.teamArrows[i] || ''}</div>
+          <div class="arrow-line"></div>
+        </div>`;
+      }
+    });
+    h += `</div>`;
+    h += `<div class="collab-note">${r.teamNote}</div>`;
+  }
+
+  h += `</div></div>`;
+
+  // Outcomes
+  h += `<div class="outcomes-bar">`;
+  r.outcomes.forEach(o => {
+    h += `<div class="outcome-cell">
+      <div class="outcome-num">${o.num}</div>
+      <div class="outcome-label">${o.label}</div>
+    </div>`;
+  });
+  h += `</div>`;
+
+  // Hire CTA
+  h += `<div class="hire-panel">
+    <div>
+      <div class="hire-title">${r.members.length > 1 ? 'Hire your first staff member today.' : `Hire ${r.members[0].name} today.`}</div>
+      <div class="hire-note">${r.hireNote}</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;align-items:flex-start;">
+      <a href="${r.hireUrl}" class="btn-hire">${r.hireCta} →</a>
+      <button class="btn-ghost" onclick="reset()" style="border-color:rgba(250,250,248,0.15);color:rgba(250,250,248,0.5);font-size:0.65rem;padding:0.6rem 1.25rem;">Start over</button>
+    </div>
+  </div>`;
+
+  return h;
+}
+
+// ─── RESET ──────────────────────────────────────────────────────────────────
+function reset() {
+  state = { vertical: null, scale: 'solo' };
+  document.getElementById('stage2').classList.remove('active');
+  document.getElementById('stage1').classList.add('active');
+  document.getElementById('step2').classList.remove('active');
+  document.getElementById('step1').classList.remove('done');
+  document.getElementById('step1').classList.add('active');
+  document.querySelectorAll('.v-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.scale-opt').forEach(c => c.classList.remove('selected'));
+  document.querySelector('.scale-opt[data-s="solo"]').classList.add('selected');
+  document.getElementById('problemText').value = '';
+  document.getElementById('chipSet').innerHTML = '';
+  document.getElementById('designBtn').disabled = true;
+  document.getElementById('staff-designer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 window.addEventListener('scroll', function() {
   document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
 });
 </script>
-<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ Top</button>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">â†‘ Top</button>
 </body>
 </html>

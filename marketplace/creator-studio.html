@@ -537,7 +537,7 @@ function updateIncomeEstimate() {
   const ref = 20;
   const low  = (r.low  * ref).toLocaleString();
   const high = (r.high * ref).toLocaleString();
-  document.getElementById('income-range').textContent = '£' + low + ' – £' + high + '/mo';
+  document.getElementById('income-range').textContent = '$' + low + ' – $' + high + '/mo';
   preview.style.display = 'block';
 }
 
