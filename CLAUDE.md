@@ -1,0 +1,165 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Deploy
+
+```bash
+git add <specific files>   # NEVER use git add . or git add -A
+git commit -m "type: what changed"
+git push                   # GitHub Pages auto-deploys in ~60 seconds
+```
+
+Live at **tryjoyn.me** · Repo: github.com/tryjoyn/website
+
+---
+
+## Tech Stack (Locked — Never Change Without Instruction)
+
+- Every page is a **single self-contained HTML file** — all CSS and JS inline
+- No React, Vue, Tailwind, Bootstrap, or any npm dependency
+- No separate CSS/JS files — everything stays inline
+- No `border-radius`, no box-shadows, no keyframe animations
+- Transitions: 0.15s–0.2s ease only
+
+**Fonts (Google Fonts CDN — these three only):**
+
+| Font | Role |
+|------|------|
+| Cormorant Garamond | Headings, hero, display (weight 300–500) |
+| DM Mono | Labels, tags, nav items, filter buttons, metadata |
+| Syne | Body text, descriptions, card copy |
+
+**Colour palette — CSS variables only, never hardcode hex:**
+```css
+--white: #fafaf8;  --ink: #111110;  --ink-secondary: #3f3f3e;
+--rule: #e8e4dc;   --rule-mid: #d0ccc4;  --surface: #f4f1eb;
+--gold-display: #b8902a;  --gold-text: #8B6914;  --gold-hover: #7a5c10;
+```
+- Gold on text → always `--gold-text`, never `--gold-display`
+- No pure `#ffffff` or `#000000`
+
+---
+
+## Site Architecture
+
+```
+index.html                              ← Homepage
+marketplace/
+  index.html                            ← Marketplace (staff cards + embedded staff designer)
+  iris-insurance-regulatory.html        ← Iris listing
+  creator-studio.html                   ← Apply to build AI staff
+  staff-designer.html                   ← Standalone (also embedded in marketplace/index.html)
+  admin.html                            ← Founder dashboard — NOT publicly linked
+practice/
+  tdd-practice-team.html                ← TDD Practice Team listing
+data/
+  roster.json                           ← Staff roster source of truth
+scripts/
+  unlock_roster.py                      ← Auto-unlock: flips status coming-soon → live
+.github/workflows/
+  weekly-roster.yml                     ← Cron: Monday 9am UTC, runs unlock_roster.py
+```
+
+---
+
+## Global Nav Pattern
+
+All public pages use this nav structure:
+
+```html
+<nav class="nav" aria-label="Main navigation">
+  <a href="[path-to-index.html]" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="[path-to-marketplace]" class="nav-link" [aria-current="page" if in marketplace section]>Marketplace</a>
+    <a href="[path-to-creator-studio]" class="nav-link" [aria-current="page" if on creator-studio]>Creator Studio</a>
+  </div>
+  <!-- optional right CTA on listing pages only -->
+</nav>
+```
+
+Active state: `aria-current="page"` on the matching nav link. CSS:
+```css
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+```
+
+Breadcrumbs (`<nav class="breadcrumb">`) appear on all marketplace sub-pages — **not** on the homepage.
+
+---
+
+## Staff Designer Embed
+
+The staff designer form is **embedded directly inside `marketplace/index.html`** (not just a link to `staff-designer.html`). All its CSS is scoped under `#sd-wrap` to prevent class conflicts with marketplace styles:
+
+```css
+#sd-wrap .hero { ... }   /* scoped — won't collide with .hero on marketplace */
+```
+
+The standalone `staff-designer.html` page still exists but is a secondary entry point.
+
+---
+
+## Dynamic Counts — Never Hardcode
+
+Badge counts and role counts are populated by JS on render, not hardcoded in HTML:
+
+```html
+<strong id="count-display"></strong> available   <!-- JS fills this -->
+<strong id="roles-count"></strong>               <!-- JS fills this -->
+```
+
+Never write `<strong>2</strong> available` or `21 roles` in HTML — these go stale.
+
+---
+
+## Roster System
+
+`data/roster.json` is the single source of truth. Each entry:
+```json
+{ "name": "...", "role": "...", "mode": "autonomous|supervised",
+  "vertical": "...", "status": "live|coming-soon", "unlockDate": "YYYY-MM-DD" }
+```
+
+GitHub Actions cron (`.github/workflows/weekly-roster.yml`) runs `scripts/unlock_roster.py` every Monday 9am UTC, which flips `coming-soon` → `live` when `unlockDate <= today`.
+
+---
+
+## Terminology (Auto-Correct — No Exceptions)
+
+| Use | Never use |
+|-----|-----------|
+| **Autonomous** | Ready, Always On |
+| **Supervised** | Custom, Craft |
+| **hire** | activate, subscribe |
+| **staff** | agents, bots |
+| **role** | function, task |
+| **letting someone go** | unsubscribing, cancelling |
+
+---
+
+## Locked Decisions
+
+- No pricing on site
+- No live deployment counter until 50+ deployments
+- No revenue share % on Creator Studio — use "Performance-linked income, confirmed at offer"
+- Chick-fil-A creator admission model — selective, not open marketplace
+- No dark mode — warm off-white palette is fixed
+- No build tools — single-file HTML forever
+
+---
+
+## Forms
+
+All forms submit via Web3Forms → hire@tryjoyn.me:
+```html
+<input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
+```
+
+---
+
+## Context Files (Read Before Major Builds)
+
+- `VISION.md` — product philosophy, roster, two modes
+- `JOYN-CONTEXT.md` — full page-by-page notes, locked decisions
+- `JOYN-DESIGN-SPEC.md` — colour system, typography scale, every component pattern with code
+- `AGENT-RULES.md` — behavioural contract for autonomous build sessions
