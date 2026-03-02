@@ -65,14 +65,21 @@ a { color: inherit; }
 .hero p { font-size: 1.1rem; max-width: 54ch; margin-bottom: 2rem; }
 
 /* FILTER BAR */
-.filter-bar { padding: 1rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; position: sticky; top: 60px; background: var(--white); z-index: 50; }
+.filter-bar { padding: 0.75rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; flex-direction: column; gap: 0.6rem; position: sticky; top: 60px; background: var(--white); z-index: 50; }
+.filter-row { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.filter-meta { display: flex; align-items: center; gap: 1.25rem; padding-top: 0.1rem; }
+.filter-reset { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; background: none; border: none; color: var(--ink-secondary); cursor: pointer; padding: 0; display: none; text-decoration: underline; transition: color 0.15s; }
+.filter-reset:hover { color: var(--ink); }
 .filter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); flex-shrink: 0; }
 .filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .filter-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
 .filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
 .filter-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
-.filter-count { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.filter-count { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
 .filter-count strong { color: var(--gold-text); }
+.filter-empty { padding: 2.5rem clamp(1.5rem,5vw,4rem); font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); display: none; border-bottom: 1px solid var(--rule); }
+.filter-empty a { color: var(--gold-text); text-decoration: none; }
+.filter-empty a:hover { color: var(--gold-hover); text-decoration: underline; }
 
 /* STAFF GRID */
 .staff-section { padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem); }
@@ -740,24 +747,31 @@ a { color: inherit; }
 </section>
 
 <div class="filter-bar" role="search" aria-label="Filter staff">
-  <span class="filter-label" id="mode-label">Mode</span>
-  <div class="filter-group" role="group" aria-labelledby="mode-label">
-    <button class="filter-btn active" onclick="filterMode('all',this)">All</button>
-    <button class="filter-btn" onclick="filterMode('always-on',this)">Autonomous</button>
-    <button class="filter-btn" onclick="filterMode('craft',this)">Supervised</button>
+  <div class="filter-row">
+    <span class="filter-label" id="mode-label">Mode</span>
+    <div class="filter-group" id="mode-group" role="group" aria-labelledby="mode-label">
+      <button class="filter-btn active" onclick="filterMode('all',this)">All</button>
+      <button class="filter-btn" onclick="filterMode('always-on',this)">Autonomous</button>
+      <button class="filter-btn" onclick="filterMode('craft',this)">Supervised</button>
+    </div>
   </div>
-  <span class="filter-label" id="vert-label">Vertical</span>
-  <div class="filter-group" role="group" aria-labelledby="vert-label">
-    <button class="filter-btn active" onclick="filterVertical('all',this)">All</button>
-    <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance &amp; Risk</button>
-    <button class="filter-btn" onclick="filterVertical('financial-services',this)">Financial Services</button>
-    <button class="filter-btn" onclick="filterVertical('healthcare',this)">Healthcare</button>
-    <button class="filter-btn" onclick="filterVertical('legal-compliance',this)">Legal &amp; Compliance</button>
-    <button class="filter-btn" onclick="filterVertical('real-estate',this)">Real Estate</button>
-    <button class="filter-btn" onclick="filterVertical('operations',this)">Operations</button>
-    <button class="filter-btn" onclick="filterVertical('technology',this)">Technology</button>
+  <div class="filter-row">
+    <span class="filter-label" id="vert-label">Vertical</span>
+    <div class="filter-group" id="vert-group" role="group" aria-labelledby="vert-label">
+      <button class="filter-btn active" onclick="filterVertical('all',this)">All</button>
+      <button class="filter-btn" onclick="filterVertical('insurance',this)">Insurance &amp; Risk</button>
+      <button class="filter-btn" onclick="filterVertical('financial-services',this)">Financial Services</button>
+      <button class="filter-btn" onclick="filterVertical('healthcare',this)">Healthcare</button>
+      <button class="filter-btn" onclick="filterVertical('legal-compliance',this)">Legal &amp; Compliance</button>
+      <button class="filter-btn" onclick="filterVertical('real-estate',this)">Real Estate</button>
+      <button class="filter-btn" onclick="filterVertical('operations',this)">Operations</button>
+      <button class="filter-btn" onclick="filterVertical('technology',this)">Technology</button>
+    </div>
   </div>
-  <div class="filter-count" aria-live="polite"><strong id="count-display"></strong> available</div>
+  <div class="filter-meta">
+    <div class="filter-count" aria-live="polite"><strong id="count-display"></strong> available</div>
+    <button class="filter-reset" id="filter-reset" onclick="resetFilters()">Reset filters</button>
+  </div>
 </div>
 
 <section class="staff-section" id="main-content">
@@ -802,6 +816,7 @@ a { color: inherit; }
     </a>
 
   </div>
+  <div class="filter-empty" id="filter-empty">No staff available for this combination yet — <a href="#pipeline">see who's coming soon ↓</a></div>
 </section>
 
 <section id="staff-designer" style="border-top:1px solid var(--rule);">
@@ -1180,15 +1195,26 @@ a { color: inherit; }
 let currentMode = 'all', currentVertical = 'all';
 
 function filterMode(mode, btn) {
+  if (currentMode === mode && mode !== 'all') mode = 'all';
   currentMode = mode;
-  document.querySelectorAll('.filter-group:first-of-type .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#mode-group .filter-btn').forEach(b => b.classList.remove('active'));
+  if (mode === 'all') document.querySelector('#mode-group .filter-btn').classList.add('active');
+  else btn.classList.add('active');
   applyFilters();
 }
 function filterVertical(vertical, btn) {
+  if (currentVertical === vertical && vertical !== 'all') vertical = 'all';
   currentVertical = vertical;
-  document.querySelectorAll('.filter-group:last-of-type .filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('#vert-group .filter-btn').forEach(b => b.classList.remove('active'));
+  if (vertical === 'all') document.querySelector('#vert-group .filter-btn').classList.add('active');
+  else btn.classList.add('active');
+  applyFilters();
+}
+function resetFilters() {
+  currentMode = 'all'; currentVertical = 'all';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('#mode-group .filter-btn').classList.add('active');
+  document.querySelector('#vert-group .filter-btn').classList.add('active');
   applyFilters();
 }
 function applyFilters() {
@@ -1201,6 +1227,8 @@ function applyFilters() {
     if (show) available++;
   });
   document.getElementById('count-display').textContent = available;
+  document.getElementById('filter-empty').style.display = available === 0 ? 'block' : 'none';
+  document.getElementById('filter-reset').style.display = (currentMode !== 'all' || currentVertical !== 'all') ? 'inline' : 'none';
 }
 
 // â”€â”€ MODAL CORE â”€â”€
