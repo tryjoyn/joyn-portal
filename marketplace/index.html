@@ -145,6 +145,9 @@ a { color: inherit; }
 .footer-tag { font-family: 'Syne', sans-serif; font-size: 0.875rem; color: var(--ink-secondary); }
 .footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; margin-left: 1.5rem; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
 .footer-nav a:hover { color: var(--ink); text-decoration: underline; }
+.back-to-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); background: var(--white); border: 1px solid var(--rule-mid); padding: 0.5rem 0.875rem; cursor: pointer; min-height: 36px; display: none; align-items: center; gap: 0.35rem; transition: color 0.15s, border-color 0.15s; }
+.back-to-top:hover { color: var(--ink); border-color: var(--ink-secondary); }
+.back-to-top.visible { display: flex; }
 
 @media (max-width: 768px) {
   .nav { padding: 0 1.25rem; }
@@ -638,6 +641,10 @@ async function submitInterest() {
     alert('Something went wrong. Please email hire@tryjoyn.me directly.');
   }
 }
+window.addEventListener('scroll', function() {
+  document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
+});
 </script>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ Top</button>
 </body>
 </html>
