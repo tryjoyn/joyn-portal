@@ -20,11 +20,26 @@ def close_db(e=None):
         db.close()
 
 
+def _apply_migrations(db):
+    """Add columns introduced after initial schema deploy. Safe to re-run."""
+    migrations = [
+        "ALTER TABLE clients ADD COLUMN states TEXT",
+        "ALTER TABLE clients ADD COLUMN first_login INTEGER DEFAULT 0",
+    ]
+    for sql in migrations:
+        try:
+            db.execute(sql)
+        except Exception:
+            pass  # Column already exists — ignore
+    db.commit()
+
+
 def init_db():
     db = get_db()
     schema_path = os.path.join(os.path.dirname(__file__), 'schema.sql')
     with open(schema_path) as f:
         db.executescript(f.read())
+    _apply_migrations(db)
     db.commit()
 
 

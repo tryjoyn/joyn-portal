@@ -4,7 +4,7 @@ from flask import (
 )
 from data.db import query_one, execute_commit
 from auth.helpers import (
-    verify_password, create_access_token,
+    verify_password, hash_password, create_access_token,
     login_required, generate_reset_token
 )
 
@@ -52,7 +52,12 @@ def login_post():
     execute_commit('UPDATE clients SET last_login=CURRENT_TIMESTAMP WHERE id=?', (client['id'],))
 
     token = create_access_token(client['id'])
-    resp = make_response(redirect(url_for('portal.dashboard')))
+
+    # first_login=1 → force password change before dashboard
+    first_login = dict(client).get('first_login', 0)
+    dest = url_for('auth.set_password') if first_login else url_for('portal.dashboard')
+
+    resp = make_response(redirect(dest))
     resp.set_cookie(
         _cookie_name(),
         token,
@@ -78,6 +83,36 @@ def logout():
 @auth_bp.route('/forgot-password', methods=['GET'])
 def forgot_password():
     return render_template('login.html', error=None, forgot=True)
+
+
+# ── GET /set-password ──────────────────────────────────────────
+
+@auth_bp.route('/set-password', methods=['GET'])
+@login_required
+def set_password():
+    return render_template('set_password.html', error=None)
+
+
+# ── POST /set-password ──────────────────────────────────────────
+
+@auth_bp.route('/set-password', methods=['POST'])
+@login_required
+def set_password_post():
+    new_pw      = request.form.get('new_password', '')
+    confirm_pw  = request.form.get('confirm_password', '')
+
+    if len(new_pw) < 12:
+        return render_template('set_password.html',
+                               error='Password must be at least 12 characters.'), 400
+    if new_pw != confirm_pw:
+        return render_template('set_password.html',
+                               error='Passwords do not match.'), 400
+
+    execute_commit(
+        'UPDATE clients SET password_hash=?, first_login=0 WHERE id=?',
+        (hash_password(new_pw), g.client_id)
+    )
+    return redirect(url_for('portal.dashboard'))
 
 
 # ── POST /forgot-password ──────────────────────────────────────

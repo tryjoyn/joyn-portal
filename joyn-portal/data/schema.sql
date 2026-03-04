@@ -24,7 +24,9 @@ CREATE TABLE IF NOT EXISTS clients (
     team_size               TEXT,
     primary_contact_name    TEXT,
     primary_contact_phone   TEXT,
-    briefing_emails         TEXT   -- comma-separated
+    briefing_emails         TEXT,  -- comma-separated
+    states                  TEXT,  -- comma-separated monitored states (from hire form)
+    first_login             INTEGER DEFAULT 0  -- 1 = must change password on first login
 );
 
 CREATE TABLE IF NOT EXISTS hired_staff (
