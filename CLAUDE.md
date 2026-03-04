@@ -157,9 +157,46 @@ All forms submit via Web3Forms → hire@tryjoyn.me:
 
 ---
 
+## Favicon
+
+`/favicon.svg` — dark rounded square, geometric J in warm white, gold period dot. Referenced in all public page `<head>` blocks as:
+```html
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+```
+
+---
+
+## Staff Card Data Attributes (Gotcha)
+
+Filter logic uses internal values that differ from display labels:
+
+| Display | `data-mode` value |
+|---------|-------------------|
+| Autonomous | `always-on` |
+| Supervised | `craft` |
+
+The filter JS targets `#mode-group` and `#vert-group` by ID — not by `:first-of-type` / `:last-of-type`. Don't rename these IDs.
+
+---
+
+## Sticky Nav & Filter Heights
+
+The nav is `position: sticky; top: 0; min-height: 60px`. The marketplace filter bar sticks at `top: 60px`. Any new sticky element on a page must account for 60px nav offset. On mobile the nav collapses to ~56px (see `@media` in marketplace/index.html).
+
+Back-to-top buttons on Iris and TDD pages use `bottom: 5rem` on mobile to clear their fixed hire/brief bars. Other pages use the default `bottom: 2rem`.
+
+---
+
+## Ambiguity Rule
+
+If an instruction is ambiguous — stop and ask **one clarifying question** before writing any code. Never assume intent. If context files conflict with the session prompt, flag the conflict rather than resolving silently.
+
+---
+
 ## Context Files (Read Before Major Builds)
 
 - `VISION.md` — product philosophy, roster, two modes
 - `JOYN-CONTEXT.md` — full page-by-page notes, locked decisions
 - `JOYN-DESIGN-SPEC.md` — colour system, typography scale, every component pattern with code
-- `AGENT-RULES.md` — behavioural contract for autonomous build sessions
+- `AGENT-RULES.md` — full behavioural contract for autonomous build sessions
