@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iris — Joyn Client Portal</title>
+<link rel="icon" type="image/svg+xml" href="https://tryjoyn.me/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:#fafaf8; --ink:#111110; --ink-secondary:#3f3f3e;
+  --rule:#e8e4dc; --rule-mid:#d0ccc4; --surface:#f4f1eb;
+  --gold-display:#b8902a; --gold-text:#8B6914; --gold-hover:#7a5c10;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--white);color:var(--ink);font-family:'Syne',sans-serif;font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;color:var(--ink)}
+p{color:var(--ink-secondary)}
+
+/* ── Header ── */
+.header{padding:1.5rem clamp(1.5rem,5vw,4rem);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center}
+.header-logo{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:500;letter-spacing:.1em;color:var(--ink);text-decoration:none}
+.header-nav{display:flex;align-items:center;gap:2rem}
+.nav-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color .15s}
+.nav-link:hover{color:var(--ink)}
+.nav-user{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);display:flex;align-items:center;gap:.5rem}
+.nav-user-dot{width:6px;height:6px;background:var(--gold-display);display:inline-block;flex-shrink:0}
+
+/* ── Main layout ── */
+.main{padding:clamp(2rem,4vw,4rem) clamp(1.5rem,5vw,4rem);max-width:1100px;flex:1}
+
+/* ── Label ── */
+.label{font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);display:inline-flex;align-items:center;gap:.65rem}
+.label::before{content:'';display:block;width:1.5rem;height:1px;background:var(--gold-text)}
+
+/* ── Section heading ── */
+.section-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
+.section-hd h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:400;line-height:1.2}
+
+/* ── Staff hero ── */
+.staff-hero{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--rule)}
+.staff-hero-label{margin-bottom:.75rem}
+.staff-hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5rem);font-weight:300;line-height:1;color:var(--ink);margin-bottom:.5rem}
+.staff-hero-role{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1rem}
+.staff-hero-desc{font-size:.95rem;color:var(--ink-secondary);line-height:1.75;max-width:560px}
+.staff-hero-badges{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap}
+.staff-hero-meta{text-align:right}
+.staff-hired-since{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:.5rem}
+.staff-hired-date{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--ink)}
+
+/* ── Badges ── */
+.status-live{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid rgba(139,105,20,.3);color:var(--gold-text);background:rgba(139,105,20,.07)}
+.status-paused{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.mode-auto{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:.2rem .5rem}
+
+/* ── Stats row ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule);margin-bottom:3rem}
+.stat-cell{padding:1.5rem 1.75rem;border-right:1px solid var(--rule)}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:var(--gold-text);line-height:1;margin-bottom:.25rem}
+.stat-l{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+
+/* ── Activity feed ── */
+.feed-list{list-style:none}
+.feed-item{display:grid;grid-template-columns:7rem 1fr auto;gap:1.5rem;align-items:baseline;padding:.875rem 0;border-bottom:1px solid var(--rule)}
+.feed-item:first-child{border-top:1px solid var(--rule)}
+.feed-time{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
+.feed-body{font-size:.9rem;color:var(--ink-secondary);line-height:1.6}
+.feed-body strong{font-weight:600;color:var(--ink)}
+.feed-tag{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
+.feed-empty{padding:1.5rem 0;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;color:var(--ink-secondary);border-top:1px solid var(--rule)}
+
+/* ── Tables ── */
+table{width:100%;border-collapse:collapse;border:1px solid var(--rule)}
+th{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);padding:.75rem 1rem;text-align:left;background:var(--surface);border-bottom:1px solid var(--rule)}
+td{padding:.875rem 1rem;font-size:.9rem;color:var(--ink-secondary);border-bottom:1px solid var(--rule);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface)}
+
+/* ── Severity badges ── */
+.sev-critical,.sev-high{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid rgba(139,105,20,.4);color:var(--gold-text);background:rgba(139,105,20,.08)}
+.sev-medium{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.sev-low,.sev-info{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule);color:var(--ink-secondary);background:transparent}
+
+/* ── Settings panel ── */
+.settings-panel{background:var(--surface);border:1px solid var(--rule);padding:2rem 2.25rem;margin-bottom:1.5rem}
+.settings-panel h3{font-size:1.25rem;font-weight:400;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--rule)}
+.settings-row:last-child{border-bottom:none;padding-bottom:0}
+.settings-label{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem}
+.settings-desc{font-size:.85rem;color:var(--ink-secondary);line-height:1.5}
+.settings-control{display:flex;align-items:center;gap:.75rem;flex-shrink:0;margin-left:2rem}
+
+/* ── Toggle switch (no border-radius) ── */
+.toggle{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--rule-mid);transition:background .2s}
+.toggle input:checked + .toggle-track{background:var(--ink)}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:var(--white);transition:transform .2s}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(18px)}
+.toggle-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+
+/* ── Buttons ── */
+.btn-primary{display:inline-block;font-family:'DM Mono',monospace;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.875rem 2rem;background:var(--ink);color:var(--white);border:1px solid var(--ink);transition:background .2s,color .2s;cursor:pointer}
+.btn-primary:hover{background:var(--white);color:var(--ink)}
+.btn-danger{display:inline-block;font-family:'DM Mono',monospace;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.875rem 2rem;background:transparent;color:var(--ink-secondary);border:1px solid var(--rule-mid);transition:border-color .2s,color .2s;cursor:pointer}
+.btn-danger:hover{border-color:var(--ink-secondary);color:var(--ink)}
+
+/* ── Footer ── */
+.page-footer{padding:1.5rem clamp(1.5rem,5vw,4rem);border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.page-footer-copy{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+
+@media(max-width:768px){
+  .staff-hero{grid-template-columns:1fr}
+  .staff-hero-meta{text-align:left}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat-cell{border-bottom:1px solid var(--rule)}
+  .feed-item{grid-template-columns:1fr;gap:.25rem}
+  .settings-row{flex-direction:column;align-items:flex-start;gap:1rem}
+  .settings-control{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="https://tryjoyn.me" class="header-logo">JOYN.</a>
+  <nav class="header-nav">
+    <a href="{{ url_for('portal.dashboard') }}" class="nav-link">&larr; Dashboard</a>
+    <a href="{{ url_for('portal.settings') }}" class="nav-link">Settings</a>
+    <span class="nav-user">
+      <span class="nav-user-dot"></span>
+      {{ client.company_name }}
+    </span>
+  </nav>
+</header>
+
+<main class="main">
+
+  <!-- Staff profile hero -->
+  <section class="staff-hero">
+    <div>
+      <div class="staff-hero-label">
+        <span class="label">Insurance &amp; Risk</span>
+      </div>
+      <h1 class="staff-hero-name">Iris</h1>
+      <div class="staff-hero-role">Insurance Regulatory Intelligence</div>
+      <p class="staff-hero-desc">Iris monitors regulatory changes across your insurance lines, flags compliance risks, and delivers structured briefings before they become problems. Pre-trained by a 30-year insurance regulatory veteran. Fully autonomous — no configuration required.</p>
+      <div class="staff-hero-badges">
+        <span class="mode-auto">Autonomous</span>
+        {% if iris.status == 'active' %}
+        <span class="status-live">Live</span>
+        {% elif iris.status == 'paused' %}
+        <span class="status-paused">Paused</span>
+        {% endif %}
+      </div>
+    </div>
+    <div class="staff-hero-meta">
+      <div class="staff-hired-since">Hired since</div>
+      <div class="staff-hired-date">{{ iris.hired_at[:10] }}</div>
+    </div>
+  </section>
+
+  <!-- Stats row -->
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-n">{{ iris_stats.actions_this_month }}</div>
+      <div class="stat-l">Tasks this month</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ iris_stats.alerts_this_month }}</div>
+      <div class="stat-l">Alerts raised</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ (iris_settings.jurisdictions or []) | length }}</div>
+      <div class="stat-l">Jurisdictions monitored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ iris_stats.outputs_count }}</div>
+      <div class="stat-l">Outputs delivered</div>
+    </div>
+  </div>
+
+  <!-- Activity feed -->
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Activity Feed</h2>
+      <span style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);">Last 50 entries</span>
+    </div>
+
+    <ul class="feed-list" id="iris-feed">
+      {% for item in activity %}
+      <li class="feed-item">
+        <span class="feed-time">{{ item.timestamp[:10] }}</span>
+        <span class="feed-body">{{ item.action_description }}</span>
+        <span class="feed-tag">{{ item.action_type | capitalize }}</span>
+      </li>
+      {% else %}
+      <li class="feed-empty">No activity recorded yet.</li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <!-- Briefings & Alerts table -->
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Briefings &amp; Alerts</h2>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Summary</th>
+          <th>Severity</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for output in outputs %}
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.05em;white-space:nowrap;">{{ output.delivered_at[:10] }}</td>
+          <td style="font-size:.9rem;color:var(--ink);">{{ output.title }}</td>
+          <td style="font-size:.85rem;">{{ output.summary }}</td>
+          <td>
+            {% if output.severity in ('critical', 'high') %}
+            <span class="sev-high">{{ output.severity | capitalize }}</span>
+            {% elif output.severity == 'medium' %}
+            <span class="sev-medium">Medium</span>
+            {% else %}
+            <span class="sev-low">{{ output.severity | capitalize }}</span>
+            {% endif %}
+          </td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;">{{ output.output_type | capitalize }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" style="font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;color:var(--ink-secondary);">No outputs yet.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Iris Settings -->
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Iris Settings</h2>
+    </div>
+
+    <!-- Configuration toggles -->
+    <div class="settings-panel">
+      <h3>Configuration</h3>
+
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Daily digest</div>
+          <div class="settings-desc">Iris sends a morning regulatory digest to your nominated contacts each business day at 8:00 AM.</div>
+        </div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if iris_settings.get('alert_frequency') != 'off' %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if iris_settings.get('alert_frequency') != 'off' %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Weekly summary</div>
+          <div class="settings-desc">A consolidated weekly briefing delivered every Monday morning covering all activity from the prior week.</div>
+        </div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">On</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">High-severity alerts</div>
+          <div class="settings-desc">Immediate notification when Iris identifies a high-severity compliance risk requiring urgent attention.</div>
+        </div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" checked>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">On</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div>
+          <div class="settings-label">Pause Iris</div>
+          <div class="settings-desc">Temporarily pause all Iris activity. No digests, briefings, or alerts will be sent while paused. Iris can be resumed at any time.</div>
+        </div>
+        <div class="settings-control">
+          <form method="post" action="{{ url_for('portal.settings_staff_pause', slug='iris') }}" style="display:contents;">
+            <label class="toggle">
+              <input type="checkbox" id="pause-toggle" {% if iris.status == 'paused' %}checked{% endif %} onchange="this.closest('form').submit()">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </form>
+          <span class="toggle-label" id="pause-label">{% if iris.status == 'paused' %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monitored Jurisdictions -->
+    <div class="settings-panel">
+      <h3>Monitored Jurisdictions</h3>
+
+      {% set juris = iris_settings.get('jurisdictions') or [] %}
+
+      <div class="settings-row">
+        <div><div class="settings-label">Florida</div><div class="settings-desc">Florida OIR — rate filings, bulletins, and market conduct.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'Florida' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'Florida' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">Georgia</div><div class="settings-desc">Georgia DOI — proposed rules, market conduct, and bulletins.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'Georgia' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'Georgia' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">Texas</div><div class="settings-desc">Texas TDI — rate bulletins, actuarial filings, and compliance orders.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'Texas' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'Texas' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">California</div><div class="settings-desc">California CDI — market conduct, data privacy, and rate filings.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'California' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'California' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">New York</div><div class="settings-desc">New York DFS — circulars, supervisory guidance, and enforcement actions.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'New York' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'New York' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">Illinois</div><div class="settings-desc">Illinois DOI — bulletins, administrative hearings, and rulemaking.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'Illinois' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'Illinois' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">Colorado</div><div class="settings-desc">Colorado DOI — rulemaking, bulletins, and market conduct examinations.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'Colorado' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'Colorado' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+      <div class="settings-row">
+        <div><div class="settings-label">South Carolina</div><div class="settings-desc">South Carolina DOI — bulletins, orders, and rate circulars.</div></div>
+        <div class="settings-control">
+          <label class="toggle">
+            <input type="checkbox" {% if 'South Carolina' in juris %}checked{% endif %}>
+            <div class="toggle-track"></div>
+            <div class="toggle-thumb"></div>
+          </label>
+          <span class="toggle-label">{% if 'South Carolina' in juris %}On{% else %}Off{% endif %}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Danger zone -->
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem;">Let Iris go</div>
+        <div style="font-size:.85rem;color:var(--ink-secondary);">Remove Iris from your team. All activity history will be retained.</div>
+      </div>
+      <form method="post" action="{{ url_for('portal.settings_staff_let_go', slug='iris') }}" onsubmit="return confirmLetGo()">
+        <button type="submit" class="btn-danger">Let Iris go</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <span class="page-footer-copy">Joyn &middot; tryjoyn.me</span>
+  <span class="page-footer-copy">We Staff Your Business With AI.</span>
+</footer>
+
+<script>
+// Toggle label updates (for non-form toggles)
+document.querySelectorAll('.toggle input[type="checkbox"]').forEach(function(cb) {
+  if (cb.closest('form')) return; // skip pause toggle — it submits a form
+  cb.addEventListener('change', function() {
+    var labelEl = this.closest('.settings-control').querySelector('.toggle-label');
+    if (labelEl) labelEl.textContent = this.checked ? 'On' : 'Off';
+  });
+});
+
+function confirmLetGo() {
+  return confirm('Are you sure you want to let Iris go? This will end her engagement with {{ client.company_name | e }}. All activity history will be retained.');
+}
+
+// Auto-refresh activity feed every 30 seconds
+setInterval(function() {
+  fetch('{{ url_for("api.iris_activity") }}?limit=50', { credentials: 'same-origin' })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !Array.isArray(data)) return;
+      var feed = document.getElementById('iris-feed');
+      if (!feed) return;
+      if (data.length === 0) {
+        feed.innerHTML = '<li class="feed-empty">No activity recorded yet.</li>';
+        return;
+      }
+      feed.innerHTML = data.map(function(item) {
+        var ts = (item.timestamp || '').slice(0, 10);
+        var tag = (item.action_type || '').charAt(0).toUpperCase() + (item.action_type || '').slice(1);
+        var desc = item.action_description || '';
+        return '<li class="feed-item"><span class="feed-time">' + ts + '</span><span class="feed-body">' + desc + '</span><span class="feed-tag">' + tag + '</span></li>';
+      }).join('');
+    })
+    .catch(function() {});
+}, 30000);
+</script>
+
+</body>
+</html>

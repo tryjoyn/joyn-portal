@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Joyn Client Portal</title>
+<link rel="icon" type="image/svg+xml" href="https://tryjoyn.me/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--white:#fafaf8;--ink:#111110;--ink-secondary:#3f3f3e;--rule:#e8e4dc;--rule-mid:#d0ccc4;--surface:#f4f1eb;--gold-display:#b8902a;--gold-text:#8B6914;--gold-hover:#7a5c10}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--white);color:var(--ink);font-family:'Syne',sans-serif;font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:400;color:var(--ink)}
+p{color:var(--ink-secondary)}
+.header{padding:1.5rem clamp(1.5rem,5vw,4rem);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(250,250,248,.95);backdrop-filter:blur(12px);z-index:100}
+.header-logo{font-family:'DM Mono',monospace;font-size:.95rem;font-weight:500;letter-spacing:.1em;color:var(--ink);text-decoration:none}
+.header-nav{display:flex;align-items:center;gap:2rem}
+.nav-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color .15s}
+.nav-link:hover,.nav-link.active{color:var(--ink)}
+.nav-user{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);display:flex;align-items:center;gap:.5rem}
+.nav-user-dot{width:6px;height:6px;background:var(--gold-display);display:inline-block;flex-shrink:0}
+.main{padding:clamp(2rem,4vw,4rem) clamp(1.5rem,5vw,4rem);max-width:1100px}
+.label{font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);display:inline-flex;align-items:center;gap:.65rem}
+.label::before{content:'';display:block;width:1.5rem;height:1px;background:var(--gold-text)}
+.section-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
+.section-hd h2{font-size:clamp(1.75rem,3vw,2.25rem);font-weight:400;line-height:1.2}
+.section-hd-action{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-text);text-decoration:none;transition:color .15s}
+.section-hd-action:hover{color:var(--gold-hover)}
+.hero{margin-bottom:3.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--rule)}
+.hero-label{margin-bottom:.75rem}
+.hero-heading{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:300;line-height:1.1;color:var(--ink);margin-bottom:.75rem}
+.hero-heading em{font-style:italic;color:var(--ink-secondary)}
+.hero-meta{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0;border:1px solid var(--rule);margin-bottom:3rem}
+.stat-cell{padding:1.5rem 1.75rem;border-right:1px solid var(--rule)}
+.stat-cell:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:var(--gold-text);line-height:1;margin-bottom:.25rem}
+.stat-l{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-bottom:3rem}
+.staff-card{border:1px solid var(--rule);padding:1.75rem;background:var(--white);transition:border-color .2s;text-decoration:none;display:block;color:inherit}
+.staff-card:hover{border-color:var(--rule-mid)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--ink);margin-bottom:.2rem}
+.card-role{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:.75rem}
+.card-desc{font-size:.9rem;color:var(--ink-secondary);line-height:1.7;margin-bottom:1.25rem}
+.card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--rule)}
+.card-stat{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.card-stat strong{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--ink);display:block;line-height:1.2}
+.card-link{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-text);text-decoration:none;transition:color .15s}
+.card-link:hover{color:var(--gold-hover)}
+.status-live{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid rgba(139,105,20,.3);color:var(--gold-text);background:rgba(139,105,20,.07)}
+.status-soon{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.mode-auto{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:.2rem .5rem}
+.mode-sup{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--ink);color:var(--ink);padding:.2rem .5rem}
+.activity-section{margin-bottom:3rem}
+.feed-list{list-style:none}
+.feed-item{display:grid;grid-template-columns:7rem 1fr auto;gap:1.5rem;align-items:baseline;padding:.875rem 0;border-bottom:1px solid var(--rule)}
+.feed-item:first-child{border-top:1px solid var(--rule)}
+.feed-time{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
+.feed-body{font-size:.9rem;color:var(--ink-secondary);line-height:1.6}
+.feed-body strong{font-weight:600;color:var(--ink)}
+.feed-staff{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
+.feed-empty{font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);padding:2rem 0;border-top:1px solid var(--rule)}
+.explore-panel{background:var(--surface);border:1px solid var(--rule);padding:2rem 2.25rem;display:flex;justify-content:space-between;align-items:center;gap:2rem;margin-bottom:3rem}
+.explore-text h3{font-size:1.5rem;font-weight:400;margin-bottom:.25rem}
+.explore-text p{font-size:.9rem;line-height:1.6}
+.btn-primary{display:inline-block;font-family:'DM Mono',monospace;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.875rem 2rem;background:var(--ink);color:var(--white);border:1px solid var(--ink);transition:background .2s,color .2s;cursor:pointer;white-space:nowrap}
+.btn-primary:hover{background:var(--white);color:var(--ink)}
+.btn-ghost{display:inline-block;font-family:'DM Mono',monospace;font-size:.8rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.875rem 2rem;background:transparent;color:var(--ink);border:1px solid var(--rule-mid);transition:border-color .2s;cursor:pointer;white-space:nowrap}
+.btn-ghost:hover{border-color:var(--ink)}
+.page-footer{padding:1.5rem clamp(1.5rem,5vw,4rem);border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.page-footer-copy{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+@media(max-width:640px){.feed-item{grid-template-columns:1fr;gap:.25rem}.explore-panel{flex-direction:column;align-items:flex-start}.header-nav{gap:1rem}.stats-row{grid-template-columns:1fr 1fr}.stat-cell{border-bottom:1px solid var(--rule)}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="https://tryjoyn.me" class="header-logo">JOYN.</a>
+  <nav class="header-nav">
+    <a href="{{ url_for('portal.dashboard') }}" class="nav-link active">Dashboard</a>
+    <a href="{{ url_for('portal.settings') }}" class="nav-link">Settings</a>
+    <span class="nav-user">
+      <span class="nav-user-dot"></span>
+      {{ client.company_name }}
+    </span>
+    <a href="{{ url_for('auth.logout') }}" class="nav-link">Sign out</a>
+  </nav>
+</header>
+
+<main class="main">
+
+  <section class="hero">
+    <div class="hero-label"><span class="label">Client Portal</span></div>
+    <h1 class="hero-heading" id="greeting-heading">
+      Good morning, <em>{{ client.company_name }}.</em>
+    </h1>
+    <p class="hero-meta" id="greeting-date">
+      {{ now.strftime('%A, %d %B %Y').replace(' 0', ' ') if now else '' }}
+      &nbsp;&middot;&nbsp;
+      {{ stats.staff_count }} staff member{{ 's' if stats.staff_count != 1 else '' }} active
+    </p>
+  </section>
+
+  <div class="stats-row">
+    <div class="stat-cell">
+      <div class="stat-n">{{ stats.staff_count }}</div>
+      <div class="stat-l">Staff hired</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ stats.total_actions }}</div>
+      <div class="stat-l">Actions completed</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ stats.total_alerts }}</div>
+      <div class="stat-l">Alerts raised</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-n">{{ client.subscription_status | title }}</div>
+      <div class="stat-l">Plan status</div>
+    </div>
+  </div>
+
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Your Staff</h2>
+      <a href="https://tryjoyn.me/marketplace/" class="section-hd-action">Browse marketplace &rarr;</a>
+    </div>
+    <div class="staff-grid">
+      {% for staff in hired_staff %}
+      {% if staff.staff_slug == 'iris' %}
+      <a href="{{ url_for('portal.staff_iris') }}" class="staff-card">
+      {% else %}
+      <div class="staff-card">
+      {% endif %}
+        <div class="card-top">
+          {% if staff.mode == 'autonomous' %}
+          <span class="mode-auto">Autonomous</span>
+          {% else %}
+          <span class="mode-sup">Supervised</span>
+          {% endif %}
+          {% if staff.status == 'active' %}
+          <span class="status-live">Live</span>
+          {% else %}
+          <span class="status-soon">{{ staff.status | title }}</span>
+          {% endif %}
+        </div>
+        <div class="card-name">{{ staff.staff_name }}</div>
+        <div class="card-role">{{ staff.vertical }}</div>
+        <div class="card-footer">
+          <div class="card-stat">
+            <strong>{{ staff.hired_at[:10] if staff.hired_at else '—' }}</strong>
+            Hired
+          </div>
+          {% if staff.staff_slug == 'iris' %}
+          <span class="card-link">View activity &rarr;</span>
+          {% endif %}
+        </div>
+      {% if staff.staff_slug == 'iris' %}
+      </a>
+      {% else %}
+      </div>
+      {% endif %}
+      {% else %}
+      <div class="staff-card" style="opacity:.6;cursor:default;">
+        <div class="card-top">
+          <span class="mode-auto">Autonomous</span>
+          <span class="status-soon">None hired</span>
+        </div>
+        <div class="card-name" style="color:var(--ink-secondary)">—</div>
+        <div class="card-role">No staff hired yet</div>
+        <div class="card-footer">
+          <a href="https://tryjoyn.me/marketplace/" class="card-link">Browse marketplace &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="activity-section">
+    <div class="section-hd">
+      <h2>Activity Feed</h2>
+      <span style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);" id="feed-updated">Last 20 actions</span>
+    </div>
+    <ul class="feed-list" id="feed-list">
+      {% if activity %}
+      {% for item in activity %}
+      <li class="feed-item">
+        <span class="feed-time">{{ item.timestamp[:16].replace('T',' ') if item.timestamp else '—' }}</span>
+        <span class="feed-body">{{ item.action_description }}</span>
+        <span class="feed-staff">{{ item.staff_name }}</span>
+      </li>
+      {% endfor %}
+      {% else %}
+      <li class="feed-empty">No activity yet. Your staff will log actions here as they work.</li>
+      {% endif %}
+    </ul>
+  </section>
+
+  <div class="explore-panel">
+    <div class="explore-text">
+      <h3>Hire more staff</h3>
+      <p>Renew, Dispatch, Scout, and Comply are joining the roster in the coming weeks.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+      <a href="https://tryjoyn.me/marketplace/" class="btn-primary">Browse marketplace</a>
+      <a href="{{ url_for('portal.settings') }}" class="btn-ghost">Account settings</a>
+    </div>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  <span class="page-footer-copy">Joyn &middot; tryjoyn.me</span>
+  <span class="page-footer-copy">We Staff Your Business With AI.</span>
+</footer>
+
+<script>
+// Dynamic greeting
+(function() {
+  var h = new Date().getHours();
+  var greeting = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  var el = document.getElementById('greeting-heading');
+  if (el) el.innerHTML = greeting + ', <em>{{ client.company_name }}.</em>';
+})();
+
+// Auto-refresh activity feed every 30 seconds
+setInterval(function() {
+  fetch('{{ url_for("api.client_activity") }}?limit=20', { credentials: 'same-origin' })
+    .then(function(r) { return r.ok ? r.json() : null; })
+    .then(function(data) {
+      if (!data || !Array.isArray(data)) return;
+      var list = document.getElementById('feed-list');
+      if (!list) return;
+      if (data.length === 0) {
+        list.innerHTML = '<li class="feed-empty">No activity yet.</li>';
+        return;
+      }
+      list.innerHTML = data.map(function(item) {
+        var ts = (item.timestamp || '').slice(0, 16).replace('T', ' ');
+        return '<li class="feed-item">' +
+          '<span class="feed-time">' + ts + '</span>' +
+          '<span class="feed-body">' + (item.action_description || '') + '</span>' +
+          '<span class="feed-staff">' + (item.staff_name || '') + '</span>' +
+          '</li>';
+      }).join('');
+      var updated = document.getElementById('feed-updated');
+      if (updated) updated.textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    })
+    .catch(function() {});
+}, 30000);
+</script>
+
+</body>
+</html>
