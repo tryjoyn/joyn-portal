@@ -3,6 +3,7 @@ import secrets
 import string
 import stripe
 from flask import Blueprint, request, jsonify, current_app, g
+from flask_cors import cross_origin
 from data.db import query_one, query, insert, execute_commit, rows_to_list, row_to_dict
 from auth.helpers import api_login_required, portal_secret_required, hash_password
 
@@ -185,8 +186,11 @@ def log_output():
 
 # ── Public: register client (called from hire form) ───────────
 
-@api_bp.route('/register', methods=['POST'])
+@api_bp.route('/register', methods=['POST', 'OPTIONS'])
+@cross_origin(origins=["https://tryjoyn.me", "https://www.tryjoyn.me"])
 def register():
+    if request.method == 'OPTIONS':
+        return '', 200
     data = request.get_json(silent=True)
     if not data:
         return jsonify({'success': False, 'error': 'JSON body required'}), 400
