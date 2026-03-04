@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iris — Preview Your Feed | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .iris-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    nav .iris-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Step indicator ── */
+    .step-indicator {
+      padding: 1rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .step-indicator .step {
+      color: var(--ink-secondary);
+      transition: color 0.15s;
+    }
+    .step-indicator .step.active {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .step-indicator .sep {
+      color: var(--rule-mid);
+    }
+
+    /* ── Main content ── */
+    .main {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+      max-width: 960px;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+    .btn-primary:disabled,
+    .btn-primary.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ── STEP 1: STATE SELECTION ── */
+    #step1 h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    #step1 .subtext {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 640px) {
+      .state-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .state-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.6rem 0.5rem;
+      width: 100%;
+      border: 1px solid var(--rule-mid);
+      background: var(--white);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      position: relative;
+    }
+    .state-btn:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+    .state-btn.selected {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    /* Tooltip on hover — full state name */
+    .state-btn::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: calc(100% + 6px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--ink);
+      color: var(--white);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      padding: 0.25rem 0.5rem;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s;
+      z-index: 10;
+    }
+    .state-btn:hover::after {
+      opacity: 1;
+    }
+
+    .selection-counter {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── STEP 2: PREVIEW FEED ── */
+    #step2 { display: none; }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .preview-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .monitoring-states {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .change-states-link {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+      transition: color 0.15s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .change-states-link:hover { color: var(--gold-hover); }
+
+    /* ── Feed cards ── */
+    .feed-card {
+      border: 1px solid var(--rule);
+      padding: 1.5rem;
+      background: var(--white);
+      margin-bottom: 1rem;
+    }
+    .feed-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+    }
+    .badge-high {
+      background: #c0392b;
+      color: var(--white);
+    }
+    .badge-medium {
+      background: #e67e22;
+      color: var(--white);
+    }
+    .badge-info {
+      background: var(--surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--rule-mid);
+    }
+    .badge-state {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--rule-mid);
+      color: var(--ink-secondary);
+    }
+    .feed-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-top: 0.75rem;
+    }
+    .feed-card-summary {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+      margin-top: 0.5rem;
+    }
+    .feed-card-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+    }
+
+    .feed-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      font-style: italic;
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .feed-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 2rem 0;
+    }
+
+    /* ── Hire CTA block ── */
+    .hire-cta h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .hire-cta .hire-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="iris-label">
+      <span class="rule-line"></span>
+      Iris
+    </span>
+  </nav>
+
+  <!-- ── Step indicator ── -->
+  <div class="step-indicator">
+    <span class="step active" id="si-01">01 — Select States</span>
+    <span class="sep"> — </span>
+    <span class="step" id="si-02">02 — Preview</span>
+    <span class="sep"> — </span>
+    <span class="step" id="si-03">03 — Hire</span>
+  </div>
+
+  <!-- ── Main ── -->
+  <div class="main">
+
+    <!-- STEP 1 -->
+    <div id="step1">
+      <h1>Which states are you licensed in?</h1>
+      <p class="subtext">Iris will monitor regulatory activity across every state you select.</p>
+
+      <div class="state-grid" id="stateGrid"></div>
+
+      <p class="selection-counter" id="selectionCounter">0 states selected</p>
+
+      <button class="btn-primary disabled" id="showFeedBtn" onclick="showPreview()">
+        Show Me What Iris Found →
+      </button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2">
+      <button class="change-states-link" onclick="backToStep1()">← Change states</button>
+
+      <div class="preview-header">
+        <h2 id="feedHeading">Iris found 3 items across your states this week.</h2>
+        <div class="monitoring-states" id="monitoringLabel"></div>
+      </div>
+
+      <div id="feedItems"></div>
+
+      <p class="feed-note">
+        This is a representative sample based on your selected states.
+        Your live portal updates every 2 hours.
+      </p>
+
+      <hr class="feed-divider">
+
+      <div class="hire-cta">
+        <h3>Your portal is ready.</h3>
+        <p class="hire-sub" id="hireSub">Iris will monitor your selected states for you, starting today.</p>
+        <a href="iris-hire.html" class="btn-primary" id="hireBtn">Hire Iris — 14 Day Free Trial →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── State data ──────────────────────────────────────────────────────────
+    const STATES = [
+      {code:'AL',name:'Alabama'},{code:'AK',name:'Alaska'},{code:'AZ',name:'Arizona'},
+      {code:'AR',name:'Arkansas'},{code:'CA',name:'California'},{code:'CO',name:'Colorado'},
+      {code:'CT',name:'Connecticut'},{code:'DE',name:'Delaware'},{code:'FL',name:'Florida'},
+      {code:'GA',name:'Georgia'},{code:'HI',name:'Hawaii'},{code:'ID',name:'Idaho'},
+      {code:'IL',name:'Illinois'},{code:'IN',name:'Indiana'},{code:'IA',name:'Iowa'},
+      {code:'KS',name:'Kansas'},{code:'KY',name:'Kentucky'},{code:'LA',name:'Louisiana'},
+      {code:'ME',name:'Maine'},{code:'MD',name:'Maryland'},{code:'MA',name:'Massachusetts'},
+      {code:'MI',name:'Michigan'},{code:'MN',name:'Minnesota'},{code:'MS',name:'Mississippi'},
+      {code:'MO',name:'Missouri'},{code:'MT',name:'Montana'},{code:'NE',name:'Nebraska'},
+      {code:'NV',name:'Nevada'},{code:'NH',name:'New Hampshire'},{code:'NJ',name:'New Jersey'},
+      {code:'NM',name:'New Mexico'},{code:'NY',name:'New York'},{code:'NC',name:'North Carolina'},
+      {code:'ND',name:'North Dakota'},{code:'OH',name:'Ohio'},{code:'OK',name:'Oklahoma'},
+      {code:'OR',name:'Oregon'},{code:'PA',name:'Pennsylvania'},{code:'RI',name:'Rhode Island'},
+      {code:'SC',name:'South Carolina'},{code:'SD',name:'South Dakota'},{code:'TN',name:'Tennessee'},
+      {code:'TX',name:'Texas'},{code:'UT',name:'Utah'},{code:'VT',name:'Vermont'},
+      {code:'VA',name:'Virginia'},{code:'WA',name:'Washington'},{code:'WV',name:'West Virginia'},
+      {code:'WI',name:'Wisconsin'},{code:'WY',name:'Wyoming'}
+    ];
+
+    // ── Sample data pool ────────────────────────────────────────────────────
+    const ITEM_FL_1 = {
+      severity: 'HIGH IMPACT',
+      severityClass: 'badge-high',
+      state: 'FL',
+      type: 'Rate Filing',
+      title: 'Citizens Property Insurance — HO-3 Rate Increase',
+      summary: 'Citizens has filed for a 14% average rate increase on HO-3 policies statewide. Effective April 1st. Clients renewing after this date will see materially higher premiums.',
+      carrier: 'Citizens Property Insurance',
+      lines: 'Homeowners · Personal Lines'
+    };
+
+    const ITEM_NY = {
+      severity: 'MEDIUM',
+      severityClass: 'badge-medium',
+      state: 'NY',
+      type: 'Bulletin',
+      title: 'DFS Circular Letter — Personal Auto Claims',
+      summary: 'New documentation requirements for bodily injury claims under personal auto policies. Affects how agents counsel clients following an accident.',
+      carrier: 'All admitted carriers',
+      lines: 'Personal Auto'
+    };
+
+    const ITEM_FL_2 = {
+      severity: 'MEDIUM',
+      severityClass: 'badge-medium',
+      state: 'FL',
+      type: 'Market Conduct',
+      title: 'Tower Hill Insurance — Consent Order',
+      summary: 'OIR issued a consent order requiring Tower Hill to remediate claims handling deficiencies. Affects policyholders with open claims.',
+      carrier: 'Tower Hill Insurance',
+      lines: 'Homeowners'
+    };
+
+    const ITEM_CT = {
+      severity: 'INFORMATIONAL',
+      severityClass: 'badge-info',
+      state: 'CT',
+      type: 'Market Conduct',
+      title: 'CID Examination Schedule — Q2 2026',
+      summary: 'Connecticut Insurance Department published its Q2 market conduct examination schedule. No immediate action required.',
+      carrier: 'See full document',
+      lines: 'All Lines'
+    };
+
+    const ITEM_FL_3 = {
+      severity: 'INFORMATIONAL',
+      severityClass: 'badge-info',
+      state: 'FL',
+      type: 'Bulletin',
+      title: 'OIR Bulletin — Citizens Depopulation Update',
+      summary: 'OIR released an update on the Citizens depopulation program. 47 policies selected for assumption in the next cycle.',
+      carrier: 'Citizens Property Insurance',
+      lines: 'Homeowners'
+    };
+
+    // ── State ───────────────────────────────────────────────────────────────
+    let selectedStates = new Set();
+
+    // ── Build state grid ────────────────────────────────────────────────────
+    const grid = document.getElementById('stateGrid');
+    STATES.forEach(s => {
+      const btn = document.createElement('button');
+      btn.className = 'state-btn';
+      btn.textContent = s.code;
+      btn.dataset.code = s.code;
+      btn.dataset.name = s.name;
+      btn.setAttribute('aria-label', s.name);
+      btn.addEventListener('click', () => toggleState(s.code, btn));
+      grid.appendChild(btn);
+    });
+
+    function toggleState(code, btn) {
+      if (selectedStates.has(code)) {
+        selectedStates.delete(code);
+        btn.classList.remove('selected');
+      } else {
+        selectedStates.add(code);
+        btn.classList.add('selected');
+      }
+      updateCounter();
+    }
+
+    function updateCounter() {
+      const n = selectedStates.size;
+      document.getElementById('selectionCounter').textContent =
+        n === 1 ? '1 state selected' : `${n} states selected`;
+      const btn = document.getElementById('showFeedBtn');
+      if (n > 0) {
+        btn.classList.remove('disabled');
+      } else {
+        btn.classList.add('disabled');
+      }
+    }
+
+    // ── Build feed card HTML ─────────────────────────────────────────────────
+    function buildCard(item) {
+      const showCarrier = item.carrier !== 'All admitted carriers';
+      return `
+        <div class="feed-card">
+          <div class="feed-card-top">
+            <span class="badge ${item.severityClass}">${item.severity}</span>
+            <span class="badge-state">${item.state}</span>
+          </div>
+          <h3 class="feed-card-title">${item.title}</h3>
+          <p class="feed-card-summary">${item.summary}</p>
+          <div class="feed-card-meta">
+            <span>Type: ${item.type}</span>
+            <span>Lines: ${item.lines}</span>
+            ${showCarrier ? `<span>Carrier: ${item.carrier}</span>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    // ── Show preview (Step 2) ────────────────────────────────────────────────
+    function showPreview() {
+      if (selectedStates.size === 0) return;
+
+      const codes = Array.from(selectedStates).sort();
+      const hasFL = selectedStates.has('FL');
+      const hasNY = selectedStates.has('NY');
+      const hasCT = selectedStates.has('CT');
+
+      // Item 1: always FL item 1
+      const item1 = ITEM_FL_1;
+
+      // Item 2: NY if selected, else FL fallback
+      const item2 = hasNY ? ITEM_NY : ITEM_FL_2;
+
+      // Item 3: CT if selected, else FL fallback
+      const item3 = hasCT ? ITEM_CT : ITEM_FL_3;
+
+      // Render feed
+      document.getElementById('feedItems').innerHTML =
+        buildCard(item1) + buildCard(item2) + buildCard(item3);
+
+      // Header
+      document.getElementById('feedHeading').textContent =
+        'Iris found 3 items across your states this week.';
+
+      // Monitoring label
+      document.getElementById('monitoringLabel').textContent =
+        'Monitoring: ' + codes.join(' · ');
+
+      // Hire CTA subtext
+      document.getElementById('hireSub').textContent =
+        `Iris will monitor ${codes.join(', ')} for you, starting today.`;
+
+      // Hire button with states param
+      document.getElementById('hireBtn').href =
+        `iris-hire.html?states=${encodeURIComponent(codes.join(','))}`;
+
+      // Update step indicator
+      document.getElementById('si-01').classList.remove('active');
+      document.getElementById('si-02').classList.add('active');
+
+      // Swap views
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Back to step 1 ───────────────────────────────────────────────────────
+    function backToStep1() {
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step1').style.display = 'block';
+      document.getElementById('si-02').classList.remove('active');
+      document.getElementById('si-01').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
