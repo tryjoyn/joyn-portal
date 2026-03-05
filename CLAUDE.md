@@ -200,3 +200,4 @@ If an instruction is ambiguous — stop and ask **one clarifying question** befo
 - `JOYN-CONTEXT.md` — full page-by-page notes, locked decisions
 - `JOYN-DESIGN-SPEC.md` — colour system, typography scale, every component pattern with code
 - `AGENT-RULES.md` — full behavioural contract for autonomous build sessions
+- `CREATOR-STUDIO-PROCESS.md` — end to end creator workflow, templates, build standards, validation rubric
