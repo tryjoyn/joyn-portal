@@ -38,7 +38,7 @@ def create_app():
     cors_origins = app.config.get('CORS_ORIGINS', '*')
     if isinstance(cors_origins, str) and ',' in cors_origins:
         cors_origins = [o.strip() for o in cors_origins.split(',')]
-    CORS(app, origins=cors_origins, supports_credentials=True)
+    CORS(app, origins=cors_origins)
 
     # ── Stripe ────────────────────────────────────────────────
     stripe.api_key = app.config.get('STRIPE_SECRET_KEY', '')

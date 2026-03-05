@@ -187,10 +187,12 @@ def log_output():
 # ── Public: register client (called from hire form) ───────────
 
 @api_bp.route('/register', methods=['POST', 'OPTIONS'])
-@cross_origin(origins=["https://tryjoyn.me", "https://www.tryjoyn.me"])
+@cross_origin(origins=["https://tryjoyn.me", "https://www.tryjoyn.me"],
+              supports_credentials=True,
+              allow_headers=["Content-Type"])
 def register():
     if request.method == 'OPTIONS':
-        return '', 200
+        return '', 204
     data = request.get_json(silent=True)
     if not data:
         return jsonify({'success': False, 'error': 'JSON body required'}), 400
