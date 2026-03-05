@@ -14,6 +14,8 @@ Joyn is not a chatbot platform. Not automation software. Not HR tech. It is a st
 
 **The philosophical foundation:** Human expertise is finite but the value it creates does not have to be. Joyn takes what a 30-year insurance veteran knows and makes it available to 10,000 clients simultaneously. Every product decision must pass one test: does this make human expertise more powerful, or does it merely replace it?
 
+Joyn gives human expertise two modes of scale: Embedded — the expert's knowledge working without them, delivered through Autonomous staff. Extended — the expert working with amplified reach, through Supervised staff that partners with practitioners on judgment-intensive work, producing more than either could alone.
+
 ---
 
 ## The Two Modes
