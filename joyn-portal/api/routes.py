@@ -427,6 +427,7 @@ def _send_staff_added_email(
         '</body></html>'
     )
 
+    subject = f"{staff_name} is ready — here's how to log in to your portal"
     try:
         from sendgrid import SendGridAPIClient
         from sendgrid.helpers.mail import Mail
