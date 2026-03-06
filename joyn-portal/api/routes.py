@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify, current_app, g
 from flask_cors import cross_origin
 from data.db import query_one, query, insert, execute_commit, rows_to_list, row_to_dict
 from auth.helpers import api_login_required, portal_secret_required, hash_password
+from staff_common import STAFF_REGISTRY, send_welcome_email, send_staff_added_email
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -123,7 +124,6 @@ def log_activity():
     if missing:
         return jsonify({'error': f'Missing fields: {", ".join(missing)}'}), 400
 
-    # Verify client exists
     client = query_one('SELECT id FROM clients WHERE id=?', (data['client_id'],))
     if not client:
         return jsonify({'error': 'Client not found'}), 404
@@ -184,31 +184,6 @@ def log_output():
     return jsonify({'ok': True, 'id': row_id}), 201
 
 
-# ── Staff registry: maps slug → display name, vertical, mode ──
-STAFF_REGISTRY = {
-    'iris': {
-        'name':     'Iris',
-        'vertical': 'Insurance',
-        'mode':     'autonomous',
-    },
-    'probe': {
-        'name':     'Probe',
-        'vertical': 'Technology',
-        'mode':     'supervised',
-    },
-    'tdd-practice-team': {
-        'name':     'TDD Practice Team',
-        'vertical': 'Technology',
-        'mode':     'supervised',
-    },
-    'creator-application': {
-        'name':     'Creator Application',
-        'vertical': 'Platform',
-        'mode':     'supervised',
-    },
-}
-
-
 # ── Public: register client (called from any hire form) ───────────
 
 @api_bp.route('/register', methods=['POST', 'OPTIONS'])
@@ -248,7 +223,6 @@ def register():
     if existing:
         client_id = existing['id']
 
-        # Check if this staff is already hired under this account
         already_hired = query_one(
             "SELECT id FROM hired_staff WHERE client_id=? AND staff_slug=?",
             (client_id, staff_slug)
@@ -259,7 +233,6 @@ def register():
                 'error': f'{staff_meta["name"]} is already active on this account'
             }), 409
 
-        # Build staff settings
         reserved = {'name', 'email', 'firm_name', 'staff_slug', 'states'}
         extra_settings = {k: v for k, v in data.items() if k not in reserved}
         if staff_slug == 'iris':
@@ -280,7 +253,9 @@ def register():
             )
         )
 
-        _send_staff_added_email(
+        send_staff_added_email(
+            app_config=current_app.config,
+            logger=current_app.logger,
             to_email=email,
             name=name,
             firm_name=firm_name,
@@ -295,7 +270,6 @@ def register():
         return jsonify({'success': True, 'message': 'Staff added to existing account'}), 200
 
     # ── NEW ACCOUNT ────────────────────────────────────────────────────────
-    # Generate 12-char alphanumeric temp password
     alphabet = string.ascii_letters + string.digits
     temp_password = ''.join(secrets.choice(alphabet) for _ in range(12))
 
@@ -307,8 +281,6 @@ def register():
         (email, hash_password(temp_password), firm_name, name, states or None)
     )
 
-    # Build staff settings: start with any extra payload fields, then add
-    # staff-specific structured data (e.g. jurisdictions for Iris)
     reserved = {'name', 'email', 'firm_name', 'staff_slug', 'states'}
     extra_settings = {k: v for k, v in data.items() if k not in reserved}
 
@@ -330,7 +302,9 @@ def register():
         )
     )
 
-    _send_welcome_email(
+    send_welcome_email(
+        app_config=current_app.config,
+        logger=current_app.logger,
         to_email=email,
         name=name,
         firm_name=firm_name,
@@ -344,210 +318,6 @@ def register():
         f'New client registered: {email} ({firm_name}) — staff: {staff_slug}'
     )
     return jsonify({'success': True, 'message': 'Account created'}), 201
-
-
-def _send_staff_added_email(
-        to_email, name, firm_name,
-        staff_slug, staff_name, states):
-    """Sent when a second (or further) staff member is added to an existing account.
-    No password is included — the hirer already has login credentials."""
-    api_key = current_app.config.get('SENDGRID_API_KEY', '')
-    if not api_key:
-        current_app.logger.warning('SendGrid not configured — staff-added email not sent')
-        return
-
-    state_list_str = ', '.join(s.strip() for s in states.split(',') if s.strip()) if states else ''
-
-    STAFF_COPY = {
-        'iris': (
-            f'Iris is now monitoring {state_list_str} for {firm_name}. '
-            'She has been added to your portal and is already tracking regulatory changes.'
-        ),
-        'probe': (
-            f'Probe has been added to your portal for {firm_name}. '
-            'Log in to review your Experiment Brief and track progress.'
-        ),
-        'tdd-practice-team': (
-            f'The TDD Practice Team has been added to your portal for {firm_name}. '
-            'Log in to track progress and review outputs as they are delivered.'
-        ),
-        'creator-application': (
-            f'Your creator application for {firm_name} has been received and added to your portal. '
-            'Log in to track your application status.'
-        ),
-    }
-    body_copy = STAFF_COPY.get(
-        staff_slug,
-        f'{staff_name} has been added to your portal for {firm_name}. Log in to get started.'
-    )
-
-    plain = (
-        f'Hi {name},\n\n'
-        f'{body_copy}\n\n'
-        f'Log in to your portal:\n'
-        f'https://app.tryjoyn.me/login\n\n'
-        f'Your email address is your login. Use the password you set when you first signed in.\n\n'
-        f'Questions? Reply to this email or write to hire@tryjoyn.me\n\n'
-        f'\u2014 {staff_name} \u00b7 Joyn'
-    )
-
-    html = (
-        '<!DOCTYPE html>'
-        '<html lang="en"><head><meta charset="UTF-8"></head>'
-        '<body style="margin:0;padding:0;background:#fafaf8;font-family:Arial,sans-serif;color:#111110;">'
-        '<table width="100%" cellpadding="0" cellspacing="0">'
-        '<tr><td align="center" style="padding:3rem 1rem;">'
-        '<table width="100%" style="max-width:560px;">'
-        '<tr><td style="border-bottom:1px solid #e8e4dc;padding-bottom:1.5rem;">'
-        '<span style="font-family:\'Courier New\',monospace;font-size:0.9rem;font-weight:bold;letter-spacing:0.12em;color:#111110;">JOYN.</span>'
-        '</td></tr>'
-        '<tr><td style="padding-top:1.75rem;">'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#8B6914;margin:0 0 0.5rem 0;">\u2014 {staff_name} added to your portal</p>'
-        '</td></tr>'
-        '<tr><td>'
-        f'<h1 style="font-size:2rem;font-weight:300;margin:0 0 1.25rem 0;color:#111110;line-height:1.2;">Hi {name},</h1>'
-        f'<p style="font-size:0.95rem;color:#3f3f3e;line-height:1.8;margin:0 0 1.75rem 0;">{body_copy}</p>'
-        '</td></tr>'
-        '<tr><td style="padding-bottom:1.75rem;">'
-        '<a href="https://app.tryjoyn.me/login" '
-        'style="display:inline-block;font-family:\'Courier New\',monospace;font-size:0.75rem;font-weight:bold;'
-        'letter-spacing:0.1em;text-transform:uppercase;padding:0.875rem 2rem;background:#111110;color:#fafaf8;text-decoration:none;">'
-        'Log in to your portal \u2192'
-        '</a>'
-        '</td></tr>'
-        '<tr><td style="padding-top:1.25rem;">'
-        '<p style="font-size:0.85rem;color:#3f3f3e;line-height:1.7;margin:0 0 0.5rem 0;">Your email address is your login. Use the password you set when you first signed in.</p>'
-        '<p style="font-size:0.85rem;color:#3f3f3e;line-height:1.7;margin:0 0 1.75rem 0;">Questions? Reply to this email or write to '
-        '<a href="mailto:hire@tryjoyn.me" style="color:#8B6914;">hire@tryjoyn.me</a></p>'
-        '</td></tr>'
-        '<tr><td style="border-top:1px solid #e8e4dc;padding-top:1.25rem;">'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#3f3f3e;margin:0;">{staff_name} \u00b7 Joyn \u00b7 tryjoyn.me</p>'
-        '</td></tr>'
-        '</table></td></tr></table>'
-        '</body></html>'
-    )
-
-    try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        msg = Mail(
-            from_email=current_app.config.get('ADMIN_EMAIL', 'hire@tryjoyn.me'),
-            to_emails=to_email,
-            subject=f'{staff_name} has been added to your Joyn portal',
-            html_content=html,
-            plain_text_content=plain,
-        )
-        SendGridAPIClient(api_key).send(msg)
-    except Exception as e:
-        current_app.logger.error(f'SendGrid staff-added email error: {e}')
-
-
-def _send_welcome_email(
-        to_email, name, firm_name,
-        staff_slug, staff_name,
-        states, temp_password):
-    api_key = current_app.config.get('SENDGRID_API_KEY', '')
-    if not api_key:
-        current_app.logger.warning('SendGrid not configured — welcome email not sent')
-        return
-
-    state_line = ''
-    if states:
-        state_list_str = ', '.join(s.strip() for s in states.split(',') if s.strip())
-        state_line = f'Monitoring: {state_list_str}'
-    else:
-        state_list_str = ''
-
-    STAFF_COPY = {
-        'iris': (
-            f'Iris is now monitoring {state_list_str} for {firm_name}. '
-            'She is tracking regulatory changes and will alert you when something matters.'
-        ),
-        'probe': (
-            f'Probe is ready to begin your innovation experiment for {firm_name}. '
-            'Log in to your portal to review your Experiment Brief and track progress.'
-        ),
-        'tdd-practice-team': (
-            f'The TDD Practice Team has received your brief for {firm_name}. '
-            'Log in to your portal to track progress and review outputs as they are delivered.'
-        ),
-        'creator-application': (
-            f'Your creator application for {firm_name} has been received. '
-            'Log in to your portal to track your application status.'
-        ),
-    }
-    body_copy = STAFF_COPY.get(
-        staff_slug,
-        f'{staff_name} is now active for {firm_name}. Log in to your portal to get started.'
-    )
-
-    plain = (
-        f'Hi {name},\n\n'
-        f'{body_copy}\n\n'
-        f'Log in to your portal:\n'
-        f'https://app.tryjoyn.me/login\n\n'
-        f'Your login details:\n'
-        f'  Email:              {to_email}\n'
-        f'  Temporary password: {temp_password}\n\n'
-        f'You will be asked to set a new password the first time you sign in.\n\n'
-        f'Questions? Reply to this email or write to hire@tryjoyn.me\n\n'
-        f'— {staff_name} · Joyn'
-    )
-
-    html = (
-        '<!DOCTYPE html>'
-        '<html lang="en"><head><meta charset="UTF-8"></head>'
-        '<body style="margin:0;padding:0;background:#fafaf8;font-family:Arial,sans-serif;color:#111110;">'
-        '<table width="100%" cellpadding="0" cellspacing="0">'
-        '<tr><td align="center" style="padding:3rem 1rem;">'
-        '<table width="100%" style="max-width:560px;">'
-        '<tr><td style="border-bottom:1px solid #e8e4dc;padding-bottom:1.5rem;">'
-        '<span style="font-family:\'Courier New\',monospace;font-size:0.9rem;font-weight:bold;letter-spacing:0.12em;color:#111110;">JOYN.</span>'
-        '</td></tr>'
-        '<tr><td style="padding-top:1.75rem;">'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#8B6914;margin:0 0 0.5rem 0;">— {staff_name}</p>'
-        '</td></tr>'
-        '<tr><td>'
-        f'<h1 style="font-size:2rem;font-weight:300;margin:0 0 1.25rem 0;color:#111110;line-height:1.2;">Hi {name},</h1>'
-        f'<p style="font-size:0.95rem;color:#3f3f3e;line-height:1.8;margin:0 0 1.75rem 0;">{body_copy}</p>'
-        '</td></tr>'
-        '<tr><td style="padding-bottom:1.75rem;">'
-        '<a href="https://app.tryjoyn.me/login" '
-        'style="display:inline-block;font-family:\'Courier New\',monospace;font-size:0.75rem;font-weight:bold;'
-        'letter-spacing:0.1em;text-transform:uppercase;padding:0.875rem 2rem;background:#111110;color:#fafaf8;text-decoration:none;">'
-        'Log in to your portal \u2192'
-        '</a>'
-        '</td></tr>'
-        '<tr><td style="background:#f4f1eb;border:1px solid #e8e4dc;padding:1.25rem 1.5rem;">'
-        '<p style="font-family:\'Courier New\',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:#8B6914;margin:0 0 0.75rem 0;">Your login details</p>'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.8rem;color:#111110;margin:0 0 0.35rem 0;"><span style="color:#3f3f3e;">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>{to_email}</p>'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.8rem;color:#111110;margin:0;"><span style="color:#3f3f3e;">Temporary password&nbsp;&nbsp;</span>{temp_password}</p>'
-        '</td></tr>'
-        '<tr><td style="padding-top:1.25rem;">'
-        '<p style="font-size:0.85rem;color:#3f3f3e;line-height:1.7;margin:0 0 0.5rem 0;">You will be asked to set a new password when you first sign in.</p>'
-        '<p style="font-size:0.85rem;color:#3f3f3e;line-height:1.7;margin:0 0 1.75rem 0;">Questions? Reply to this email or write to '
-        '<a href="mailto:hire@tryjoyn.me" style="color:#8B6914;">hire@tryjoyn.me</a></p>'
-        '</td></tr>'
-        '<tr><td style="border-top:1px solid #e8e4dc;padding-top:1.25rem;">'
-        f'<p style="font-family:\'Courier New\',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:#3f3f3e;margin:0;">{staff_name} \u00b7 Joyn \u00b7 tryjoyn.me</p>'
-        '</td></tr>'
-        '</table></td></tr></table>'
-        '</body></html>'
-    )
-
-    try:
-        from sendgrid import SendGridAPIClient
-        from sendgrid.helpers.mail import Mail
-        msg = Mail(
-            from_email=current_app.config.get('ADMIN_EMAIL', 'hire@tryjoyn.me'),
-            to_emails=to_email,
-            subject=f'{staff_name} is ready \u2014 here is how to log in',
-            html_content=html,
-            plain_text_content=plain,
-        )
-        SendGridAPIClient(api_key).send(msg)
-    except Exception as e:
-        current_app.logger.error(f'SendGrid welcome email error: {e}')
 
 
 # ── Stripe webhook ─────────────────────────────────────────────
@@ -604,12 +374,14 @@ def _send_payment_failed_email(to_email: str, company_name: str):
         msg = Mail(
             from_email=current_app.config.get('ADMIN_EMAIL', 'hire@tryjoyn.me'),
             to_emails=to_email,
-            subject='Payment failed — Joyn',
-            html_content=f'<p>Hi {company_name},</p>'
-                         f'<p>We were unable to process your latest payment. '
-                         f'Please update your billing details at '
-                         f'<a href="https://app.tryjoyn.me/settings#billing">your portal settings</a>.</p>'
-                         f'<p>— Joyn</p>',
+            subject='Payment failed \u2014 Joyn',
+            html_content=(
+                f'<p>Hi {company_name},</p>'
+                f'<p>We were unable to process your latest payment. '
+                f'Please update your billing details at '
+                f'<a href="https://app.tryjoyn.me/settings#billing">your portal settings</a>.</p>'
+                f'<p>\u2014 Joyn</p>'
+            ),
         )
         SendGridAPIClient(api_key).send(msg)
     except Exception as e:
