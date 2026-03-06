@@ -81,6 +81,7 @@ p{color:var(--ink-secondary)}
   <a href="https://tryjoyn.me" class="header-logo">JOYN.</a>
   <nav class="header-nav">
     <a href="{{ url_for('portal.dashboard') }}" class="nav-link active">Dashboard</a>
+    <a href="{{ url_for('portal.add_staff') }}" class="nav-link">Add Staff</a>
     <a href="{{ url_for('portal.settings') }}" class="nav-link">Settings</a>
     <span class="nav-user">
       <span class="nav-user-dot"></span>
@@ -126,7 +127,7 @@ p{color:var(--ink-secondary)}
   <section style="margin-bottom:3rem;">
     <div class="section-hd">
       <h2>Your Staff</h2>
-      <a href="https://tryjoyn.me/marketplace/" class="section-hd-action">Browse marketplace &rarr;</a>
+      <a href="{{ url_for('portal.add_staff') }}" class="section-hd-action">Add staff &rarr;</a>
     </div>
     <div class="staff-grid">
       {% for staff in hired_staff %}
@@ -172,7 +173,7 @@ p{color:var(--ink-secondary)}
         <div class="card-name" style="color:var(--ink-secondary)">—</div>
         <div class="card-role">No staff hired yet</div>
         <div class="card-footer">
-          <a href="https://tryjoyn.me/marketplace/" class="card-link">Browse marketplace &rarr;</a>
+          <a href="{{ url_for('portal.add_staff') }}" class="card-link">Add staff &rarr;</a>
         </div>
       </div>
       {% endfor %}
@@ -201,11 +202,11 @@ p{color:var(--ink-secondary)}
 
   <div class="explore-panel">
     <div class="explore-text">
-      <h3>Hire more staff</h3>
-      <p>Renew, Dispatch, Scout, and Comply are joining the roster in the coming weeks.</p>
+      <h3>Add more staff</h3>
+      <p>Iris, Probe, and the TDD Practice Team are live today. Add another to your portal in under two minutes &mdash; your account details are pre-filled.</p>
     </div>
     <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-      <a href="https://tryjoyn.me/marketplace/" class="btn-primary">Browse marketplace</a>
+      <a href="{{ url_for('portal.add_staff') }}" class="btn-primary">Add staff &rarr;</a>
       <a href="{{ url_for('portal.settings') }}" class="btn-ghost">Account settings</a>
     </div>
   </div>
