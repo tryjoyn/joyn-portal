@@ -243,3 +243,167 @@ def settings_staff_let_go(slug):
         (g.client_id, slug)
     )
     return redirect(url_for('portal.dashboard'))
+
+
+# ── GET /add-staff ─────────────────────────────────────────────
+# Renders the in-portal staff marketplace. Passes the list of
+# available staff and the slugs the hirer already has so the
+# template can grey-out already-hired cards.
+
+AVAILABLE_STAFF = [
+    {
+        'slug':        'iris',
+        'name':        'Iris',
+        'role':        'Insurance Regulatory Intelligence',
+        'mode':        'autonomous',
+        'description': 'Monitors insurance regulation continuously across US states. '
+                       'Alerts you when a filing, bulletin, or rule change affects your lines of business.',
+    },
+    {
+        'slug':        'probe',
+        'name':        'Probe',
+        'role':        'Insurance Innovation Experimentation Team',
+        'mode':        'supervised',
+        'description': 'Runs structured innovation experiments for insurance organisations. '
+                       'Takes your hypothesis, builds an Experiment Brief, and delivers a Landscape Memo and Red Team Memo within 24 hours.',
+    },
+    {
+        'slug':        'tdd-practice-team',
+        'name':        'TDD Practice Team',
+        'role':        'Technology Due Diligence',
+        'mode':        'supervised',
+        'description': 'Eight-agent team that delivers a full technology due diligence report. '
+                       'Covers architecture, security, scalability, and team capability for any software target.',
+    },
+]
+
+STAFF_INTAKE_MESSAGES = {
+    'iris':              '{name} is now monitoring {states} for {firm}. '
+                         'She will alert you when a regulatory change affects your business.',
+    'probe':             'Probe has been added to your portal for {firm}. '
+                         'Your Experiment Brief will be ready within 24 hours.',
+    'tdd-practice-team': 'The TDD Practice Team has received your brief for {firm}. '
+                         'Outputs will appear in your portal as they are delivered.',
+}
+
+
+@portal_bp.route('/add-staff', methods=['GET'])
+@login_required
+def add_staff():
+    client = _get_client()
+    hired = _get_hired_staff(g.client_id)
+    already_hired_slugs = {s['staff_slug'] for s in hired}
+    return render_template(
+        'add_staff.html',
+        client=client,
+        available_staff=AVAILABLE_STAFF,
+        already_hired_slugs=already_hired_slugs,
+    )
+
+
+# ── POST /add-staff ────────────────────────────────────────────
+# Receives JSON from the in-portal hire form. Uses the session
+# identity (no re-entry of name/email/firm). Calls the same
+# /api/register logic directly rather than going over HTTP.
+
+@portal_bp.route('/add-staff', methods=['POST'])
+@login_required
+def add_staff_post():
+    import json as _json
+    from data.db import insert as db_insert
+    from api.routes import STAFF_REGISTRY, _send_staff_added_email, _send_welcome_email
+    import secrets, string
+
+    data = request.get_json(silent=True) or {}
+    staff_slug = (data.get('staff_slug') or '').strip().lower()
+
+    if not staff_slug:
+        return jsonify({'success': False, 'error': 'staff_slug is required'}), 400
+
+    staff_meta = STAFF_REGISTRY.get(staff_slug)
+    if not staff_meta:
+        return jsonify({'success': False, 'error': f'Unknown staff: {staff_slug}'}), 400
+
+    # Check not already hired
+    already = query_one(
+        "SELECT id FROM hired_staff WHERE client_id=? AND staff_slug=?",
+        (g.client_id, staff_slug)
+    )
+    if already:
+        return jsonify({'success': False,
+                        'error': f'{staff_meta["name"]} is already on your team'}), 409
+
+    # Validate staff-specific required fields
+    if staff_slug == 'iris':
+        states = (data.get('states') or '').strip()
+        if not states:
+            return jsonify({'success': False, 'error': 'Please enter at least one state for Iris to monitor.'}), 400
+    else:
+        states = ''
+
+    if staff_slug == 'probe':
+        if not data.get('org_type'):
+            return jsonify({'success': False, 'error': 'Organisation type is required.'}), 400
+        if not (data.get('hypothesis') or '').strip():
+            return jsonify({'success': False, 'error': 'Innovation hypothesis is required.'}), 400
+
+    if staff_slug == 'tdd-practice-team':
+        if not (data.get('target_company') or '').strip():
+            return jsonify({'success': False, 'error': 'Target company is required.'}), 400
+        if not data.get('engagement_type'):
+            return jsonify({'success': False, 'error': 'Engagement type is required.'}), 400
+        if not (data.get('brief') or '').strip():
+            return jsonify({'success': False, 'error': 'Brief is required.'}), 400
+
+    # Build settings payload
+    reserved = {'staff_slug'}
+    extra_settings = {k: v for k, v in data.items() if k not in reserved}
+    if staff_slug == 'iris':
+        extra_settings['jurisdictions'] = [s.strip() for s in states.split(',') if s.strip()]
+
+    db_insert(
+        '''INSERT INTO hired_staff
+           (client_id, staff_name, staff_slug, vertical, mode, settings)
+           VALUES (?,?,?,?,?,?)''',
+        (
+            g.client_id,
+            staff_meta['name'],
+            staff_slug,
+            staff_meta['vertical'],
+            staff_meta['mode'],
+            _json.dumps(extra_settings),
+        )
+    )
+
+    # Fetch client details for the confirmation email
+    client = _get_client()
+    _send_staff_added_email(
+        to_email=client['email'],
+        name=client['primary_contact_name'],
+        firm_name=client['company_name'],
+        staff_slug=staff_slug,
+        staff_name=staff_meta['name'],
+        states=states,
+    )
+
+    current_app_logger = None
+    try:
+        from flask import current_app
+        current_app.logger.info(
+            f'Staff added via portal: client_id={g.client_id} staff={staff_slug}'
+        )
+    except Exception:
+        pass
+
+    # Build a human-readable confirmation message
+    tmpl = STAFF_INTAKE_MESSAGES.get(
+        staff_slug,
+        '{name} has been added to your portal for {firm}.'
+    )
+    msg = tmpl.format(
+        name=staff_meta['name'],
+        firm=client['company_name'],
+        states=states,
+    )
+
+    return jsonify({'success': True, 'message': msg}), 200
