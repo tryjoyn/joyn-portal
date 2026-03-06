@@ -1277,29 +1277,17 @@ function openWaitlist() {
   ['wl-name','wl-email','wl-company','wl-looking'].forEach(id => document.getElementById(id).value = '');
   openModal('modal-waitlist');
 }
-async function submitWaitlist() {
-  const name  = document.getElementById('wl-name').value.trim();
-  const email = document.getElementById('wl-email').value.trim();
+function submitWaitlist() {
+  const name    = document.getElementById('wl-name').value.trim();
+  const email   = document.getElementById('wl-email').value.trim();
+  const company = document.getElementById('wl-company').value.trim();
+  const looking = document.getElementById('wl-looking').value.trim();
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
-  const btn = event.target; btn.textContent = 'Sendingâ€¦'; btn.disabled = true;
-  try {
-    await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject: 'Waitlist â€” New AI Staff Â· tryjoyn.me',
-        name, email,
-        company:     document.getElementById('wl-company').value.trim(),
-        looking_for: document.getElementById('wl-looking').value.trim()
-      })
-    });
-    document.getElementById('wl-form-wrap').style.display = 'none';
-    document.getElementById('wl-success').style.display = 'block';
-  } catch {
-    btn.textContent = 'Join waitlist'; btn.disabled = false;
-    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
-  }
+  const subject = encodeURIComponent('Waitlist — New AI Staff');
+  const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nCompany: ' + company + '\nLooking for: ' + looking);
+  window.location.href = 'mailto:hire@tryjoyn.me?subject=' + subject + '&body=' + body;
+  document.getElementById('wl-form-wrap').style.display = 'none';
+  document.getElementById('wl-success').style.display = 'block';
 }
 
 // â”€â”€ EXPRESS INTEREST â”€â”€
@@ -1312,31 +1300,19 @@ function openInterest(staffName, staffRole) {
   document.getElementById('int-success').style.display = 'none';
   openModal('modal-interest');
 }
-async function submitInterest() {
-  const name  = document.getElementById('int-name').value.trim();
-  const email = document.getElementById('int-email').value.trim();
+function submitInterest() {
+  const name     = document.getElementById('int-name').value.trim();
+  const email    = document.getElementById('int-email').value.trim();
+  const company  = document.getElementById('int-company').value.trim();
+  const staff    = document.getElementById('int-staff').value;
+  const timeline = document.getElementById('int-timeline').value;
+  const notes    = document.getElementById('int-notes').value.trim();
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
-  const btn = event.target; btn.textContent = 'Sendingâ€¦'; btn.disabled = true;
-  try {
-    await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key:    '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject:       'Interest â€” ' + document.getElementById('int-staff').value.split(' â€”')[0] + ' Â· tryjoyn.me',
-        name, email,
-        company:       document.getElementById('int-company').value.trim(),
-        interested_in: document.getElementById('int-staff').value,
-        hire_timeline: document.getElementById('int-timeline').value,
-        notes:         document.getElementById('int-notes').value.trim()
-      })
-    });
-    document.getElementById('int-form-wrap').style.display = 'none';
-    document.getElementById('int-success').style.display = 'block';
-  } catch {
-    btn.textContent = 'Submit interest'; btn.disabled = false;
-    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
-  }
+  const subject = encodeURIComponent('Interest — ' + staff.split(' —')[0]);
+  const body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nCompany: ' + company + '\nInterested in: ' + staff + '\nTimeline: ' + timeline + '\nNotes: ' + notes);
+  window.location.href = 'mailto:hire@tryjoyn.me?subject=' + subject + '&body=' + body;
+  document.getElementById('int-form-wrap').style.display = 'none';
+  document.getElementById('int-success').style.display = 'block';
 }
 
 /* -- STAFF DESIGNER JS -- */

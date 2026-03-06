@@ -205,7 +205,7 @@ a { color: inherit; }
     <a href="../marketplace/index.html" class="nav-link" aria-current="page">Marketplace</a>
     <a href="../marketplace/creator-studio.html" class="nav-link">Creator Studio</a>
   </div>
-  <a href="#brief" class="nav-cta">Brief This Team</a>
+  <a href="../marketplace/tdd-hire.html" class="nav-cta">Brief This Team</a>
 </nav>
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -224,7 +224,7 @@ a { color: inherit; }
       <h1 style="margin-bottom:1.25rem;">Technology due<br>diligence. At the<br>speed of a <em>deal.</em></h1>
       <p style="font-size:1.1rem; max-width:52ch; margin-bottom:2rem;">Eight AI colleagues — each owning a distinct domain — running in parallel from the moment you submit a brief. <strong>Pre-LOI screening to IC-ready output in 72 hours.</strong> Your partners direct. Your methodology calibrates the team over time.</p>
       <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
-        <a href="#brief" class="btn btn-primary">Brief This Team</a>
+        <a href="../marketplace/tdd-hire.html" class="btn btn-primary">Brief This Team</a>
         <a href="#roster" class="btn btn-outline">Meet the team</a>
       </div>
       <div class="hero-proof" role="list" aria-label="Key facts">
@@ -484,8 +484,7 @@ a { color: inherit; }
         <h3 style="margin-bottom:0.5rem;">Submit a brief</h3>
         <p>TDD Practice Team — Supervised mode engagement.</p>
         <form id="brief-form" onsubmit="submitBriefForm(event)" aria-label="TDD brief form">
-          <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
-          <input type="hidden" name="subject" value="New TDD Brief — tryjoyn.me">
+
           <div class="form-group">
             <label class="form-label" for="brief-name">Your name *</label>
             <input class="form-input" id="brief-name" name="name" type="text" autocomplete="name" required placeholder="James Whitmore">
@@ -521,8 +520,8 @@ a { color: inherit; }
             <label class="form-label" for="brief-timeline">Required by</label>
             <input class="form-input" id="brief-timeline" name="timeline" type="text" placeholder="e.g. IC meeting 15 March">
           </div>
-          <button type="submit" class="form-submit">Submit Brief — TDD Practice Team</button>
-          <p class="form-note">Submission goes to hire@tryjoyn.me · Scoping confirmation within 2 hours</p>
+          <a href="../marketplace/tdd-hire.html" class="form-submit" style="display:block;text-align:center;text-decoration:none;">Submit Brief — TDD Practice Team →</a>
+          <p class="form-note">You will be taken to our briefing portal · Scoping confirmation within 2 hours</p>
         </form>
         <div class="form-success" id="brief-success" role="alert" aria-live="polite">
           <h4 style="margin-bottom:0.5rem;">Brief received.</h4>
@@ -547,30 +546,14 @@ a { color: inherit; }
 <!-- MOBILE BRIEF BAR -->
 <div class="brief-bar" role="complementary" aria-label="Quick brief">
   <span class="brief-bar-label">TDD Practice Team — Supervised</span>
-  <a href="#brief" class="brief-bar-btn">Brief This Team</a>
+  <a href="../marketplace/tdd-hire.html" class="brief-bar-btn">Brief This Team</a>
 </div>
 
 <script>
-async function submitBriefForm(e) {
+// Brief form — redirects to tdd-hire.html portal flow
+function submitBriefForm(e) {
   e.preventDefault();
-  const form = document.getElementById('brief-form');
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    const data = new FormData(form);
-    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
-    if (res.ok) {
-      form.style.display = 'none';
-      document.getElementById('brief-success').style.display = 'block';
-    } else {
-      btn.textContent = 'Try again';
-      btn.disabled = false;
-    }
-  } catch {
-    btn.textContent = 'Try again';
-    btn.disabled = false;
-  }
+  window.location.href = '../marketplace/tdd-hire.html';
 }
 window.addEventListener('scroll', function() {
   document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);

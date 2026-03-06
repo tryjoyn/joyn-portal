@@ -218,7 +218,7 @@ a { color: inherit; }
     <a href="index.html" class="nav-link">Marketplace</a>
     <a href="creator-studio.html" class="nav-link" aria-current="page">Creator Studio</a>
   </div>
-  <a href="#apply" class="nav-cta">Apply to Build</a>
+  <a href="creator-apply.html" class="nav-cta">Apply to Build</a>
 </nav>
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -237,7 +237,7 @@ a { color: inherit; }
       <h1>Your expertise,<br>encoded. <em>Earning.</em></h1>
       <p>Joyn is built by practitioners — people who have worked the roles they now encode. If you have deep domain expertise and a clear point of view, we want to hear from you.</p>
       <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
-        <a href="#apply" class="btn btn-primary">Apply to Build</a>
+        <a href="creator-apply.html" class="btn btn-primary">Apply to Build</a>
         <a href="#roles" class="btn btn-outline">See open roles</a>
       </div>
       <div class="hero-proof" role="list" aria-label="Key facts">
@@ -455,8 +455,7 @@ a { color: inherit; }
         <h3 style="margin-bottom:0.5rem;">Apply to build</h3>
         <p>Tell us about yourself and the role you want to build.</p>
         <form id="apply-form" onsubmit="submitApplyForm(event)" aria-label="Creator application form">
-          <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
-          <input type="hidden" name="subject" value="Creator Application — tryjoyn.me">
+
           <div class="form-group">
             <label class="form-label" for="apply-name">Your name *</label>
             <input class="form-input" id="apply-name" name="name" type="text" autocomplete="name" required placeholder="Sarah Chen">
@@ -506,8 +505,8 @@ a { color: inherit; }
             <input type="checkbox" id="apply-bar" name="bar_acknowledged" value="Yes" required style="margin-top:0.3rem; flex-shrink:0; accent-color:var(--ink); width:16px; height:16px; cursor:pointer;">
             <label class="form-label" for="apply-bar" style="text-transform:none; letter-spacing:0; font-size:0.875rem; line-height:1.6; cursor:pointer;">I have read and understood <a href="/docs/the-bar-v1.docx" style="color:var(--gold-text); text-decoration:underline;">The Bar v1.0</a></label>
           </div>
-          <button type="submit" class="form-submit">Submit Application</button>
-          <p class="form-note">Submission goes to hire@tryjoyn.me · Reviewed within 3 business days</p>
+          <a href="creator-apply.html" class="form-submit" style="display:block;text-align:center;text-decoration:none;">Apply to Build →</a>
+          <p class="form-note">You will be taken to our application portal · Reviewed within 3 business days</p>
         </form>
         <div class="form-success" id="apply-success" role="alert" aria-live="polite">
           <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
@@ -804,43 +803,17 @@ async function submitRoleModal() {
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
   const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
   try {
-    await fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        access_key: '5b972adb-feba-4546-a657-02d5e29b6e29',
-        subject: 'Creator Application — ' + document.getElementById('rm-role').value.split(' ·')[0] + ' · tryjoyn.me',
-        name, email,
-        role: document.getElementById('rm-role').value,
-        background: document.getElementById('rm-desc').value.trim()
-      })
-    });
-    document.getElementById('role-modal-form-wrap').style.display = 'none';
-    document.getElementById('role-modal-success').style.display = 'block';
+    window.location.href = 'creator-apply.html';
   } catch {
     btn.textContent = 'Submit'; btn.disabled = false;
     alert('Something went wrong. Please email hire@tryjoyn.me directly.');
   }
 }
 
-// ── APPLY FORM ──
-async function submitApplyForm(e) {
+// ── APPLY FORM — redirects to creator-apply.html portal flow ──
+function submitApplyForm(e) {
   e.preventDefault();
-  const form = document.getElementById('apply-form');
-  const btn = form.querySelector('.form-submit');
-  btn.textContent = 'Sending...'; btn.disabled = true;
-  try {
-    const data = new FormData(form);
-    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
-    if (res.ok) {
-      form.style.display = 'none';
-      document.getElementById('apply-success').style.display = 'block';
-    } else {
-      btn.textContent = 'Try again'; btn.disabled = false;
-    }
-  } catch {
-    btn.textContent = 'Try again'; btn.disabled = false;
-  }
+  window.location.href = 'creator-apply.html';
 }
 window.addEventListener('scroll', function() {
   document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
