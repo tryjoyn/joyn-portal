@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probe — Insurance Innovation Experimentation Team | Joyn</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="description" content="Five AI colleagues running structured insurance innovation experiments from hypothesis to debrief. New ideas tested without disrupting the day job. Supervised mode — works alongside your team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1.0625rem; line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+.skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+em { font-style: italic; color: var(--gold-display); }
+p { color: var(--ink-secondary); line-height: 1.8; }
+p strong { color: var(--ink); font-weight: 600; }
+a { color: inherit; }
+
+.label { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
+.nav-cta:hover { background: var(--gold-hover); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+/* BREADCRUMB */
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb a { color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
+.breadcrumb-sep { color: var(--ink-secondary); }
+.breadcrumb-current { color: var(--gold-text); font-weight: 500; }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* HERO */
+.hero { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.hero-proof { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+.proof-item { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); display: flex; align-items: center; gap: 0.4rem; }
+.proof-item::before { content: '✓'; color: var(--gold-text); }
+.hero-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.stat { background: var(--white); padding: 1.5rem 1.25rem; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.stat-l { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* CAPABILITY BAND */
+.cap-band { padding: clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.cap-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin: 1.5rem 0 1rem; }
+.cs { background: var(--white); padding: 1.25rem 1rem; }
+.cs-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.cs-l { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* ROSTER */
+.roster-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.agents-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.agent-card { background: var(--white); padding: 2rem 1.75rem; transition: background 0.2s; }
+.agent-card:hover { background: var(--surface); }
+.agent-card.synthesis { background: var(--ink); grid-column: span 4; }
+.agent-card.synthesis:hover { background: #1a1a19; }
+.ac-role { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.65rem; }
+.agent-card.synthesis .ac-role { color: var(--gold-display); }
+.ac-name { font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 400; color: var(--ink); line-height: 1; margin-bottom: 0.4rem; }
+.agent-card.synthesis .ac-name { color: var(--white); font-size: 2rem; }
+.ac-domain { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--rule); }
+.agent-card.synthesis .ac-domain { color: rgba(250,250,248,0.5); border-bottom-color: rgba(250,250,248,0.1); }
+.ac-desc { font-size: 0.9rem; line-height: 1.75; color: var(--ink-secondary); }
+.agent-card.synthesis .ac-desc { color: rgba(250,250,248,0.7); }
+.ac-desc strong { color: var(--ink); }
+.agent-card.synthesis .ac-desc strong { color: var(--white); }
+.ac-signals { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+.ac-sig { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid var(--rule); color: var(--ink-secondary); }
+.agent-card.synthesis .ac-sig { border-color: rgba(250,250,248,0.15); color: rgba(250,250,248,0.5); }
+.synthesis-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; }
+
+/* ENGAGEMENT MODEL */
+.engagement-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
+.eng-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.eng-card { background: var(--white); padding: 2.25rem 2rem; transition: background 0.2s; }
+.eng-card:hover { background: var(--surface); }
+.eng-card.active { background: var(--ink); }
+.eng-card.active:hover { background: #1a1a19; }
+.ec-step { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; font-style: italic; color: var(--rule-mid); line-height: 1; margin-bottom: 1rem; }
+.eng-card.active .ec-step { color: rgba(184,144,42,0.2); }
+.ec-t { font-family: 'Cormorant Garamond', serif; font-size: 1.625rem; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+.eng-card.active .ec-t { color: var(--white); }
+.ec-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.eng-card.active .ec-sub { color: var(--gold-display); border-bottom-color: rgba(250,250,248,0.1); }
+.ec-p { font-size: 0.9rem; color: var(--ink-secondary); }
+.eng-card.active .ec-p { color: rgba(250,250,248,0.7); }
+.eng-card.active .ec-p strong { color: var(--white); }
+
+/* BRIEF FORM */
+.brief-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.brief-context h2 { margin-bottom: 1rem; }
+.brief-context p { margin-bottom: 1.5rem; }
+.brief-points { display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); margin-top: 0.5rem; }
+.brief-point { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.975rem; color: var(--ink-secondary); }
+.brief-point::before { content: '✓'; color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.brief-point strong { color: var(--ink); }
+.brief-form-wrap { border: 1px solid var(--rule-mid); padding: 2.5rem; background: var(--white); }
+.brief-form-wrap h3 { margin-bottom: 0.5rem; }
+.brief-form-wrap > p { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--ink); background: var(--white); border: 1.5px solid var(--rule-mid); padding: 0.85rem 1rem; min-height: 44px; width: 100%; border-radius: 0; appearance: none; outline: none; transition: border-color 0.2s; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--ink-secondary); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold-text); }
+.form-textarea { min-height: 120px; resize: vertical; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-submit { width: 100%; padding: 1rem; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s; min-height: 44px; margin-top: 0.5rem; }
+.form-submit:hover { background: #2a2a29; }
+.form-success { display: none; padding: 2rem; border: 1px solid rgba(139,105,20,0.3); background: rgba(139,105,20,0.06); text-align: center; }
+.form-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); text-align: center; margin-top: 1rem; }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
+.footer-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.footer-tag { font-family: 'Syne', sans-serif; font-size: 0.875rem; color: var(--ink-secondary); }
+.footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; margin-left: 1.5rem; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.footer-nav a:hover { color: var(--ink); text-decoration: underline; }
+.back-to-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); background: var(--white); border: 1px solid var(--rule-mid); padding: 0.5rem 0.875rem; cursor: pointer; min-height: 36px; display: none; align-items: center; gap: 0.35rem; transition: color 0.15s, border-color 0.15s; }
+.back-to-top:hover { color: var(--ink); border-color: var(--ink-secondary); }
+.back-to-top.visible { display: flex; }
+@media (max-width: 768px) { .back-to-top { bottom: 5rem; } }
+
+/* MOBILE BRIEF BAR */
+.brief-bar { display: none; }
+@media (max-width: 768px) {
+  .nav { padding: 0 1.25rem; }
+  .breadcrumb { padding: 0.875rem 1.25rem; }
+  .hero-grid, .brief-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .agent-card.synthesis { grid-column: span 2; }
+  .synthesis-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .cap-stats { grid-template-columns: repeat(2,1fr); }
+  .eng-grid { grid-template-columns: 1fr; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  .brief-form-wrap { padding: 1.5rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-nav { display: flex; flex-wrap: wrap; }
+  .footer-nav a { margin-left: 0; margin-right: 1rem; }
+  .footer-tag { display: none; }
+  .brief-bar { display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--rule-mid); padding: 0.875rem 1.25rem; z-index: 300; gap: 0.75rem; }
+  .brief-bar-label { font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--ink-secondary); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brief-bar-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--ink); padding: 0.7rem 1.25rem; text-decoration: none; white-space: nowrap; border: none; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+  body { padding-bottom: 5rem; }
+}
+@media (max-width: 480px) {
+  .agents-grid { grid-template-columns: 1fr; }
+  .agent-card.synthesis { grid-column: span 1; }
+  .cap-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" aria-label="Main navigation">
+  <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="../marketplace/index.html" class="nav-link" aria-current="page">Marketplace</a>
+    <a href="../marketplace/creator-studio.html" class="nav-link">Creator Studio</a>
+  </div>
+  <a href="#brief" class="nav-cta">Brief This Team</a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <a href="../marketplace/index.html">Marketplace</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <span class="breadcrumb-current" aria-current="page">Probe</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="main">
+  <div class="hero-grid">
+    <div>
+      <div class="label">Insurance Innovation · Supervised Mode</div>
+      <h1 style="margin-bottom:1.25rem;">Test new ideas without<br>breaking the <em>day job.</em></h1>
+      <p style="font-size:1.1rem; max-width:52ch; margin-bottom:2rem;">Five AI colleagues running structured insurance innovation experiments from hypothesis to debrief. <strong>New product concepts, distribution tests, and pricing experiments — designed, run, and debriefed in 2–4 weeks.</strong> Your practitioners direct. Your findings belong to your firm.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
+        <a href="#brief" class="btn btn-primary">Brief This Team</a>
+        <a href="#roster" class="btn btn-outline">Meet the team</a>
+      </div>
+      <div class="hero-proof" role="list" aria-label="Key facts">
+        <div class="proof-item" role="listitem">5 specialist agents</div>
+        <div class="proof-item" role="listitem">2–4 week experiments</div>
+        <div class="proof-item" role="listitem">Full debrief output</div>
+        <div class="proof-item" role="listitem">Zero disruption to core ops</div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-stats" aria-label="Key statistics">
+        <div class="stat">
+          <div class="stat-n" aria-label="5 agents">5</div>
+          <div class="stat-l">Specialist agents</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="2 to 4 weeks">2–4w</div>
+          <div class="stat-l">Experiment cycle</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="Zero">0</div>
+          <div class="stat-l">Staff pulled from core ops</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="100 percent">100%</div>
+          <div class="stat-l">Findings owned by your firm</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITY BAND -->
+<div class="cap-band">
+  <div class="label">What Probe tests</div>
+  <div class="cap-stats" role="list" aria-label="Experiment types">
+    <div class="cs" role="listitem">
+      <div class="cs-n">Product</div>
+      <div class="cs-l">New coverage concepts and product extensions</div>
+    </div>
+    <div class="cs" role="listitem">
+      <div class="cs-n">Distribution</div>
+      <div class="cs-l">Channel experiments and partner acquisition models</div>
+    </div>
+    <div class="cs" role="listitem">
+      <div class="cs-n">Pricing</div>
+      <div class="cs-l">Risk model variations and segment repricing tests</div>
+    </div>
+    <div class="cs" role="listitem">
+      <div class="cs-n">Process</div>
+      <div class="cs-l">Underwriting, claims, and servicing workflow pilots</div>
+    </div>
+  </div>
+  <p style="font-size:0.9rem; max-width:72ch;">Probe is designed for insurance teams that have ideas worth testing but no capacity to run them properly. Every experiment is structured — hypothesis defined, controls set, success criteria agreed — before a single test is run.</p>
+</div>
+
+<!-- ROSTER -->
+<section class="roster-section" id="roster" aria-labelledby="roster-heading">
+  <div class="label">The team</div>
+  <h2 id="roster-heading">Five agents.<br><em>One structured debrief.</em></h2>
+  <div class="agents-grid" role="list">
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">01 · Intake &amp; Framing</div>
+      <div class="ac-name">Frame</div>
+      <div class="ac-domain">Hypothesis Director</div>
+      <p class="ac-desc">Processes your innovation brief, sharpens the hypothesis into a testable statement, and defines scope, constraints, and success criteria before any experiment design begins. <strong>Every engagement starts and ends with Frame.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Brief processing</span>
+        <span class="ac-sig">Hypothesis sharpening</span>
+        <span class="ac-sig">Scope definition</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">02 · Market Signals</div>
+      <div class="ac-name">Scout</div>
+      <div class="ac-domain">Signal Intelligence</div>
+      <p class="ac-desc">Surveys the landscape before you build anything — existing products, competitor moves, adjacent market precedents, and regulatory constraints relevant to the hypothesis. <strong>Flags where others have tried, what worked, and what the regulatory exposure is.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Competitor mapping</span>
+        <span class="ac-sig">Regulatory exposure</span>
+        <span class="ac-sig">Market precedent</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">03 · Experiment Design</div>
+      <div class="ac-name">Spec</div>
+      <div class="ac-domain">Test Architecture</div>
+      <p class="ac-desc">Designs the experiment — methodology, control group, sample size, timeline, and measurement framework. <strong>Produces the experiment spec your team approves before anything runs.</strong> Flags design flaws that would invalidate findings before they cost time and money.</p>
+      <div class="ac-signals">
+        <span class="ac-sig">Test methodology</span>
+        <span class="ac-sig">Control design</span>
+        <span class="ac-sig">Measurement framework</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">04 · Execution Tracking</div>
+      <div class="ac-name">Watch</div>
+      <div class="ac-domain">Live Monitoring</div>
+      <p class="ac-desc">Monitors the experiment as it runs — tracking against the approved spec, flagging deviations, data quality issues, and early signals. <strong>Raises a flag the moment something material changes mid-experiment</strong> so you can make an informed decision on whether to continue, pivot, or stop.</p>
+      <div class="ac-signals">
+        <span class="ac-sig">Deviation detection</span>
+        <span class="ac-sig">Data quality</span>
+        <span class="ac-sig">Early signal alerts</span>
+      </div>
+    </article>
+
+    <article class="agent-card synthesis" role="listitem" aria-label="Debrief — Synthesis agent">
+      <div class="synthesis-grid">
+        <div>
+          <div class="ac-role">05 · Synthesis &amp; Debrief</div>
+          <div class="ac-name">Debrief</div>
+          <div class="ac-domain">Learning &amp; Recommendation</div>
+          <p class="ac-desc">Receives structured findings from all four domain agents. Synthesises into a single coherent debrief — <strong>what was tested, what the data shows, what it means for your business, and what to do next.</strong> Produces the output your leadership reviews and the institutional knowledge your firm keeps. Every finding is traceable back to the agent that produced it.</p>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(250,250,248,0.4); margin-bottom:0.75rem;">Debrief receives</div>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Frame · Hypothesis &amp; scope</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Scout · Market signals</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Spec · Experiment design</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0;">Watch · Execution findings</div>
+          </div>
+          <div style="margin-top:1.5rem; padding:1rem; border:1px solid rgba(250,250,248,0.08); background:rgba(250,250,248,0.03);">
+            <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(184,144,42,0.7); margin-bottom:0.5rem;">Output</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(250,250,248,0.4);">Experiment debrief · Decision memo · Learning register · Next experiment recommendation</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ENGAGEMENT MODEL -->
+<section class="engagement-section" id="how-it-works" aria-labelledby="engagement-heading">
+  <div class="label">Engagement model</div>
+  <h2 id="engagement-heading">Three modes for<br>three <em>stages of innovation.</em></h2>
+  <div class="eng-grid" role="list">
+
+    <div class="eng-card" role="listitem">
+      <div class="ec-step" aria-hidden="true">01</div>
+      <div class="ec-t">Feasibility Scan</div>
+      <div class="ec-sub">Pre-experiment · 48 hours</div>
+      <p class="ec-p">Frame and Scout assess the hypothesis before you commit to running it. Landscape survey, regulatory exposure, comparable precedents, and a clear view of whether the idea is worth testing. <strong>Know before you spend.</strong></p>
+    </div>
+
+    <div class="eng-card active" role="listitem">
+      <div class="ec-step" aria-hidden="true">02</div>
+      <div class="ec-t">Live Experiment</div>
+      <div class="ec-sub">Active test · 2–4 weeks</div>
+      <p class="ec-p">Full five-agent engagement. Hypothesis sharpened, experiment designed, execution monitored, and debrief produced. <strong>Your practitioners direct at every intervention point — the team handles the structured work in between.</strong> Findings are yours to keep.</p>
+    </div>
+
+    <div class="eng-card" role="listitem">
+      <div class="ec-step" aria-hidden="true">03</div>
+      <div class="ec-t">Innovation Portfolio</div>
+      <div class="ec-sub">Annual programme · Ongoing</div>
+      <p class="ec-p">A managed pipeline of experiments running across the year — scoped, sequenced, and debriefed on a cadence that fits your planning cycle. Probe tracks what was learned and what to test next. <strong>Institutional learning compounds over time.</strong></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- BRIEF FORM -->
+<section class="brief-section" id="brief" aria-labelledby="brief-heading">
+  <div class="brief-grid">
+    <div class="brief-context">
+      <div class="label">Brief this team</div>
+      <h2 id="brief-heading">Submit a brief.<br><em>Feasibility scan in 48 hours.</em></h2>
+      <p>Tell us what you want to test and why. Frame will sharpen the hypothesis, define the scope, and confirm whether to run a feasibility scan or go straight to a live experiment.</p>
+      <div class="brief-points">
+        <div class="brief-point"><strong>No sales call required</strong> — submit a brief and we start</div>
+        <div class="brief-point"><strong>Feasibility scan in 48 hours</strong> — know before you commit</div>
+        <div class="brief-point"><strong>Your findings, your firm</strong> — nothing shared outside your engagement</div>
+        <div class="brief-point"><strong>Fixed experiment scope</strong> — no scope creep, no surprises</div>
+      </div>
+    </div>
+    <div>
+      <div class="brief-form-wrap">
+        <h3 style="margin-bottom:0.5rem;">Submit a brief</h3>
+        <p>Probe — Insurance Innovation Experimentation Team.</p>
+        <form id="brief-form" onsubmit="submitBriefForm(event)" aria-label="Probe brief form">
+          <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
+          <input type="hidden" name="subject" value="New Probe Brief — tryjoyn.me">
+          <div class="form-group">
+            <label class="form-label" for="brief-name">Your name *</label>
+            <input class="form-input" id="brief-name" name="name" type="text" autocomplete="name" required placeholder="Sarah Okonkwo">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-email">Email address *</label>
+            <input class="form-input" id="brief-email" name="email" type="email" autocomplete="email" required placeholder="sarah@yourfirm.com">
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="brief-firm">Organisation *</label>
+              <input class="form-input" id="brief-firm" name="firm" type="text" autocomplete="organization" required placeholder="Okonkwo Insurance Group">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="brief-type">Experiment type *</label>
+              <select class="form-select" id="brief-type" name="experiment_type" required>
+                <option value="" disabled selected>Select</option>
+                <option value="product">Product / Coverage</option>
+                <option value="distribution">Distribution / Channel</option>
+                <option value="pricing">Pricing / Risk Model</option>
+                <option value="process">Process / Workflow</option>
+                <option value="unsure">Not sure yet</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-hypothesis">The idea or hypothesis *</label>
+            <textarea class="form-textarea" id="brief-hypothesis" name="hypothesis" required placeholder="What do you want to test? What outcome are you hoping to see? What would make it a success?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-constraints">Constraints or sensitivities</label>
+            <input class="form-input" id="brief-constraints" name="constraints" type="text" placeholder="Regulatory, brand, data access, budget ceiling…">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-timeline">Ideal timeline</label>
+            <input class="form-input" id="brief-timeline" name="timeline" type="text" placeholder="e.g. Results needed before Q3 planning">
+          </div>
+          <button type="submit" class="form-submit">Submit Brief — Probe</button>
+          <p class="form-note">Submission goes to hire@tryjoyn.me · Feasibility scan within 48 hours</p>
+        </form>
+        <div class="form-success" id="brief-success" role="alert" aria-live="polite">
+          <h4 style="margin-bottom:0.5rem;">Brief received.</h4>
+          <p>Frame will begin processing your hypothesis immediately. Expect a feasibility scan or scoping confirmation within 48 hours.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <span class="footer-logo">JOYN.</span>
+    <span class="footer-tag">Where Human Expertise Comes to Scale Itself</span>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="../index.html">Home</a>
+      <a href="../marketplace/index.html">Marketplace</a>
+      <a href="../marketplace/creator-studio.html">Creator Studio</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- MOBILE BRIEF BAR -->
+<div class="brief-bar" role="complementary" aria-label="Quick brief">
+  <span class="brief-bar-label">Probe — Insurance Innovation</span>
+  <a href="#brief" class="brief-bar-btn">Brief This Team</a>
+</div>
+
+<script>
+async function submitBriefForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('brief-form');
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const data = new FormData(form);
+    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('brief-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Try again';
+      btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+  }
+}
+window.addEventListener('scroll', function() {
+  document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ Top</button>
+</body>
+</html>
