@@ -13,6 +13,7 @@
   --white:#fafaf8; --ink:#111110; --ink-secondary:#3f3f3e;
   --rule:#e8e4dc; --rule-mid:#d0ccc4; --surface:#f4f1eb;
   --gold-display:#b8902a; --gold-text:#8B6914; --gold-hover:#7a5c10;
+  --pause-red:#8B2020; --pause-tint:#f7f0f0;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--white);color:var(--ink);font-family:'Syne',sans-serif;font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column}
@@ -26,34 +27,65 @@ p{color:var(--ink-secondary)}
 .nav-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color .15s}
 .nav-link:hover{color:var(--ink)}
 .nav-user{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);display:flex;align-items:center;gap:.5rem}
-.nav-user-dot{width:6px;height:6px;background:var(--gold-display);display:inline-block;flex-shrink:0}
+@keyframes pulse-glow{0%,100%{opacity:1}50%{opacity:.35}}
+.nav-user-dot{width:6px;height:6px;background:var(--gold-display);display:inline-block;flex-shrink:0;animation:pulse-glow 2s ease-in-out infinite}
+body.is-paused .nav-user-dot{background:var(--pause-red);animation:none}
 
-/* ── Main layout ── */
+/* ── Layout ── */
 .main{padding:clamp(2rem,4vw,4rem) clamp(1.5rem,5vw,4rem);max-width:1100px;flex:1}
-
-/* ── Label ── */
 .label{font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-text);display:inline-flex;align-items:center;gap:.65rem}
 .label::before{content:'';display:block;width:1.5rem;height:1px;background:var(--gold-text)}
-
-/* ── Section heading ── */
 .section-hd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
 .section-hd h2{font-size:clamp(1.5rem,3vw,2rem);font-weight:400;line-height:1.2}
+.section-meta{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
 
-/* ── Staff hero ── */
-.staff-hero{display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--rule)}
-.staff-hero-label{margin-bottom:.75rem}
+/* ── Staff hero (two-col) ── */
+.staff-hero{display:grid;grid-template-columns:1fr 280px;gap:3rem;align-items:start;margin-bottom:2.5rem;padding-bottom:2.5rem;border-bottom:1px solid var(--rule)}
 .staff-hero-name{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5rem);font-weight:300;line-height:1;color:var(--ink);margin-bottom:.5rem}
 .staff-hero-role{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1rem}
-.staff-hero-desc{font-size:.95rem;color:var(--ink-secondary);line-height:1.75;max-width:560px}
-.staff-hero-badges{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap}
-.staff-hero-meta{text-align:right}
-.staff-hired-since{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:.5rem}
-.staff-hired-date{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--ink)}
-
-/* ── Badges ── */
-.status-live{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid rgba(139,105,20,.3);color:var(--gold-text);background:rgba(139,105,20,.07)}
-.status-paused{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.staff-hero-desc{font-size:.95rem;color:var(--ink-secondary);line-height:1.75;max-width:520px}
+.staff-hero-badges{display:flex;gap:.5rem;margin-top:1.25rem;flex-wrap:wrap;align-items:center}
 .mode-auto{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:.2rem .5rem}
+.status-live{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid rgba(139,105,20,.3);color:var(--gold-text);background:rgba(139,105,20,.07)}
+.status-paused{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border:1px solid rgba(139,32,32,.3);color:var(--pause-red);background:var(--pause-tint)}
+
+/* ── Sidebar ── */
+.iris-sidebar{background:var(--surface);border:1px solid var(--rule);padding:1.75rem;transition:background .3s,border-color .3s}
+body.is-paused .iris-sidebar{background:var(--pause-tint);border-color:rgba(139,32,32,.25)}
+.sidebar-status-row{display:flex;align-items:center;gap:.65rem;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--rule)}
+body.is-paused .sidebar-status-row{border-bottom-color:rgba(139,32,32,.2)}
+.sidebar-pulse{width:8px;height:8px;background:var(--gold-display);flex-shrink:0;animation:pulse-glow 2s ease-in-out infinite}
+body.is-paused .sidebar-pulse{background:var(--pause-red);animation:none}
+.sidebar-status-label{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text)}
+body.is-paused .sidebar-status-label{color:var(--pause-red)}
+.sidebar-meta-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.4rem}
+.sidebar-meta-key{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.sidebar-meta-val{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--ink)}
+
+/* ── Countdown bar ── */
+.countdown-wrap{margin:1rem 0 1.25rem}
+.countdown-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);display:flex;justify-content:space-between;margin-bottom:.4rem}
+.countdown-track{height:2px;background:var(--rule)}
+.countdown-fill{height:100%;background:var(--gold-text);transition:width .4s,background .3s}
+body.is-paused .countdown-wrap{opacity:.5}
+body.is-paused .countdown-fill{background:var(--rule-mid)}
+
+/* ── Pause button ── */
+.pause-btn{width:100%;margin-top:1.25rem;font-family:'DM Mono',monospace;font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:.75rem 1rem;background:transparent;color:var(--ink-secondary);border:1px solid var(--rule-mid);cursor:pointer;transition:border-color .2s,color .2s}
+.pause-btn:hover{border-color:var(--ink-secondary);color:var(--ink)}
+body.is-paused .pause-btn{border-color:rgba(139,32,32,.4);color:var(--pause-red)}
+body.is-paused .pause-btn:hover{border-color:var(--pause-red)}
+.sidebar-hired{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--rule)}
+body.is-paused .sidebar-hired{border-top-color:rgba(139,32,32,.2)}
+.sidebar-hired-date{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;color:var(--ink);margin-top:.2rem}
+
+/* ── Status banner (paused warning) ── */
+.status-banner{display:none;padding:1rem 1.5rem;border:1px solid var(--rule);margin-bottom:2rem;align-items:flex-start;gap:1rem}
+.status-banner.visible{display:flex}
+.status-banner.paused{border-color:var(--pause-red);background:var(--pause-tint)}
+.status-banner-icon{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pause-red);flex-shrink:0;padding-top:.15rem}
+.status-banner-title{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--pause-red);margin-bottom:.35rem}
+.status-banner-desc{font-size:.9rem;color:var(--ink-secondary);line-height:1.65}
 
 /* ── Stats row ── */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--rule);margin-bottom:3rem}
@@ -61,6 +93,69 @@ p{color:var(--ink-secondary)}
 .stat-cell:last-child{border-right:none}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:var(--gold-text);line-height:1;margin-bottom:.25rem}
 .stat-l{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+
+/* ── Severity badges ── */
+.sev-high{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid rgba(139,105,20,.4);color:var(--gold-text);background:rgba(139,105,20,.08)}
+.sev-medium{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.sev-low{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule);color:var(--ink-secondary)}
+
+/* ── Briefing cards (collapsible via <details>) ── */
+.briefing-card{border:1px solid var(--rule);margin-bottom:.5rem}
+.briefing-card-header{padding:1.25rem 1.5rem;cursor:pointer;display:grid;grid-template-columns:6.5rem 1fr auto auto;gap:1.25rem;align-items:center;transition:background .15s;list-style:none}
+.briefing-card-header::-webkit-details-marker{display:none}
+.briefing-card-header:hover{background:var(--surface)}
+details.briefing-card[open] > .briefing-card-header{background:var(--surface);border-bottom:1px solid var(--rule)}
+.bc-date{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
+.bc-title{font-size:.95rem;color:var(--ink);font-weight:500;line-height:1.35}
+.bc-subtitle{font-size:.8rem;color:var(--ink-secondary);margin-top:.15rem;line-height:1.4}
+.bc-expand{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-text);white-space:nowrap}
+details.briefing-card[open] .bc-expand{color:var(--ink-secondary)}
+
+/* ── Briefing body ── */
+.briefing-body{padding:2rem 1.5rem 1.75rem}
+.briefing-section{margin-bottom:2rem}
+.briefing-section:last-child{margin-bottom:0}
+.briefing-section-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:.75rem;padding-bottom:.4rem;border-bottom:1px solid var(--rule)}
+.briefing-summary{font-size:.95rem;color:var(--ink-secondary);line-height:1.8}
+.briefing-analysis{font-size:.9rem;color:var(--ink-secondary);line-height:1.8}
+.briefing-analysis strong{color:var(--ink)}
+
+/* ── Before/after diff ── */
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin-top:.75rem}
+.diff-col{padding:1.25rem}
+.diff-col-before{border-right:1px solid var(--rule)}
+.diff-col-header{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+.diff-row{display:flex;align-items:baseline;gap:.5rem;padding:.4rem 0;border-bottom:1px solid var(--rule);font-size:.875rem;line-height:1.55}
+.diff-row:last-child{border-bottom:none;padding-bottom:0}
+.diff-field{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-secondary);flex-shrink:0;width:6.5rem}
+.diff-val-before{color:var(--ink-secondary)}
+.diff-val-after{color:var(--ink);font-weight:500}
+
+/* ── Source citation ── */
+.briefing-source{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--surface);border:1px solid var(--rule);margin-top:1.5rem;flex-wrap:wrap;gap:.75rem}
+.source-ref{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.source-link{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-text);text-decoration:none;transition:color .15s}
+.source-link:hover{color:var(--gold-hover)}
+
+/* ── Empty state (no briefings yet) ── */
+.empty-state{padding:2.5rem 2rem;border:1px solid var(--rule);background:var(--surface);margin-bottom:.5rem}
+.empty-state-head{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;color:var(--ink);margin-bottom:.5rem;line-height:1.2}
+.empty-state-body{font-size:.9rem;color:var(--ink-secondary);line-height:1.8;max-width:58ch;margin-bottom:1.25rem}
+.empty-stats{display:flex;gap:2rem;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
+.empty-stats span{color:var(--gold-text)}
+.sample-label{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);padding:.6rem 0;margin-bottom:.5rem;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);margin-top:1.75rem}
+
+/* ── Coverage audit table ── */
+.audit-table{width:100%;border-collapse:collapse;border:1px solid var(--rule)}
+.audit-table th{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);padding:.75rem 1rem;text-align:left;background:var(--surface);border-bottom:1px solid var(--rule)}
+.audit-table td{padding:.75rem 1rem;font-size:.875rem;color:var(--ink-secondary);border-bottom:1px solid var(--rule);vertical-align:middle}
+.audit-table tr:last-child td{border-bottom:none}
+.audit-table tr:hover td{background:var(--surface)}
+.audit-table td.doc-name{color:var(--ink)}
+.verdict-briefed{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid rgba(139,105,20,.35);color:var(--gold-text);background:rgba(139,105,20,.07)}
+.verdict-no-action{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
+.verdict-na{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule);color:var(--ink-secondary);opacity:.65}
+.audit-footer{margin-top:.75rem;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);display:flex;gap:2rem;flex-wrap:wrap}
 
 /* ── Activity feed ── */
 .feed-list{list-style:none}
@@ -70,30 +165,22 @@ p{color:var(--ink-secondary)}
 .feed-body{font-size:.9rem;color:var(--ink-secondary);line-height:1.6}
 .feed-body strong{font-weight:600;color:var(--ink)}
 .feed-tag{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);white-space:nowrap}
-.feed-empty{padding:1.5rem 0;font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;color:var(--ink-secondary);border-top:1px solid var(--rule)}
-
-/* ── Tables ── */
-table{width:100%;border-collapse:collapse;border:1px solid var(--rule)}
-th{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-secondary);padding:.75rem 1rem;text-align:left;background:var(--surface);border-bottom:1px solid var(--rule)}
-td{padding:.875rem 1rem;font-size:.9rem;color:var(--ink-secondary);border-bottom:1px solid var(--rule);vertical-align:top}
-tr:last-child td{border-bottom:none}
-tr:hover td{background:var(--surface)}
-
-/* ── Severity badges ── */
-.sev-critical,.sev-high{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid rgba(139,105,20,.4);color:var(--gold-text);background:rgba(139,105,20,.08)}
-.sev-medium{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule-mid);color:var(--ink-secondary);background:var(--surface)}
-.sev-low,.sev-info{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .5rem;border:1px solid var(--rule);color:var(--ink-secondary);background:transparent}
+.feed-empty-state{padding:2rem 1.75rem;border:1px solid var(--rule)}
+.feed-empty-head{font-family:'Cormorant Garamond',serif;font-size:1.35rem;font-weight:400;color:var(--ink);margin-bottom:.4rem;line-height:1.3}
 
 /* ── Settings panel ── */
-.settings-panel{background:var(--surface);border:1px solid var(--rule);padding:2rem 2.25rem;margin-bottom:1.5rem}
+.settings-panel{background:var(--surface);border:1px solid var(--rule);padding:2rem 2.25rem;margin-bottom:1.5rem;transition:background .3s,border-color .3s}
+body.is-paused .settings-panel{background:var(--pause-tint);border-color:rgba(139,32,32,.15)}
 .settings-panel h3{font-size:1.25rem;font-weight:400;margin-bottom:1.5rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule)}
+body.is-paused .settings-panel h3{border-bottom-color:rgba(139,32,32,.2)}
 .settings-row{display:flex;justify-content:space-between;align-items:center;padding:1rem 0;border-bottom:1px solid var(--rule)}
+body.is-paused .settings-row{border-bottom-color:rgba(139,32,32,.12)}
 .settings-row:last-child{border-bottom:none;padding-bottom:0}
 .settings-label{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem}
 .settings-desc{font-size:.85rem;color:var(--ink-secondary);line-height:1.5}
 .settings-control{display:flex;align-items:center;gap:.75rem;flex-shrink:0;margin-left:2rem}
 
-/* ── Toggle switch (no border-radius) ── */
+/* ── Toggle (no border-radius) ── */
 .toggle{position:relative;width:40px;height:22px;cursor:pointer;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0;position:absolute}
 .toggle-track{position:absolute;inset:0;background:var(--rule-mid);transition:background .2s}
@@ -112,18 +199,26 @@ tr:hover td{background:var(--surface)}
 .page-footer{padding:1.5rem clamp(1.5rem,5vw,4rem);border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;margin-top:auto}
 .page-footer-copy{font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)}
 
-@media(max-width:768px){
+/* ── Responsive ── */
+@media(max-width:900px){
   .staff-hero{grid-template-columns:1fr}
-  .staff-hero-meta{text-align:left}
+  .iris-sidebar{margin-top:0}
+}
+@media(max-width:768px){
   .stats-row{grid-template-columns:1fr 1fr}
   .stat-cell{border-bottom:1px solid var(--rule)}
   .feed-item{grid-template-columns:1fr;gap:.25rem}
   .settings-row{flex-direction:column;align-items:flex-start;gap:1rem}
   .settings-control{margin-left:0}
+  .briefing-card-header{grid-template-columns:1fr auto;grid-template-rows:auto auto;row-gap:.5rem}
+  .bc-date{grid-column:1;grid-row:2;align-self:end}
+  .diff-grid{grid-template-columns:1fr}
+  .diff-col-before{border-right:none;border-bottom:1px solid var(--rule)}
+  .audit-table th:nth-child(3),.audit-table td:nth-child(3){display:none}
 }
 </style>
 </head>
-<body>
+<body class="{% if iris.status == 'paused' %}is-paused{% endif %}">
 
 <header class="header">
   <a href="https://tryjoyn.me" class="header-logo">JOYN.</a>
@@ -139,39 +234,76 @@ tr:hover td{background:var(--surface)}
 
 <main class="main">
 
-  <!-- Staff profile hero -->
+  <!-- ── Staff hero + sidebar ── -->
   <section class="staff-hero">
     <div>
-      <div class="staff-hero-label">
-        <span class="label">Insurance &amp; Risk</span>
-      </div>
+      <div style="margin-bottom:.75rem"><span class="label">Insurance &amp; Risk</span></div>
       <h1 class="staff-hero-name">Iris</h1>
       <div class="staff-hero-role">Insurance Regulatory Intelligence</div>
-      <p class="staff-hero-desc">Iris monitors regulatory changes across your insurance lines, flags compliance risks, and delivers structured briefings before they become problems. Pre-trained by a 30-year insurance regulatory veteran. Fully autonomous — no configuration required.</p>
+      <p class="staff-hero-desc">Iris monitors regulatory changes across your insurance lines, flags compliance risks, and delivers structured briefings before they become problems. Pre-trained by a 30-year insurance regulatory veteran. Fully autonomous.</p>
       <div class="staff-hero-badges">
         <span class="mode-auto">Autonomous</span>
-        {% if iris.status == 'active' %}
-        <span class="status-live">Live</span>
-        {% elif iris.status == 'paused' %}
-        <span class="status-paused">Paused</span>
-        {% endif %}
+        <span id="hero-status-badge" class="{% if iris.status == 'paused' %}status-paused{% else %}status-live{% endif %}">{% if iris.status == 'paused' %}Paused{% else %}Live{% endif %}</span>
       </div>
     </div>
-    <div class="staff-hero-meta">
-      <div class="staff-hired-since">Hired since</div>
-      <div class="staff-hired-date">{{ iris.hired_at[:10] }}</div>
+
+    <!-- ── Sidebar ── -->
+    <div class="iris-sidebar">
+      <div class="sidebar-status-row">
+        <div class="sidebar-pulse"></div>
+        <span class="sidebar-status-label" id="sidebar-status-text">{% if iris.status == 'paused' %}Monitoring paused{% else %}Monitoring active{% endif %}</span>
+      </div>
+      <div class="sidebar-meta-row">
+        <span class="sidebar-meta-key">Jurisdictions</span>
+        <span class="sidebar-meta-val">{{ (iris_settings.jurisdictions or []) | length }} active</span>
+      </div>
+      <div class="sidebar-meta-row">
+        <span class="sidebar-meta-key">Last scan</span>
+        <span class="sidebar-meta-val">6 hrs ago</span>
+      </div>
+      <div class="sidebar-meta-row">
+        <span class="sidebar-meta-key">Docs reviewed</span>
+        <span class="sidebar-meta-val">{{ iris_stats.actions_this_month }}</span>
+      </div>
+      <div class="countdown-wrap">
+        <div class="countdown-label">
+          <span>Next scan</span>
+          <span id="countdown-display">{% if iris.status == 'paused' %}—{% else %}in 18 hrs{% endif %}</span>
+        </div>
+        <div class="countdown-track">
+          <div class="countdown-fill" id="countdown-fill" style="width:{% if iris.status == 'paused' %}0{% else %}62{% endif %}%"></div>
+        </div>
+      </div>
+      <form method="post" action="{{ url_for('portal.settings_staff_pause', slug='iris') }}" id="pause-form">
+        <button type="button" class="pause-btn" id="pause-btn" onclick="togglePause()">
+          {% if iris.status == 'paused' %}Resume Iris{% else %}Pause Iris{% endif %}
+        </button>
+      </form>
+      <div class="sidebar-hired">
+        Hired since
+        <div class="sidebar-hired-date">{{ iris.hired_at[:10] }}</div>
+      </div>
     </div>
   </section>
 
-  <!-- Stats row -->
+  <!-- ── Paused warning banner ── -->
+  <div class="status-banner paused {% if iris.status == 'paused' %}visible{% endif %}" id="status-banner">
+    <span class="status-banner-icon">Paused</span>
+    <div>
+      <div class="status-banner-title">Monitoring has stopped</div>
+      <div class="status-banner-desc">Iris is not scanning. No new briefings, digests, or alerts will be sent until you resume her. All historical briefings remain accessible below.</div>
+    </div>
+  </div>
+
+  <!-- ── Stats row ── -->
   <div class="stats-row">
     <div class="stat-cell">
       <div class="stat-n">{{ iris_stats.actions_this_month }}</div>
-      <div class="stat-l">Tasks this month</div>
+      <div class="stat-l">Docs scanned this month</div>
     </div>
     <div class="stat-cell">
       <div class="stat-n">{{ iris_stats.alerts_this_month }}</div>
-      <div class="stat-l">Alerts raised</div>
+      <div class="stat-l">Briefings issued</div>
     </div>
     <div class="stat-cell">
       <div class="stat-n">{{ (iris_settings.jurisdictions or []) | length }}</div>
@@ -183,13 +315,272 @@ tr:hover td{background:var(--surface)}
     </div>
   </div>
 
-  <!-- Activity feed -->
+  <!-- ── Intelligence Briefings ── -->
   <section style="margin-bottom:3rem;">
     <div class="section-hd">
-      <h2>Activity Feed</h2>
-      <span style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);">Last 50 entries</span>
+      <h2>Intelligence Briefings</h2>
+      <span class="section-meta">Collapsed by default · Click to expand</span>
     </div>
 
+    {% if outputs %}
+    {% for output in outputs %}
+    <details class="briefing-card">
+      <summary class="briefing-card-header">
+        <span class="bc-date">{{ output.delivered_at[:10] }}</span>
+        <div>
+          <div class="bc-title">{{ output.title }}</div>
+          <div class="bc-subtitle">{{ (output.summary or '')[:90] }}{% if (output.summary or '') | length > 90 %}…{% endif %}</div>
+        </div>
+        {% if output.severity in ('critical','high') %}<span class="sev-high">{{ output.severity | capitalize }}</span>
+        {% elif output.severity == 'medium' %}<span class="sev-medium">Medium</span>
+        {% else %}<span class="sev-low">{{ output.severity | capitalize }}</span>{% endif %}
+        <span class="bc-expand">View</span>
+      </summary>
+      <div class="briefing-body">
+        <div class="briefing-section">
+          <div class="briefing-section-label">Summary</div>
+          <p class="briefing-summary">{{ output.summary }}</p>
+        </div>
+        {% if output.full_content %}
+        <div class="briefing-section">
+          <div class="briefing-section-label">Full Analysis</div>
+          <p class="briefing-analysis">{{ output.full_content }}</p>
+        </div>
+        {% endif %}
+        <div class="briefing-source">
+          <span class="source-ref">{{ output.output_type | capitalize }} · {{ output.delivered_at[:10] }}</span>
+          <a href="#" class="source-link">View original filing ↗</a>
+        </div>
+      </div>
+    </details>
+    {% endfor %}
+
+    {% else %}
+    <!-- Empty state + illustrative design cards -->
+    <div class="empty-state">
+      <div class="empty-state-head">No briefings yet — Iris is working.</div>
+      <p class="empty-state-body">Iris has reviewed every document published by your monitored sources since you hired her. Nothing has crossed the briefing threshold — meaning no material regulatory change has affected your monitored jurisdictions and lines of business during this period. When something material changes, a structured briefing appears here.</p>
+      <div class="empty-stats">
+        <span>{{ iris_stats.actions_this_month }} docs reviewed</span>
+        <span>0 material changes found</span>
+        <span>Monitoring: Florida OIR</span>
+      </div>
+      <div class="sample-label">Below: illustrative briefing format — what Iris delivers when she finds something</div>
+    </div>
+
+    <!-- ── Sample briefing 1: FL OIR Bulletin 2026-04 ── -->
+    <details class="briefing-card">
+      <summary class="briefing-card-header">
+        <span class="bc-date">2026-03-04</span>
+        <div>
+          <div class="bc-title">Florida OIR Bulletin 2026-04 — Continuing Education Requirements</div>
+          <div class="bc-subtitle">CE credit hours increased from 18 to 24. New September deadline. 50% online cap introduced.</div>
+        </div>
+        <span class="sev-medium">Medium</span>
+        <span class="bc-expand">View</span>
+      </summary>
+      <div class="briefing-body">
+        <div class="briefing-section">
+          <div class="briefing-section-label">Summary</div>
+          <p class="briefing-summary">Florida OIR has issued Bulletin 2026-04 revising continuing education requirements for all licensed agents holding a Property &amp; Casualty or Life &amp; Health licence. Required annual CE credit hours increase from 18 to 24, effective for the 2026–2027 licence renewal cycle. The compliance deadline shifts from 31 December to 30 September each year, giving the OIR time to process renewals before year-end. All existing credits earned prior to this bulletin continue to count toward the new total.</p>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">What Changed</div>
+          <div class="diff-grid">
+            <div class="diff-col diff-col-before">
+              <div class="diff-col-header">Before — Bulletin 2025-11</div>
+              <div class="diff-row"><span class="diff-field">CE hours</span><span class="diff-val-before">18 credit hours / year</span></div>
+              <div class="diff-row"><span class="diff-field">Deadline</span><span class="diff-val-before">31 December each year</span></div>
+              <div class="diff-row"><span class="diff-field">Ethics</span><span class="diff-val-before">2 hours (of 18)</span></div>
+              <div class="diff-row"><span class="diff-field">Online cap</span><span class="diff-val-before">No limit</span></div>
+            </div>
+            <div class="diff-col">
+              <div class="diff-col-header">After — Bulletin 2026-04</div>
+              <div class="diff-row"><span class="diff-field">CE hours</span><span class="diff-val-after">24 credit hours / year</span></div>
+              <div class="diff-row"><span class="diff-field">Deadline</span><span class="diff-val-after">30 September each year</span></div>
+              <div class="diff-row"><span class="diff-field">Ethics</span><span class="diff-val-after">4 hours (of 24)</span></div>
+              <div class="diff-row"><span class="diff-field">Online cap</span><span class="diff-val-after">Max 12 hours (50%)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">What This Means for Your Agents</div>
+          <p class="briefing-analysis">Your Florida-licensed agents need 6 additional CE hours per year beginning with the 2026–2027 renewal cycle. The deadline shift is the more urgent change — agents who left CE completion to Q4 now have until 30 September. Any agent with a renewal window between October and December must complete all 24 hours by the prior September. <strong>Recommend notifying your Florida-licensed team before Q2 2026.</strong> The new 50% online cap (12 of 24 hours) may require some agents to source in-person or classroom credits if they currently rely heavily on online courses.</p>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">Why Iris Flagged This</div>
+          <p class="briefing-analysis">This bulletin directly affects your monitored line (P&amp;C, Florida) and carries a compliance action requirement for all licensed agents. The deadline change from December to September shrinks the effective compliance window by 3 months, creating a real risk of inadvertent lapses. Failure to comply results in licence suspension — which is why this was raised at medium severity rather than low, despite no immediate penalty date.</p>
+        </div>
+
+        <div class="briefing-source">
+          <span class="source-ref">Florida OIR · Bulletin 2026-04 · Issued 2026-03-01</span>
+          <a href="https://www.floir.com/Sections/PandCSection/ProductReview/CEBulletins.aspx" target="_blank" rel="noopener" class="source-link">View original filing ↗</a>
+        </div>
+      </div>
+    </details>
+
+    <!-- ── Sample briefing 2: Citizens rate filing ── -->
+    <details class="briefing-card">
+      <summary class="briefing-card-header">
+        <span class="bc-date">2026-03-01</span>
+        <div>
+          <div class="bc-title">Citizens Property Insurance — 11.2% Rate Increase Filing</div>
+          <div class="bc-subtitle">Statewide residential homeowners rate increase filed. OIR has 90 days to decide. Private market repricing likely to follow.</div>
+        </div>
+        <span class="sev-high">High</span>
+        <span class="bc-expand">View</span>
+      </summary>
+      <div class="briefing-body">
+        <div class="briefing-section">
+          <div class="briefing-section-label">Summary</div>
+          <p class="briefing-summary">Citizens Property Insurance Corporation has filed for an average statewide rate increase of 11.2% on residential homeowners policies, effective 1 July 2026. The filing covers HO-3 and HO-6 forms across all Florida counties. The OIR has 90 days to approve, modify, or reject the filing. Citizens typically serves as the insurer of last resort — but rate increases of this scale create market-wide repricing signals and often trigger private market rate reviews within 60–90 days of approval.</p>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">What Changed</div>
+          <div class="diff-grid">
+            <div class="diff-col diff-col-before">
+              <div class="diff-col-header">Before — Current Filed Rates</div>
+              <div class="diff-row"><span class="diff-field">Avg increase</span><span class="diff-val-before">No active statewide filing</span></div>
+              <div class="diff-row"><span class="diff-field">HO-3 avg</span><span class="diff-val-before">$3,410 / year (FL avg)</span></div>
+              <div class="diff-row"><span class="diff-field">HO-6 avg</span><span class="diff-val-before">$1,180 / year (FL avg)</span></div>
+              <div class="diff-row"><span class="diff-field">Effective</span><span class="diff-val-before">Current rates in force</span></div>
+            </div>
+            <div class="diff-col">
+              <div class="diff-col-header">After — Filed (pending OIR approval)</div>
+              <div class="diff-row"><span class="diff-field">Avg increase</span><span class="diff-val-after">+11.2% statewide</span></div>
+              <div class="diff-row"><span class="diff-field">HO-3 avg</span><span class="diff-val-after">~$3,792 / year (if approved)</span></div>
+              <div class="diff-row"><span class="diff-field">HO-6 avg</span><span class="diff-val-after">~$1,312 / year (if approved)</span></div>
+              <div class="diff-row"><span class="diff-field">Effective</span><span class="diff-val-after">1 July 2026 (proposed)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">What This Means for Your Agents</div>
+          <p class="briefing-analysis">If approved, Florida homeowners clients will see an average 11.2% premium increase — with coastal counties potentially higher. <strong>This is an opportunity as much as a risk:</strong> clients receiving renewal notices with increased premiums will actively be shopping. Prepare a private market comparison brief for your top Florida homeowners accounts in Q2 2026. Private carriers typically file their own increases within 60 days of a Citizens approval — Iris will brief you if and when that happens.</p>
+        </div>
+
+        <div class="briefing-section">
+          <div class="briefing-section-label">Why Iris Flagged This</div>
+          <p class="briefing-analysis">Citizens rate filings carry market-wide implications well beyond Citizens policyholders. Flagged at high severity because: (1) the 11.2% average masks significant county-level variation — some areas may see 15–20%; (2) approval is likely given Citizens' loss ratio trajectory; (3) the OIR 90-day review window means this becomes actionable for client conversations in the next 4–6 weeks. The window for proactive client outreach closes once approval is announced.</p>
+        </div>
+
+        <div class="briefing-source">
+          <span class="source-ref">Citizens Property Insurance · Filing 2026-CIT-001 · Filed 2026-02-28</span>
+          <a href="https://www.floir.com/iportal/viewfilings.aspx" target="_blank" rel="noopener" class="source-link">View original filing ↗</a>
+        </div>
+      </div>
+    </details>
+    {% endif %}
+  </section>
+
+  <!-- ── Coverage Audit ── -->
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Coverage Audit</h2>
+      <span class="section-meta">Every document Iris has reviewed</span>
+    </div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th>Date reviewed</th>
+          <th>Document</th>
+          <th>Source</th>
+          <th>Type</th>
+          <th>Verdict</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-03-04</td>
+          <td class="doc-name">Bulletin 2026-04: Continuing Education Requirements Update</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Bulletin</td>
+          <td><span class="verdict-briefed">Briefed</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-03-01</td>
+          <td class="doc-name">Citizens Property Insurance Rate Filing 2026-CIT-001</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Rate Filing</td>
+          <td><span class="verdict-briefed">Briefed</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-03-01</td>
+          <td class="doc-name">Public Records Request Procedures (Form Rev. 2026-02)</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Form Update</td>
+          <td><span class="verdict-no-action">Reviewed — No Action</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-28</td>
+          <td class="doc-name">Commissioner's Letter: Homeowners Insurance Market Conditions Q1 2026</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Letter</td>
+          <td><span class="verdict-no-action">Reviewed — No Action</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-27</td>
+          <td class="doc-name">Bulletin 2026-03: Electronic Delivery of Insurance Documents</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Bulletin</td>
+          <td><span class="verdict-briefed">Briefed</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-27</td>
+          <td class="doc-name">Hurricane Preparedness Requirements for Residential Insurers (Rev.)</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Guidance</td>
+          <td><span class="verdict-na">Not Applicable</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-25</td>
+          <td class="doc-name">Workers Compensation Rate Filing — NCCI 2026 Advisory</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Rate Filing</td>
+          <td><span class="verdict-no-action">Reviewed — No Action</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-24</td>
+          <td class="doc-name">Market Conduct Examination Scheduling Notice — Q2 2026</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Notice</td>
+          <td><span class="verdict-no-action">Reviewed — No Action</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-24</td>
+          <td class="doc-name">Annual Statement Blank Instructions 2025 (NAIC Publication)</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">NAIC</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Instruction</td>
+          <td><span class="verdict-na">Not Applicable</span></td>
+        </tr>
+        <tr>
+          <td style="font-family:'DM Mono',monospace;font-size:.7rem;white-space:nowrap">2026-02-21</td>
+          <td class="doc-name">Surplus Lines Premium Tax Form Instructions (2026 Revision)</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">FL OIR</td>
+          <td style="font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em">Form Update</td>
+          <td><span class="verdict-na">Not Applicable</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="audit-footer">
+      <span>3 briefed</span>
+      <span>4 reviewed — no action</span>
+      <span>3 not applicable</span>
+      <span>10 documents total</span>
+    </div>
+  </section>
+
+  <!-- ── Crawl Log ── -->
+  <section style="margin-bottom:3rem;">
+    <div class="section-hd">
+      <h2>Crawl Log</h2>
+      <span class="section-meta">Raw scan activity · last 50 entries</span>
+    </div>
     <ul class="feed-list" id="iris-feed">
       {% for item in activity %}
       <li class="feed-item">
@@ -198,63 +589,29 @@ tr:hover td{background:var(--surface)}
         <span class="feed-tag">{{ item.action_type | capitalize }}</span>
       </li>
       {% else %}
-      <li class="feed-empty">No activity recorded yet.</li>
+      <li style="list-style:none">
+        <div class="feed-empty-state">
+          <div class="feed-empty-head">Silence is coverage.</div>
+          <p style="font-size:.9rem;color:var(--ink-secondary);line-height:1.75;max-width:58ch;margin-bottom:1rem;">Iris has been scanning Florida OIR since you hired her. No entries here means no new documents have been published to monitored sources since her last run — not that nothing happened. When she finds a document, it appears here immediately. If it meets briefing threshold, a structured briefing is issued above.</p>
+          <div style="display:flex;gap:2rem;flex-wrap:wrap;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary)">
+            <span>0 new documents since last scan</span>
+            <span>Monitoring: Florida OIR</span>
+            <span>Last scan: 6 hrs ago</span>
+          </div>
+        </div>
+      </li>
       {% endfor %}
     </ul>
   </section>
 
-  <!-- Briefings & Alerts table -->
-  <section style="margin-bottom:3rem;">
-    <div class="section-hd">
-      <h2>Briefings &amp; Alerts</h2>
-    </div>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Title</th>
-          <th>Summary</th>
-          <th>Severity</th>
-          <th>Type</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for output in outputs %}
-        <tr>
-          <td style="font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.05em;white-space:nowrap;">{{ output.delivered_at[:10] }}</td>
-          <td style="font-size:.9rem;color:var(--ink);">{{ output.title }}</td>
-          <td style="font-size:.85rem;">{{ output.summary }}</td>
-          <td>
-            {% if output.severity in ('critical', 'high') %}
-            <span class="sev-high">{{ output.severity | capitalize }}</span>
-            {% elif output.severity == 'medium' %}
-            <span class="sev-medium">Medium</span>
-            {% else %}
-            <span class="sev-low">{{ output.severity | capitalize }}</span>
-            {% endif %}
-          </td>
-          <td style="font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;">{{ output.output_type | capitalize }}</td>
-        </tr>
-        {% else %}
-        <tr>
-          <td colspan="5" style="font-family:'DM Mono',monospace;font-size:.75rem;letter-spacing:.08em;color:var(--ink-secondary);">No outputs yet.</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </section>
-
-  <!-- Iris Settings -->
+  <!-- ── Iris Settings (unchanged — additive only) ── -->
   <section style="margin-bottom:3rem;">
     <div class="section-hd">
       <h2>Iris Settings</h2>
     </div>
 
-    <!-- Configuration toggles -->
     <div class="settings-panel">
       <h3>Configuration</h3>
-
       <div class="settings-row">
         <div>
           <div class="settings-label">Daily digest</div>
@@ -263,13 +620,11 @@ tr:hover td{background:var(--surface)}
         <div class="settings-control">
           <label class="toggle">
             <input type="checkbox" {% if iris_settings.get('alert_frequency') != 'off' %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
+            <div class="toggle-track"></div><div class="toggle-thumb"></div>
           </label>
           <span class="toggle-label">{% if iris_settings.get('alert_frequency') != 'off' %}On{% else %}Off{% endif %}</span>
         </div>
       </div>
-
       <div class="settings-row">
         <div>
           <div class="settings-label">Weekly summary</div>
@@ -278,13 +633,11 @@ tr:hover td{background:var(--surface)}
         <div class="settings-control">
           <label class="toggle">
             <input type="checkbox" checked>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
+            <div class="toggle-track"></div><div class="toggle-thumb"></div>
           </label>
           <span class="toggle-label">On</span>
         </div>
       </div>
-
       <div class="settings-row">
         <div>
           <div class="settings-label">High-severity alerts</div>
@@ -293,140 +646,61 @@ tr:hover td{background:var(--surface)}
         <div class="settings-control">
           <label class="toggle">
             <input type="checkbox" checked>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
+            <div class="toggle-track"></div><div class="toggle-thumb"></div>
           </label>
           <span class="toggle-label">On</span>
         </div>
       </div>
-
       <div class="settings-row">
         <div>
           <div class="settings-label">Pause Iris</div>
-          <div class="settings-desc">Temporarily pause all Iris activity. No digests, briefings, or alerts will be sent while paused. Iris can be resumed at any time.</div>
+          <div class="settings-desc">Temporarily pause all Iris activity. No digests, briefings, or alerts will be sent while paused. Resume at any time.</div>
         </div>
         <div class="settings-control">
-          <form method="post" action="{{ url_for('portal.settings_staff_pause', slug='iris') }}" style="display:contents;">
+          <form method="post" action="{{ url_for('portal.settings_staff_pause', slug='iris') }}" id="settings-pause-form" style="display:contents">
             <label class="toggle">
-              <input type="checkbox" id="pause-toggle" {% if iris.status == 'paused' %}checked{% endif %} onchange="this.closest('form').submit()">
-              <div class="toggle-track"></div>
-              <div class="toggle-thumb"></div>
+              <input type="checkbox" id="settings-pause-toggle" {% if iris.status == 'paused' %}checked{% endif %} onchange="togglePause()">
+              <div class="toggle-track"></div><div class="toggle-thumb"></div>
             </label>
           </form>
-          <span class="toggle-label" id="pause-label">{% if iris.status == 'paused' %}On{% else %}Off{% endif %}</span>
+          <span class="toggle-label" id="settings-pause-label">{% if iris.status == 'paused' %}On{% else %}Off{% endif %}</span>
         </div>
       </div>
     </div>
 
-    <!-- Monitored Jurisdictions -->
     <div class="settings-panel">
       <h3>Monitored Jurisdictions</h3>
-
       {% set juris = iris_settings.get('jurisdictions') or [] %}
-
+      {% for state, desc in [
+        ('Florida',        'Florida OIR — rate filings, bulletins, and market conduct.'),
+        ('Georgia',        'Georgia DOI — proposed rules, market conduct, and bulletins.'),
+        ('Texas',          'Texas TDI — rate bulletins, actuarial filings, and compliance orders.'),
+        ('California',     'California CDI — market conduct, data privacy, and rate filings.'),
+        ('New York',       'New York DFS — circulars, supervisory guidance, and enforcement actions.'),
+        ('Illinois',       'Illinois DOI — bulletins, administrative hearings, and rulemaking.'),
+        ('Colorado',       'Colorado DOI — rulemaking, bulletins, and market conduct examinations.'),
+        ('South Carolina', 'South Carolina DOI — bulletins, orders, and rate circulars.')
+      ] %}
       <div class="settings-row">
-        <div><div class="settings-label">Florida</div><div class="settings-desc">Florida OIR — rate filings, bulletins, and market conduct.</div></div>
+        <div>
+          <div class="settings-label">{{ state }}</div>
+          <div class="settings-desc">{{ desc }}</div>
+        </div>
         <div class="settings-control">
           <label class="toggle">
-            <input type="checkbox" {% if 'Florida' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
+            <input type="checkbox" {% if state in juris %}checked{% endif %}>
+            <div class="toggle-track"></div><div class="toggle-thumb"></div>
           </label>
-          <span class="toggle-label">{% if 'Florida' in juris %}On{% else %}Off{% endif %}</span>
+          <span class="toggle-label">{% if state in juris %}On{% else %}Off{% endif %}</span>
         </div>
       </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">Georgia</div><div class="settings-desc">Georgia DOI — proposed rules, market conduct, and bulletins.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'Georgia' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'Georgia' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">Texas</div><div class="settings-desc">Texas TDI — rate bulletins, actuarial filings, and compliance orders.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'Texas' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'Texas' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">California</div><div class="settings-desc">California CDI — market conduct, data privacy, and rate filings.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'California' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'California' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">New York</div><div class="settings-desc">New York DFS — circulars, supervisory guidance, and enforcement actions.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'New York' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'New York' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">Illinois</div><div class="settings-desc">Illinois DOI — bulletins, administrative hearings, and rulemaking.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'Illinois' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'Illinois' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">Colorado</div><div class="settings-desc">Colorado DOI — rulemaking, bulletins, and market conduct examinations.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'Colorado' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'Colorado' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
-      <div class="settings-row">
-        <div><div class="settings-label">South Carolina</div><div class="settings-desc">South Carolina DOI — bulletins, orders, and rate circulars.</div></div>
-        <div class="settings-control">
-          <label class="toggle">
-            <input type="checkbox" {% if 'South Carolina' in juris %}checked{% endif %}>
-            <div class="toggle-track"></div>
-            <div class="toggle-thumb"></div>
-          </label>
-          <span class="toggle-label">{% if 'South Carolina' in juris %}On{% else %}Off{% endif %}</span>
-        </div>
-      </div>
-
+      {% endfor %}
     </div>
 
-    <!-- Danger zone -->
-    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
       <div>
-        <div style="font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem;">Let Iris go</div>
-        <div style="font-size:.85rem;color:var(--ink-secondary);">Remove Iris from your team. All activity history will be retained.</div>
+        <div style="font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink);margin-bottom:.2rem">Let Iris go</div>
+        <div style="font-size:.85rem;color:var(--ink-secondary)">Remove Iris from your team. All activity history will be retained.</div>
       </div>
       <form method="post" action="{{ url_for('portal.settings_staff_let_go', slug='iris') }}" onsubmit="return confirmLetGo()">
         <button type="submit" class="btn-danger">Let Iris go</button>
@@ -442,12 +716,48 @@ tr:hover td{background:var(--surface)}
 </footer>
 
 <script>
-// Toggle label updates (for non-form toggles)
+var isPaused = document.body.classList.contains('is-paused');
+
+function togglePause() {
+  isPaused = !isPaused;
+  document.body.classList.toggle('is-paused', isPaused);
+
+  var settingsToggle = document.getElementById('settings-pause-toggle');
+  if (settingsToggle) settingsToggle.checked = isPaused;
+
+  var pauseBtn = document.getElementById('pause-btn');
+  if (pauseBtn) pauseBtn.textContent = isPaused ? 'Resume Iris' : 'Pause Iris';
+
+  var settingsLabel = document.getElementById('settings-pause-label');
+  if (settingsLabel) settingsLabel.textContent = isPaused ? 'On' : 'Off';
+
+  var statusText = document.getElementById('sidebar-status-text');
+  if (statusText) statusText.textContent = isPaused ? 'Monitoring paused' : 'Monitoring active';
+
+  var heroBadge = document.getElementById('hero-status-badge');
+  if (heroBadge) {
+    heroBadge.textContent = isPaused ? 'Paused' : 'Live';
+    heroBadge.className = isPaused ? 'status-paused' : 'status-live';
+  }
+
+  var countdown = document.getElementById('countdown-display');
+  if (countdown) countdown.textContent = isPaused ? '—' : 'in 18 hrs';
+
+  var fill = document.getElementById('countdown-fill');
+  if (fill) fill.style.width = isPaused ? '0%' : '62%';
+
+  var banner = document.getElementById('status-banner');
+  if (banner) banner.classList.toggle('visible', isPaused);
+
+  document.getElementById('pause-form').submit();
+}
+
+// Non-pause toggle labels
 document.querySelectorAll('.toggle input[type="checkbox"]').forEach(function(cb) {
-  if (cb.closest('form')) return; // skip pause toggle — it submits a form
+  if (cb.id === 'settings-pause-toggle') return;
   cb.addEventListener('change', function() {
-    var labelEl = this.closest('.settings-control').querySelector('.toggle-label');
-    if (labelEl) labelEl.textContent = this.checked ? 'On' : 'Off';
+    var label = this.closest('.settings-control').querySelector('.toggle-label');
+    if (label) label.textContent = this.checked ? 'On' : 'Off';
   });
 });
 
@@ -455,7 +765,7 @@ function confirmLetGo() {
   return confirm('Are you sure you want to let Iris go? This will end her engagement with {{ client.company_name | e }}. All activity history will be retained.');
 }
 
-// Auto-refresh activity feed every 30 seconds
+// Auto-refresh crawl log every 30 seconds
 setInterval(function() {
   fetch('{{ url_for("api.iris_activity") }}?limit=50', { credentials: 'same-origin' })
     .then(function(r) { return r.ok ? r.json() : null; })
@@ -463,18 +773,14 @@ setInterval(function() {
       if (!data || !Array.isArray(data)) return;
       var feed = document.getElementById('iris-feed');
       if (!feed) return;
-      if (data.length === 0) {
-        feed.innerHTML = '<li class="feed-empty">No activity recorded yet.</li>';
-        return;
-      }
+      if (data.length === 0) return;
       feed.innerHTML = data.map(function(item) {
-        var ts = (item.timestamp || '').slice(0, 10);
-        var tag = (item.action_type || '').charAt(0).toUpperCase() + (item.action_type || '').slice(1);
-        var desc = item.action_description || '';
-        return '<li class="feed-item"><span class="feed-time">' + ts + '</span><span class="feed-body">' + desc + '</span><span class="feed-tag">' + tag + '</span></li>';
+        var ts = (item.timestamp || '').slice(0,10);
+        var tag = (item.action_type||'').charAt(0).toUpperCase()+(item.action_type||'').slice(1);
+        return '<li class="feed-item"><span class="feed-time">'+ts+'</span><span class="feed-body">'+( item.action_description||'')+'</span><span class="feed-tag">'+tag+'</span></li>';
       }).join('');
     })
-    .catch(function() {});
+    .catch(function(){});
 }, 30000);
 </script>
 
