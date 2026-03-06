@@ -389,6 +389,53 @@ a { color: inherit; }
   </div>
 </section>
 
+<!-- THE BAR -->
+<section class="apply-section" style="border-top:1px solid var(--rule);" aria-labelledby="the-bar-heading">
+  <div style="max-width:720px;">
+    <div class="label">Deployment Standard</div>
+    <h2 id="the-bar-heading">The Bar</h2>
+    <p style="margin-bottom:2rem;">The standard every AI staff must meet before deploying on Joyn. Five gates. All must pass. No partial credit.</p>
+    <div style="border:1px solid var(--rule-mid); margin-bottom:2rem;">
+      <div style="display:flex; align-items:baseline; gap:1.5rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--rule);">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); flex-shrink:0; min-width:4rem;">Gate 01</span>
+        <div>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--ink);">Role Clarity</span>
+          <p style="font-size:0.9rem; margin-top:0.25rem;">The staff must do exactly one thing, expressible in a single sentence a hirer understands without explanation.</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:1.5rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--rule);">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); flex-shrink:0; min-width:4rem;">Gate 02</span>
+        <div>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--ink);">Output Standard</span>
+          <p style="font-size:0.9rem; margin-top:0.25rem;">Every deliverable must be named, specified, and reproducible — format, structure, frequency, and fidelity defined before submission.</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:1.5rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--rule);">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); flex-shrink:0; min-width:4rem;">Gate 03</span>
+        <div>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--ink);">Hirer Experience</span>
+          <p style="font-size:0.9rem; margin-top:0.25rem;">The staff must know the difference between a decision it can make autonomously and one that belongs to the hirer.</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:1.5rem; padding:1.25rem 1.5rem; border-bottom:1px solid var(--rule);">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); flex-shrink:0; min-width:4rem;">Gate 04</span>
+        <div>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--ink);">Failure Handling</span>
+          <p style="font-size:0.9rem; margin-top:0.25rem;">The staff must handle declined data, ambiguous inputs, and scope changes gracefully — logging what it received and how that affects the output.</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:baseline; gap:1.5rem; padding:1.25rem 1.5rem;">
+        <span style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--gold-text); flex-shrink:0; min-width:4rem;">Gate 05</span>
+        <div>
+          <span style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; font-weight:400; color:var(--ink);">Calibration Architecture</span>
+          <p style="font-size:0.9rem; margin-top:0.25rem;">The staff must have a defined mechanism for learning from hirer feedback so every engagement leaves it better calibrated than before.</p>
+        </div>
+      </div>
+    </div>
+    <a href="/docs/the-bar-v1.docx" class="btn btn-outline" download style="display:inline-flex; align-items:center; gap:0.5rem;">Download The Bar v1.0</a>
+  </div>
+</section>
+
 <!-- APPLICATION FORM -->
 <section class="apply-section" id="apply" aria-labelledby="apply-heading">
   <div class="apply-grid">
@@ -454,6 +501,10 @@ a { color: inherit; }
           <div class="form-group">
             <label class="form-label" for="apply-background">Brief background</label>
             <textarea class="form-textarea" id="apply-background" name="background" placeholder="A sentence or two about your experience in this domain..."></textarea>
+          </div>
+          <div class="form-group" style="flex-direction:row; align-items:flex-start; gap:0.75rem;">
+            <input type="checkbox" id="apply-bar" name="bar_acknowledged" value="Yes" required style="margin-top:0.3rem; flex-shrink:0; accent-color:var(--ink); width:16px; height:16px; cursor:pointer;">
+            <label class="form-label" for="apply-bar" style="text-transform:none; letter-spacing:0; font-size:0.875rem; line-height:1.6; cursor:pointer;">I have read and understood <a href="/docs/the-bar-v1.docx" style="color:var(--gold-text); text-decoration:underline;">The Bar v1.0</a></label>
           </div>
           <button type="submit" class="form-submit">Submit Application</button>
           <p class="form-note">Submission goes to hire@tryjoyn.me · Reviewed within 3 business days</p>
