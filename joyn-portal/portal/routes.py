@@ -93,6 +93,20 @@ def dashboard():
 
 # ── GET /staff/iris ────────────────────────────────────────────
 
+_MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+
+def _format_ts(ts_str):
+    """Format a SQLite timestamp string as 'D Mon YYYY HH:MM'."""
+    if not ts_str:
+        return '—'
+    try:
+        s = str(ts_str)[:16].replace('T', ' ')
+        dt = datetime.strptime(s, '%Y-%m-%d %H:%M')
+        return f"{dt.day} {_MONTHS_SHORT[dt.month - 1]} {dt.year} {dt.strftime('%H:%M')}"
+    except Exception:
+        return str(ts_str)[:16]
+
+
 @portal_bp.route('/staff/iris')
 @login_required
 def staff_iris():
@@ -115,23 +129,31 @@ def staff_iris():
         except (ValueError, TypeError):
             settings = {}
 
-    # Month stats
-    from datetime import timedelta
-    month_start = datetime.utcnow().replace(day=1, hour=0, minute=0, second=0)
-    actions_month = query_one(
-        "SELECT COUNT(*) as c FROM activity_log WHERE client_id=? AND staff_slug='iris' AND timestamp >= ?",
-        (g.client_id, month_start.isoformat())
+    jurisdictions = settings.get('jurisdictions', [])
+
+    # Sidebar stats
+    docs_reviewed_row = query_one(
+        "SELECT COUNT(*) as c FROM activity_log WHERE client_id=? AND staff_slug='iris' AND action_type IN ('crawl','assess')",
+        (g.client_id,)
     )
-    alerts_month = query_one(
-        "SELECT COUNT(*) as c FROM outputs WHERE client_id=? AND staff_slug='iris' AND severity IN ('critical','high') AND delivered_at >= ?",
-        (g.client_id, month_start.isoformat())
+    action_items_row = query_one(
+        "SELECT COUNT(*) as c FROM outputs WHERE client_id=? AND staff_slug='iris' AND severity IN ('critical','high')",
+        (g.client_id,)
     )
 
     iris_stats = {
-        'actions_this_month': actions_month['c'] if actions_month else 0,
-        'alerts_this_month':  alerts_month['c'] if alerts_month else 0,
-        'outputs_count':      len(outputs),
+        'docs_reviewed':       docs_reviewed_row['c'] if docs_reviewed_row else 0,
+        'briefings_sent':      len(outputs),
+        'jurisdictions_count': len(jurisdictions),
+        'action_items':        action_items_row['c'] if action_items_row else 0,
     }
+
+    # Hired date formatted as "D Month YYYY"
+    try:
+        hired_dt = datetime.strptime(str(iris.get('hired_at', ''))[:10], '%Y-%m-%d')
+        iris_hired_date = f"{hired_dt.day} {hired_dt.strftime('%B %Y')}"
+    except Exception:
+        iris_hired_date = str(iris.get('hired_at', ''))[:10]
 
     return render_template(
         'staff_iris.html',
@@ -141,6 +163,8 @@ def staff_iris():
         activity=activity,
         outputs=outputs,
         iris_stats=iris_stats,
+        iris_hired_date=iris_hired_date,
+        format_date=_format_ts,
         now=datetime.utcnow(),
     )
 
