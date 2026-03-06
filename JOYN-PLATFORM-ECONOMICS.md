@@ -22,9 +22,9 @@ No hidden fees. No lock-in. No surprises.
 
 | Item | Amount | Notes |
 |------|--------|-------|
-| **Listing Fee** | $99 one-time | Covers first 6 months of infrastructure |
-| **Revenue Share** | 70% to builder, 30% to Joyn | From hire fees |
-| **Refund Policy** | Full refund if rejected | Within 30 days of submission |
+| **Listing Fee** | $99 one-time | Paid when claiming a role, covers infrastructure |
+| **Hire Revenue Share** | 70% to builder, 30% to Joyn | Only when staff gets hired |
+| **Refund Policy** | No refunds | Detailed feedback provided to help pass |
 | **Payout Frequency** | Monthly | Via Stripe Connect |
 | **Payout Minimum** | $50 | Below minimum rolls to next month |
 
@@ -185,10 +185,12 @@ Annual Builder Income: ~$326,250
 
 | Scenario | Policy |
 |----------|--------|
-| **Rejected submission** | Full $99 refund within 30 days |
-| **Decide not to submit** | Full $99 refund within 30 days |
-| **Staff delisted (builder's choice)** | No refund after 30 days |
-| **Staff delisted (Joyn's decision)** | Pro-rata refund of unused listing period |
+| **Rejected submission** | No refund — detailed feedback provided to improve and resubmit |
+| **Decide not to submit** | No refund — listing fee is commitment to build |
+| **Staff delisted (builder's choice)** | No refund |
+| **Staff delisted (Joyn's decision)** | No refund — violation of standards |
+
+**Why no refunds:** The $99 listing fee signals serious intent. Joyn invests in every builder through infrastructure, support, and review resources. Detailed feedback on rejection helps builders improve and successfully list — unlimited resubmissions are free.
 
 ### For Hirers
 

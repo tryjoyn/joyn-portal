@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iris — Insurance Regulatory Intelligence | Joyn Marketplace</title>
+  <meta name="description" content="Iris monitors insurance regulatory bulletins across US states and alerts you to changes affecting your business. Autonomous AI staff. 14-day free trial.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+      --green: #2d6a4f;
+      --green-light: #40916c;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-link:hover {
+      color: var(--ink);
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb {
+      padding: 1rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--ink-secondary);
+    }
+
+    .breadcrumb a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--ink);
+    }
+
+    .breadcrumb-sep {
+      margin: 0 0.5rem;
+      color: var(--rule-mid);
+    }
+
+    .breadcrumb-current {
+      color: var(--ink);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--ink);
+    }
+
+    .btn-outline:hover {
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    /* ── Labels ── */
+    .label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .label::before {
+      content: '';
+      display: block;
+      width: 1.25rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Mode Badge ── */
+    .mode-badge {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid var(--green);
+      color: var(--green);
+    }
+
+    .mode-badge-filled {
+      background: var(--green);
+      color: var(--white);
+    }
+
+    /* ── ROI Chips ── */
+    .roi-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
+    }
+
+    .roi-chip {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      padding: 0.5rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      color: var(--ink-secondary);
+    }
+
+    /* ── Rating ── */
+    .rating-summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 1rem 0;
+    }
+
+    .rating-stars {
+      color: var(--gold-display);
+      letter-spacing: 0.1em;
+    }
+
+    .rating-score {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .rating-count {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ── HERO ── */
+    .listing-hero {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 900px) {
+      .listing-hero {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    .listing-hero-content {
+      max-width: 600px;
+    }
+
+    .listing-vertical-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      margin-bottom: 0.75rem;
+    }
+
+    .listing-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .listing-tagline {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      color: var(--ink-secondary);
+      line-height: 1.8;
+      margin: 1rem 0;
+    }
+
+    .listing-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 2rem;
+    }
+
+    .listing-hero-media img {
+      width: 100%;
+      border: 1px solid var(--rule);
+    }
+
+    /* ── SCREENSHOTS ── */
+    .listing-screenshots {
+      padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .screenshots-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+
+    .screenshot-item {
+      flex: 0 0 auto;
+      width: 120px;
+      height: 75px;
+      border: 2px solid var(--rule);
+      background: var(--white);
+      cursor: pointer;
+      overflow: hidden;
+      transition: border-color 0.15s;
+    }
+
+    .screenshot-item:hover,
+    .screenshot-item.active {
+      border-color: var(--ink);
+    }
+
+    .screenshot-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .screenshot-preview {
+      margin-top: 1.5rem;
+    }
+
+    .screenshot-preview img {
+      width: 100%;
+      max-width: 900px;
+      border: 1px solid var(--rule);
+    }
+
+    .screenshot-caption {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .screenshot-caption.active {
+      display: block;
+    }
+
+    /* ── TASKS ── */
+    .listing-tasks {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .section-header h2 em {
+      font-style: italic;
+    }
+
+    .tasks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .tasks-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .task-card {
+      padding: 1.75rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .task-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--gold-text);
+    }
+
+    .task-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .task-description {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── OUTPUTS ── */
+    .listing-outputs {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .outputs-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .output-item {
+      display: grid;
+      grid-template-columns: 50px 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.25rem;
+      background: var(--white);
+      border: 1px solid var(--rule);
+    }
+
+    @media (max-width: 600px) {
+      .output-item {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .output-icon {
+      font-size: 1.5rem;
+      color: var(--gold-text);
+      text-align: center;
+    }
+
+    .output-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .output-spec {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .output-preview-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.15s;
+    }
+
+    .output-preview-link:hover {
+      color: var(--gold-hover);
+    }
+
+    /* ── REVIEWS ── */
+    .listing-reviews {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .reviews-summary {
+      display: flex;
+      gap: 3rem;
+      align-items: flex-start;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .rating-large {
+      text-align: center;
+    }
+
+    .rating-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .rating-stars-large {
+      font-size: 1.25rem;
+      color: var(--gold-display);
+      letter-spacing: 0.2em;
+    }
+
+    .rating-breakdown {
+      flex: 1;
+      min-width: 250px;
+      max-width: 400px;
+    }
+
+    .rating-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .rating-bar .rating-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      width: 100px;
+    }
+
+    .rating-bar-fill-container {
+      flex: 1;
+      height: 4px;
+      background: var(--rule);
+    }
+
+    .rating-bar-fill {
+      height: 100%;
+      background: var(--gold-text);
+    }
+
+    .rating-bar .rating-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink);
+      width: 30px;
+    }
+
+    .reviews-count {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-top: 1rem;
+    }
+
+    .reviews-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .review-card {
+      padding: 1.5rem;
+      border: 1px solid var(--rule);
+      background: var(--white);
+    }
+
+    .review-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .review-stars {
+      color: var(--gold-display);
+      letter-spacing: 0.1em;
+    }
+
+    .review-verified {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      color: var(--green);
+      background: rgba(45, 106, 79, 0.1);
+      padding: 0.25rem 0.5rem;
+    }
+
+    .review-date {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+    }
+
+    .review-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    .review-author {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+    }
+
+    .author-name {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .reviews-see-all {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--gold-text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: color 0.15s;
+    }
+
+    .reviews-see-all:hover {
+      color: var(--gold-hover);
+    }
+
+    .reviews-empty {
+      text-align: center;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+    }
+
+    .reviews-empty p {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── PRICING ── */
+    .listing-pricing {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 900px;
+    }
+
+    .pricing-card {
+      padding: 2rem;
+      background: var(--white);
+      border: 1px solid var(--rule);
+    }
+
+    .pricing-card-header h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .pricing-card-tagline {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+    }
+
+    .pricing-card-price {
+      margin: 1.5rem 0;
+    }
+
+    .price-amount {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    .price-period {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+    }
+
+    .pricing-annual {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-save {
+      color: var(--green);
+    }
+
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-features li {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pricing-features li:last-child {
+      border-bottom: none;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+      text-align: center;
+    }
+
+    /* ── CREATOR ── */
+    .listing-creator {
+      padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .creator-card {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .creator-photo {
+      width: 80px;
+      height: 80px;
+      border: 1px solid var(--rule);
+      object-fit: cover;
+    }
+
+    .creator-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .creator-credentials {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .creator-bio {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      font-style: italic;
+    }
+
+    /* ── COMPLIANCE ── */
+    .listing-compliance {
+      padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      background: var(--surface);
+    }
+
+    .compliance-badges {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .compliance-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .compliance-icon {
+      font-size: 1.25rem;
+      color: var(--green);
+    }
+
+    .compliance-content h4 {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+
+    .compliance-content p {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      line-height: 1.6;
+    }
+
+    .compliance-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── HIRE FORM ── */
+    .listing-hire {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hire-form {
+      max-width: 500px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--rule);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--ink);
+    }
+
+    .form-textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-hint {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+      margin-top: 0.35rem;
+    }
+
+    .form-submit {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .form-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .hire-success {
+      text-align: center;
+      padding: 3rem;
+      background: var(--surface);
+      border: 1px solid var(--rule);
+    }
+
+    .success-icon {
+      font-size: 3rem;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .hire-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .hire-success p {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 2rem clamp(1.5rem, 5vw, 4rem);
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .footer-links a {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      color: var(--ink-secondary);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover {
+      color: var(--ink);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav class="nav">
+    <a href="../index.html" class="nav-logo">JOYN.</a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Marketplace</a>
+      <a href="creator-studio.html" class="nav-link">Creator Studio</a>
+      <a href="https://app.tryjoyn.me/login" class="nav-link">Log in</a>
+    </div>
+  </nav>
+
+  <!-- ── Breadcrumb ── -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="../index.html">Home</a>
+    <span class="breadcrumb-sep">→</span>
+    <a href="index.html">Marketplace</a>
+    <span class="breadcrumb-sep">→</span>
+    <span class="breadcrumb-current">Iris</span>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="listing-hero" data-testid="listing-hero">
+    <div class="listing-hero-content">
+      <div class="listing-vertical-label">Insurance & Risk</div>
+      <span class="mode-badge mode-badge-filled">Autonomous · Live Now</span>
+      
+      <h1 class="listing-name">Iris</h1>
+      <p class="listing-tagline">
+        Monitors insurance regulatory bulletins across US states and alerts you to changes affecting your business.
+      </p>
+      
+      <div class="roi-chips">
+        <span class="roi-chip">~4h analyst time saved/week</span>
+        <span class="roi-chip">0 missed regulatory bulletins</span>
+        <span class="roi-chip">50 states covered</span>
+      </div>
+      
+      <div class="rating-summary">
+        <span class="rating-stars">★★★★★</span>
+        <span class="rating-score">4.9</span>
+        <span class="rating-count">(12 verified hires)</span>
+      </div>
+      
+      <div class="listing-ctas">
+        <a href="#hire" class="btn btn-primary" data-testid="start-trial-btn">Start Free Trial</a>
+        <a href="iris-preview.html" class="btn btn-outline" data-testid="watch-demo-btn">Watch Demo</a>
+      </div>
+    </div>
+    
+    <div class="listing-hero-media">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=500&fit=crop" alt="Iris dashboard preview showing regulatory alerts">
+    </div>
+  </section>
+
+  <!-- ── Screenshots Gallery ── -->
+  <section class="listing-screenshots" id="screenshots">
+    <div class="screenshots-track">
+      <button class="screenshot-item active" data-index="0" aria-label="View dashboard screenshot">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=200&h=125&fit=crop" alt="Dashboard overview">
+      </button>
+      <button class="screenshot-item" data-index="1" aria-label="View alert screenshot">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=200&h=125&fit=crop" alt="Alert detail">
+      </button>
+      <button class="screenshot-item" data-index="2" aria-label="View digest screenshot">
+        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=200&h=125&fit=crop" alt="Weekly digest">
+      </button>
+      <button class="screenshot-item" data-index="3" aria-label="View settings screenshot">
+        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=200&h=125&fit=crop" alt="Settings">
+      </button>
+    </div>
+    <div class="screenshot-preview">
+      <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&h=563&fit=crop" alt="Iris dashboard" id="screenshot-main">
+    </div>
+    <p class="screenshot-caption active" data-index="0">Dashboard overview — See all regulatory activity for your monitored states at a glance</p>
+    <p class="screenshot-caption" data-index="1">Alert detail — Plain-English explanation of what changed and why it matters</p>
+    <p class="screenshot-caption" data-index="2">Weekly digest — PDF summary of all activity, delivered every Monday</p>
+    <p class="screenshot-caption" data-index="3">Settings — Configure states, lines of business, and alert preferences</p>
+  </section>
+
+  <!-- ── What Iris Does ── -->
+  <section class="listing-tasks">
+    <div class="section-header">
+      <div class="label">What Iris Does</div>
+      <h2>Three core tasks. <em>Done right.</em></h2>
+    </div>
+    
+    <div class="tasks-grid">
+      <div class="task-card">
+        <div class="task-icon">◉</div>
+        <h3 class="task-title">Monitors regulatory sources</h3>
+        <p class="task-description">
+          Continuously scans state DOI websites, RSS feeds, and bulletin databases across all 50 states. Checks every 2 hours so you're never behind.
+        </p>
+      </div>
+      
+      <div class="task-card">
+        <div class="task-icon">◉</div>
+        <h3 class="task-title">Filters for relevance</h3>
+        <p class="task-description">
+          Uses your lines of business and carrier preferences to determine which bulletins actually affect you. No noise, just signal.
+        </p>
+      </div>
+      
+      <div class="task-card">
+        <div class="task-icon">◉</div>
+        <h3 class="task-title">Alerts with context</h3>
+        <p class="task-description">
+          When something material changes, Iris sends a plain-English summary explaining what happened, why it matters, and what action (if any) is needed.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Named Outputs ── -->
+  <section class="listing-outputs">
+    <div class="section-header">
+      <div class="label">What You Receive</div>
+      <h2>Named outputs. <em>Specified.</em></h2>
+    </div>
+    
+    <div class="outputs-list">
+      <div class="output-item">
+        <div class="output-icon">✉</div>
+        <div class="output-content">
+          <h4 class="output-name">Regulatory Alert</h4>
+          <p class="output-spec">Email · Real-time · Immediate notification when relevant bulletin detected</p>
+        </div>
+        <a href="#" class="output-preview-link">See example →</a>
+      </div>
+      
+      <div class="output-item">
+        <div class="output-icon">📄</div>
+        <div class="output-content">
+          <h4 class="output-name">Weekly Digest</h4>
+          <p class="output-spec">PDF · Every Monday 9am · Summary of all regulatory activity for monitored states</p>
+        </div>
+        <a href="#" class="output-preview-link">See example →</a>
+      </div>
+      
+      <div class="output-item">
+        <div class="output-icon">📊</div>
+        <div class="output-content">
+          <h4 class="output-name">Activity Dashboard</h4>
+          <p class="output-spec">Portal · Always available · Historical view of all alerts and bulletins</p>
+        </div>
+        <a href="#" class="output-preview-link">See example →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Reviews ── -->
+  <section class="listing-reviews" id="reviews" data-testid="reviews-section">
+    <div class="section-header">
+      <div class="label">Reviews</div>
+      <h2>From verified <em>hirers.</em></h2>
+    </div>
+    
+    <div class="reviews-summary">
+      <div class="rating-large">
+        <span class="rating-number">4.9</span>
+        <div class="rating-stars-large">★★★★★</div>
+      </div>
+      <div class="rating-breakdown">
+        <div class="rating-bar">
+          <span class="rating-label">Effectiveness</span>
+          <div class="rating-bar-fill-container">
+            <div class="rating-bar-fill" style="width: 98%"></div>
+          </div>
+          <span class="rating-value">4.9</span>
+        </div>
+        <div class="rating-bar">
+          <span class="rating-label">Output Quality</span>
+          <div class="rating-bar-fill-container">
+            <div class="rating-bar-fill" style="width: 96%"></div>
+          </div>
+          <span class="rating-value">4.8</span>
+        </div>
+        <div class="rating-bar">
+          <span class="rating-label">Time Saved</span>
+          <div class="rating-bar-fill-container">
+            <div class="rating-bar-fill" style="width: 100%"></div>
+          </div>
+          <span class="rating-value">5.0</span>
+        </div>
+        <div class="rating-bar">
+          <span class="rating-label">Ease of Use</span>
+          <div class="rating-bar-fill-container">
+            <div class="rating-bar-fill" style="width: 96%"></div>
+          </div>
+          <span class="rating-value">4.8</span>
+        </div>
+        <div class="rating-bar">
+          <span class="rating-label">Value</span>
+          <div class="rating-bar-fill-container">
+            <div class="rating-bar-fill" style="width: 94%"></div>
+          </div>
+          <span class="rating-value">4.7</span>
+        </div>
+        <p class="reviews-count">12 verified hires</p>
+      </div>
+    </div>
+    
+    <div class="reviews-list">
+      <div class="review-card">
+        <div class="review-header">
+          <span class="review-stars">★★★★★</span>
+          <span class="review-verified">✓ Verified Hire</span>
+          <span class="review-date">2 months ago</span>
+        </div>
+        <p class="review-text">"Iris caught a Florida OIR bulletin about surplus lines changes that would have affected three of our programs. We had 30 days to act — without Iris, we might have found out at renewal. Easily saved us 4-5 hours a week of manual monitoring."</p>
+        <div class="review-author">
+          <span class="author-name">Sarah Chen</span>, Compliance Director @ Midwest Insurance Group
+        </div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <span class="review-stars">★★★★★</span>
+          <span class="review-verified">✓ Verified Hire</span>
+          <span class="review-date">3 months ago</span>
+        </div>
+        <p class="review-text">"We monitor 12 states for our MGA operations. Before Iris, my analyst spent half their week checking DOI websites. Now they spend that time on actual compliance work. The weekly digest is particularly useful for our leadership updates."</p>
+        <div class="review-author">
+          <span class="author-name">Michael Torres</span>, Chief Compliance Officer @ Coastal Specialty
+        </div>
+      </div>
+      
+      <div class="review-card">
+        <div class="review-header">
+          <span class="review-stars">★★★★☆</span>
+          <span class="review-verified">✓ Verified Hire</span>
+          <span class="review-date">1 month ago</span>
+        </div>
+        <p class="review-text">"Solid product. The alerts are accurate and the explanations are clear. Only reason for 4 stars is I wish the dashboard had more filtering options — but I hear that's coming. Would recommend for any carrier or MGA with multi-state operations."</p>
+        <div class="review-author">
+          <span class="author-name">Jennifer Park</span>, VP Operations @ Pacific Underwriters
+        </div>
+      </div>
+    </div>
+    
+    <a href="#" class="reviews-see-all">See all 12 reviews →</a>
+  </section>
+
+  <!-- ── Pricing ── -->
+  <section class="listing-pricing" id="pricing" data-testid="pricing-section">
+    <div class="section-header">
+      <div class="label">Pricing</div>
+      <h2>Simple. <em>Transparent.</em></h2>
+    </div>
+    
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3>Trial</h3>
+          <p class="pricing-card-tagline">See it work before you commit</p>
+        </div>
+        <div class="pricing-card-price">
+          <span class="price-amount">Free</span>
+          <span class="price-period">14 days</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Full access to all features</li>
+          <li>Real alerts delivered</li>
+          <li>No credit card required</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <a href="#hire" class="btn btn-outline">Start Free Trial</a>
+      </div>
+      
+      <div class="pricing-card">
+        <div class="pricing-card-header">
+          <h3>Standard</h3>
+          <p class="pricing-card-tagline">For ongoing operations</p>
+        </div>
+        <div class="pricing-card-price">
+          <span class="price-amount">$1,500</span>
+          <span class="price-period">/month</span>
+        </div>
+        <div class="pricing-annual">
+          Annual: $15,300 <span class="pricing-save">(save 15%)</span>
+        </div>
+        <ul class="pricing-features">
+          <li>Everything in Trial</li>
+          <li>Priority support</li>
+          <li>Custom state configurations</li>
+          <li>Usage analytics</li>
+        </ul>
+        <a href="#hire" class="btn btn-primary">Hire Iris</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Built By ── -->
+  <section class="listing-creator">
+    <div class="section-header">
+      <div class="label">Built By</div>
+    </div>
+    
+    <div class="creator-card">
+      <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=160&h=160&fit=crop&crop=face" alt="Joyn Team" class="creator-photo">
+      <div class="creator-info">
+        <h3 class="creator-name">Joyn Team</h3>
+        <p class="creator-credentials">15+ years in Insurance Technology</p>
+        <p class="creator-bio">"Built Iris after watching compliance teams spend half their week on manual monitoring. This should be automated — and done right."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Compliance & Security ── -->
+  <section class="listing-compliance">
+    <div class="section-header">
+      <div class="label">Compliance & Security</div>
+    </div>
+    
+    <div class="compliance-badges">
+      <div class="compliance-item">
+        <span class="compliance-icon">🛡</span>
+        <div class="compliance-content">
+          <h4>Data Protection</h4>
+          <p>GDPR compliant · Data processed in US · 365-day retention · Your data never shared</p>
+        </div>
+      </div>
+      
+      <div class="compliance-item">
+        <span class="compliance-icon">🔒</span>
+        <div class="compliance-content">
+          <h4>Security</h4>
+          <p>SOC 2 aligned · Encrypted at rest and in transit · No third-party data sharing</p>
+        </div>
+      </div>
+      
+      <div class="compliance-item">
+        <span class="compliance-icon">👁</span>
+        <div class="compliance-content">
+          <h4>AI Transparency</h4>
+          <p>Limited risk · Human oversight at all escalation points · Explainable outputs</p>
+        </div>
+      </div>
+    </div>
+    
+    <a href="#" class="compliance-link">View full compliance documentation →</a>
+  </section>
+
+  <!-- ── Hire Form ── -->
+  <section class="listing-hire" id="hire" data-testid="hire-section">
+    <div class="section-header">
+      <div class="label">Hire Iris</div>
+      <h2>Start your <em>trial.</em></h2>
+    </div>
+    
+    <form class="hire-form" id="hire-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY">
+      <input type="hidden" name="subject" value="New Iris Trial Request">
+      <input type="hidden" name="redirect" value="https://tryjoyn.me/marketplace/iris-insurance-regulatory.html?success=true">
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-name">Your name *</label>
+        <input class="form-input" type="text" id="hire-name" name="name" required data-testid="hire-name-input">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-email">Work email *</label>
+        <input class="form-input" type="email" id="hire-email" name="email" required data-testid="hire-email-input">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-company">Company name *</label>
+        <input class="form-input" type="text" id="hire-company" name="company" required data-testid="hire-company-input">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-role">Your role *</label>
+        <input class="form-input" type="text" id="hire-role" name="role" required data-testid="hire-role-input">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-states">States to monitor *</label>
+        <input class="form-input" type="text" id="hire-states" name="states" placeholder="e.g., Florida, Texas, California" required data-testid="hire-states-input">
+        <p class="form-hint">Comma-separated list of US states</p>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label" for="hire-lines">Lines of business</label>
+        <select class="form-select" id="hire-lines" name="lines" data-testid="hire-lines-select">
+          <option value="">Select primary line (optional)</option>
+          <option value="P&C">Property & Casualty</option>
+          <option value="L&H">Life & Health</option>
+          <option value="Surplus">Surplus Lines</option>
+          <option value="Both">Multiple Lines</option>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary form-submit" data-testid="hire-submit-btn">Start Free Trial →</button>
+      <p class="form-note">14-day free trial · No credit card required · Cancel anytime</p>
+    </form>
+    
+    <div class="hire-success" id="hire-success" style="display:none;">
+      <div class="success-icon">✓</div>
+      <h3>Trial started!</h3>
+      <p>Check your email for login details. Iris will be monitoring your states within 10 minutes.</p>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <a href="../index.html" class="footer-logo">JOYN.</a>
+    <div class="footer-links">
+      <a href="index.html">Marketplace</a>
+      <a href="creator-studio.html">Creator Studio</a>
+      <a href="mailto:hire@tryjoyn.me">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    // Screenshot gallery interaction
+    const screenshotItems = document.querySelectorAll('.screenshot-item');
+    const screenshotMain = document.getElementById('screenshot-main');
+    const screenshotCaptions = document.querySelectorAll('.screenshot-caption');
+    
+    const screenshots = [
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=900&h=563&fit=crop',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=563&fit=crop',
+      'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=900&h=563&fit=crop',
+      'https://images.unsplash.com/photo-1551434678-e076c223a692?w=900&h=563&fit=crop'
+    ];
+    
+    screenshotItems.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        // Update active states
+        screenshotItems.forEach(i => i.classList.remove('active'));
+        screenshotCaptions.forEach(c => c.classList.remove('active'));
+        
+        item.classList.add('active');
+        screenshotCaptions[index].classList.add('active');
+        
+        // Update main image
+        screenshotMain.src = screenshots[index];
+      });
+    });
+    
+    // Show success message if redirected after form submission
+    if (window.location.search.includes('success=true')) {
+      document.getElementById('hire-form').style.display = 'none';
+      document.getElementById('hire-success').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

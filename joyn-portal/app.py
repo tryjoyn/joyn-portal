@@ -47,10 +47,12 @@ def create_app():
     from auth.routes import auth_bp
     from portal.routes import portal_bp
     from api.routes import api_bp
+    from reviewer.routes import reviewer_bp
 
     app.register_blueprint(auth_bp)
     app.register_blueprint(portal_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(reviewer_bp)
 
     # ── Root redirect ─────────────────────────────────────────
     @app.route('/')
