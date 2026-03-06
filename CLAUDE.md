@@ -201,3 +201,34 @@ If an instruction is ambiguous — stop and ask **one clarifying question** befo
 - `JOYN-DESIGN-SPEC.md` — colour system, typography scale, every component pattern with code
 - `AGENT-RULES.md` — full behavioural contract for autonomous build sessions
 - `CREATOR-STUDIO-PROCESS.md` — end to end creator workflow, templates, build standards, validation rubric
+
+---
+
+## Multi-Platform Sync Rules
+
+This repo is worked on across Claude Code, Claude.ai, Emergent, and Manus. All platforms point to the same `main` branch. To keep context files accurate:
+
+**Before starting any session:**
+- Pull latest from `main` before making changes (`git pull`)
+
+**After making changes, update the relevant context file if:**
+
+| You changed | Update this file |
+|-------------|-----------------|
+| Added or removed a page | `JOYN-CONTEXT.md` → Site Structure section |
+| Added or removed a staff member | `VISION.md` → AI Staff Roster + `JOYN-CONTEXT.md` |
+| Changed the colour palette or fonts | `JOYN-DESIGN-SPEC.md` |
+| Changed a locked decision | `JOYN-CONTEXT.md` + `VISION.md` |
+| Changed the nav pattern or component | `JOYN-DESIGN-SPEC.md` + `CLAUDE.md` |
+| Added a new portal route or template | `JOYN-CONTEXT.md` |
+
+**Context file update rule:** If the change you made would make a context file inaccurate, update that file in the same commit. Never commit a code change that makes a context file describe something that no longer exists.
+
+**Commit discipline across platforms:**
+```bash
+# Always add files explicitly — never git add . or git add -A
+git add [changed-file.html]
+git add JOYN-CONTEXT.md   # if site structure changed
+git commit -m "type: what changed"
+git push
+```
