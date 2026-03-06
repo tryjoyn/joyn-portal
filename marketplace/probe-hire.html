@@ -302,8 +302,6 @@
       <p class="form-subtext">We'll set up your experiment and confirm within 24 hours.</p>
 
       <form id="hire-form" onsubmit="submitHire(event)">
-        <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
-        <input type="hidden" name="subject" value="Hire Probe — 14 Day Trial · tryjoyn.me">
 
         <div class="form-row-2">
           <div class="form-block">
@@ -362,16 +360,28 @@
       e.preventDefault();
       const form = document.getElementById('hire-form');
       const btn = form.querySelector('.btn-submit');
-      btn.textContent = 'Sending…';
+      btn.textContent = 'Starting…';
       btn.disabled = true;
+      const body = {
+        name:       form.querySelector('#h-name').value.trim(),
+        email:      form.querySelector('#h-email').value.trim(),
+        firm_name:  form.querySelector('#h-org').value.trim(),
+        staff_slug: 'probe',
+        staff_name: 'Probe',
+        states:     '',
+      };
       try {
-        const data = new FormData(form);
-        const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+        const res = await fetch('https://app.tryjoyn.me/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const json = await res.json().catch(() => ({}));
         if (res.ok) {
           form.style.display = 'none';
           document.getElementById('hire-success').style.display = 'block';
         } else {
-          btn.textContent = 'Try again';
+          btn.textContent = json.error || 'Try again';
           btn.disabled = false;
         }
       } catch {
