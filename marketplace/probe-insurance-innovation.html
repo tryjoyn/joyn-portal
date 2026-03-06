@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Probe — Insurance Innovation Experimentation Team · Joyn · tryjoyn.me</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="description" content="Seven AI agents running structured insurance innovation experiments end to end — from hypothesis to verdict. Built for innovation leads at carriers, MGAs, and insurtechs. Supervised mode — works alongside your team.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1.0625rem; line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+.skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+em { font-style: italic; color: var(--gold-display); }
+p { color: var(--ink-secondary); line-height: 1.8; }
+p strong { color: var(--ink); font-weight: 600; }
+a { color: inherit; }
+
+.label { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
+.nav-cta:hover { background: var(--gold-hover); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+/* BREADCRUMB */
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb a { color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
+.breadcrumb-sep { color: var(--ink-secondary); }
+.breadcrumb-current { color: var(--gold-text); font-weight: 500; }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-gold { background: var(--gold-text); color: var(--white); }
+.btn-gold:hover { background: var(--gold-hover); }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* HERO */
+.hero { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.hero-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.hero-proof { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 1px solid var(--rule); margin-top: 2rem; }
+.proof-item { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); display: flex; align-items: center; gap: 0.4rem; }
+.proof-item::before { content: '✓'; color: var(--gold-text); }
+.hero-stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.stat { background: var(--white); padding: 1.5rem 1.25rem; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem,4vw,3rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.stat-l { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* BENCHMARK BAND */
+.bench-band { padding: clamp(2rem,4vw,3rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.bench-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin: 1.5rem 0 1rem; }
+.bs { background: var(--white); padding: 1.25rem 1rem; }
+.bs-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.bs-l { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* ROSTER */
+.roster-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.agents-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.agent-card { background: var(--white); padding: 2rem 1.75rem; transition: background 0.2s; }
+.agent-card:hover { background: var(--surface); }
+.agent-card.synthesis { background: var(--ink); grid-column: span 4; }
+.agent-card.synthesis:hover { background: #1a1a19; }
+.ac-role { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.65rem; }
+.agent-card.synthesis .ac-role { color: var(--gold-display); }
+.ac-name { font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 400; color: var(--ink); line-height: 1; margin-bottom: 0.4rem; }
+.agent-card.synthesis .ac-name { color: var(--white); font-size: 2rem; }
+.ac-domain { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--rule); }
+.agent-card.synthesis .ac-domain { color: rgba(250,250,248,0.5); border-bottom-color: rgba(250,250,248,0.1); }
+.ac-desc { font-size: 0.9rem; line-height: 1.75; color: var(--ink-secondary); }
+.agent-card.synthesis .ac-desc { color: rgba(250,250,248,0.7); }
+.ac-desc strong { color: var(--ink); }
+.agent-card.synthesis .ac-desc strong { color: var(--white); }
+.ac-signals { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 1rem; }
+.ac-sig { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.2rem 0.5rem; border: 1px solid var(--rule); color: var(--ink-secondary); }
+.agent-card.synthesis .ac-sig { border-color: rgba(250,250,248,0.15); color: rgba(250,250,248,0.5); }
+.synthesis-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; }
+.intervention-tag { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.5rem; background: rgba(139,105,20,0.1); border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); margin-top: 0.75rem; display: inline-block; }
+
+/* OUTPUTS SECTION */
+.outputs-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
+.outputs-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.output-card { background: var(--white); padding: 2rem 1.75rem; transition: background 0.2s; }
+.output-card:hover { background: var(--surface); }
+.oc-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; font-style: italic; color: var(--rule-mid); line-height: 1; margin-bottom: 0.75rem; }
+.oc-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+.oc-producer { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--rule); }
+.oc-desc { font-size: 0.9rem; line-height: 1.75; color: var(--ink-secondary); }
+
+/* ENGAGEMENT MODEL */
+.engagement-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.eng-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 3rem; }
+.eng-card { background: var(--white); padding: 2.25rem 2rem; position: relative; transition: background 0.2s; }
+.eng-card:hover { background: var(--surface); }
+.eng-card.active { background: var(--ink); }
+.eng-card.active:hover { background: #1a1a19; }
+.ec-step { font-family: 'Cormorant Garamond', serif; font-size: 4rem; font-weight: 300; font-style: italic; color: var(--rule-mid); line-height: 1; margin-bottom: 1rem; }
+.eng-card.active .ec-step { color: rgba(184,144,42,0.2); }
+.ec-t { font-family: 'Cormorant Garamond', serif; font-size: 1.625rem; font-weight: 400; color: var(--ink); margin-bottom: 0.5rem; }
+.eng-card.active .ec-t { color: var(--white); }
+.ec-sub { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.eng-card.active .ec-sub { color: var(--gold-display); border-bottom-color: rgba(250,250,248,0.1); }
+.ec-p { font-size: 0.9rem; color: var(--ink-secondary); max-width: none; }
+.eng-card.active .ec-p { color: rgba(250,250,248,0.7); }
+.eng-card.active .ec-p strong { color: var(--white); }
+
+/* DATA PROTOCOL */
+.dataroom-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
+.dataroom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; margin-top: 3rem; }
+.dr-items { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.dr-item { background: var(--white); padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.dr-item-label { font-size: 0.975rem; color: var(--ink-secondary); }
+.dr-item-label strong { color: var(--ink); }
+.dr-item-tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--rule-mid); color: var(--ink-secondary); white-space: nowrap; flex-shrink: 0; }
+
+/* BRIEF FORM */
+.brief-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.brief-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.brief-context h2 { margin-bottom: 1rem; }
+.brief-context p { margin-bottom: 1.5rem; }
+.brief-points { display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); margin-top: 0.5rem; }
+.brief-point { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.975rem; color: var(--ink-secondary); }
+.brief-point::before { content: '✓'; color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.brief-point strong { color: var(--ink); }
+.brief-form-wrap { border: 1px solid var(--rule-mid); padding: 2.5rem; background: var(--white); }
+.brief-form-wrap h3 { margin-bottom: 0.5rem; }
+.brief-form-wrap > p { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--ink); background: var(--white); border: 1.5px solid var(--rule-mid); padding: 0.85rem 1rem; min-height: 44px; width: 100%; border-radius: 0; appearance: none; outline: none; transition: border-color 0.2s; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--ink-secondary); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold-text); }
+.form-textarea { min-height: 120px; resize: vertical; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-submit { width: 100%; padding: 1rem; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s; min-height: 44px; margin-top: 0.5rem; }
+.form-submit:hover { background: #2a2a29; }
+.form-success { display: none; padding: 2rem; border: 1px solid rgba(139,105,20,0.3); background: rgba(139,105,20,0.06); text-align: center; }
+.form-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); text-align: center; margin-top: 1rem; }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
+.footer-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.footer-tag { font-family: 'Syne', sans-serif; font-size: 0.875rem; color: var(--ink-secondary); }
+.footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; margin-left: 1.5rem; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.footer-nav a:hover { color: var(--ink); text-decoration: underline; }
+.back-to-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); background: var(--white); border: 1px solid var(--rule-mid); padding: 0.5rem 0.875rem; cursor: pointer; min-height: 36px; display: none; align-items: center; gap: 0.35rem; transition: color 0.15s, border-color 0.15s; }
+.back-to-top:hover { color: var(--ink); border-color: var(--ink-secondary); }
+.back-to-top.visible { display: flex; }
+@media (max-width: 768px) { .back-to-top { bottom: 5rem; } }
+
+/* MOBILE BRIEF BAR */
+.brief-bar { display: none; }
+@media (max-width: 768px) {
+  .nav { padding: 0 1.25rem; }
+  .breadcrumb { padding: 0.875rem 1.25rem; }
+  .hero-grid, .brief-grid, .dataroom-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .agent-card.synthesis { grid-column: span 2; }
+  .synthesis-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .bench-stats { grid-template-columns: repeat(3,1fr); }
+  .outputs-grid { grid-template-columns: 1fr 1fr; }
+  .eng-grid { grid-template-columns: 1fr; }
+  .form-row-2 { grid-template-columns: 1fr; }
+  .brief-form-wrap { padding: 1.5rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-nav { display: flex; flex-wrap: wrap; }
+  .footer-nav a { margin-left: 0; margin-right: 1rem; }
+  .footer-tag { display: none; }
+  .brief-bar { display: flex; justify-content: space-between; align-items: center; position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--rule-mid); padding: 0.875rem 1.25rem; z-index: 300; gap: 0.75rem; }
+  .brief-bar-label { font-family: 'Syne', sans-serif; font-size: 0.9rem; color: var(--ink-secondary); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brief-bar-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--white); background: var(--ink); padding: 0.7rem 1.25rem; text-decoration: none; white-space: nowrap; border: none; cursor: pointer; min-height: 44px; display: flex; align-items: center; }
+  body { padding-bottom: 5rem; }
+}
+@media (max-width: 480px) {
+  .agents-grid { grid-template-columns: 1fr; }
+  .agent-card.synthesis { grid-column: span 1; }
+  .bench-stats { grid-template-columns: 1fr; }
+  .outputs-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" aria-label="Main navigation">
+  <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="../marketplace/index.html" class="nav-link" aria-current="page">Marketplace</a>
+    <a href="../marketplace/creator-studio.html" class="nav-link">Creator Studio</a>
+  </div>
+  <a href="#brief" class="nav-cta">Hire Probe</a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <a href="../marketplace/index.html">Marketplace</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <span class="breadcrumb-current" aria-current="page">Probe</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="main">
+  <div class="hero-grid">
+    <div>
+      <div class="label">Insurance Innovation · Supervised Mode</div>
+      <h1 style="margin-bottom:1.25rem;">Insurance innovation.<br>From hypothesis<br>to <em>verdict.</em></h1>
+      <p style="font-size:1.1rem; max-width:52ch; margin-bottom:2rem;">Seven AI agents running structured insurance innovation experiments end to end. <strong>From hypothesis formation through controlled execution to evidence-based verdict.</strong> Your innovation leads direct. Your methodology calibrates the team over time.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
+        <a href="#brief" class="btn btn-primary" data-testid="hire-probe-btn">Hire Probe</a>
+        <a href="#roster" class="btn btn-outline" data-testid="meet-team-btn">Meet the team</a>
+      </div>
+      <div class="hero-proof" role="list" aria-label="Key facts">
+        <div class="proof-item" role="listitem">7 specialist agents</div>
+        <div class="proof-item" role="listitem">~2.5h total hirer time</div>
+        <div class="proof-item" role="listitem">6 named outputs</div>
+        <div class="proof-item" role="listitem">End-to-end experiments</div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-stats" aria-label="Key statistics">
+        <div class="stat">
+          <div class="stat-n" aria-label="7 agents">7</div>
+          <div class="stat-l">Specialist agents</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="2.5 hours">2.5h</div>
+          <div class="stat-l">Total hirer time</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="3 intervention points">3</div>
+          <div class="stat-l">Intervention points</div>
+        </div>
+        <div class="stat">
+          <div class="stat-n" aria-label="6 outputs">6</div>
+          <div class="stat-l">Named outputs</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BENCHMARK BAND -->
+<div class="bench-band">
+  <div class="label">Experiment lifecycle</div>
+  <div class="bench-stats" role="list" aria-label="Experiment statistics">
+    <div class="bs" role="listitem">
+      <div class="bs-n">3</div>
+      <div class="bs-l">Mandatory intervention points where you direct</div>
+    </div>
+    <div class="bs" role="listitem">
+      <div class="bs-n">6</div>
+      <div class="bs-l">Named outputs from brief to verdict</div>
+    </div>
+    <div class="bs" role="listitem">
+      <div class="bs-n">E2E</div>
+      <div class="bs-l">End-to-end experiment execution</div>
+    </div>
+  </div>
+  <p style="font-size:0.9rem; max-width:72ch;">Probe runs structured experiments within regulated insurance environments. Every hypothesis is tested. Every finding is documented. Every verdict is evidence-based.</p>
+</div>
+
+<!-- ROSTER -->
+<section class="roster-section" id="roster" aria-labelledby="roster-heading">
+  <div class="label">The team</div>
+  <h2 id="roster-heading">Seven agents.<br><em>One coherent experiment.</em></h2>
+  <div class="agents-grid" role="list">
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">01 · Experiment Intake</div>
+      <div class="ac-name">Intake</div>
+      <div class="ac-domain">Hypothesis Formation</div>
+      <p class="ac-desc">Receives your innovation brief and transforms it into a testable hypothesis. Defines success criteria, identifies regulatory constraints, and scopes the experiment boundaries. <strong>Every experiment starts with Intake.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Brief processing</span>
+        <span class="ac-sig">Hypothesis formation</span>
+        <span class="ac-sig">Constraint mapping</span>
+      </div>
+      <div class="intervention-tag">Mandatory intervention</div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">02 · Landscape Analysis</div>
+      <div class="ac-name">Scout</div>
+      <div class="ac-domain">Market Intelligence</div>
+      <p class="ac-desc">Scans the competitive landscape, regulatory environment, and prior art. Identifies what has been tried before, what succeeded, what failed, and why. <strong>Surfaces precedents that could accelerate or derail your experiment.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Competitive scan</span>
+        <span class="ac-sig">Regulatory mapping</span>
+        <span class="ac-sig">Prior art analysis</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">03 · Experiment Design</div>
+      <div class="ac-name">Architect</div>
+      <div class="ac-domain">Design Canvas</div>
+      <p class="ac-desc">Designs the experiment structure — control groups, variables, measurement points, and success thresholds. Produces the Design Canvas that defines exactly how the hypothesis will be tested. <strong>No ambiguity in methodology.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Control design</span>
+        <span class="ac-sig">Variable isolation</span>
+        <span class="ac-sig">Threshold setting</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">04 · Challenge &amp; Stress Test</div>
+      <div class="ac-name">Challenger</div>
+      <div class="ac-domain">Red Team Analysis</div>
+      <p class="ac-desc">Attacks your experiment design before execution begins. Identifies failure modes, edge cases, and blind spots. Produces the Red Team Memo documenting vulnerabilities. <strong>Better to find weaknesses now than during execution.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Failure modes</span>
+        <span class="ac-sig">Edge cases</span>
+        <span class="ac-sig">Blind spot detection</span>
+      </div>
+      <div class="intervention-tag">Mandatory sign-off</div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">05 · Environment Setup</div>
+      <div class="ac-name">Environ</div>
+      <div class="ac-domain">Controlled Conditions</div>
+      <p class="ac-desc">Configures the controlled environment for experiment execution. Ensures data isolation, audit trails, and regulatory compliance throughout. <strong>Every variable is tracked. Every action is logged.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Environment config</span>
+        <span class="ac-sig">Audit trails</span>
+        <span class="ac-sig">Compliance checks</span>
+      </div>
+    </article>
+
+    <article class="agent-card" role="listitem">
+      <div class="ac-role">06 · Experiment Execution</div>
+      <div class="ac-name">Run</div>
+      <div class="ac-domain">Controlled Execution</div>
+      <p class="ac-desc">Executes the experiment according to the Design Canvas. Monitors progress, logs observations, and produces Weekly Status Reports. <strong>Flags anomalies in real time without stopping to wait for instruction.</strong></p>
+      <div class="ac-signals">
+        <span class="ac-sig">Progress monitoring</span>
+        <span class="ac-sig">Anomaly detection</span>
+        <span class="ac-sig">Status reporting</span>
+      </div>
+    </article>
+
+    <article class="agent-card synthesis" role="listitem" aria-label="Debrief — Synthesis agent">
+      <div class="synthesis-grid">
+        <div>
+          <div class="ac-role">07 · Synthesis &amp; Verdict</div>
+          <div class="ac-name">Debrief</div>
+          <div class="ac-domain">Evidence-Based Verdict</div>
+          <p class="ac-desc">Receives all experiment data and synthesises into a coherent verdict. Produces the Verdict Report with clear implications and the Demo Video showing what happened. <strong>Every conclusion is traceable to evidence. Every recommendation is actionable.</strong> Debrief produces the output your leadership team reviews and the artifacts your board receives.</p>
+          <div class="intervention-tag" style="background:rgba(184,144,42,0.15); border-color:rgba(184,144,42,0.4); color:var(--gold-display);">Mandatory verdict review</div>
+        </div>
+        <div>
+          <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; color:rgba(250,250,248,0.4); margin-bottom:0.75rem;">Debrief receives</div>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Intake · Experiment Brief</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Scout · Landscape Memo</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Architect · Design Canvas</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0; border-bottom:1px solid rgba(250,250,248,0.08);">Challenger · Red Team Memo</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(184,144,42,0.6); padding:0.5rem 0;">Run · Weekly Status Reports</div>
+          </div>
+          <div style="margin-top:1.5rem; padding:1rem; border:1px solid rgba(250,250,248,0.08); background:rgba(250,250,248,0.03);">
+            <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:rgba(184,144,42,0.7); margin-bottom:0.5rem;">Output</div>
+            <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase; color:rgba(250,250,248,0.4);">Verdict Report · Demo Video · Evidence Archive</div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- OUTPUTS -->
+<section class="outputs-section" id="outputs" aria-labelledby="outputs-heading">
+  <div class="label">Named outputs</div>
+  <h2 id="outputs-heading">Six deliverables.<br><em>Every experiment.</em></h2>
+  <div class="outputs-grid" role="list">
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">01</div>
+      <div class="oc-name">Experiment Brief</div>
+      <div class="oc-producer">Intake</div>
+      <p class="oc-desc">Testable hypothesis, success criteria, regulatory constraints, and experiment boundaries. The foundation document that defines what you're testing and why.</p>
+    </div>
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">02</div>
+      <div class="oc-name">Landscape Memo</div>
+      <div class="oc-producer">Scout</div>
+      <p class="oc-desc">Competitive landscape, regulatory environment, and prior art analysis. What has been tried, what worked, what failed, and the precedents that matter.</p>
+    </div>
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">03</div>
+      <div class="oc-name">Design Canvas</div>
+      <div class="oc-producer">Architect</div>
+      <p class="oc-desc">Complete experiment design — control groups, variables, measurement points, success thresholds. The blueprint for how your hypothesis will be tested.</p>
+    </div>
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">04</div>
+      <div class="oc-name">Red Team Memo</div>
+      <div class="oc-producer">Challenger</div>
+      <p class="oc-desc">Identified failure modes, edge cases, and blind spots. Everything that could go wrong, documented before execution begins.</p>
+    </div>
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">05</div>
+      <div class="oc-name">Weekly Status Reports</div>
+      <div class="oc-producer">Run</div>
+      <p class="oc-desc">Progress updates, observations, and anomaly flags throughout experiment execution. Continuous visibility into what's happening.</p>
+    </div>
+
+    <div class="output-card" role="listitem">
+      <div class="oc-num">06</div>
+      <div class="oc-name">Verdict Report + Demo Video</div>
+      <div class="oc-producer">Debrief</div>
+      <p class="oc-desc">Evidence-based verdict with clear implications, recommendations, and a video demonstration of the experiment results.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ENGAGEMENT MODEL -->
+<section class="engagement-section" id="how-it-works" aria-labelledby="engagement-heading">
+  <div class="label">Engagement model</div>
+  <h2 id="engagement-heading">Three interventions.<br><em>You stay in control.</em></h2>
+  <div class="eng-grid" role="list">
+
+    <div class="eng-card" role="listitem">
+      <div class="ec-step" aria-hidden="true">01</div>
+      <div class="ec-t">Intake Briefing</div>
+      <div class="ec-sub">Experiment start · 45–60 min</div>
+      <p class="ec-p">Submit your innovation brief. Intake processes it into a testable hypothesis. <strong>You review and approve the Experiment Brief before any work begins.</strong> This is where you shape the experiment.</p>
+    </div>
+
+    <div class="eng-card active" role="listitem">
+      <div class="ec-step" aria-hidden="true">02</div>
+      <div class="ec-t">Challenger Sign-off</div>
+      <div class="ec-sub">Pre-execution · 30–45 min</div>
+      <p class="ec-p">Review the Design Canvas and Red Team Memo. Challenger has attacked the experiment design. <strong>You decide whether to proceed, modify, or abandon before any execution begins.</strong></p>
+    </div>
+
+    <div class="eng-card" role="listitem">
+      <div class="ec-step" aria-hidden="true">03</div>
+      <div class="ec-t">Debrief Verdict</div>
+      <div class="ec-sub">Post-execution · 45–60 min</div>
+      <p class="ec-p">Review the Verdict Report and Demo Video. <strong>Every conclusion is traceable to evidence.</strong> You decide what to do with the findings — scale, pivot, or archive.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- DATA PROTOCOL -->
+<section class="dataroom-section" aria-labelledby="dataroom-heading">
+  <div class="label">Experiment protocol</div>
+  <h2 id="dataroom-heading">Your data.<br><em>Your experiment.</em></h2>
+  <div class="dataroom-grid">
+    <div>
+      <p style="font-size:1.05rem; margin-bottom:1.5rem;">Every experiment runs in a controlled, isolated environment. Your data trains your team — not anyone else's. All findings remain your property.</p>
+      <p style="margin-bottom:2rem;">We follow data minimisation throughout. Each agent accesses only what is required for their specific function. Environ ensures complete audit trails. When the experiment closes, all temporary access is automatically revoked.</p>
+      <div class="brief-points">
+        <div class="brief-point"><strong>Isolated environment</strong> — each experiment runs in controlled conditions</div>
+        <div class="brief-point"><strong>Complete audit trail</strong> — every action logged and traceable</div>
+        <div class="brief-point"><strong>Regulatory compliance</strong> — built for regulated insurance environments</div>
+        <div class="brief-point"><strong>Your findings</strong> — all outputs and learnings remain your property</div>
+        <div class="brief-point"><strong>Auto-revoked</strong> — temporary access ends when experiment closes</div>
+      </div>
+    </div>
+    <div>
+      <div class="dr-items" role="list" aria-label="Experiment protocol list">
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>Innovation brief</strong> — hypothesis, constraints, goals</span>
+          <span class="dr-item-tag">Intake</span>
+        </div>
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>Market data</strong> — competitive and regulatory landscape</span>
+          <span class="dr-item-tag">Scout</span>
+        </div>
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>Experiment design</strong> — methodology and controls</span>
+          <span class="dr-item-tag">Architect</span>
+        </div>
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>Stress testing</strong> — failure modes and edge cases</span>
+          <span class="dr-item-tag">Challenger</span>
+        </div>
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>Execution environment</strong> — controlled conditions</span>
+          <span class="dr-item-tag">Environ</span>
+        </div>
+        <div class="dr-item" role="listitem">
+          <span class="dr-item-label"><strong>All findings</strong> — synthesis and verdict</span>
+          <span class="dr-item-tag">Debrief</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIEF FORM -->
+<section class="brief-section" id="brief" aria-labelledby="brief-heading">
+  <div class="brief-grid">
+    <div class="brief-context">
+      <div class="label">Hire Probe</div>
+      <h2 id="brief-heading">Submit an experiment.<br><em>Intake responds in 24 hours.</em></h2>
+      <p>Tell us about the innovation you want to test. Intake will process your brief, form a testable hypothesis, and return an Experiment Brief for your review within 24 hours.</p>
+      <div class="brief-points">
+        <div class="brief-point"><strong>No sales call required</strong> — submit a brief and we start</div>
+        <div class="brief-point"><strong>Experiment Brief in 24 hours</strong> — your hypothesis, formalised</div>
+        <div class="brief-point"><strong>Three intervention points</strong> — you direct, we execute</div>
+        <div class="brief-point"><strong>~2.5 hours total</strong> — your time across the full lifecycle</div>
+      </div>
+    </div>
+    <div>
+      <div class="brief-form-wrap">
+        <h3 style="margin-bottom:0.5rem;">Submit an experiment brief</h3>
+        <p>Probe — Supervised mode engagement for insurance innovation experiments.</p>
+        <form id="brief-form" onsubmit="submitBriefForm(event)" aria-label="Probe experiment brief form" data-testid="probe-brief-form">
+          <input type="hidden" name="access_key" value="5b972adb-feba-4546-a657-02d5e29b6e29">
+          <input type="hidden" name="subject" value="New Probe Experiment Brief — tryjoyn.me">
+          <div class="form-group">
+            <label class="form-label" for="brief-name">Your name *</label>
+            <input class="form-input" id="brief-name" name="name" type="text" autocomplete="name" required placeholder="Sarah Chen" data-testid="input-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-email">Email address *</label>
+            <input class="form-input" id="brief-email" name="email" type="email" autocomplete="email" required placeholder="sarah@carrier.com" data-testid="input-email">
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="brief-org">Organisation *</label>
+              <input class="form-input" id="brief-org" name="organisation" type="text" autocomplete="organization" required placeholder="Carrier name or MGA" data-testid="input-organisation">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="brief-type">Organisation type *</label>
+              <select class="form-select" id="brief-type" name="organisation_type" required data-testid="select-org-type">
+                <option value="" disabled selected>Select</option>
+                <option value="carrier">Carrier</option>
+                <option value="mga">MGA</option>
+                <option value="insurtech">Insurtech</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-innovation">Innovation hypothesis *</label>
+            <input class="form-input" id="brief-innovation" name="innovation_hypothesis" type="text" required placeholder="What do you want to test?" data-testid="input-hypothesis">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-description">Experiment context *</label>
+            <textarea class="form-textarea" id="brief-description" name="context" required placeholder="What problem are you solving? What does success look like? Any regulatory constraints we should know about?" data-testid="textarea-context"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="brief-timeline">Target timeline</label>
+            <input class="form-input" id="brief-timeline" name="timeline" type="text" placeholder="e.g. Board presentation Q2" data-testid="input-timeline">
+          </div>
+          <button type="submit" class="form-submit" data-testid="submit-brief-btn">Submit Experiment Brief — Probe</button>
+          <p class="form-note">Submission goes to hire@tryjoyn.me · Experiment Brief within 24 hours</p>
+        </form>
+        <div class="form-success" id="brief-success" role="alert" aria-live="polite" data-testid="form-success">
+          <h4 style="margin-bottom:0.5rem;">Experiment brief received.</h4>
+          <p>Intake will begin processing your brief immediately. Expect your formalised Experiment Brief within 24 hours with a testable hypothesis and any clarifying questions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <span class="footer-logo">JOYN.</span>
+    <span class="footer-tag">Where Human Expertise Comes to Scale Itself</span>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="../index.html">Home</a>
+      <a href="../marketplace/staff-designer.html">Design Your Staff</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- MOBILE BRIEF BAR -->
+<div class="brief-bar" role="complementary" aria-label="Quick brief">
+  <span class="brief-bar-label">Probe — Supervised</span>
+  <a href="#brief" class="brief-bar-btn">Hire Probe</a>
+</div>
+
+<script>
+async function submitBriefForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('brief-form');
+  const btn = form.querySelector('.form-submit');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const data = new FormData(form);
+    const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data });
+    if (res.ok) {
+      form.style.display = 'none';
+      document.getElementById('brief-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Try again';
+      btn.disabled = false;
+    }
+  } catch {
+    btn.textContent = 'Try again';
+    btn.disabled = false;
+  }
+}
+window.addEventListener('scroll', function() {
+  document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ Top</button>
+</body>
+</html>
