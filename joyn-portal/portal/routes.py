@@ -1,11 +1,14 @@
 import json
+import secrets
+import string
 from datetime import datetime
 from flask import (
     Blueprint, render_template, request, redirect,
-    url_for, g, jsonify, flash
+    url_for, g, jsonify, flash, current_app
 )
-from data.db import query_one, query, execute_commit, row_to_dict, rows_to_list
+from data.db import query_one, query, insert, execute_commit, row_to_dict, rows_to_list
 from auth.helpers import login_required, hash_password, verify_password
+from staff_common import STAFF_REGISTRY, AVAILABLE_STAFF_SLUGS, send_staff_added_email
 
 portal_bp = Blueprint('portal', __name__)
 
@@ -250,31 +253,16 @@ def settings_staff_let_go(slug):
 # available staff and the slugs the hirer already has so the
 # template can grey-out already-hired cards.
 
+# Build the available-staff list for the template from staff_common
 AVAILABLE_STAFF = [
     {
-        'slug':        'iris',
-        'name':        'Iris',
-        'role':        'Insurance Regulatory Intelligence',
-        'mode':        'autonomous',
-        'description': 'Monitors insurance regulation continuously across US states. '
-                       'Alerts you when a filing, bulletin, or rule change affects your lines of business.',
-    },
-    {
-        'slug':        'probe',
-        'name':        'Probe',
-        'role':        'Insurance Innovation Experimentation Team',
-        'mode':        'supervised',
-        'description': 'Runs structured innovation experiments for insurance organisations. '
-                       'Takes your hypothesis, builds an Experiment Brief, and delivers a Landscape Memo and Red Team Memo within 24 hours.',
-    },
-    {
-        'slug':        'tdd-practice-team',
-        'name':        'TDD Practice Team',
-        'role':        'Technology Due Diligence',
-        'mode':        'supervised',
-        'description': 'Eight-agent team that delivers a full technology due diligence report. '
-                       'Covers architecture, security, scalability, and team capability for any software target.',
-    },
+        'slug':        slug,
+        'name':        STAFF_REGISTRY[slug]['name'],
+        'role':        STAFF_REGISTRY[slug].get('vertical', ''),
+        'mode':        STAFF_REGISTRY[slug]['mode'],
+        'description': STAFF_REGISTRY[slug].get('description', ''),
+    }
+    for slug in AVAILABLE_STAFF_SLUGS
 ]
 
 STAFF_INTAKE_MESSAGES = {
@@ -309,11 +297,6 @@ def add_staff():
 @portal_bp.route('/add-staff', methods=['POST'])
 @login_required
 def add_staff_post():
-    import json as _json
-    from data.db import insert as db_insert
-    from api.routes import STAFF_REGISTRY, _send_staff_added_email, _send_welcome_email
-    import secrets, string
-
     data = request.get_json(silent=True) or {}
     staff_slug = (data.get('staff_slug') or '').strip().lower()
 
@@ -361,7 +344,7 @@ def add_staff_post():
     if staff_slug == 'iris':
         extra_settings['jurisdictions'] = [s.strip() for s in states.split(',') if s.strip()]
 
-    db_insert(
+    insert(
         '''INSERT INTO hired_staff
            (client_id, staff_name, staff_slug, vertical, mode, settings)
            VALUES (?,?,?,?,?,?)''',
@@ -371,13 +354,15 @@ def add_staff_post():
             staff_slug,
             staff_meta['vertical'],
             staff_meta['mode'],
-            _json.dumps(extra_settings),
+            json.dumps(extra_settings),
         )
     )
 
     # Fetch client details for the confirmation email
     client = _get_client()
-    _send_staff_added_email(
+    send_staff_added_email(
+        app_config=current_app.config,
+        logger=current_app.logger,
         to_email=client['email'],
         name=client['primary_contact_name'],
         firm_name=client['company_name'],
@@ -386,14 +371,9 @@ def add_staff_post():
         states=states,
     )
 
-    current_app_logger = None
-    try:
-        from flask import current_app
-        current_app.logger.info(
-            f'Staff added via portal: client_id={g.client_id} staff={staff_slug}'
-        )
-    except Exception:
-        pass
+    current_app.logger.info(
+        f'Staff added via portal: client_id={g.client_id} staff={staff_slug}'
+    )
 
     # Build a human-readable confirmation message
     tmpl = STAFF_INTAKE_MESSAGES.get(
