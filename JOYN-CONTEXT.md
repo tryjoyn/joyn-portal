@@ -57,8 +57,11 @@ Joyn/
 │   ├── iris-insurance-regulatory.html          # Iris listing page
 │   ├── creator-studio.html                     # Apply to build AI staff
 │   └── admin.html                              # Founder dashboard (NOT publicly linked)
-└── practice/
-    └── tdd-practice-team.html                  # TDD Practice Team listing
+├── practice/
+│   └── tdd-practice-team.html                  # TDD Practice Team listing
+├── JOYN-DEPLOYMENT-STANDARD.md                 # The Bar — machine-readable source of truth
+└── docs/
+    └── the-bar-v1.docx                         # The Bar — creator-facing deployment standard
 ```
 
 ---
@@ -230,6 +233,7 @@ The remote URL includes a PAT with `workflow` scope (required for pushing to `.g
 - **No live deployment counter** — add at 50+ deployments
 - **No revenue share % on creator-studio** — "Performance-linked income, confirmed at offer"
 - **No build tools** — single-file HTML with inline CSS/JS only
+- **The Bar v1.0 is the deployment standard** — Five gates, all must pass, no partial credit. Probe is the reference implementation. Reviewer Agent evaluates all submissions. Lives at JOYN-DEPLOYMENT-STANDARD.md. Creator docx at docs/the-bar-v1.docx. Linked from Creator Studio.
 
 ---
 
