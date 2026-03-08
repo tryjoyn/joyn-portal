@@ -21,17 +21,54 @@ def close_db(e=None):
 
 
 def _apply_migrations(db):
-    """Add columns introduced after initial schema deploy. Safe to re-run."""
-    migrations = [
+    """
+    Apply all incremental migrations in order.  Every statement is wrapped in
+    a try/except so it is safe to re-run on an existing database.
+
+    Convention: add new ALTER TABLE / CREATE TABLE statements here when
+    introducing schema changes after the initial deploy.  For larger changes,
+    add a SQL file to data/migrations/ and load it via _apply_migration_files().
+    """
+    inline_migrations = [
+        # Original column additions
         "ALTER TABLE clients ADD COLUMN states TEXT",
         "ALTER TABLE clients ADD COLUMN first_login INTEGER DEFAULT 0",
     ]
-    for sql in migrations:
+    for sql in inline_migrations:
         try:
             db.execute(sql)
         except Exception:
             pass  # Column already exists — ignore
+
+    _apply_migration_files(db)
     db.commit()
+
+
+def _apply_migration_files(db):
+    """
+    Execute all *.sql files in data/migrations/ in filename order.
+    Each file is executed as a script (supports multiple statements).
+    Safe to re-run because every migration file uses CREATE TABLE IF NOT EXISTS
+    and CREATE INDEX IF NOT EXISTS.
+    """
+    migrations_dir = os.path.join(os.path.dirname(__file__), 'migrations')
+    if not os.path.isdir(migrations_dir):
+        return
+
+    sql_files = sorted(
+        f for f in os.listdir(migrations_dir) if f.endswith('.sql')
+    )
+    for filename in sql_files:
+        path = os.path.join(migrations_dir, filename)
+        try:
+            with open(path) as f:
+                db.executescript(f.read())
+        except Exception as exc:
+            # Log but do not crash — allows partial migrations on existing DBs
+            import logging
+            logging.getLogger(__name__).warning(
+                'Migration file %s skipped: %s', filename, exc
+            )
 
 
 def init_db():

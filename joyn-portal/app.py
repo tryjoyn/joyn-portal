@@ -9,6 +9,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# ── Observability: initialise tracer before app creation ──────────────────────
+# Importing get_tracer() here triggers TracerProvider setup so that spans
+# cover the full application lifecycle, not just after blueprints register.
+try:
+    from observability.tracing import get_tracer as _init_tracer  # noqa: F401
+except Exception as _otel_init_err:
+    logging.getLogger(__name__).warning(
+        'OpenTelemetry tracer init skipped: %s', _otel_init_err
+    )
+
 
 def create_app():
     app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -52,10 +62,22 @@ def create_app():
     app.register_blueprint(portal_bp)
     app.register_blueprint(api_bp)
 
+    # ── Observability: instrument Flask HTTP requests ─────────
+    try:
+        from observability.flask_middleware import register_flask_instrumentation
+        register_flask_instrumentation(app)
+    except Exception as _otel_err:
+        app.logger.warning('OTel Flask instrumentation skipped: %s', _otel_err)
+
     # ── Root redirect ─────────────────────────────────────────
     @app.route('/')
     def index():
         return redirect(url_for('portal.dashboard'))
+
+    # ── Health check (used by Railway / load balancers) ───────
+    @app.route('/health')
+    def health():
+        return jsonify({'status': 'ok'}), 200
 
     # ── Error handlers ─────────────────────────────────────────
     @app.errorhandler(400)

@@ -6,3 +6,18 @@ sendgrid>=6.11
 stripe>=8.0
 python-dotenv>=1.0
 gunicorn>=21.0
+
+# ── Phase 1: Observability & Cost Tracking ─────────────────────
+anthropic>=0.25.0
+
+# OpenTelemetry core
+opentelemetry-api>=1.24.0
+opentelemetry-sdk>=1.24.0
+
+# OpenTelemetry auto-instrumentation
+opentelemetry-instrumentation-flask>=0.45b0
+opentelemetry-instrumentation-requests>=0.45b0
+
+# OTLP exporter (for Grafana Tempo, Honeycomb, Datadog, etc.)
+# Optional in development — ConsoleSpanExporter is used as fallback
+opentelemetry-exporter-otlp-proto-grpc>=1.24.0

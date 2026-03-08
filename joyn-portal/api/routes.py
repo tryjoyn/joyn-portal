@@ -386,3 +386,128 @@ def _send_payment_failed_email(to_email: str, company_name: str):
         SendGridAPIClient(api_key).send(msg)
     except Exception as e:
         current_app.logger.error(f'SendGrid error: {e}')
+
+
+# ── Observability: LLM cost reporting (staff-facing portal) ────────────────────
+
+@api_bp.route('/client/usage/cost')
+@api_login_required
+def client_cost_summary():
+    """
+    Return a rolling cost summary for the authenticated client.
+
+    Query params:
+      days  — lookback window in days (default 30, max 90)
+
+    Response:
+      {
+        "period_days": 30,
+        "total_cost_usd": 1.2345,
+        "total_input_tokens": 45000,
+        "total_output_tokens": 12000,
+        "by_workflow": [
+          { "workflow": "bulletin_analysis", "calls": 12, "cost_usd": 0.80 },
+          ...
+        ],
+        "daily": [
+          { "date": "2026-03-01", "cost_usd": 0.04 },
+          ...
+        ]
+      }
+    """
+    days = min(int(request.args.get('days', 30)), 90)
+
+    totals = query_one(
+        """SELECT
+               COALESCE(SUM(cost_usd), 0)       AS total_cost_usd,
+               COALESCE(SUM(input_tokens), 0)   AS total_input_tokens,
+               COALESCE(SUM(output_tokens), 0)  AS total_output_tokens,
+               COUNT(*)                          AS total_calls
+           FROM llm_usage
+           WHERE client_id = ?
+             AND recorded_at >= datetime('now', ? || ' days')""",
+        (g.client_id, f'-{days}'),
+    )
+
+    by_workflow = query(
+        """SELECT
+               COALESCE(workflow, 'unknown') AS workflow,
+               COUNT(*)                      AS calls,
+               COALESCE(SUM(cost_usd), 0)   AS cost_usd
+           FROM llm_usage
+           WHERE client_id = ?
+             AND recorded_at >= datetime('now', ? || ' days')
+           GROUP BY workflow
+           ORDER BY cost_usd DESC""",
+        (g.client_id, f'-{days}'),
+    )
+
+    daily = query(
+        """SELECT
+               DATE(recorded_at)            AS date,
+               COALESCE(SUM(cost_usd), 0)  AS cost_usd
+           FROM llm_usage
+           WHERE client_id = ?
+             AND recorded_at >= datetime('now', ? || ' days')
+           GROUP BY DATE(recorded_at)
+           ORDER BY date ASC""",
+        (g.client_id, f'-{days}'),
+    )
+
+    return jsonify({
+        'period_days':        days,
+        'total_cost_usd':     round(float(totals['total_cost_usd']), 6) if totals else 0,
+        'total_input_tokens': int(totals['total_input_tokens']) if totals else 0,
+        'total_output_tokens':int(totals['total_output_tokens']) if totals else 0,
+        'total_calls':        int(totals['total_calls']) if totals else 0,
+        'by_workflow':        rows_to_list(by_workflow),
+        'daily':              rows_to_list(daily),
+    })
+
+
+@api_bp.route('/admin/usage/cost')
+@portal_secret_required
+def admin_cost_summary():
+    """
+    System-wide cost summary across all clients.
+    Protected by JOYN_PORTAL_SECRET — for internal use only.
+
+    Query params:
+      days  — lookback window in days (default 7, max 90)
+    """
+    days = min(int(request.args.get('days', 7)), 90)
+
+    totals = query_one(
+        """SELECT
+               COALESCE(SUM(cost_usd), 0)       AS total_cost_usd,
+               COALESCE(SUM(input_tokens), 0)   AS total_input_tokens,
+               COALESCE(SUM(output_tokens), 0)  AS total_output_tokens,
+               COUNT(*)                          AS total_calls,
+               COUNT(DISTINCT client_id)         AS active_clients
+           FROM llm_usage
+           WHERE recorded_at >= datetime('now', ? || ' days')""",
+        (f'-{days}',),
+    )
+
+    by_client = query(
+        """SELECT
+               client_id,
+               COUNT(*)                      AS calls,
+               COALESCE(SUM(cost_usd), 0)   AS cost_usd
+           FROM llm_usage
+           WHERE recorded_at >= datetime('now', ? || ' days')
+           GROUP BY client_id
+           ORDER BY cost_usd DESC
+           LIMIT 20""",
+        (f'-{days}',),
+    )
+
+    return jsonify({
+        'period_days':        days,
+        'total_cost_usd':     round(float(totals['total_cost_usd']), 6) if totals else 0,
+        'total_input_tokens': int(totals['total_input_tokens']) if totals else 0,
+        'total_output_tokens':int(totals['total_output_tokens']) if totals else 0,
+        'total_calls':        int(totals['total_calls']) if totals else 0,
+        'active_clients':     int(totals['active_clients']) if totals else 0,
+        'top_clients':        rows_to_list(by_client),
+    })

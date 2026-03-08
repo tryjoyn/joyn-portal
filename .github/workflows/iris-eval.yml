@@ -1,0 +1,60 @@
+name: Iris Agent Evaluation
+
+on:
+  pull_request:
+    paths:
+      - 'iris-agent/**'
+      - 'joyn-portal/evaluation/**'
+      - 'joyn-portal/observability/**'
+  workflow_dispatch:
+    inputs:
+      case_id:
+        description: 'Run a single test case (leave blank for all)'
+        required: false
+        default: ''
+
+jobs:
+  evaluate:
+    name: Run evaluation pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install anthropic python-dotenv
+
+      - name: Run evaluation (all cases)
+        if: ${{ github.event.inputs.case_id == '' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_MODEL: claude-haiku-3-5
+          PASS_THRESHOLD: '0.80'
+        working-directory: joyn-portal
+        run: |
+          python -m evaluation.evaluator
+
+      - name: Run evaluation (single case)
+        if: ${{ github.event.inputs.case_id != '' }}
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_MODEL: claude-haiku-3-5
+          PASS_THRESHOLD: '0.80'
+        working-directory: joyn-portal
+        run: |
+          python -m evaluation.evaluator --case-id "${{ github.event.inputs.case_id }}"
+
+      - name: Upload evaluation results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-${{ github.run_id }}
+          path: joyn-portal/evaluation/results/
+          retention-days: 30
