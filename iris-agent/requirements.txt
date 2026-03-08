@@ -1,0 +1,17 @@
+# Iris Agent — Python dependencies
+# Pin major versions; patch updates are safe
+
+# ── Anthropic SDK (raw — no LiteLLM) ──────────────────────────────────────────
+anthropic>=0.25.0,<1.0.0
+
+# ── HTTP client ───────────────────────────────────────────────────────────────
+requests>=2.31.0,<3.0.0
+
+# ── OpenTelemetry (mirrors Phase 1 portal requirements) ───────────────────────
+opentelemetry-api>=1.24.0,<2.0.0
+opentelemetry-sdk>=1.24.0,<2.0.0
+opentelemetry-instrumentation-requests>=0.45b0
+
+# Optional: OTLP exporter for Grafana Cloud / Honeycomb / Datadog
+# Uncomment when OTLP_ENDPOINT is configured in Railway:
+# opentelemetry-exporter-otlp-proto-grpc>=1.24.0,<2.0.0
