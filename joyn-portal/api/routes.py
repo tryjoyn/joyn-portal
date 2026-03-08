@@ -511,3 +511,37 @@ def admin_cost_summary():
         'active_clients':     int(totals['active_clients']) if totals else 0,
         'top_clients':        rows_to_list(by_client),
     })
+
+
+# ── Admin: reset all client data (one-time use, protected by portal secret) ──
+
+@api_bp.route('/admin/reset-clients', methods=['POST'])
+@portal_secret_required
+def admin_reset_clients():
+    """
+    Wipe all client accounts and related data from the portal database.
+    Protected by X-Joyn-Secret header. For testing/onboarding resets only.
+    """
+    tables = [
+        'password_reset_tokens',
+        'api_keys',
+        'activity_log',
+        'outputs',
+        'hired_staff',
+        'clients',
+    ]
+    counts = {}
+    for table in tables:
+        try:
+            row = query_one(f"SELECT COUNT(*) AS n FROM {table}")
+            n = row['n'] if row else 0
+            execute_commit(f"DELETE FROM {table}")
+            counts[table] = n
+        except Exception as exc:
+            counts[table] = f"error: {exc}"
+
+    return jsonify({
+        'status': 'ok',
+        'message': 'All client data cleared',
+        'deleted': counts,
+    })
