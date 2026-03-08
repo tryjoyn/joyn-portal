@@ -499,39 +499,6 @@ p { color: var(--ink-secondary); }
 }
 .page-footer-copy:hover { color: var(--ink); }
 
-/* ── 5V Health panel ── */
-.health-panel {
-  margin-top: 1.75rem;
-  border: 1px solid var(--rule);
-}
-.health-panel-hd {
-  padding: .65rem 1rem;
-  background: var(--surface);
-  border-bottom: 1px solid var(--rule);
-  font-family: 'DM Mono', monospace;
-  font-size: .6rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--ink-secondary);
-}
-.health-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .5rem 1rem;
-  border-bottom: 1px solid var(--rule);
-  font-family: 'DM Mono', monospace;
-  font-size: .62rem;
-  letter-spacing: .04em;
-}
-.health-row:last-child { border-bottom: none; }
-.health-dim { color: var(--ink-secondary); text-transform: uppercase; letter-spacing: .08em; }
-.health-val { color: var(--ink); font-weight: 500; }
-.health-val.ok   { color: #3a7a3a; }
-.health-val.warn { color: var(--gold-text); }
-.health-val.risk { color: var(--pause-red); }
-.health-val.na   { color: var(--ink-secondary); opacity: .5; }
-
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
@@ -628,44 +595,6 @@ p { color: var(--ink-secondary); }
       <button class="thresh-btn">Low</button>
       <button class="thresh-btn active">Medium</button>
       <button class="thresh-btn">High</button>
-    </div>
-
-    <!-- 5V Runtime Health (5V.md Stage 03) -->
-    <hr class="sidebar-rule">
-    <div class="sidebar-section-label">5V Data Health</div>
-    <div class="health-panel">
-      <div class="health-panel-hd">Live signal · updated each crawl</div>
-      {% set h = iris_5v_health %}
-      <div class="health-row">
-        <span class="health-dim">V1 Veracity</span>
-        <span class="health-val {% if h.v1_veracity is none %}na{% elif h.v1_veracity >= 0.8 %}ok{% elif h.v1_veracity >= 0.5 %}warn{% else %}risk{% endif %}">
-          {% if h.v1_veracity is none %}—{% else %}{{ (h.v1_veracity * 100) | round | int }}%{% endif %}
-        </span>
-      </div>
-      <div class="health-row">
-        <span class="health-dim">V2 Value</span>
-        <span class="health-val {% if h.v2_value is none %}na{% elif h.v2_value >= 0.7 %}ok{% elif h.v2_value >= 0.4 %}warn{% else %}risk{% endif %}">
-          {% if h.v2_value is none %}—{% else %}{{ (h.v2_value * 100) | round | int }}%{% endif %}
-        </span>
-      </div>
-      <div class="health-row">
-        <span class="health-dim">V3 Vulnerability</span>
-        <span class="health-val {% if h.v3_vulnerability is none %}na{% elif h.v3_vulnerability >= 0.8 %}ok{% elif h.v3_vulnerability >= 0.5 %}warn{% else %}risk{% endif %}">
-          {% if h.v3_vulnerability is none %}—{% else %}{{ (h.v3_vulnerability * 100) | round | int }}%{% endif %}
-        </span>
-      </div>
-      <div class="health-row">
-        <span class="health-dim">V4 Variability</span>
-        <span class="health-val {% if h.v4_variability is none %}na{% elif h.v4_variability <= 0.3 %}ok{% elif h.v4_variability <= 0.6 %}warn{% else %}risk{% endif %}">
-          {% if h.v4_variability is none %}—{% else %}{{ (h.v4_variability * 100) | round | int }}%{% endif %}
-        </span>
-      </div>
-      <div class="health-row">
-        <span class="health-dim">V5 Visibility</span>
-        <span class="health-val {% if h.v5_visibility is none %}na{% elif h.v5_visibility >= 0.8 %}ok{% elif h.v5_visibility >= 0.5 %}warn{% else %}risk{% endif %}">
-          {% if h.v5_visibility is none %}—{% else %}{{ (h.v5_visibility * 100) | round | int }}%{% endif %}
-        </span>
-      </div>
     </div>
 
   </aside>
