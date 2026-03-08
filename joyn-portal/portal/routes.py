@@ -9,6 +9,10 @@ from flask import (
 from data.db import query_one, query, insert, execute_commit, row_to_dict, rows_to_list
 from auth.helpers import login_required, hash_password, verify_password
 from staff_common import STAFF_REGISTRY, AVAILABLE_STAFF_SLUGS, send_staff_added_email
+try:
+    import requests as _requests
+except ImportError:
+    _requests = None
 
 portal_bp = Blueprint('portal', __name__)
 
@@ -50,6 +54,55 @@ def _get_outputs(client_id, staff_slug=None, limit=50):
             (client_id, limit)
         )
     return rows_to_list(rows)
+
+
+# ── 5V health helper ──────────────────────────────────────────
+
+_NULL_HEALTH = {
+    'v1_veracity': None,
+    'v2_value': None,
+    'v3_vulnerability': None,
+    'v4_variability': None,
+    'v5_visibility': None,
+}
+
+
+def _get_iris_5v_health(client_id: int) -> dict:
+    """
+    Fetch the most recent 5V runtime health snapshot for *client_id* from
+    the iris-agent backend.  Returns a null-safe dict so the template always
+    has the expected keys even when the backend is unreachable.
+
+    5V.md Stage 03 requirement: health signals must be visible to the hirer
+    in the portal dashboard.
+    """
+    if _requests is None:
+        return dict(_NULL_HEALTH)
+    base_url = current_app.config.get('IRIS_AGENT_URL', '').rstrip('/')
+    api_key  = current_app.config.get('IRIS_INTERNAL_KEY', '')
+    if not base_url or not api_key:
+        return dict(_NULL_HEALTH)
+    try:
+        resp = _requests.get(
+            f"{base_url}/api/5v/health",
+            headers={'X-Internal-Key': api_key},
+            timeout=3,
+        )
+        if resp.status_code == 200:
+            data = resp.json()
+            # Find the entry for this client_id
+            for entry in data.get('client_health', []):
+                if entry.get('client_id') == client_id:
+                    return {
+                        'v1_veracity':     entry.get('v1_veracity'),
+                        'v2_value':        entry.get('v2_value'),
+                        'v3_vulnerability':entry.get('v3_vulnerability'),
+                        'v4_variability':  entry.get('v4_variability'),
+                        'v5_visibility':   entry.get('v5_visibility'),
+                    }
+    except Exception:
+        pass
+    return dict(_NULL_HEALTH)
 
 
 def _stats(client_id):
@@ -155,6 +208,8 @@ def staff_iris():
     except Exception:
         iris_hired_date = str(iris.get('hired_at', ''))[:10]
 
+    iris_5v_health = _get_iris_5v_health(g.client_id)
+
     return render_template(
         'staff_iris.html',
         client=client,
@@ -164,6 +219,7 @@ def staff_iris():
         outputs=outputs,
         iris_stats=iris_stats,
         iris_hired_date=iris_hired_date,
+        iris_5v_health=iris_5v_health,
         format_date=_format_ts,
         now=datetime.utcnow(),
     )

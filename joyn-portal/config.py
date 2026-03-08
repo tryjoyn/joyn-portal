@@ -15,6 +15,9 @@ class BaseConfig:
     STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
     STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
     CORS_ORIGINS = os.environ.get('CORS_ORIGINS', '*')
+    # Iris agent backend (for 5V health data)
+    IRIS_AGENT_URL = os.environ.get('IRIS_AGENT_URL', '')
+    IRIS_INTERNAL_KEY = os.environ.get('IRIS_INTERNAL_KEY', '')
     SESSION_COOKIE_HTTPONLY = True
     SESSION_COOKIE_SAMESITE = 'Lax'
 
