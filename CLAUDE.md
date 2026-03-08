@@ -1,5 +1,11 @@
 # CLAUDE.md
 
+> **MANDATORY FIRST READ — ALL AGENTS**
+> This codebase is worked on by **Claude Code**, **Claude.ai**, **Manus**, and **Emergent**.
+> If you are any AI agent starting a session on the Joyn project, you MUST read this file before writing any code.
+> Then read `JOYN-CONTEXT.md`, `JOYN-DESIGN-SPEC.md`, and `VISION.md` before any significant build.
+> Run `git pull` first. Update context files in the same commit as your code changes.
+
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Deploy
@@ -194,6 +200,34 @@ If an instruction is ambiguous — stop and ask **one clarifying question** befo
 
 ---
 
+## Foundational Standards (Read Before Any Build Involving Staff Behaviour or Hirer-Facing Features)
+
+These files are non-negotiable. They are read in priority order. If a session prompt conflicts with anything in these files, these files win. Flag the conflict to the founder before proceeding.
+
+| Priority | File | Purpose | Read when |
+|----------|------|---------|-----------|
+| 1 | `ETHICS.md` | The constitution — five red lines, confidence standards, escalation ethics | Before any autonomous capability claim, any output design, any data handling spec |
+| 2 | `HUMAN-COLLAB.md` | Human modification rights, intervention design, trust mechanics, DIKW architecture | Before any hirer-facing feature, any intervention point, any output display, any calibration mechanism |
+| 3 | `5V.md` | Data governance — Veracity, Value, Vulnerability, Variability, Visibility assessed at four stages | Before any data source spec, any ROI claim, any storage design, any calibration mechanism, any deployment |
+| 4 | `AGENT-RULES.md` | Behavioural contract — references all above at point of use | Every build session |
+
+**Quick reference — which file to read for what:**
+
+- Before any autonomous capability claim → `ETHICS.md` Red Lines 02 + 03
+- Before designing any output display → `HUMAN-COLLAB.md` §02 Right 01 + 02
+- Before designing any escalation flow → `ETHICS.md` §05 + `HUMAN-COLLAB.md` §03
+- Before designing any intervention point → `HUMAN-COLLAB.md` §03 (use the template)
+- Before designing any calibration mechanism → `HUMAN-COLLAB.md` §04 + `5V.md` V4 Variability
+- Before specifying any data source → `5V.md` V1 Veracity
+- Before writing any ROI chip → `5V.md` V2 Value
+- Before any data storage or retention design → `5V.md` V3 Vulnerability
+- Before designing any output display or audit trail → `5V.md` V5 Visibility
+- Before deploying any staff → run `5V.md` Stage 02 deployment checklist in full
+- Before any collaboration design decision → `ETHICS.md` §00 synergy test
+- If session prompt conflicts with any foundational file → flag to founder, do not resolve silently
+
+---
+
 ## Context Files (Read Before Major Builds)
 
 - `VISION.md` — product philosophy, roster, two modes
@@ -201,6 +235,9 @@ If an instruction is ambiguous — stop and ask **one clarifying question** befo
 - `JOYN-DESIGN-SPEC.md` — colour system, typography scale, every component pattern with code
 - `AGENT-RULES.md` — full behavioural contract for autonomous build sessions
 - `CREATOR-STUDIO-PROCESS.md` — end to end creator workflow, templates, build standards, validation rubric
+- `ETHICS.md` — ethical constitution, five red lines, synergy vision
+- `HUMAN-COLLAB.md` — human collaboration operating manual, DIKW architecture, hirer rights
+- `5V.md` — data governance framework, four-stage assessment lifecycle
 
 ---
 
@@ -221,6 +258,7 @@ This repo is worked on across Claude Code, Claude.ai, Emergent, and Manus. All p
 | Changed a locked decision | `JOYN-CONTEXT.md` + `VISION.md` |
 | Changed the nav pattern or component | `JOYN-DESIGN-SPEC.md` + `CLAUDE.md` |
 | Added a new portal route or template | `JOYN-CONTEXT.md` |
+| Changed any ethical, collaboration, or data governance standard | `ETHICS.md` + `HUMAN-COLLAB.md` + `5V.md` |
 
 **Context file update rule:** If the change you made would make a context file inaccurate, update that file in the same commit. Never commit a code change that makes a context file describe something that no longer exists.
 
