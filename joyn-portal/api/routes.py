@@ -568,3 +568,27 @@ def admin_lookup_client():
         'email': client['email'],
         'company_name': client['company_name'],
     })
+
+# ── Admin: view activity log for a client ─────────────────────────────────────
+@api_bp.route('/admin/activity-log', methods=['GET'])
+@portal_secret_required
+def admin_activity_log():
+    """
+    View recent activity log entries for a client.
+    Protected by X-Joyn-Secret header.
+    Query params: client_id (int), limit (int, default 20)
+    """
+    client_id = request.args.get('client_id', type=int)
+    limit = min(request.args.get('limit', 20, type=int), 100)
+    if not client_id:
+        return jsonify({'error': 'client_id query param required'}), 400
+    rows = query(
+        'SELECT * FROM activity_log WHERE client_id=? ORDER BY timestamp DESC LIMIT ?',
+        (client_id, limit)
+    )
+    return jsonify({
+        'status': 'ok',
+        'client_id': client_id,
+        'count': len(rows_to_list(rows)),
+        'entries': rows_to_list(rows),
+    })
