@@ -798,24 +798,46 @@ function openRoleModal(title, vertical) {
   openModal('modal-role');
 }
 
+// ── API CONFIG ──
+const BUILDERS_API = 'https://joyn-builders-production.up.railway.app';
+
 async function submitRoleModal() {
   const name = document.getElementById('rm-name').value.trim();
   const email = document.getElementById('rm-email').value.trim();
+  const roleTitle = document.getElementById('rm-role').value;
   if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
-  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
-  try {
-    window.location.href = 'creator-apply.html';
-  } catch {
-    btn.textContent = 'Submit'; btn.disabled = false;
-    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
-  }
+  // Store pre-fill data and send to onboarding
+  sessionStorage.setItem('prefill_name', name);
+  sessionStorage.setItem('prefill_email', email);
+  sessionStorage.setItem('prefill_role', roleTitle);
+  window.location.href = 'builder-onboarding.html?role_name=' + encodeURIComponent(roleTitle);
 }
 
-// ── APPLY FORM — redirects to creator-apply.html portal flow ──
+// ── APPLY FORM — sends to builder-onboarding.html ──
 function submitApplyForm(e) {
   e.preventDefault();
-  window.location.href = 'creator-apply.html';
+  const nameEl = document.getElementById('apply-name') || document.querySelector('[name="name"]');
+  const emailEl = document.getElementById('apply-email') || document.querySelector('[name="email"]');
+  if (nameEl) sessionStorage.setItem('prefill_name', nameEl.value);
+  if (emailEl) sessionStorage.setItem('prefill_email', emailEl.value);
+  window.location.href = 'builder-onboarding.html';
 }
+
+// ── LIVE CATALOGUE STATS ──
+async function loadLiveStats() {
+  try {
+    const res = await fetch(BUILDERS_API + '/api/catalogue/verticals');
+    if (!res.ok) return;
+    const data = await res.json();
+    const total = (data.verticals || []).reduce((s, v) => s + v.total, 0);
+    const countEl = document.getElementById('roles-count');
+    if (countEl && total > 0) countEl.textContent = total;
+    // Update hero stats if present
+    const heroRolesEl = document.querySelector('[data-stat="roles"]');
+    if (heroRolesEl && total > 0) heroRolesEl.textContent = total;
+  } catch(e) { /* silently fail — static data still shows */ }
+}
+loadLiveStats();
 window.addEventListener('scroll', function() {
   document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
 });

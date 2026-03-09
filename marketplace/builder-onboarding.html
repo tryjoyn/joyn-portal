@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claim Your Founding Builder Seat — Creator Studio | Joyn</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Claim your Founding Builder Seat. $99/year. 75% revenue share from day one. Build AI staff from your domain expertise.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1rem; line-height: 1.8; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+p { color: var(--ink-secondary); }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: 0.01ms !important; } }
+
+/* NAV */
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--white); }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; }
+.nav-back { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-back:hover { color: var(--ink); }
+
+/* PROGRESS BAR */
+.progress-bar-wrap { padding: 1.25rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.progress-steps { display: flex; gap: 0; }
+.prog-step { flex: 1; padding: 0.75rem 1rem; border: 1px solid var(--rule); border-right: none; background: var(--white); transition: background 0.2s; }
+.prog-step:last-child { border-right: 1px solid var(--rule); }
+.prog-step.done { background: var(--surface); }
+.prog-step.active { background: var(--ink); }
+.prog-step-n { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.2rem; }
+.prog-step.active .prog-step-n { color: rgba(250,250,248,0.6); }
+.prog-step.done .prog-step-n { color: var(--gold-text); }
+.prog-step-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-secondary); }
+.prog-step.active .prog-step-label { color: var(--white); }
+.prog-step.done .prog-step-label { color: var(--ink); }
+
+/* MAIN LAYOUT */
+.onboarding-layout { display: grid; grid-template-columns: 1fr 380px; min-height: calc(100vh - 130px); }
+.onboarding-main { padding: clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem); border-right: 1px solid var(--rule); }
+.onboarding-sidebar { padding: 2.5rem 2rem; background: var(--surface); position: sticky; top: 0; height: fit-content; }
+
+/* STEP PANELS */
+.step-panel { display: none; }
+.step-panel.active { display: block; }
+
+/* STEP HEADER */
+.step-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1.25rem; }
+.step-eyebrow::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+.step-title { font-size: clamp(1.75rem,3vw,2.5rem); line-height: 1.1; margin-bottom: 1rem; }
+.step-desc { font-size: 1rem; max-width: 55ch; margin-bottom: 2.5rem; color: var(--ink-secondary); }
+
+/* FORM ELEMENTS */
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-label .required { color: var(--gold-text); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 0.95rem; padding: 0.875rem 1rem; border: 1px solid var(--rule-mid); background: var(--white); color: var(--ink); outline: none; transition: border-color 0.15s; width: 100%; -webkit-appearance: none; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ink); }
+.form-input.error, .form-select.error, .form-textarea.error { border-color: #c0392b; }
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-hint { font-size: 0.8rem; color: var(--ink-secondary); margin-top: 0.25rem; }
+.form-error { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: #c0392b; margin-top: 0.25rem; display: none; }
+.form-error.visible { display: block; }
+
+/* TRACK SELECTOR */
+.track-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.track-option { border: 1.5px solid var(--rule-mid); padding: 1.5rem; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+.track-option:hover { border-color: var(--rule-mid); background: var(--surface); }
+.track-option.selected { border-color: var(--ink); background: var(--surface); }
+.track-option-letter { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-text); line-height: 1; margin-bottom: 0.5rem; }
+.track-option-title { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.5rem; }
+.track-option-desc { font-size: 0.85rem; color: var(--ink-secondary); line-height: 1.6; }
+
+/* VERTICAL GRID */
+.vertical-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 1.5rem; }
+.vertical-btn { border: 1px solid var(--rule-mid); padding: 0.75rem 0.5rem; cursor: pointer; background: var(--white); font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-secondary); text-align: center; transition: all 0.15s; line-height: 1.4; }
+.vertical-btn:hover { border-color: var(--ink); color: var(--ink); }
+.vertical-btn.selected { border-color: var(--ink); background: var(--ink); color: var(--white); }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 2rem; display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-primary:disabled { background: var(--rule-mid); cursor: not-allowed; }
+.btn-gold { background: var(--gold-text); color: var(--white); }
+.btn-gold:hover { background: var(--gold-hover); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--rule-mid); }
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-row { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; }
+
+/* SIDEBAR */
+.sidebar-section { margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
+.sidebar-section:last-child { border-bottom: none; margin-bottom: 0; }
+.sidebar-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
+.sidebar-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; margin-bottom: 0.5rem; }
+.sidebar-body { font-size: 0.875rem; color: var(--ink-secondary); line-height: 1.7; }
+.seat-counter { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.seat-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* NUDGE CARD */
+.nudge-card { border: 1px solid rgba(139,105,20,0.25); background: rgba(139,105,20,0.05); padding: 1.25rem; margin-bottom: 1.5rem; }
+.nudge-text { font-size: 0.875rem; color: var(--ink-secondary); line-height: 1.7; }
+.nudge-text strong { color: var(--ink); }
+
+/* PAYMENT SECTION */
+.payment-box { border: 1px solid var(--rule-mid); padding: 2rem; background: var(--surface); margin-bottom: 1.5rem; }
+.payment-price { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--ink); line-height: 1; margin-bottom: 0.25rem; }
+.payment-period { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1.5rem; }
+.payment-includes { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.5rem; }
+.payment-item { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.875rem; color: var(--ink-secondary); }
+.payment-item::before { content: '✓'; color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.8rem; flex-shrink: 0; margin-top: 0.15rem; }
+
+/* SUCCESS STATE */
+.success-panel { display: none; text-align: center; padding: 4rem 2rem; }
+.success-panel.visible { display: block; }
+.success-icon { font-size: 3rem; margin-bottom: 1.5rem; }
+.success-title { font-size: clamp(1.75rem,3vw,2.5rem); margin-bottom: 1rem; }
+.success-body { font-size: 1rem; max-width: 50ch; margin: 0 auto 2rem; }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .onboarding-layout { grid-template-columns: 1fr; }
+  .onboarding-sidebar { display: none; }
+  .track-options { grid-template-columns: 1fr; }
+  .vertical-grid { grid-template-columns: repeat(2, 1fr); }
+  .progress-steps { overflow-x: auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">JOYN.</a>
+  <a href="./creator-studio.html" class="nav-back">← Back to Creator Studio</a>
+</nav>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar-wrap">
+  <div class="progress-steps" id="progress-steps">
+    <div class="prog-step active" id="ps-1">
+      <div class="prog-step-n">01</div>
+      <div class="prog-step-label">Your Background</div>
+    </div>
+    <div class="prog-step" id="ps-2">
+      <div class="prog-step-n">02</div>
+      <div class="prog-step-label">Your Build</div>
+    </div>
+    <div class="prog-step" id="ps-3">
+      <div class="prog-step-n">03</div>
+      <div class="prog-step-label">Choose Track</div>
+    </div>
+    <div class="prog-step" id="ps-4">
+      <div class="prog-step-n">04</div>
+      <div class="prog-step-label">Claim Your Seat</div>
+    </div>
+    <div class="prog-step" id="ps-5">
+      <div class="prog-step-n">05</div>
+      <div class="prog-step-label">Confirm</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="onboarding-layout">
+  <main class="onboarding-main" id="onboarding-main">
+
+    <!-- STEP 1: Background -->
+    <div class="step-panel active" id="step-1">
+      <div class="step-eyebrow">Step 1 of 4</div>
+      <h1 class="step-title">Tell us about your expertise</h1>
+      <p class="step-desc">This is not a job application. We want to understand your domain knowledge so we can match you to the right role and guide your build.</p>
+
+      <div class="nudge-card" id="nudge-1">
+        <div class="nudge-text"><strong>Iris was built by an insurance professional with 12 years of P&C regulatory experience.</strong> The best AI staff comes from people who have lived the problem they are solving.</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-name">Full name <span class="required">*</span></label>
+        <input type="text" class="form-input" id="f-name" placeholder="Your name" autocomplete="name" required>
+        <div class="form-error" id="err-name">Please enter your name</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-email">Email address <span class="required">*</span></label>
+        <input type="email" class="form-input" id="f-email" placeholder="you@company.com" autocomplete="email" required>
+        <div class="form-error" id="err-email">Please enter a valid email address</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-role">Your current or most recent role <span class="required">*</span></label>
+        <input type="text" class="form-input" id="f-role" placeholder="e.g. Senior P&C Underwriter, Head of Compliance, Lettings Manager">
+        <div class="form-hint">Be specific — this helps us match you to the right catalogue role.</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-domain">Company or domain you work in</label>
+        <input type="text" class="form-input" id="f-domain" placeholder="e.g. Lloyd's syndicate, NHS trust, commercial law firm">
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-years">Years of domain experience <span class="required">*</span></label>
+        <select class="form-select" id="f-years" required>
+          <option value="">Select…</option>
+          <option value="2-5">2–5 years</option>
+          <option value="5-10">5–10 years</option>
+          <option value="10-15">10–15 years</option>
+          <option value="15+">15+ years</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="goStep(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Your Build Concept -->
+    <div class="step-panel" id="step-2">
+      <div class="step-eyebrow">Step 2 of 4</div>
+      <h2 class="step-title">What will your AI staff do?</h2>
+      <p class="step-desc">Describe the specific professional task your AI staff will perform. Not "AI assistant" — a real job that a real person currently does manually.</p>
+
+      <div class="nudge-card" id="nudge-2">
+        <div class="nudge-text" id="nudge-2-text"><strong>Think about the task you do most often that takes the most time.</strong> The best AI staff replaces one specific, repeatable job — not everything.</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-vertical">Industry vertical <span class="required">*</span></label>
+        <div class="vertical-grid" id="vertical-grid">
+          <!-- Populated from API -->
+        </div>
+        <input type="hidden" id="f-vertical" value="">
+        <div class="form-error" id="err-vertical">Please select a vertical</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-concept">Your AI staff concept <span class="required">*</span></label>
+        <textarea class="form-textarea" id="f-concept" placeholder="e.g. An AI staff that monitors state insurance department bulletins, scores them by client impact, and sends severity alerts to P&C brokers before regulatory deadlines." rows="4"></textarea>
+        <div class="form-hint">One or two sentences. What does it do? Who hires it? What problem does it solve?</div>
+        <div class="form-error" id="err-concept">Please describe your AI staff concept (at least 30 characters)</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-manual">What manual task does this replace? <span class="required">*</span></label>
+        <textarea class="form-textarea" id="f-manual" placeholder="e.g. I currently spend 3 hours every Monday manually checking 50 state DOI websites for new bulletins, then emailing each broker individually about anything relevant to their book." rows="3"></textarea>
+        <div class="form-hint">Be specific. The more concrete, the better your Visionary Spec will be.</div>
+        <div class="form-error" id="err-manual">Please describe the manual task being replaced</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Track Selection -->
+    <div class="step-panel" id="step-3">
+      <div class="step-eyebrow">Step 3 of 4</div>
+      <h2 class="step-title">How will you build?</h2>
+      <p class="step-desc">Two paths. Both lead to the same destination — a deployed AI staff on the Joyn marketplace. Choose the one that fits where you are.</p>
+
+      <div class="track-options">
+        <div class="track-option selected" id="track-A" onclick="selectTrack('A')">
+          <div class="track-option-letter">A</div>
+          <div class="track-option-title">Build from Brief</div>
+          <div class="track-option-desc">Claim an open role from the catalogue. Complete the Creator Brief. Build from your Visionary Spec. The standard path for new builders.</div>
+        </div>
+        <div class="track-option" id="track-B" onclick="selectTrack('B')">
+          <div class="track-option-letter">B</div>
+          <div class="track-option-title">Franchise Your Build</div>
+          <div class="track-option-desc">Already built an AI workflow? An AI receptionist for salons, a compliance checker for law firms? Bring it here and convert it into deployable AI staff.</div>
+        </div>
+      </div>
+
+      <div id="track-A-detail" style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);margin-bottom:1.5rem;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Track A · What happens next</div>
+        <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.7;">
+          After you claim your seat, you will be matched to an open catalogue role. You will complete the Creator Brief — a guided conversation that generates your Visionary Spec. Then you build. The Reviewer Agent evaluates your submission against The Bar's five gates. Pass, and your AI staff is deployed to the marketplace.
+        </div>
+      </div>
+
+      <div id="track-B-detail" style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);margin-bottom:1.5rem;display:none;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Track B · What happens next</div>
+        <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.7;">
+          After you claim your seat, you will describe your existing build. We will help you convert it into a Joyn-standard AI staff — named outputs, hirer experience, calibration architecture. The Reviewer Agent evaluates it against The Bar. Pass, and your AI staff is listed with a hire flow, pricing, and a marketplace page.
+        </div>
+        <div class="form-field" style="margin-top:1.25rem;margin-bottom:0;">
+          <label class="form-label" for="f-existing-build">Describe your existing build</label>
+          <textarea class="form-textarea" id="f-existing-build" placeholder="e.g. I built an AI receptionist for hair salons using Manus and n8n. It answers calls, books appointments, sends confirmations, and handles cancellations. It's been running for 3 months with 2 salons." rows="4"></textarea>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-tools">Build tools you are comfortable with</label>
+        <input type="text" class="form-input" id="f-tools" placeholder="e.g. Manus, Claude Code, n8n, Make, Emergent, Zapier, Python">
+        <div class="form-hint">Tools are open — you can use anything. This helps us guide your build.</div>
+      </div>
+
+      <div class="form-field">
+        <label class="form-label" for="f-referral">How did you hear about Joyn?</label>
+        <select class="form-select" id="f-referral">
+          <option value="">Select…</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="twitter">X / Twitter</option>
+          <option value="referral">Referred by someone</option>
+          <option value="search">Search</option>
+          <option value="newsletter">Newsletter</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+        <button class="btn btn-primary" onclick="goStep(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Payment -->
+    <div class="step-panel" id="step-4">
+      <div class="step-eyebrow">Step 4 of 4</div>
+      <h2 class="step-title">Claim your Founding Builder Seat</h2>
+      <p class="step-desc">One payment. Lifetime status. 75% revenue share from your first hire.</p>
+
+      <div class="payment-box">
+        <div class="payment-price">$99</div>
+        <div class="payment-period">Per year · Founding Builder Seat</div>
+        <div class="payment-includes">
+          <div class="payment-item">Access to the Creator Studio and all build tools</div>
+          <div class="payment-item">Creator Brief → Visionary Spec generation</div>
+          <div class="payment-item">Reviewer Agent evaluation (unlimited resubmissions)</div>
+          <div class="payment-item">Deployment Agent → live marketplace listing</div>
+          <div class="payment-item">75% revenue share from day one — lifetime status</div>
+          <div class="payment-item">Founding Builder badge on your listing</div>
+          <div class="payment-item">Priority support from the Joyn team</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;color:var(--ink-secondary);padding-top:1rem;border-top:1px solid var(--rule);">
+          Founding Builder status is permanent. As the platform grows and standard builders earn 70%, you continue at 75% — and move to 80% at Scale tier.
+        </div>
+      </div>
+
+      <div id="apply-error" style="display:none;padding:1rem;border:1px solid #c0392b;background:rgba(192,57,43,0.05);font-family:'DM Mono',monospace;font-size:0.7rem;color:#c0392b;margin-bottom:1.5rem;"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+        <button class="btn btn-gold" id="pay-btn" onclick="submitApplication()" style="font-size:0.8rem;padding:1rem 2.5rem;">
+          Claim Seat &amp; Proceed to Payment →
+        </button>
+      </div>
+
+      <p style="font-size:0.8rem;color:var(--ink-secondary);margin-top:1rem;">Secure payment via Stripe. Cancel anytime — your build progress is saved.</p>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-panel" id="success-panel">
+      <div class="success-icon">✓</div>
+      <h2 class="success-title">Application received</h2>
+      <p class="success-body">Proceeding to payment to activate your Founding Builder Seat. You will be redirected to Stripe.</p>
+      <p style="font-size:0.8rem;color:var(--ink-secondary);margin-top:1rem;">If you are not redirected automatically, <a href="#" id="stripe-fallback-link" style="color:var(--gold-text);">click here</a>.</p>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="onboarding-sidebar" aria-label="Build context">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Founding Builder Seats</div>
+      <div class="seat-counter" id="seats-remaining">100</div>
+      <div class="seat-label">Seats remaining</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">What you are building</div>
+      <div class="sidebar-title" id="sidebar-concept-title">Your AI staff</div>
+      <div class="sidebar-body" id="sidebar-concept-body">Describe your concept on the previous step and it will appear here.</div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">The journey ahead</div>
+      <div style="display:flex;flex-direction:column;gap:0.5rem;">
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">01</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Claim your seat</div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">02</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Complete the Creator Brief</div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">03</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Receive your Visionary Spec</div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">04</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Build your AI staff</div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">05</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Pass The Bar</div>
+        </div>
+        <div style="display:flex;gap:0.75rem;align-items:flex-start;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);min-width:1.5rem;">06</div>
+          <div style="font-size:0.8rem;color:var(--ink-secondary);">Deploy and earn</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Reference</div>
+      <div class="sidebar-body">
+        <a href="./iris-insurance-regulatory.html" style="color:var(--gold-text);font-family:'DM Mono',monospace;font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;">View Iris — the reference implementation →</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = 'https://joyn-builders-production.up.railway.app';
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let currentStep = 1;
+let selectedTrack = 'A';
+let selectedVertical = '';
+let applicationId = null;
+
+// ── URL PARAMS ───────────────────────────────────────────────────────────────
+const urlParams = new URLSearchParams(window.location.search);
+const prefilledTrack = urlParams.get('track');
+const prefilledRoleName = urlParams.get('role_name');
+const prefilledRoleId = urlParams.get('role');
+
+// Pre-fill from sessionStorage
+window.addEventListener('DOMContentLoaded', () => {
+  const prefillName = sessionStorage.getItem('prefill_name');
+  const prefillEmail = sessionStorage.getItem('prefill_email');
+  const prefillRole = sessionStorage.getItem('prefill_role');
+  if (prefillName) document.getElementById('f-name').value = prefillName;
+  if (prefillEmail) document.getElementById('f-email').value = prefillEmail;
+  if (prefillRole) document.getElementById('f-role').value = prefillRole;
+  if (prefilledTrack === 'B') selectTrack('B');
+  if (prefilledRoleName) {
+    document.getElementById('f-concept').value = prefilledRoleName;
+  }
+  loadVerticals();
+  loadSeatsRemaining();
+});
+
+// ── LOAD VERTICALS ───────────────────────────────────────────────────────────
+const VERTICALS_STATIC = [
+  'Insurance & Risk', 'Financial Services', 'Healthcare', 'Legal & Compliance',
+  'Real Estate', 'Operations & Logistics', 'Technology', 'Accounting & Tax',
+  'HR & Talent', 'Marketing & Growth', 'Customer Success', 'Sales & Revenue',
+  'Education & Training', 'Architecture & Engineering', 'Construction & Property',
+  'Media & Publishing', 'Non-Profit & Social', 'Government & Public Sector',
+  'Hospitality & Events', 'Retail & E-Commerce', 'Manufacturing', 'Energy & Utilities', 'Other'
+];
+
+async function loadVerticals() {
+  let verticals = VERTICALS_STATIC;
+  try {
+    const res = await fetch(`${API_BASE}/api/catalogue/verticals`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data.verticals && data.verticals.length > 0) {
+        verticals = data.verticals.map(v => v.vertical);
+      }
+    }
+  } catch(e) { /* use static */ }
+  renderVerticalGrid(verticals);
+}
+
+function renderVerticalGrid(verticals) {
+  const grid = document.getElementById('vertical-grid');
+  grid.innerHTML = verticals.map(v => `
+    <button type="button" class="vertical-btn${selectedVertical === v ? ' selected' : ''}"
+      onclick="selectVertical('${v.replace(/'/g,"\\'")}', this)">${v}</button>
+  `).join('');
+}
+
+function selectVertical(v, btn) {
+  selectedVertical = v;
+  document.getElementById('f-vertical').value = v;
+  document.querySelectorAll('.vertical-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  // Update nudge
+  updateNudge2(v);
+}
+
+function updateNudge2(vertical) {
+  const nudges = {
+    'Insurance & Risk': '<strong>Iris was built by an insurance professional with 12 years of P&C experience.</strong> The most valuable AI staff in this vertical monitors, scores, and routes — not just summarises.',
+    'Financial Services': '<strong>The best financial AI staff has a specific methodology.</strong> "Credit analysis" is too broad. "Commercial credit assessment for SME lending under $5M" is a role.',
+    'Healthcare': '<strong>Healthcare AI staff requires deep payer and clinical knowledge.</strong> The most valuable roles are in prior auth, denial management, and documentation — where manual effort is highest.',
+    'Legal & Compliance': '<strong>Legal AI staff earns the most when it has a specific jurisdiction and contract type.</strong> "Contract review" is too broad. "Commercial SaaS contract review for UK law" is a role.',
+  };
+  const text = nudges[vertical] || '<strong>Think about the task you do most often that takes the most time.</strong> The best AI staff replaces one specific, repeatable job — not everything.';
+  document.getElementById('nudge-2-text').innerHTML = text;
+}
+
+// ── SEATS REMAINING ──────────────────────────────────────────────────────────
+async function loadSeatsRemaining() {
+  try {
+    const res = await fetch(`${API_BASE}/api/catalogue/verticals`);
+    // Seats remaining is 100 - paid builders count
+    // For now show 100 — will be dynamic once builders register
+    document.getElementById('seats-remaining').textContent = '100';
+  } catch(e) { /* static */ }
+}
+
+// ── TRACK SELECTION ──────────────────────────────────────────────────────────
+function selectTrack(track) {
+  selectedTrack = track;
+  document.getElementById('track-A').classList.toggle('selected', track === 'A');
+  document.getElementById('track-B').classList.toggle('selected', track === 'B');
+  document.getElementById('track-A-detail').style.display = track === 'A' ? 'block' : 'none';
+  document.getElementById('track-B-detail').style.display = track === 'B' ? 'block' : 'none';
+}
+
+// ── STEP NAVIGATION ──────────────────────────────────────────────────────────
+function goStep(n) {
+  if (n > currentStep && !validateStep(currentStep)) return;
+
+  // Update sidebar concept preview
+  updateSidebarPreview();
+
+  // Update progress bar
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById(`ps-${i}`);
+    if (!el) continue;
+    el.classList.remove('active', 'done');
+    if (i < n) el.classList.add('done');
+    else if (i === n) el.classList.add('active');
+  }
+
+  // Hide all panels, show target
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(`step-${n}`);
+  if (target) {
+    target.classList.add('active');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  currentStep = n;
+}
+
+function updateSidebarPreview() {
+  const concept = document.getElementById('f-concept').value.trim();
+  const name = document.getElementById('f-name').value.trim();
+  if (concept) {
+    document.getElementById('sidebar-concept-title').textContent = name ? `${name}'s AI staff` : 'Your AI staff';
+    document.getElementById('sidebar-concept-body').textContent = concept.substring(0, 120) + (concept.length > 120 ? '…' : '');
+  }
+}
+
+// ── VALIDATION ───────────────────────────────────────────────────────────────
+function validateStep(step) {
+  let valid = true;
+
+  if (step === 1) {
+    const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const years = document.getElementById('f-years').value;
+
+    if (!name) { showError('f-name', 'err-name'); valid = false; }
+    else hideError('f-name', 'err-name');
+
+    if (!email || !email.includes('@')) { showError('f-email', 'err-email'); valid = false; }
+    else hideError('f-email', 'err-email');
+
+    if (!years) { showError('f-years', null); valid = false; }
+  }
+
+  if (step === 2) {
+    const vertical = document.getElementById('f-vertical').value;
+    const concept = document.getElementById('f-concept').value.trim();
+    const manual = document.getElementById('f-manual').value.trim();
+
+    if (!vertical) { document.getElementById('err-vertical').classList.add('visible'); valid = false; }
+    else document.getElementById('err-vertical').classList.remove('visible');
+
+    if (concept.length < 30) { showError('f-concept', 'err-concept'); valid = false; }
+    else hideError('f-concept', 'err-concept');
+
+    if (manual.length < 20) { showError('f-manual', 'err-manual'); valid = false; }
+    else hideError('f-manual', 'err-manual');
+  }
+
+  return valid;
+}
+
+function showError(fieldId, errId) {
+  const field = document.getElementById(fieldId);
+  if (field) field.classList.add('error');
+  if (errId) document.getElementById(errId)?.classList.add('visible');
+}
+
+function hideError(fieldId, errId) {
+  const field = document.getElementById(fieldId);
+  if (field) field.classList.remove('error');
+  if (errId) document.getElementById(errId)?.classList.remove('visible');
+}
+
+// ── SUBMIT APPLICATION ───────────────────────────────────────────────────────
+async function submitApplication() {
+  const btn = document.getElementById('pay-btn');
+  btn.textContent = 'Processing…';
+  btn.disabled = true;
+
+  const errorEl = document.getElementById('apply-error');
+  errorEl.style.display = 'none';
+
+  const buildTools = document.getElementById('f-tools').value.trim();
+  const existingBuild = document.getElementById('f-existing-build').value.trim();
+
+  const payload = {
+    full_name: document.getElementById('f-name').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    current_role: document.getElementById('f-role').value.trim(),
+    domain: document.getElementById('f-domain').value.trim(),
+    years_experience: document.getElementById('f-years').value,
+    vertical: selectedVertical,
+    track: selectedTrack,
+    staff_concept: document.getElementById('f-concept').value.trim(),
+    manual_task_replaced: document.getElementById('f-manual').value.trim(),
+    build_tools: buildTools ? buildTools.split(',').map(t => t.trim()) : [],
+    referral_source: document.getElementById('f-referral').value,
+    catalogue_role_id: prefilledRoleId || null,
+    claimed_role_name: prefilledRoleName || null,
+  };
+
+  if (selectedTrack === 'B' && existingBuild) {
+    payload.staff_concept = payload.staff_concept + '\n\nExisting build: ' + existingBuild;
+  }
+
+  try {
+    // Step 1: Submit application
+    const applyRes = await fetch(`${API_BASE}/api/builder/apply`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const applyData = await applyRes.json();
+
+    if (!applyRes.ok) {
+      if (applyData.error === 'active_seat') {
+        // Already has a seat — redirect to dashboard
+        window.location.href = './builder-dashboard.html?email=' + encodeURIComponent(payload.email);
+        return;
+      }
+      throw new Error(applyData.error || 'Application failed');
+    }
+
+    applicationId = applyData.application_id;
+
+    // Show intake feedback if available
+    if (applyData.intake_feedback) {
+      console.log('Intake feedback:', applyData.intake_feedback);
+    }
+
+    // Step 2: Create Stripe checkout session
+    const checkoutRes = await fetch(`${API_BASE}/api/builder/checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        application_id: applicationId,
+        email: payload.email
+      })
+    });
+
+    const checkoutData = await checkoutRes.json();
+
+    if (!checkoutRes.ok) {
+      throw new Error(checkoutData.error || 'Payment setup failed');
+    }
+
+    // Show success state
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('success-panel').classList.add('visible');
+
+    // Redirect to Stripe
+    if (checkoutData.checkout_url) {
+      document.getElementById('stripe-fallback-link').href = checkoutData.checkout_url;
+      setTimeout(() => { window.location.href = checkoutData.checkout_url; }, 1500);
+    } else {
+      // Stripe not configured — redirect to dashboard
+      window.location.href = './builder-dashboard.html?id=' + applicationId + '&email=' + encodeURIComponent(payload.email);
+    }
+
+  } catch (err) {
+    errorEl.textContent = err.message || 'Something went wrong. Please try again or email build@tryjoyn.me';
+    errorEl.style.display = 'block';
+    btn.textContent = 'Claim Seat & Proceed to Payment →';
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
