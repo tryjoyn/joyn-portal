@@ -314,6 +314,29 @@ def register():
         temp_password=temp_password,
     )
 
+    # ── Notify iris-agent to create client profile + start onboarding ──────
+    if staff_slug == 'iris':
+        iris_url = current_app.config.get('IRIS_AGENT_URL', '')
+        iris_key = current_app.config.get('IRIS_INTERNAL_KEY', '')
+        if iris_url and iris_key:
+            try:
+                import requests as _requests
+                _requests.post(
+                    f'{iris_url}/api/register',
+                    json={
+                        'email': email,
+                        'name': name,
+                        'firm_name': firm_name,
+                        'states': [s.strip() for s in states.split(',') if s.strip()],
+                        'portal_client_id': client_id,
+                    },
+                    headers={'X-Internal-Key': iris_key},
+                    timeout=10,
+                )
+                current_app.logger.info(f'iris-agent notified for new client: {email}')
+            except Exception as _e:
+                current_app.logger.warning(f'iris-agent notify failed (non-fatal): {_e}')
+
     current_app.logger.info(
         f'New client registered: {email} ({firm_name}) — staff: {staff_slug}'
     )
