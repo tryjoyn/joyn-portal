@@ -57,18 +57,29 @@ console.log(JSON.stringify(catalogue));
         os.unlink(tmp_path)
 
 
+JSON_SEED_PATH = os.path.join(os.path.dirname(__file__), "catalogue_seed.json")
+
+
 def seed():
-    print("Loading catalogue from JS seed file...")
-    
-    # Try loading from JS file if it exists
-    if os.path.exists(JS_SEED_PATH):
+    print("Loading catalogue seed data...")
+    catalogue = []
+
+    # Try loading from pre-converted JSON file first (no Node.js needed)
+    if os.path.exists(JSON_SEED_PATH):
+        try:
+            with open(JSON_SEED_PATH) as f:
+                catalogue = json.load(f)
+            print(f"Loaded {len(catalogue)} roles from JSON seed file")
+        except Exception as e:
+            print(f"JSON load error: {e}")
+            catalogue = []
+
+    # Fall back to JS file parsing if JSON not available
+    if not catalogue and os.path.exists(JS_SEED_PATH):
         catalogue = load_catalogue_from_js(JS_SEED_PATH)
         print(f"Loaded {len(catalogue)} roles from JS seed file")
-    else:
-        catalogue = []
-        print("JS seed file not found — using embedded sample data")
-    
-    # If JS parsing failed or file not found, use embedded sample
+
+    # Final fallback: embedded sample data
     if not catalogue:
         catalogue = get_embedded_sample()
         print(f"Using {len(catalogue)} embedded sample roles")
