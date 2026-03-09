@@ -84,8 +84,7 @@ def seed():
         catalogue = get_embedded_sample()
         print(f"Using {len(catalogue)} embedded sample roles")
     
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     
     # Create tables if not exist (mirrors app.py init_db)
     conn.executescript("""

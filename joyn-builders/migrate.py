@@ -1,10 +1,11 @@
 """
 Database migration script — run before starting the app on Railway.
 Safely adds new columns to existing databases without data loss.
+Supports both SQLite (local) and PostgreSQL (Railway).
 """
 import os
-import sqlite3
 
+DATABASE_URL = os.environ.get("DATABASE_URL", "")
 DB_PATH = os.environ.get("DB_PATH", "joyn_builders.db")
 
 MIGRATIONS = [
@@ -16,6 +17,46 @@ MIGRATIONS = [
 ]
 
 def run_migrations():
+    if DATABASE_URL:
+        _run_pg()
+    else:
+        _run_sqlite()
+
+def _run_pg():
+    try:
+        import psycopg2
+        import psycopg2.errors
+    except ImportError:
+        print("[MIGRATE] psycopg2 not available, skipping Postgres migration")
+        return
+
+    url = DATABASE_URL
+    if url.startswith("postgres://"):
+        url = "postgresql://" + url[len("postgres://"):]
+
+    conn = psycopg2.connect(url)
+    conn.autocommit = False
+    cur = conn.cursor()
+
+    for sql, col_name in MIGRATIONS:
+        try:
+            cur.execute(sql)
+            conn.commit()
+            print(f"[MIGRATE] Added column: {col_name}")
+        except Exception as e:
+            conn.rollback()
+            msg = str(e).lower()
+            if "already exists" in msg or "duplicate" in msg:
+                print(f"[MIGRATE] Column already exists: {col_name}")
+            else:
+                print(f"[MIGRATE] Error on {col_name}: {e}")
+
+    cur.close()
+    conn.close()
+    print("[MIGRATE] Done (Postgres).")
+
+def _run_sqlite():
+    import sqlite3
     conn = sqlite3.connect(DB_PATH)
     for sql, col_name in MIGRATIONS:
         try:
@@ -28,7 +69,7 @@ def run_migrations():
             else:
                 print(f"[MIGRATE] Error on {col_name}: {e}")
     conn.close()
-    print("[MIGRATE] Done.")
+    print("[MIGRATE] Done (SQLite).")
 
 if __name__ == "__main__":
     run_migrations()

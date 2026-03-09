@@ -1,9 +1,9 @@
 import os
 import json
 import uuid
-import sqlite3
 from datetime import datetime
 from flask import Flask, request, jsonify
+from db import get_db
 
 # Agent system — graceful degradation if agents unavailable
 try:
@@ -46,11 +46,6 @@ STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY","")
 SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
 DB_PATH = os.environ.get("DB_PATH","joyn_builders.db")
-
-def get_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    return conn
 
 def log_event(builder_id, event_type, data=None):
     try:
