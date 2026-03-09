@@ -1154,6 +1154,14 @@ def init_db():
 
 with app.app_context():
     init_db()
+    # Run migrate and seed at startup — idempotent, safe to run every time
+    try:
+        import subprocess, sys
+        subprocess.run([sys.executable, 'migrate.py'], check=True, capture_output=True, cwd=os.path.dirname(os.path.abspath(__file__)) or '.')
+        subprocess.run([sys.executable, 'seed_catalogue.py'], check=True, capture_output=True, cwd=os.path.dirname(os.path.abspath(__file__)) or '.')
+        print('[STARTUP] migrate + seed complete')
+    except Exception as _e:
+        print(f'[STARTUP WARNING] {_e}')
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
