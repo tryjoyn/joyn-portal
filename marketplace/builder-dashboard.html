@@ -496,9 +496,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
   const email = urlParams.get('email') || sessionStorage.getItem('prefill_email');
   const builderId = urlParams.get('id');
+  const panelParam = urlParams.get('panel'); // e.g. ?panel=brief to auto-open a panel
 
   if (email || builderId) {
-    loadBuilder(email, builderId);
+    loadBuilder(email, builderId).then(() => {
+      if (panelParam) showPanel(panelParam);
+    }).catch(() => {});
   } else {
     // Show login prompt
     showLoginPrompt();

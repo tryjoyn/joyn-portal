@@ -606,11 +606,11 @@ function renderConfirmationPage(builderData, panel) {
     <div style="margin-bottom:2rem;">
       <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1.5rem;">Your build journey</div>
       ${[
-        { n:'01', name:'BRIEF', desc:'Lock your staff scope before building anything.', action:'Start Your Creator Brief', href:'./creator-brief.html', active: true },
-        { n:'02', name:'BUILD', desc:'Build using any AI tool. Your Visionary Spec is your guide.', action:'View build resources', href:'./builder-dashboard.html', active: false },
+        { n:'01', name:'BRIEF', desc:'Lock your staff scope before building anything.', action:'Start Your Creator Brief', href:`./builder-dashboard.html?id=${builderData.id}&email=${encodeURIComponent(builderData.email||'')}&panel=brief`, active: true },
+        { n:'02', name:'BUILD', desc:'Build using any AI tool. Your Visionary Spec is your guide.', action:'View build resources', href:`./builder-dashboard.html?id=${builderData.id}&email=${encodeURIComponent(builderData.email||'')}`, active: false },
         { n:'03', name:'SUBMIT TO THE BAR', desc:'Five automated gates. Verdict in 48 hours. Run the pre-flight check first.', action:'Read The Bar standard', href:'./creator-studio.html', active: false },
         { n:'04', name:'DEPLOY', desc:'On pass: listing live within 48 hours.', action:'See a live listing — Iris', href:'./iris-insurance-regulatory.html', active: false },
-        { n:'05', name:'EARN', desc:'Performance-linked income from the first hire. Calibration feedback from hirers helps you improve over time.', action:'Go to your dashboard', href:'./builder-dashboard.html', active: false },
+        { n:'05', name:'EARN', desc:'Performance-linked income from the first hire. Calibration feedback from hirers helps you improve over time.', action:'Go to your dashboard', href:`./builder-dashboard.html?id=${builderData.id}&email=${encodeURIComponent(builderData.email||'')}`, active: false },
       ].map(s => `
         <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--rule);${s.active ? 'border-left:3px solid var(--gold-text);padding-left:1rem;margin-left:-1rem;' : ''}">
           <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold-text);line-height:1;flex-shrink:0;width:2rem;">${s.n}</div>
