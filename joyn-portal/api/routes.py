@@ -625,3 +625,29 @@ def admin_staff_status():
         'staff_status': staff['status'],
         'paused': is_paused,
     })
+
+# ── Admin: toggle staff pause status (for testing) ────────────────────────────
+@api_bp.route('/admin/toggle-pause', methods=['POST'])
+@portal_secret_required
+def admin_toggle_pause():
+    """Toggle a staff member's paused status. For admin/testing use only."""
+    data = request.get_json(silent=True) or {}
+    email = (data.get('email') or '').strip().lower()
+    staff_slug = (data.get('staff_slug') or 'iris').strip().lower()
+    if not email:
+        return jsonify({'error': 'email required'}), 400
+    client = query_one('SELECT * FROM clients WHERE LOWER(email)=?', (email,))
+    if not client:
+        return jsonify({'error': 'client not found'}), 404
+    staff = query_one(
+        'SELECT * FROM hired_staff WHERE client_id=? AND staff_slug=?',
+        (client['id'], staff_slug)
+    )
+    if not staff:
+        return jsonify({'error': 'staff not found'}), 404
+    new_status = 'paused' if staff['status'] == 'active' else 'active'
+    execute_commit(
+        'UPDATE hired_staff SET status=? WHERE client_id=? AND staff_slug=?',
+        (new_status, client['id'], staff_slug)
+    )
+    return jsonify({'status': 'ok', 'new_status': new_status, 'paused': new_status == 'paused'})
