@@ -525,7 +525,7 @@ async function loadAndPreFillRole(roleId) {
 }
 
 async function handlePaymentSuccess(sessionId) {
-  // Show confirmation panel
+  // Show confirmation panel immediately
   document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
   const confirmPanel = document.getElementById('confirm-panel');
   if (confirmPanel) {
@@ -535,17 +535,56 @@ async function handlePaymentSuccess(sessionId) {
       const el = document.getElementById(`ps-${i}`);
       if (el) { el.classList.remove('active'); el.classList.add('done'); }
     }
-    // Load builder status from API
-    const savedEmail = sessionStorage.getItem('prefill_email') || sessionStorage.getItem('builder_email');
-    if (savedEmail) {
-      try {
-        const res = await fetch(`${API_BASE}/api/builder/status?email=${encodeURIComponent(savedEmail)}`);
-        if (res.ok) {
-          const data = await res.json();
-          renderConfirmationPage(data, confirmPanel);
-        }
-      } catch(e) { console.warn('Could not load builder status:', e); }
+  }
+
+  // Strategy 1: Look up builder by Stripe session_id (most reliable after redirect)
+  try {
+    const confirmRes = await fetch(`${API_BASE}/api/builder/confirm?session_id=${encodeURIComponent(sessionId)}`);
+    if (confirmRes.ok) {
+      const data = await confirmRes.json();
+      // Save email to sessionStorage for future dashboard access
+      if (data.email) sessionStorage.setItem('prefill_email', data.email);
+      if (confirmPanel) renderConfirmationPage(data, confirmPanel);
+      return;
     }
+  } catch(e) { console.warn('Confirm by session_id failed:', e); }
+
+  // Strategy 2: Try sessionStorage email (works if user didn't clear storage)
+  const savedEmail = sessionStorage.getItem('prefill_email') || sessionStorage.getItem('builder_email');
+  if (savedEmail) {
+    try {
+      const res = await fetch(`${API_BASE}/api/builder/status?email=${encodeURIComponent(savedEmail)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (confirmPanel) renderConfirmationPage(data, confirmPanel);
+        return;
+      }
+    } catch(e) { console.warn('Confirm by email failed:', e); }
+  }
+
+  // Strategy 3: Stripe webhook may not have fired yet — wait 3s and retry once
+  await new Promise(r => setTimeout(r, 3000));
+  try {
+    const retryRes = await fetch(`${API_BASE}/api/builder/confirm?session_id=${encodeURIComponent(sessionId)}`);
+    if (retryRes.ok) {
+      const data = await retryRes.json();
+      if (data.email) sessionStorage.setItem('prefill_email', data.email);
+      if (confirmPanel) renderConfirmationPage(data, confirmPanel);
+      return;
+    }
+  } catch(e) { /* ignore */ }
+
+  // Strategy 4: Fallback — show a generic success page with dashboard link
+  if (confirmPanel) {
+    confirmPanel.innerHTML = `
+      <div style="max-width:640px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1rem;">Founding Builder Seat · Confirmed</div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.1;margin-bottom:1rem;">Payment confirmed.<br>Your seat is active.</h1>
+        <p style="color:var(--ink-secondary);margin-bottom:2.5rem;">Your Founding Builder Seat is now active. Go to your dashboard to begin your Creator Brief.</p>
+        <a href="./builder-dashboard.html" class="btn btn-primary" style="display:inline-block;">Go to Your Dashboard →</a>
+        <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--ink-secondary);">Enter your email on the dashboard to access your account.</p>
+      </div>
+    `;
   }
 }
 

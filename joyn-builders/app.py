@@ -440,6 +440,29 @@ def _send_welcome_email(builder):
 
 # ── BUILDER STATUS & DASHBOARD ───────────────────────────────
 
+@app.route("/api/builder/confirm", methods=["GET"])
+def builder_confirm():
+    """Look up builder by Stripe session_id after successful checkout."""
+    session_id = request.args.get('session_id', '')
+    if not session_id:
+        return jsonify({"error": "session_id required"}), 400
+    conn = get_db()
+    builder = conn.execute(
+        """SELECT id,full_name,email,vertical,track,staff_concept,
+                  claimed_role_name,catalogue_role_id,paid,build_stage,
+                  live_listing_url,hire_count,applied_at,paid_at,
+                  is_founding_builder,revenue_share
+           FROM builders WHERE stripe_session_id=?""",
+        (session_id,)
+    ).fetchone()
+    conn.close()
+    if not builder:
+        return jsonify({"error": "Builder not found"}), 404
+    b = dict(builder)
+    b['status'] = b.get('build_stage', 'applied')
+    b['is_founding_builder'] = bool(b.get('is_founding_builder', False))
+    return jsonify(b)
+
 @app.route("/api/builder/status", methods=["GET"])
 def builder_status_query():
     """Look up builder by email or id via query params — used by dashboard."""
