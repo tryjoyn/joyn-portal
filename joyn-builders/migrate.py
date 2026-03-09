@@ -11,6 +11,8 @@ MIGRATIONS = [
     # v1.1 — Founding Builder and revenue share fields
     ("ALTER TABLE builders ADD COLUMN is_founding_builder BOOLEAN DEFAULT FALSE", "is_founding_builder"),
     ("ALTER TABLE builders ADD COLUMN revenue_share REAL DEFAULT 0.70", "revenue_share"),
+    # v1.2 — Catalogue builder_count tracking
+    ("ALTER TABLE catalogue ADD COLUMN builder_count INTEGER DEFAULT 0", "catalogue.builder_count"),
 ]
 
 def run_migrations():

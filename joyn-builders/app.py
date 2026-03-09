@@ -101,9 +101,9 @@ def get_catalogue():
     if track and track != "all":
         base += " AND track=?"; params.append(track)
     if complexity and complexity != "all":
-        base += " AND build_complexity=?"; params.append(complexity)
+        base += " AND complexity=?"; params.append(complexity)
     if search:
-        base += " AND (name LIKE ? OR role LIKE ? OR target_pain LIKE ? OR sub_vertical LIKE ? OR vertical LIKE ?)"
+        base += " AND (name LIKE ? OR role LIKE ? OR pain LIKE ? OR sub LIKE ? OR vertical LIKE ?)"
         s = f"%{search}%"
         params.extend([s,s,s,s,s])
 
@@ -118,7 +118,7 @@ def get_catalogue():
     roles = []
     for r in rows:
         rd = dict(r)
-        rd = parse_json_fields(rd, ['core_tasks','named_outputs','success_metrics','recommended_tools','calibration_questions'])
+        rd = parse_json_fields(rd, ['tasks','outputs','metrics','tools','calibration_questions'])
         try: rd['builder_guidance'] = json.loads(rd.get('builder_guidance') or '{}')
         except: rd['builder_guidance'] = {}
         roles.append(rd)
@@ -164,10 +164,10 @@ def search_catalogue():
         score = 0
         name_l = role['name'].lower()
         role_l = role['role'].lower()
-        pain_l = (role.get('target_pain') or '').lower()
-        tasks_l = (role.get('core_tasks') or '').lower()
+        pain_l = (role.get('pain') or '').lower()
+        tasks_l = (role.get('tasks') or '').lower()
         vert_l = role['vertical'].lower()
-        sub_l = (role.get('sub_vertical') or '').lower()
+        sub_l = (role.get('sub') or '').lower()
 
         if query == name_l: score += 200
         elif query in name_l: score += 100
@@ -204,7 +204,7 @@ def search_catalogue():
     top = scored[:8]
 
     for role in top:
-        role = parse_json_fields(role, ['core_tasks','named_outputs','success_metrics','recommended_tools'])
+        role = parse_json_fields(role, ['tasks','outputs','metrics','tools'])
 
     return jsonify({"matches":top,"total_scored":len(scored),"suggestion":top[0] if top else None})
 
@@ -216,7 +216,7 @@ def get_role(role_id):
     conn.close()
     if not row: return jsonify({"error":"Role not found"}), 404
     rd = dict(row)
-    rd = parse_json_fields(rd, ['core_tasks','named_outputs','success_metrics','recommended_tools','calibration_questions'])
+    rd = parse_json_fields(rd, ['tasks','outputs','metrics','tools','calibration_questions'])
     try: rd['builder_guidance'] = json.loads(rd.get('builder_guidance') or '{}')
     except: rd['builder_guidance'] = {}
     return jsonify(rd)
@@ -504,12 +504,12 @@ def builder_status(email):
     # If has a catalogue role, include it
     if b.get('catalogue_role_id'):
         role_row = conn.execute(
-            "SELECT id,name,role,mode,vertical,sub_vertical,build_complexity,estimated_weeks,recommended_tools,architecture_pattern,builder_guidance,calibration_questions FROM catalogue WHERE id=?",
+            "SELECT id,name,role,mode,vertical,sub,complexity,weeks,tools,pattern,builder_guidance,calibration_questions FROM catalogue WHERE id=?",
             (b['catalogue_role_id'],)
         ).fetchone()
         if role_row:
             rd = dict(role_row)
-            rd = parse_json_fields(rd, ['recommended_tools','calibration_questions'])
+            rd = parse_json_fields(rd, ['tools','calibration_questions'])
             try: rd['builder_guidance'] = json.loads(rd.get('builder_guidance') or '{}')
             except: rd['builder_guidance'] = {}
             b['catalogue_role'] = rd
@@ -563,7 +563,7 @@ def _stage_resources(stage, builder):
     track = builder.get('track','A')
     vertical = builder.get('vertical','')
     role = builder.get('catalogue_role',{})
-    tools = role.get('recommended_tools',[]) if role else []
+    tools = role.get('tools',[]) if role else []
     tools_str = ', '.join(tools) if tools else 'Manus, Emergent'
 
     base = {
@@ -834,8 +834,8 @@ def get_build_prompt():
     row = conn.execute(
         "SELECT b.*, c.name as role_name, c.role as role_title, c.vertical as role_vertical, "
         "c.mode as role_mode, c.pain as target_pain, c.tasks as core_tasks, "
-        "c.outputs as named_outputs, c.calibration as calibration_questions, "
-        "c.guidance as builder_guidance, c.weeks as estimated_weeks "
+        "c.outputs as named_outputs, c.calibration_questions, "
+        "c.builder_guidance, c.weeks as estimated_weeks "
         "FROM builders b LEFT JOIN catalogue c ON b.catalogue_role_id = c.id "
         "WHERE b.id = ?",
         (builder_id,)
@@ -851,9 +851,9 @@ def get_build_prompt():
     mode = b.get('role_mode') or 'autonomous'
     pain = b.get('target_pain') or ''
 
-    try: tasks = json.loads(b.get('core_tasks') or '[]')
+    try: tasks = json.loads(b.get('tasks') or '[]')
     except: tasks = []
-    try: outputs = json.loads(b.get('named_outputs') or '[]')
+    try: outputs = json.loads(b.get('outputs') or '[]')
     except: outputs = []
     try: calibration = json.loads(b.get('calibration_questions') or '[]')
     except: calibration = []
@@ -948,6 +948,110 @@ def update_stage():
     conn.close()
     log_event(builder_id, f'stage_{new_stage}', data)
     return jsonify({"success":True,"stage":new_stage})
+
+
+# ── ADMIN: LOAD CATALOGUE EXTENSIONS ────────────────────────────────────────
+# Protected by ADMIN_SECRET env var — never expose without auth
+@app.route("/api/admin/load-extensions", methods=["POST"])
+def load_extensions():
+    """Load additional catalogue roles from extensions.json or a posted JSON array.
+    Called after generate_extensions.py completes to expand the catalogue without redeployment.
+    Requires ADMIN_SECRET header for protection.
+    """
+    admin_secret = os.environ.get('ADMIN_SECRET', '')
+    if admin_secret:
+        provided = request.headers.get('X-Admin-Secret', '')
+        if provided != admin_secret:
+            return jsonify({'error': 'Unauthorized'}), 401
+
+    # Accept roles from request body OR from extensions.json file
+    data = request.get_json(silent=True) or {}
+    roles = data.get('roles')
+
+    if not roles:
+        # Try loading from extensions.json in the same directory
+        ext_path = os.path.join(os.path.dirname(__file__), 'extensions.json')
+        if not os.path.exists(ext_path):
+            return jsonify({'error': 'No roles provided and extensions.json not found'}), 400
+        with open(ext_path) as f:
+            roles = json.load(f)
+
+    if not isinstance(roles, list):
+        return jsonify({'error': 'roles must be a JSON array'}), 400
+
+    conn = get_db()
+    inserted = 0
+    skipped = 0
+    errors = []
+
+    for role in roles:
+        try:
+            role_id = role.get('id')
+            if not role_id:
+                skipped += 1
+                continue
+
+            # Check if already exists
+            existing = conn.execute('SELECT id FROM catalogue WHERE id=?', (role_id,)).fetchone()
+            if existing:
+                skipped += 1
+                continue
+
+            # Normalise JSON fields
+            def jdump(v):
+                if isinstance(v, (list, dict)): return json.dumps(v)
+                return v or ''
+
+            status = role.get('status', 'open')
+            if status not in ('open', 'claimed', 'live'): status = 'open'
+            track = role.get('track', 'A')
+            if track not in ('A', 'B'): track = 'A'
+            complexity = role.get('build_complexity') or role.get('complexity', 'moderate')
+            if complexity not in ('simple', 'moderate', 'complex'): complexity = 'moderate'
+
+            conn.execute("""
+                INSERT INTO catalogue
+                (id, name, role, mode, vertical, sub, hirer, pain, tasks, outputs, metrics,
+                 complexity, weeks, tools, pattern, moat, calibration_questions, builder_guidance,
+                 status, track, live_count)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)
+            """, (
+                role_id,
+                role.get('name', ''),
+                role.get('role', ''),
+                role.get('mode', 'autonomous'),
+                role.get('vertical', ''),
+                role.get('sub_vertical') or role.get('sub', ''),
+                role.get('target_hirer') or role.get('hirer', ''),
+                role.get('target_pain') or role.get('pain', ''),
+                jdump(role.get('core_tasks') or role.get('tasks', [])),
+                jdump(role.get('named_outputs') or role.get('outputs', [])),
+                jdump(role.get('success_metrics') or role.get('metrics', [])),
+                complexity,
+                role.get('estimated_weeks') or role.get('weeks', '2-4'),
+                jdump(role.get('recommended_tools') or role.get('tools', [])),
+                role.get('architecture_pattern') or role.get('pattern', ''),
+                role.get('moat_asset') or role.get('moat', ''),
+                jdump(role.get('calibration_questions', [])),
+                jdump(role.get('builder_guidance', {})),
+                status,
+                track,
+            ))
+            inserted += 1
+        except Exception as e:
+            errors.append({'id': role.get('id', '?'), 'error': str(e)})
+
+    conn.commit()
+    total = conn.execute('SELECT COUNT(*) FROM catalogue').fetchone()[0]
+    conn.close()
+
+    return jsonify({
+        'success': True,
+        'inserted': inserted,
+        'skipped': skipped,
+        'errors': errors[:10],  # Cap error list
+        'total_catalogue': total
+    })
 
 
 def init_db():
