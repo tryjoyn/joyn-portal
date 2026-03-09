@@ -1154,14 +1154,26 @@ def init_db():
 
 with app.app_context():
     init_db()
-    # Run migrate and seed at startup — idempotent, safe to run every time
+
+# Run migrate + seed in a background thread so gunicorn can accept
+# the Railway healthcheck immediately without timing out.
+def _startup_tasks():
+    import time, subprocess, sys
+    time.sleep(2)  # brief pause to let gunicorn bind the port
+    _dir = os.path.dirname(os.path.abspath(__file__)) or '.'
     try:
-        import subprocess, sys
-        subprocess.run([sys.executable, 'migrate.py'], check=True, capture_output=True, cwd=os.path.dirname(os.path.abspath(__file__)) or '.')
-        subprocess.run([sys.executable, 'seed_catalogue.py'], check=True, capture_output=True, cwd=os.path.dirname(os.path.abspath(__file__)) or '.')
-        print('[STARTUP] migrate + seed complete')
+        subprocess.run([sys.executable, 'migrate.py'], check=True, capture_output=True, cwd=_dir)
+        print('[STARTUP] migrate complete')
     except Exception as _e:
-        print(f'[STARTUP WARNING] {_e}')
+        print(f'[STARTUP WARNING] migrate: {_e}')
+    try:
+        subprocess.run([sys.executable, 'seed_catalogue.py'], check=True, capture_output=True, cwd=_dir)
+        print('[STARTUP] seed complete')
+    except Exception as _e:
+        print(f'[STARTUP WARNING] seed: {_e}')
+
+import threading as _threading
+_threading.Thread(target=_startup_tasks, daemon=True).start()
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5001))
