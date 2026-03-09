@@ -26,7 +26,10 @@ CORS(app, resources={r"/api/*": {
     "origins": [
         "https://tryjoyn.me",
         "https://www.tryjoyn.me",
-        "http://localhost:8080"
+        "https://tryjoyn.github.io",
+        "http://localhost:8080",
+        "http://localhost:3000",
+        "http://localhost:5173"
     ],
     "methods": ["GET","POST","PUT","OPTIONS"],
     "allow_headers": ["Content-Type","Authorization"],
@@ -147,7 +150,7 @@ def get_verticals():
 @app.route("/api/catalogue/search", methods=["POST"])
 def search_catalogue():
     data = request.get_json()
-    query = (data.get("q") or "").lower().strip()
+    query = (data.get("q") or data.get("query") or "").lower().strip()
     vertical = data.get("vertical")
     mode = data.get("mode")
 
