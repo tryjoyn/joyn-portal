@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Roles — AI Staff Catalogue · Joyn · tryjoyn.me</title>
+<meta name="description" content="Browse 1,267 AI staff roles across 23 verticals. Find the role that matches your expertise, claim it, and build the staff that earns on every hire.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf8;
+  --surface: #f4f1eb;
+  --ink: #111110;
+  --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc;
+  --rule-mid: #d0ccc4;
+  --gold-text: #b8902a;
+  --gold-dark: #8B6914;
+  --gold-bg: #f4f1eb;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --font-sans: 'Syne', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* NAV */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 56px;
+}
+.nav-logo { font-family: var(--font-mono); font-size: 1rem; font-weight: 500; letter-spacing: 0.05em; }
+.nav-links { display: flex; gap: 2rem; align-items: center; }
+.nav-link { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); transition: color 0.15s ease; }
+.nav-link:hover, .nav-link.active { color: var(--ink); }
+.btn-primary { display: inline-block; background: var(--ink); color: var(--bg); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; transition: opacity 0.15s ease; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-ghost { display: inline-block; border: 1px solid var(--ink); color: var(--ink); font-family: var(--font-mono); font-size: 0.7rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.75rem 1.5rem; transition: background 0.15s ease, color 0.15s ease; }
+.btn-ghost:hover { background: var(--ink); color: var(--bg); }
+
+/* HERO */
+.hero {
+  padding: 5rem 2rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--rule);
+}
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  display: block;
+  margin-bottom: 1rem;
+}
+.label-gold { color: var(--gold-text); }
+.hero h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+.hero h1 em { font-style: italic; color: var(--gold-text); }
+.hero-sub {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--ink-secondary);
+  line-height: 1.8;
+  max-width: 640px;
+  margin-bottom: 2.5rem;
+}
+
+/* TRACK CARDS */
+.track-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+@media (max-width: 640px) { .track-cards { grid-template-columns: 1fr; } }
+.track-card {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: 2rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+.track-card:hover { border-color: var(--ink); }
+.track-card.track-b { border-color: var(--gold-text); }
+.track-card-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.75rem;
+}
+.track-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+}
+.track-card p {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+.mode-badges { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--rule-mid);
+  color: var(--ink-secondary);
+}
+.badge-gold { border-color: var(--gold-text); color: var(--gold-text); }
+.badge-auto { border-color: var(--ink); color: var(--ink); }
+.badge-sup { border-color: var(--ink-secondary); color: var(--ink-secondary); }
+
+/* SEARCH */
+.search-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 0;
+}
+.search-wrap { position: relative; margin-bottom: 0.75rem; }
+.search-input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 1.1rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--rule-mid);
+  padding: 1rem 1.25rem;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.search-input:focus { border-color: var(--ink); }
+.search-input::placeholder { color: var(--ink-secondary); }
+.search-hint {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.08em;
+}
+
+/* FILTERS */
+.filters {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+.filter-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.filter-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.filter-pills { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-pill {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--rule-mid);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.filter-pill:hover { border-color: var(--ink); color: var(--ink); }
+.filter-pill.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.filter-count {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ink-secondary);
+  margin-left: auto;
+  align-self: center;
+}
+
+/* SEARCH RESULTS */
+.search-results {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  display: none;
+}
+.search-results.visible { display: block; }
+.search-results-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 1rem;
+}
+.search-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+@media (max-width: 900px) { .search-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .search-grid { grid-template-columns: 1fr; } }
+
+/* CATALOGUE */
+.catalogue {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.vertical-section { border-bottom: 1px solid var(--rule); margin-bottom: 0; }
+.vertical-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 0;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.15s ease;
+}
+.vertical-header:hover { opacity: 0.8; }
+.vertical-toggle {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+  width: 16px;
+  flex-shrink: 0;
+  transition: transform 0.15s ease;
+}
+.vertical-toggle.open { transform: rotate(90deg); }
+.vertical-name {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  flex: 1;
+}
+.vertical-stats {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.05em;
+}
+.vertical-grid {
+  display: none;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  padding-bottom: 1.5rem;
+}
+.vertical-grid.open { display: grid; }
+@media (max-width: 900px) { .vertical-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .vertical-grid { grid-template-columns: 1fr; } }
+
+/* ROLE CARD */
+.role-card {
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.role-card:hover { border-color: var(--ink); }
+.role-card.search-match { border-color: var(--gold-text); }
+.role-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.role-card-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.role-card-status { font-family: var(--font-mono); font-size: 0.55rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.role-card-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.role-card-role {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.role-card-pain {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.role-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.05em;
+}
+.role-card-actions { display: flex; gap: 0.5rem; margin-top: auto; }
+.btn-card-secondary {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule-mid);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: none;
+}
+.btn-card-secondary:hover { border-color: var(--ink); color: var(--ink); }
+.btn-card-primary {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.5rem 0.75rem;
+  background: var(--ink);
+  color: var(--bg);
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  border: 1px solid var(--ink);
+}
+.btn-card-primary:hover { opacity: 0.85; }
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17,17,16,0.85);
+  z-index: 200;
+  overflow-y: auto;
+  padding: 2rem;
+}
+.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+.modal {
+  background: var(--bg);
+  max-width: 720px;
+  width: 100%;
+  margin: auto;
+  padding: 2.5rem;
+  position: relative;
+}
+.modal-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.modal-close:hover { color: var(--ink); }
+.modal-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+.modal-name { font-family: var(--font-serif); font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem; }
+.modal-role { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 1rem; }
+.modal-badges { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.modal-section { margin-bottom: 2rem; }
+.modal-section-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.modal-section p, .modal-section li {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--ink-secondary);
+  line-height: 1.7;
+}
+.modal-section ul { padding-left: 1.25rem; }
+.modal-section li { margin-bottom: 0.4rem; }
+.outputs-table { width: 100%; border-collapse: collapse; }
+.outputs-table th {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+.outputs-table td {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink);
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.modal-moat {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+.modal-guidance {
+  background: var(--surface);
+  border-left: 3px solid var(--gold-text);
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+.modal-guidance-item { margin-bottom: 1rem; }
+.modal-guidance-item:last-child { margin-bottom: 0; }
+.modal-guidance-key {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.4rem;
+}
+.modal-guidance-val {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+}
+.modal-cta {
+  padding-top: 2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* CUSTOM BUILD */
+.custom-build {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.custom-build-inner {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: 3rem;
+}
+.custom-build h2 { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; margin-bottom: 0.75rem; }
+.custom-build h2 em { font-style: italic; color: var(--gold-text); }
+.custom-build p { font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink-secondary); line-height: 1.8; margin-bottom: 1.5rem; max-width: 560px; }
+
+/* FOOTER */
+footer {
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 500; }
+.footer-links { display: flex; gap: 2rem; }
+.footer-link { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); transition: color 0.15s ease; }
+.footer-link:hover { color: var(--ink); }
+
+/* LOADING */
+.loading-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.1em;
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="nav-link" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">Skip to main content</a>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">JOYN.</a>
+  <div class="nav-links">
+    <a href="../marketplace/index.html" class="nav-link">Marketplace</a>
+    <a href="catalogue.html" class="nav-link active">Open Roles</a>
+    <a href="creator-studio.html" class="nav-link">Creator Studio</a>
+    <a href="builder-dashboard.html" class="nav-link">My Dashboard</a>
+    <a href="builder-onboarding.html" class="btn-primary">Claim a Role →</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <span class="label">Open Roles Catalogue</span>
+  <h1>1,267 roles.<br><em>23 verticals.</em><br>All open to build.</h1>
+  <p class="hero-sub">Browse the catalogue, claim a role, build the staff, earn on every hire. The best AI staff wins. Build from a spec or franchise what you have already built.</p>
+
+  <div class="track-cards">
+    <div class="track-card" id="track-a-card" onclick="scrollToCatalogue()">
+      <div class="mode-badges">
+        <span class="badge badge-auto">Autonomous</span>
+        <span class="badge badge-sup">Supervised</span>
+      </div>
+      <div class="track-card-label">Track A — Build</div>
+      <h3>Build from the catalogue</h3>
+      <p>You are a domain expert who wants to build AI staff from the catalogue or from a new concept.</p>
+      <a href="#catalogue-search" class="btn-ghost">Browse the Catalogue →</a>
+    </div>
+    <div class="track-card track-b" id="track-b-card" onclick="window.location.href='builder-onboarding.html?track=B'">
+      <div class="mode-badges">
+        <span class="badge badge-gold">Track B · Franchise</span>
+      </div>
+      <div class="track-card-label">Track B — Franchise</div>
+      <h3>Franchise your build</h3>
+      <p>You already have AI staff working in your business. List it on Joyn and earn on every hire — without building anything new.</p>
+      <a href="builder-onboarding.html?track=B" class="btn-ghost">Tell Us What You've Built →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="search-section" id="catalogue-search">
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search-input" placeholder="Search by role, pain point, or expertise area..." autocomplete="off">
+  </div>
+  <span class="search-hint">Or browse by vertical below →</span>
+</section>
+
+<!-- FILTERS -->
+<div class="filters">
+  <div class="filter-group">
+    <span class="filter-label">Mode</span>
+    <div class="filter-pills" id="filter-mode">
+      <button class="filter-pill active" data-value="all">All</button>
+      <button class="filter-pill" data-value="autonomous">Autonomous</button>
+      <button class="filter-pill" data-value="supervised">Supervised</button>
+    </div>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Complexity</span>
+    <div class="filter-pills" id="filter-complexity">
+      <button class="filter-pill active" data-value="all">All</button>
+      <button class="filter-pill" data-value="simple">Simple (1–2 wks)</button>
+      <button class="filter-pill" data-value="moderate">Moderate (2–4 wks)</button>
+      <button class="filter-pill" data-value="complex">Complex (4–8 wks)</button>
+    </div>
+  </div>
+  <div class="filter-group">
+    <span class="filter-label">Track</span>
+    <div class="filter-pills" id="filter-track">
+      <button class="filter-pill active" data-value="all">All</button>
+      <button class="filter-pill" data-value="A">Track A (Build)</button>
+      <button class="filter-pill" data-value="B">Track B (Franchise)</button>
+    </div>
+  </div>
+  <span class="filter-count" id="filter-count">Loading roles…</span>
+</div>
+
+<!-- SEARCH RESULTS -->
+<div class="search-results" id="search-results">
+  <span class="search-results-label">Best Matches</span>
+  <div class="search-grid" id="search-grid"></div>
+</div>
+
+<!-- CATALOGUE -->
+<div class="catalogue" id="catalogue-main">
+  <div id="catalogue-loading" class="loading-state">Loading catalogue…</div>
+  <div id="catalogue-content"></div>
+</div>
+
+<!-- CUSTOM BUILD -->
+<section class="custom-build">
+  <div class="custom-build-inner">
+    <span class="label">Don't see what you want to build?</span>
+    <h2>Build something <em>new.</em></h2>
+    <p>If your expertise doesn't match an existing role, build a custom spec. We will help you define it and evaluate it through The Bar.</p>
+    <a href="builder-onboarding.html?custom=true" class="btn-primary">Start a Custom Build →</a>
+  </div>
+</section>
+
+</main>
+
+<!-- ROLE DETAIL MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()">Close ✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">JOYN.</span>
+  <div class="footer-links">
+    <a href="../marketplace/index.html" class="footer-link">Marketplace</a>
+    <a href="creator-studio.html" class="footer-link">Creator Studio</a>
+    <a href="builder-dashboard.html" class="footer-link">My Dashboard</a>
+  </div>
+</footer>
+
+<script>
+const API = 'https://joyn-builders.railway.app';
+let allRoles = [];
+let verticalData = {};
+let activeFilters = { mode: 'all', complexity: 'all', track: 'all' };
+let searchTimer = null;
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+async function init() {
+  await loadVerticals();
+  await loadAllRoles();
+  renderCatalogue();
+  setupFilters();
+  setupSearch();
+}
+
+async function loadVerticals() {
+  try {
+    const r = await fetch(`${API}/api/catalogue/verticals`);
+    const data = await r.json();
+    verticalData = {};
+    (data.verticals || []).forEach(v => {
+      verticalData[v.vertical] = v;
+    });
+  } catch(e) {
+    console.warn('Could not load verticals:', e);
+  }
+}
+
+async function loadAllRoles() {
+  try {
+    let offset = 0;
+    const limit = 100;
+    while (true) {
+      const r = await fetch(`${API}/api/catalogue?limit=${limit}&offset=${offset}`);
+      const data = await r.json();
+      allRoles = allRoles.concat(data.roles || []);
+      if (allRoles.length >= data.total || (data.roles || []).length < limit) break;
+      offset += limit;
+    }
+    updateFilterCount();
+  } catch(e) {
+    console.warn('Could not load roles:', e);
+    document.getElementById('catalogue-loading').textContent = 'Could not load catalogue. Please refresh.';
+  }
+}
+
+// ── RENDER CATALOGUE ──────────────────────────────────────────────────────────
+function getFilteredRoles() {
+  return allRoles.filter(r => {
+    if (activeFilters.mode !== 'all' && r.mode !== activeFilters.mode) return false;
+    if (activeFilters.complexity !== 'all' && r.build_complexity !== activeFilters.complexity) return false;
+    if (activeFilters.track !== 'all' && r.track !== activeFilters.track) return false;
+    return true;
+  });
+}
+
+function updateFilterCount() {
+  const filtered = getFilteredRoles();
+  document.getElementById('filter-count').textContent = `Showing ${filtered.length.toLocaleString()} of ${allRoles.length.toLocaleString()} roles`;
+}
+
+function renderCatalogue() {
+  const filtered = getFilteredRoles();
+  const byVertical = {};
+  filtered.forEach(r => {
+    const v = r.vertical || 'Other';
+    if (!byVertical[v]) byVertical[v] = [];
+    byVertical[v].push(r);
+  });
+
+  document.getElementById('catalogue-loading').style.display = 'none';
+  const container = document.getElementById('catalogue-content');
+  container.innerHTML = '';
+
+  const verticals = Object.keys(byVertical).sort();
+  const topVerticals = ['Insurance & Risk', 'Healthcare Administration', 'Financial Advisory', 'Legal & Compliance', 'Real Estate'];
+
+  verticals.forEach((vertical, idx) => {
+    const roles = byVertical[vertical];
+    const vStats = verticalData[vertical] || {};
+    const isOpen = topVerticals.includes(vertical) || idx < 5;
+
+    const section = document.createElement('div');
+    section.className = 'vertical-section';
+    section.dataset.vertical = vertical;
+
+    const liveCount = vStats.live_count || 0;
+    const inBuildCount = vStats.in_build_count || 0;
+    const openCount = roles.length;
+
+    section.innerHTML = `
+      <div class="vertical-header" onclick="toggleVertical(this)">
+        <span class="vertical-toggle ${isOpen ? 'open' : ''}">▶</span>
+        <span class="vertical-name">${vertical}</span>
+        <span class="vertical-stats">${openCount} open${liveCount > 0 ? ` · ${liveCount} live` : ''}${inBuildCount > 0 ? ` · ${inBuildCount} in build` : ''}</span>
+      </div>
+      <div class="vertical-grid ${isOpen ? 'open' : ''}" id="grid-${vertical.replace(/[^a-z0-9]/gi, '-')}">
+        ${roles.map(r => renderRoleCard(r)).join('')}
+      </div>
+    `;
+    container.appendChild(section);
+  });
+
+  updateFilterCount();
+}
+
+function renderRoleCard(role) {
+  const modeBadge = role.mode === 'autonomous'
+    ? '<span class="badge badge-auto">Autonomous</span>'
+    : '<span class="badge badge-sup">Supervised</span>';
+  const trackBadge = role.track === 'B'
+    ? '<span class="badge badge-gold">Track B · Franchise</span>'
+    : '';
+  const complexity = role.build_complexity || '';
+  const weeks = role.estimated_weeks ? `${role.estimated_weeks} wks` : '';
+  const tools = (role.recommended_tools || []).slice(0, 2).join(' · ');
+  const builderCount = role.builder_count > 0 ? `<span>${role.builder_count} builder${role.builder_count > 1 ? 's' : ''} working on this</span>` : '';
+
+  return `
+    <div class="role-card ${role.track === 'B' ? 'track-b-card' : ''}" onclick="openModal('${role.id}')">
+      <div class="role-card-top">
+        <div class="role-card-badges">${modeBadge}${trackBadge}</div>
+        <span class="role-card-status">${role.status || 'open'}</span>
+      </div>
+      <div>
+        <div class="role-card-name">${role.name || ''}</div>
+        <div class="role-card-role">${role.role || ''}</div>
+      </div>
+      <div class="role-card-pain">${role.target_pain || ''}</div>
+      <div class="role-card-meta">
+        ${complexity ? `<span>${complexity}</span>` : ''}
+        ${weeks ? `<span>${weeks}</span>` : ''}
+        ${tools ? `<span>${tools}</span>` : ''}
+        ${builderCount}
+      </div>
+      <div class="role-card-actions">
+        <button class="btn-card-secondary" onclick="event.stopPropagation(); openModal('${role.id}')">View Full Spec</button>
+        <button class="btn-card-primary" onclick="event.stopPropagation(); claimRole('${role.id}', '${encodeURIComponent(role.name || '')}')">Claim &amp; Build →</button>
+      </div>
+    </div>
+  `;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
+async function openModal(roleId) {
+  try {
+    const r = await fetch(`${API}/api/catalogue/${roleId}`);
+    const role = await r.json();
+    renderModal(role);
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  } catch(e) {
+    console.warn('Could not load role:', e);
+  }
+}
+
+function renderModal(role) {
+  const outputs = role.named_outputs || [];
+  const tasks = role.core_tasks || [];
+  const metrics = role.success_metrics || [];
+  const calQ = role.calibration_questions || [];
+  const guidance = role.builder_guidance || {};
+  const tools = (role.recommended_tools || []).join(', ');
+  const trackBadge = role.track === 'B' ? '<span class="badge badge-gold">Track B · Franchise</span>' : '';
+  const modeBadge = role.mode === 'autonomous' ? '<span class="badge badge-auto">Autonomous</span>' : '<span class="badge badge-sup">Supervised</span>';
+
+  let outputsTable = '';
+  if (outputs.length > 0) {
+    outputsTable = `
+      <table class="outputs-table">
+        <thead><tr><th>Output</th><th>Format</th><th>Trigger</th><th>Frequency</th></tr></thead>
+        <tbody>
+          ${outputs.map(o => `<tr><td>${o.name||''}</td><td>${o.format||''}</td><td>${o.trigger||''}</td><td>${o.freq||''}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    `;
+  }
+
+  let trackBNote = '';
+  if (role.track === 'B' && role.track_b_note) {
+    trackBNote = `<div class="modal-section"><span class="modal-section-label">Who Should Build This</span><p>${role.track_b_note}</p></div>`;
+  }
+
+  document.getElementById('modal-body').innerHTML = `
+    <div class="modal-header">
+      <div class="modal-name">${role.name || ''}</div>
+      <div class="modal-role">${role.role || ''}</div>
+      <div class="modal-badges">${modeBadge}${trackBadge}<span class="badge">${role.vertical || ''}</span>${role.sub_vertical ? `<span class="badge">${role.sub_vertical}</span>` : ''}</div>
+    </div>
+
+    ${trackBNote}
+
+    <div class="modal-section">
+      <span class="modal-section-label">Who Hires This</span>
+      <p>${role.target_hirer || ''}</p>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-section-label">The Problem It Solves</span>
+      <p>${role.target_pain || ''}</p>
+    </div>
+
+    <div class="modal-section">
+      <span class="modal-section-label">Core Tasks</span>
+      <ul>${tasks.map(t => `<li>${t}</li>`).join('')}</ul>
+    </div>
+
+    ${outputs.length > 0 ? `
+    <div class="modal-section">
+      <span class="modal-section-label">Named Outputs</span>
+      ${outputsTable}
+    </div>` : ''}
+
+    ${metrics.length > 0 ? `
+    <div class="modal-section">
+      <span class="modal-section-label">Success Metrics</span>
+      <ul>${metrics.map(m => `<li>${m}</li>`).join('')}</ul>
+    </div>` : ''}
+
+    ${role.moat_asset ? `
+    <div class="modal-moat">
+      <span class="modal-section-label label-gold">Platform Intelligence</span>
+      <p style="font-family:var(--font-sans);font-size:0.9rem;color:var(--ink-secondary);line-height:1.7;">${role.moat_asset}</p>
+    </div>` : ''}
+
+    <div class="modal-section">
+      <span class="modal-section-label">Build Details</span>
+      <p>Complexity: ${role.build_complexity || '—'} · Estimated: ${role.estimated_weeks || '—'} weeks · Tools: ${tools || '—'}</p>
+      ${role.architecture_pattern ? `<p style="margin-top:0.5rem;">Architecture: ${role.architecture_pattern}</p>` : ''}
+    </div>
+
+    ${(guidance.key_data_sources || guidance.hardest_part || guidance.common_bar_failures) ? `
+    <div class="modal-guidance">
+      <span class="modal-section-label label-gold">Builder Guidance</span>
+      ${guidance.key_data_sources ? `<div class="modal-guidance-item"><div class="modal-guidance-key">Key Data Sources</div><div class="modal-guidance-val">${guidance.key_data_sources}</div></div>` : ''}
+      ${guidance.hardest_part ? `<div class="modal-guidance-item"><div class="modal-guidance-key">Hardest Part</div><div class="modal-guidance-val">${guidance.hardest_part}</div></div>` : ''}
+      ${guidance.common_bar_failures ? `<div class="modal-guidance-item"><div class="modal-guidance-key">Common Bar Failures</div><div class="modal-guidance-val">${guidance.common_bar_failures}</div></div>` : ''}
+    </div>` : ''}
+
+    ${calQ.length > 0 ? `
+    <div class="modal-section">
+      <span class="modal-section-label">Calibration Questions</span>
+      <ul>${calQ.map(q => `<li>${q}</li>`).join('')}</ul>
+    </div>` : ''}
+
+    <div class="modal-cta">
+      <a href="builder-onboarding.html?role_id=${role.id}" class="btn-primary">Claim This Role and Start Building →</a>
+      <button class="btn-ghost" onclick="closeModal()">Back to Catalogue</button>
+    </div>
+  `;
+}
+
+function closeModal(event) {
+  if (event && event.target !== document.getElementById('modal-overlay')) return;
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── FILTERS ───────────────────────────────────────────────────────────────────
+function setupFilters() {
+  ['filter-mode', 'filter-complexity', 'filter-track'].forEach(groupId => {
+    const group = document.getElementById(groupId);
+    const key = groupId.replace('filter-', '');
+    group.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        group.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeFilters[key] = pill.dataset.value;
+        renderCatalogue();
+      });
+    });
+  });
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────────
+function setupSearch() {
+  const input = document.getElementById('search-input');
+  input.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    const q = input.value.trim();
+    if (!q) {
+      document.getElementById('search-results').classList.remove('visible');
+      return;
+    }
+    searchTimer = setTimeout(() => doSearch(q), 300);
+  });
+}
+
+async function doSearch(query) {
+  try {
+    const r = await fetch(`${API}/api/catalogue/search`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query, limit: 6})
+    });
+    const data = await r.json();
+    const results = data.results || [];
+    const grid = document.getElementById('search-grid');
+    grid.innerHTML = results.map(r => renderRoleCard({...r, _searchMatch: true})).join('');
+    document.getElementById('search-results').classList.toggle('visible', results.length > 0);
+  } catch(e) {
+    console.warn('Search error:', e);
+  }
+}
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function toggleVertical(header) {
+  const toggle = header.querySelector('.vertical-toggle');
+  const vertical = header.parentElement.dataset.vertical;
+  const grid = document.getElementById(`grid-${vertical.replace(/[^a-z0-9]/gi, '-')}`);
+  const isOpen = grid.classList.contains('open');
+  grid.classList.toggle('open', !isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+function scrollToCatalogue() {
+  document.getElementById('catalogue-search').scrollIntoView({behavior: 'smooth'});
+}
+
+function claimRole(roleId, roleName) {
+  window.location.href = `builder-onboarding.html?role_id=${roleId}`;
+}
+
+// Close modal on Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+init();
+</script>
+</body>
+</html>

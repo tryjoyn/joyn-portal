@@ -358,7 +358,12 @@ p { color: var(--ink-secondary); }
       <p style="font-size:0.8rem;color:var(--ink-secondary);margin-top:1rem;">Secure payment via Stripe. Cancel anytime — your build progress is saved.</p>
     </div>
 
-    <!-- SUCCESS -->
+    <!-- CONFIRMATION (post-payment) -->
+    <div class="step-panel" id="confirm-panel">
+      <div style="padding:2rem 0;"><div style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--ink-secondary);">Loading your confirmation…</div></div>
+    </div>
+
+    <!-- SUCCESS (redirecting to Stripe) -->
     <div class="success-panel" id="success-panel">
       <div class="success-icon">✓</div>
       <h2 class="success-title">Application received</h2>
@@ -375,6 +380,8 @@ p { color: var(--ink-secondary); }
       <div class="seat-counter" id="seats-remaining">100</div>
       <div class="seat-label">Seats remaining</div>
     </div>
+
+    <div id="sidebar-claimed-role" style="display:none;padding:1.25rem;border:1px solid var(--gold-text);background:var(--surface);margin-bottom:1.5rem;"></div>
 
     <div class="sidebar-section">
       <div class="sidebar-label">What you are building</div>
@@ -433,25 +440,170 @@ let applicationId = null;
 
 // ── URL PARAMS ───────────────────────────────────────────────────────────────
 const urlParams = new URLSearchParams(window.location.search);
-const prefilledTrack = urlParams.get('track');
+const prefilledTrack = urlParams.get('track');      // 'A' or 'B'
 const prefilledRoleName = urlParams.get('role_name');
-const prefilledRoleId = urlParams.get('role');
+const prefilledRoleId = urlParams.get('role_id') || urlParams.get('role'); // role_id from catalogue
+const isCustomBuild = urlParams.get('custom') === 'true';
+const isSuccess = urlParams.get('success') === 'true';
+const successSessionId = urlParams.get('session_id');
+const cancelledStep = urlParams.get('cancelled') === 'true';
 
 // Pre-fill from sessionStorage
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
   const prefillName = sessionStorage.getItem('prefill_name');
   const prefillEmail = sessionStorage.getItem('prefill_email');
   const prefillRole = sessionStorage.getItem('prefill_role');
   if (prefillName) document.getElementById('f-name').value = prefillName;
   if (prefillEmail) document.getElementById('f-email').value = prefillEmail;
   if (prefillRole) document.getElementById('f-role').value = prefillRole;
+
+  // Handle ?success=true — show confirmation page
+  if (isSuccess && successSessionId) {
+    await handlePaymentSuccess(successSessionId);
+    return;
+  }
+
+  // Handle ?cancelled=true — show gentle banner on step 4
+  if (cancelledStep) {
+    showCancellationBanner();
+    goStep(4);
+  }
+
+  // Handle ?role_id= — pre-fill role and skip to step 1 (background)
+  if (prefilledRoleId) {
+    await loadAndPreFillRole(prefilledRoleId);
+  }
+
+  // Handle ?track=B — pre-select Track B
   if (prefilledTrack === 'B') selectTrack('B');
+
+  // Handle ?custom=true — pre-fill custom concept prompt
+  if (isCustomBuild) {
+    document.getElementById('f-concept').placeholder = 'Describe your concept in plain language. What does it do? Who hires it? What does a client stop doing manually?';
+  }
+
   if (prefilledRoleName) {
     document.getElementById('f-concept').value = prefilledRoleName;
   }
+
   loadVerticals();
   loadSeatsRemaining();
 });
+
+async function loadAndPreFillRole(roleId) {
+  try {
+    const res = await fetch(`${API_BASE}/api/catalogue/${roleId}`);
+    if (!res.ok) return;
+    const role = await res.json();
+    // Show claimed role card in sidebar
+    const sidebarRole = document.getElementById('sidebar-claimed-role');
+    if (sidebarRole) {
+      sidebarRole.innerHTML = `
+        <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.5rem;">Claiming</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;margin-bottom:0.25rem;">${role.name}</div>
+        <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:0.75rem;">${role.role}</div>
+        <div style="font-size:0.8rem;color:var(--ink-secondary);line-height:1.6;">${role.target_pain || ''}</div>
+      `;
+      sidebarRole.style.display = 'block';
+    }
+    // Pre-fill concept with role info
+    const conceptField = document.getElementById('f-concept');
+    if (conceptField && !conceptField.value) {
+      conceptField.value = `${role.name}: ${role.role}. ${role.target_pain || ''}`;
+    }
+    // Pre-fill vertical
+    if (role.vertical) {
+      selectedVertical = role.vertical;
+      document.getElementById('f-vertical').value = role.vertical;
+    }
+    // Store for submission
+    window._prefilledRoleId = roleId;
+    window._prefilledRoleName = role.name;
+  } catch(e) {
+    console.warn('Could not load role:', e);
+  }
+}
+
+async function handlePaymentSuccess(sessionId) {
+  // Show confirmation panel
+  document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+  const confirmPanel = document.getElementById('confirm-panel');
+  if (confirmPanel) {
+    confirmPanel.classList.add('active');
+    // Update progress bar
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById(`ps-${i}`);
+      if (el) { el.classList.remove('active'); el.classList.add('done'); }
+    }
+    // Load builder status from API
+    const savedEmail = sessionStorage.getItem('prefill_email') || sessionStorage.getItem('builder_email');
+    if (savedEmail) {
+      try {
+        const res = await fetch(`${API_BASE}/api/builder/status?email=${encodeURIComponent(savedEmail)}`);
+        if (res.ok) {
+          const data = await res.json();
+          renderConfirmationPage(data, confirmPanel);
+        }
+      } catch(e) { console.warn('Could not load builder status:', e); }
+    }
+  }
+}
+
+function renderConfirmationPage(builderData, panel) {
+  const role = builderData.catalogue_role;
+  const isFounder = builderData.is_founding_builder;
+  const name = builderData.full_name || 'Builder';
+
+  const roleCard = role ? `
+    <div style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);margin-bottom:2rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.5rem;">You are building</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;margin-bottom:0.25rem;">${role.name}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--ink-secondary);margin-bottom:0.75rem;">${role.role}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-secondary);">${role.vertical} · ${role.mode} · ${role.build_complexity} · Est. ${role.estimated_weeks} weeks</div>
+    </div>
+  ` : '';
+
+  const timeline = `
+    <div style="margin-bottom:2rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1.5rem;">Your build journey</div>
+      ${[
+        { n:'01', name:'BRIEF', desc:'Lock your staff scope before building anything.', action:'Start Your Creator Brief', href:'./creator-brief.html', active: true },
+        { n:'02', name:'BUILD', desc:'Build using any AI tool. Your Visionary Spec is your guide.', action:'View build resources', href:'./builder-dashboard.html', active: false },
+        { n:'03', name:'SUBMIT TO THE BAR', desc:'Five automated gates. Verdict in 48 hours. Run the pre-flight check first.', action:'Read The Bar standard', href:'./creator-studio.html', active: false },
+        { n:'04', name:'DEPLOY', desc:'On pass: listing live within 48 hours.', action:'See a live listing — Iris', href:'./iris-insurance-regulatory.html', active: false },
+        { n:'05', name:'EARN', desc:'Performance-linked income from the first hire. Calibration feedback from hirers helps you improve over time.', action:'Go to your dashboard', href:'./builder-dashboard.html', active: false },
+      ].map(s => `
+        <div style="display:flex;gap:1.5rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--rule);${s.active ? 'border-left:3px solid var(--gold-text);padding-left:1rem;margin-left:-1rem;' : ''}">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--gold-text);line-height:1;flex-shrink:0;width:2rem;">${s.n}</div>
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:0.4rem;">${s.name}</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:0.75rem;">${s.desc}</div>
+            <a href="${s.href}" style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold-text);">→ ${s.action}</a>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  panel.innerHTML = `
+    <div style="max-width:640px;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1rem;">Founding Builder Seat · Confirmed</div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;line-height:1.1;margin-bottom:1rem;">You are in, ${name.split(' ')[0]}.<br>Here is what happens next.</h1>
+      <p style="color:var(--ink-secondary);margin-bottom:2.5rem;">Your Founding Builder Seat is active. 75% revenue share from your first hire. Lifetime status.</p>
+      ${roleCard}
+      ${timeline}
+      <a href="./builder-dashboard.html" class="btn btn-primary" style="display:inline-block;">Go to Your Dashboard →</a>
+    </div>
+  `;
+}
+
+function showCancellationBanner() {
+  const banner = document.createElement('div');
+  banner.style.cssText = 'padding:1rem;border:1px solid var(--rule-mid);background:var(--surface);font-family:DM Mono,monospace;font-size:0.7rem;color:var(--ink-secondary);margin-bottom:1.5rem;letter-spacing:0.05em;';
+  banner.textContent = 'Payment was not completed. Your application is saved — claim your seat when you are ready.';
+  const step4 = document.getElementById('step-4');
+  if (step4) step4.insertBefore(banner, step4.firstChild);
+}
 
 // ── LOAD VERTICALS ───────────────────────────────────────────────────────────
 const VERTICALS_STATIC = [

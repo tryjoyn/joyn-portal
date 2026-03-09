@@ -58,7 +58,7 @@ a { color: inherit; text-decoration: none; }
 .sidebar-nav-item:hover { color: var(--ink); background: var(--white); }
 .sidebar-nav-item.active { color: var(--ink); background: var(--white); border-color: var(--rule); }
 .sidebar-nav-item.locked { opacity: 0.4; cursor: not-allowed; }
-.sidebar-nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule-mid); flex-shrink: 0; }
+.sidebar-nav-dot { width: 6px; height: 6px; background: var(--rule-mid); flex-shrink: 0; }
 .sidebar-nav-item.active .sidebar-nav-dot { background: var(--gold-text); }
 .sidebar-nav-item.done .sidebar-nav-dot { background: var(--green); }
 
@@ -128,7 +128,7 @@ a { color: inherit; text-decoration: none; }
 
 /* LOADING STATE */
 .loading-state { text-align: center; padding: 4rem 2rem; }
-.loading-spinner { width: 2rem; height: 2rem; border: 2px solid var(--rule); border-top-color: var(--gold-text); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+.loading-spinner { width: 2rem; height: 2rem; border: 2px solid var(--rule); border-top-color: var(--gold-text); animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* RESPONSIVE */
@@ -184,6 +184,18 @@ a { color: inherit; text-decoration: none; }
       <div class="sidebar-nav-item locked" onclick="showPanel('deploy')" id="nav-deploy">
         <div class="sidebar-nav-dot"></div>
         Deployment
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Tools</div>
+      <div class="sidebar-nav-item" onclick="showPanel('preflight')" id="nav-preflight">
+        <div class="sidebar-nav-dot"></div>
+        Pre-Flight Check
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('resources')" id="nav-resources">
+        <div class="sidebar-nav-dot"></div>
+        Build Resources
       </div>
     </div>
 
@@ -337,6 +349,83 @@ a { color: inherit; text-decoration: none; }
       <div id="deploy-content">
         <div style="text-align:center;padding:3rem;border:1px solid var(--rule);">
           <p>Pass The Bar to unlock deployment.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRE-FLIGHT PANEL -->
+    <div class="panel" id="panel-preflight">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Pre-Flight Check</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Run before you submit</h2>
+        <p>The Pre-Flight Check evaluates your build against The Bar's five gates before you formally submit. Identify gaps early. Fix them before the clock starts.</p>
+      </div>
+      <div class="nudge" style="margin-bottom:2rem;">
+        <div class="nudge-label">How it works</div>
+        <div class="nudge-text">Paste your build description below. The Reviewer Agent evaluates it against all five gates and returns gate-by-gate feedback. This is not a formal submission — it is a rehearsal. Run it as many times as you need.</div>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);display:block;margin-bottom:0.5rem;">Describe your build</label>
+        <textarea id="preflight-input" rows="8" style="font-family:'Syne',sans-serif;font-size:0.9rem;padding:1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;resize:vertical;min-height:180px;" placeholder="Describe what your AI staff does, what it produces, how it handles failures, and how it improves over time. The more specific, the more useful the feedback."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="runPreflight()" id="preflight-btn" style="font-size:0.75rem;">Run Pre-Flight Check →</button>
+      <div id="preflight-results" style="margin-top:2rem;"></div>
+    </div>
+
+    <!-- RESOURCES PANEL -->
+    <div class="panel" id="panel-resources">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Build Resources</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Everything you need to build</h2>
+        <p>Your build prompt, design standards, tool guidance, and reference implementations. Everything is specific to your claimed role.</p>
+      </div>
+      <div id="resources-content">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--rule);background:var(--rule);margin-bottom:2rem;">
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Your Build Prompt</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">A pre-populated prompt for Manus, Claude Code, or any AI tool — specific to your claimed role. Copy and paste to start your build.</div>
+            <button class="btn btn-primary btn-sm" onclick="loadBuildPrompt()" style="font-size:0.65rem;">Generate My Build Prompt →</button>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Design Standard</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">The Joyn design spec your AI staff must follow. Named outputs, hirer experience, calibration architecture, and The Bar's five gates.</div>
+            <a href="https://github.com/tryjoyn/joyn-portal/blob/main/JOYN-DESIGN-SPEC.md" target="_blank" class="btn btn-ghost btn-sm" style="font-size:0.65rem;">View Design Spec →</a>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Reference Implementation</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">Iris is the reference implementation. Study her listing, her named outputs, and her calibration architecture before you build.</div>
+            <a href="./iris-insurance-regulatory.html" target="_blank" class="btn btn-ghost btn-sm" style="font-size:0.65rem;">Study Iris →</a>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Recommended Tools</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">Tools are open. Manus, Claude Code, n8n, Make, Zapier, Python — use whatever you know. Standards are closed.</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPanel('resources'); document.getElementById('tool-guide').scrollIntoView({behavior:'smooth'})" style="font-size:0.65rem;">View Tool Guide ↓</button>
+          </div>
+        </div>
+
+        <div id="build-prompt-output" style="display:none;margin-bottom:2rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--rule);">Your Build Prompt</div>
+          <div id="build-prompt-text" style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);font-family:'Syne',sans-serif;font-size:0.875rem;line-height:1.8;white-space:pre-wrap;"></div>
+          <button class="btn btn-ghost" onclick="copyBuildPrompt()" style="margin-top:1rem;font-size:0.7rem;">Copy to Clipboard</button>
+        </div>
+
+        <div id="tool-guide" style="border-top:1px solid var(--rule);padding-top:2rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1.5rem;">Tool Guide — Tools are open. Standards are closed.</div>
+          ${[
+            { name:'Manus', use:'Full-stack AI staff with memory, tools, and web access. Best for complex multi-step workflows.', link:'https://manus.im' },
+            { name:'Claude Code', use:'Code-first AI staff. Best for builders with technical backgrounds who want precise control.', link:'https://claude.ai' },
+            { name:'n8n / Make', use:'Workflow automation. Best for integration-heavy staff that connects multiple APIs and data sources.', link:'https://n8n.io' },
+            { name:'Zapier', use:'No-code automation. Best for simple trigger-action workflows with standard SaaS integrations.', link:'https://zapier.com' },
+            { name:'Python + OpenAI', use:'Custom code. Best for builders who want full control over logic, prompts, and data handling.', link:'https://platform.openai.com' },
+          ].map(t => `
+            <div style="display:flex;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--rule);align-items:flex-start;">
+              <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);width:120px;flex-shrink:0;padding-top:0.15rem;">${t.name}</div>
+              <div style="flex:1;">
+                <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:0.5rem;">${t.use}</div>
+                <a href="${t.link}" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold-text);">→ ${t.link.replace('https://','')}</a>
+              </div>
+            </div>
+          `).join('')}
         </div>
       </div>
     </div>
@@ -781,6 +870,89 @@ function downloadSpec() {
   a.download = 'visionary-spec.txt';
   a.click();
   URL.revokeObjectURL(url);
+}
+
+// ── PRE-FLIGHT CHECK ─────────────────────────────────────────────────────────
+async function runPreflight() {
+  const input = document.getElementById('preflight-input').value.trim();
+  if (!input || input.length < 50) {
+    alert('Please describe your build in more detail (at least 50 characters).');
+    return;
+  }
+  const btn = document.getElementById('preflight-btn');
+  btn.textContent = 'Running check…';
+  btn.disabled = true;
+  const results = document.getElementById('preflight-results');
+  results.innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:0.75rem;color:var(--ink-secondary);">Evaluating against The Bar\'s five gates…</div>';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/builder/preflight`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description: input, builder_id: builder?.id })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Pre-flight check failed');
+
+    const gates = data.gates || [];
+    const passed = gates.filter(g => g.pass).length;
+    results.innerHTML = `
+      <div style="margin-bottom:1rem;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:${passed===5?'var(--green)':'#c0392b'};margin-bottom:0.5rem;">${passed} of 5 gates passed</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;">${passed===5?'Your build is ready for The Bar':'Gaps identified — address these before submitting'}</div>
+      </div>
+      ${gates.map(g => `
+        <div class="gate-check">
+          <div class="gate-check-icon ${g.pass?'pass':'fail'}">${g.pass?'✓':'✗'}</div>
+          <div class="gate-check-body">
+            <div class="gate-check-title">${escHtml(g.gate)}</div>
+            <div class="gate-check-feedback">${escHtml(g.feedback)}</div>
+          </div>
+        </div>
+      `).join('')}
+      ${passed===5?'<div style="margin-top:1.5rem;"><button class="btn btn-primary" onclick="submitForReview()" style="font-size:0.75rem;">Submit for The Bar Review →</button></div>':''}
+    `;
+  } catch(err) {
+    results.innerHTML = `<div style="color:#c0392b;font-size:0.875rem;">${err.message || 'Pre-flight check failed. Please try again.'}</div>`;
+  } finally {
+    btn.textContent = 'Run Pre-Flight Check →';
+    btn.disabled = false;
+  }
+}
+
+// ── BUILD PROMPT GENERATOR ────────────────────────────────────────────────────
+async function loadBuildPrompt() {
+  if (!builder) {
+    alert('Please access your dashboard via your builder email first.');
+    return;
+  }
+  const output = document.getElementById('build-prompt-output');
+  const promptText = document.getElementById('build-prompt-text');
+  output.style.display = 'block';
+  promptText.textContent = 'Generating your build prompt…';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/builder/build-prompt?id=${builder.id}`);
+    if (!res.ok) throw new Error('Could not generate build prompt');
+    const data = await res.json();
+    promptText.textContent = data.prompt || 'Build prompt not available. Complete the Creator Brief first.';
+  } catch(err) {
+    // Fallback: generate a generic prompt from builder data
+    const role = builder.catalogue_role;
+    const prompt = role
+      ? `You are building ${role.name} — ${role.role}.\n\nContext:\n- Vertical: ${role.vertical}\n- Mode: ${role.mode}\n- Target hirer: ${role.target_pain || 'domain professionals'}\n\nYour task:\nBuild an AI staff that ${role.role.toLowerCase()}. The staff must:\n1. Produce named, scheduled outputs (not just answers to questions)\n2. Have a clear onboarding flow for the hirer (under 30 minutes)\n3. Handle failure scenarios gracefully\n4. Improve over time through hirer feedback\n\nDesign standard:\n- Follow the Joyn design spec (see JOYN-DESIGN-SPEC.md)\n- Study Iris as the reference implementation\n- Tools are open. Standards are closed.\n\nStart by defining the three most important named outputs, their format, trigger, and schedule.`
+      : `You are building an AI staff for the Joyn marketplace.\n\nComplete the Creator Brief first to generate a role-specific build prompt.`;
+    promptText.textContent = prompt;
+  }
+}
+
+function copyBuildPrompt() {
+  const text = document.getElementById('build-prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy to Clipboard'; }, 2000);
+  });
 }
 
 // ── PANEL NAVIGATION ──────────────────────────────────────────────────────────

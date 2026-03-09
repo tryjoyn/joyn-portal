@@ -823,6 +823,103 @@ def preflight():
     })
 
 
+# ── BUILD PROMPT ────────────────────────────────────────────
+
+@app.route("/api/builder/build-prompt", methods=["GET"])
+def get_build_prompt():
+    builder_id = request.args.get('id')
+    if not builder_id:
+        return jsonify({"error": "builder_id required"}), 400
+    conn = get_db()
+    row = conn.execute(
+        "SELECT b.*, c.name as role_name, c.role as role_title, c.vertical as role_vertical, "
+        "c.mode as role_mode, c.pain as target_pain, c.tasks as core_tasks, "
+        "c.outputs as named_outputs, c.calibration as calibration_questions, "
+        "c.guidance as builder_guidance, c.weeks as estimated_weeks "
+        "FROM builders b LEFT JOIN catalogue c ON b.catalogue_role_id = c.id "
+        "WHERE b.id = ?",
+        (builder_id,)
+    ).fetchone()
+    conn.close()
+    if not row:
+        return jsonify({"error": "Builder not found"}), 404
+
+    b = dict(row)
+    role_name = b.get('role_name') or b.get('claimed_role_name') or 'your AI staff'
+    role_title = b.get('role_title') or ''
+    vertical = b.get('role_vertical') or b.get('vertical') or ''
+    mode = b.get('role_mode') or 'autonomous'
+    pain = b.get('target_pain') or ''
+
+    try: tasks = json.loads(b.get('core_tasks') or '[]')
+    except: tasks = []
+    try: outputs = json.loads(b.get('named_outputs') or '[]')
+    except: outputs = []
+    try: calibration = json.loads(b.get('calibration_questions') or '[]')
+    except: calibration = []
+    try: guidance = json.loads(b.get('builder_guidance') or '{}')
+    except: guidance = {}
+
+    tasks_str = '\n'.join([f'  - {t}' for t in tasks]) if tasks else '  - (complete the Creator Brief to see specific tasks)'
+    outputs_str = '\n'.join([
+        f'  - {o.get("name",o) if isinstance(o,dict) else o}: {o.get("format","") if isinstance(o,dict) else ""} (trigger: {o.get("trigger","") if isinstance(o,dict) else ""})'
+        for o in outputs
+    ]) if outputs else '  - (complete the Creator Brief to define named outputs)'
+    calibration_str = '\n'.join([f'  {i+1}. {q}' for i,q in enumerate(calibration)]) if calibration else '  (complete the Creator Brief to see calibration questions)'
+    hardest = guidance.get('hardest_part', 'Defining the exact named outputs and their trigger conditions.')
+    data_sources = guidance.get('key_data_sources', 'Domain-specific data sources relevant to your vertical.')
+    weeks = b.get('estimated_weeks', '2-4')
+
+    prompt = f"""You are building {role_name} \u2014 {role_title}.
+This is an AI staff for the Joyn marketplace. It will be hired by businesses in the {vertical} vertical.
+
+CONTEXT
+- Mode: {mode.upper()} (the staff {'acts without human approval' if mode == 'autonomous' else 'presents recommendations for human sign-off'})
+- The problem it solves: {pain}
+- Estimated build time: {weeks} weeks
+- Vertical: {vertical}
+
+CORE TASKS
+{tasks_str}
+
+NAMED OUTPUTS (what the staff must produce)
+{outputs_str}
+
+CALIBRATION QUESTIONS (the hirer answers these at onboarding)
+{calibration_str}
+
+BUILD REQUIREMENTS
+1. The staff must produce NAMED, SCHEDULED outputs \u2014 not just answers to questions
+2. Onboarding must take under 30 minutes for the hirer
+3. Every failure scenario must have a defined response (at least 3 scenarios)
+4. The staff must improve over time through hirer feedback
+5. The hirer experience must be consistent and professional
+
+DESIGN STANDARD
+- Follow the Joyn design spec (JOYN-DESIGN-SPEC.md in the repository)
+- Study Iris (iris-insurance-regulatory.html) as the reference implementation
+- Tools are open. Standards are closed.
+- Terminology: never use 'agent', 'bot', 'activate', 'subscribe', 'cancel'
+
+KEY DATA SOURCES
+{data_sources}
+
+HARDEST PART OF THIS BUILD
+{hardest}
+
+START HERE
+Define the three most important named outputs for {role_name}. For each output, specify:
+1. Name (what the hirer calls it)
+2. Format (email, PDF, Slack message, dashboard, etc.)
+3. Trigger (what causes it to be produced)
+4. Schedule (daily, weekly, on-demand, etc.)
+5. Who receives it
+
+Once you have defined the named outputs, build the workflow that produces them."""
+
+    return jsonify({"prompt": prompt, "role_name": role_name, "vertical": vertical})
+
+
 # ── STAGE UPDATES ────────────────────────────────────────────
 
 @app.route("/api/builder/stage", methods=["POST"])
