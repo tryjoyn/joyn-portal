@@ -592,3 +592,36 @@ def admin_activity_log():
         'count': len(rows_to_list(rows)),
         'entries': rows_to_list(rows),
     })
+
+# ── Admin: check if a client's staff member is paused ─────────────────────────
+@api_bp.route('/admin/staff-status', methods=['GET'])
+@portal_secret_required
+def admin_staff_status():
+    """
+    Return the paused/active status of a staff member for a client.
+    Used by iris-agent to skip all LLM processing for paused clients.
+    Protected by X-Joyn-Secret header.
+    Query params: email (str), staff_slug (str, default 'iris')
+    """
+    email = request.args.get('email', '').strip().lower()
+    staff_slug = request.args.get('staff_slug', 'iris').strip().lower()
+    if not email:
+        return jsonify({'error': 'email query param required'}), 400
+    client = query_one('SELECT * FROM clients WHERE LOWER(email)=?', (email,))
+    if not client:
+        return jsonify({'error': 'client not found', 'paused': False}), 404
+    staff = query_one(
+        'SELECT * FROM hired_staff WHERE client_id=? AND staff_slug=?',
+        (client['id'], staff_slug)
+    )
+    if not staff:
+        return jsonify({'error': 'staff not found', 'paused': False}), 404
+    is_paused = (staff['status'] == 'paused')
+    return jsonify({
+        'status': 'ok',
+        'client_id': client['id'],
+        'email': email,
+        'staff_slug': staff_slug,
+        'staff_status': staff['status'],
+        'paused': is_paused,
+    })
