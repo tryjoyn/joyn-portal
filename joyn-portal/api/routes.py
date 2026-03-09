@@ -545,3 +545,26 @@ def admin_reset_clients():
         'message': 'All client data cleared',
         'deleted': counts,
     })
+
+
+# ── Admin: look up client by email ────────────────────────────────────────────
+@api_bp.route('/admin/lookup-client', methods=['GET'])
+@portal_secret_required
+def admin_lookup_client():
+    """
+    Look up a client's integer ID by email address.
+    Protected by X-Joyn-Secret header.
+    Query param: email
+    """
+    email = request.args.get('email', '').strip().lower()
+    if not email:
+        return jsonify({'error': 'email query param required'}), 400
+    client = query_one('SELECT id, email, company_name FROM clients WHERE email=?', (email,))
+    if not client:
+        return jsonify({'error': f'No client found with email {email}'}), 404
+    return jsonify({
+        'status': 'ok',
+        'client_id': client['id'],
+        'email': client['email'],
+        'company_name': client['company_name'],
+    })
