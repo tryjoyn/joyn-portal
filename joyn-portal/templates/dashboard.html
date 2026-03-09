@@ -189,7 +189,7 @@ p{color:var(--ink-secondary)}
       {% if activity %}
       {% for item in activity %}
       <li class="feed-item">
-        <span class="feed-time">{{ item.timestamp[:16].replace('T',' ') if item.timestamp else '—' }}</span>
+        <span class="feed-time" data-utc="{{ item.timestamp[:16] if item.timestamp else '' }}">{{ item.timestamp[:16].replace('T',' ') if item.timestamp else '\u2014' }}</span>
         <span class="feed-body">{{ item.action_description }}</span>
         <span class="feed-staff">{{ item.staff_name }}</span>
       </li>
@@ -227,6 +227,19 @@ p{color:var(--ink-secondary)}
   if (el) el.innerHTML = greeting + ', <em>{{ client.company_name }}.</em>';
 })();
 
+// UTC → browser-local timezone conversion
+function fmtLocalTs(utcStr) {
+  if (!utcStr) return '\u2014';
+  var d = new Date(utcStr.replace(' ', 'T') + ':00Z');
+  if (isNaN(d)) return utcStr;
+  return d.toLocaleString([], { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+// Convert server-rendered timestamps on page load
+document.querySelectorAll('.feed-time[data-utc]').forEach(function(el) {
+  var utc = el.getAttribute('data-utc');
+  if (utc) el.textContent = fmtLocalTs(utc);
+});
+
 // Auto-refresh activity feed every 30 seconds
 setInterval(function() {
   fetch('{{ url_for("api.client_activity") }}?limit=20', { credentials: 'same-origin' })
@@ -240,7 +253,8 @@ setInterval(function() {
         return;
       }
       list.innerHTML = data.map(function(item) {
-        var ts = (item.timestamp || '').slice(0, 16).replace('T', ' ');
+        var utc = (item.timestamp || '').slice(0, 16);
+        var ts = fmtLocalTs(utc);
         return '<li class="feed-item">' +
           '<span class="feed-time">' + ts + '</span>' +
           '<span class="feed-body">' + (item.action_description || '') + '</span>' +

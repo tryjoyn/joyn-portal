@@ -618,7 +618,7 @@ p { color: var(--ink-secondary); }
       {% for output in outputs %}
       <div class="briefing-card" id="bc-{{ loop.index }}">
         <div class="briefing-card-header" onclick="toggleCard(this)">
-          <div class="bc-date">{{ format_date(output.delivered_at)[:11] if output.delivered_at else '—' }}</div>
+          <div class="bc-date" data-utc="{{ output.delivered_at[:16] if output.delivered_at else '' }}">{{ format_date(output.delivered_at)[:11] if output.delivered_at else '\u2014' }}</div>
           <div>
             <div class="bc-title">{{ output.title }}</div>
             <div class="bc-badges">
@@ -671,7 +671,7 @@ p { color: var(--ink-secondary); }
         <ul class="feed-list">
           {% for item in activity %}
           <li class="feed-item">
-            <span class="feed-time">{{ format_date(item.timestamp) }}</span>
+            <span class="feed-time" data-utc="{{ item.timestamp[:16] if item.timestamp else '' }}">{{ format_date(item.timestamp) }}</span>
             <span class="feed-body">{{ item.action_description }}</span>
             <span class="feed-tag feed-tag-{{ item.action_type or 'action' }}">{{ item.action_type or '—' }}</span>
           </li>
@@ -692,6 +692,36 @@ p { color: var(--ink-secondary); }
 </footer>
 
 <script>
+// ── UTC → browser-local timezone conversion ─────────────────────────────────
+// Timestamps are stored as UTC in SQLite ('YYYY-MM-DD HH:MM').
+// We embed them as data-utc attributes and convert to the visitor's
+// local timezone using the Intl API so every client sees their own time.
+(function () {
+  function fmtLocal(utcStr, dateOnly) {
+    if (!utcStr) return '\u2014';
+    // Append 'Z' so JS parses as UTC, not local
+    var d = new Date(utcStr.replace(' ', 'T') + ':00Z');
+    if (isNaN(d)) return utcStr;
+    if (dateOnly) {
+      return d.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    return d.toLocaleString([], {
+      day: 'numeric', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+  // Activity log timestamps
+  document.querySelectorAll('.feed-time[data-utc]').forEach(function (el) {
+    var utc = el.getAttribute('data-utc');
+    if (utc) el.textContent = fmtLocal(utc, false);
+  });
+  // Briefing card dates (date-only display)
+  document.querySelectorAll('.bc-date[data-utc]').forEach(function (el) {
+    var utc = el.getAttribute('data-utc');
+    if (utc) el.textContent = fmtLocal(utc, true);
+  });
+})();
+
 function toggleCard(headerEl) {
   var card = headerEl.closest('.briefing-card');
   var body = card.querySelector('.briefing-body');
