@@ -13,7 +13,7 @@ Queue design (SQLite `queue_jobs` table):
 Environment variables:
   IRIS_DB_PATH         Path to SQLite database (default: data/iris.db)
   IRIS_POLL_INTERVAL   Seconds between queue polls (default: 30)
-  IRIS_MODEL           Anthropic model to use (default: claude-sonnet-4-5)
+  IRIS_MODEL           Anthropic model to use (default: claude-haiku-3-5)
   JOYN_PORTAL_URL      Portal base URL for tool API calls
   JOYN_PORTAL_SECRET   Shared secret for portal authentication
   ANTHROPIC_API_KEY    Anthropic API key

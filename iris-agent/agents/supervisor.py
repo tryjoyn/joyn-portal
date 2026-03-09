@@ -33,7 +33,7 @@ import anthropic
 
 logger = logging.getLogger(__name__)
 
-DEFAULT_MODEL    = os.environ.get("IRIS_MODEL", "claude-sonnet-4-5")
+DEFAULT_MODEL    = os.environ.get("IRIS_MODEL", "claude-haiku-3-5")
 MAX_ITERATIONS   = int(os.environ.get("IRIS_MAX_ITERATIONS", "20"))
 MAX_TOKENS       = int(os.environ.get("IRIS_MAX_TOKENS", "4096"))
 
