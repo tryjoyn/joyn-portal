@@ -4,11 +4,15 @@ Run once after deploy on Railway: python seed_catalogue.py
 Converts joyn-catalogue-seed.js data to SQLite rows.
 """
 import os
+import sys
 import json
 import uuid
-import sqlite3
 import subprocess
 import tempfile
+
+# Add the script directory to path so db.py can be imported
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from db import get_db
 
 DB_PATH = os.environ.get("DB_PATH", "joyn_builders.db")
 
@@ -85,37 +89,7 @@ def seed():
         print(f"Using {len(catalogue)} embedded sample roles")
     
     conn = get_db()
-    
-    # Create tables if not exist (mirrors app.py init_db)
-    conn.executescript("""
-        CREATE TABLE IF NOT EXISTS catalogue (
-            id TEXT PRIMARY KEY,
-            name TEXT NOT NULL,
-            role TEXT NOT NULL,
-            mode TEXT CHECK(mode IN ('autonomous','supervised')),
-            vertical TEXT NOT NULL,
-            sub TEXT,
-            hirer TEXT,
-            pain TEXT,
-            tasks TEXT,
-            outputs TEXT,
-            metrics TEXT,
-            complexity TEXT CHECK(complexity IN ('simple','moderate','complex')),
-            weeks TEXT,
-            tools TEXT,
-            pattern TEXT,
-            moat TEXT,
-            calibration_questions TEXT,
-            builder_guidance TEXT,
-            status TEXT DEFAULT 'open' CHECK(status IN ('open','claimed','live')),
-            track TEXT DEFAULT 'A' CHECK(track IN ('A','B')),
-            live_count INTEGER DEFAULT 0,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        );
-        CREATE INDEX IF NOT EXISTS idx_catalogue_vertical ON catalogue(vertical);
-        CREATE INDEX IF NOT EXISTS idx_catalogue_status ON catalogue(status);
-        CREATE INDEX IF NOT EXISTS idx_catalogue_track ON catalogue(track);
-    """)
+    # Tables already created by init_db in app.py
     
     inserted = 0
     skipped = 0
