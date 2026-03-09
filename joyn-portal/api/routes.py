@@ -302,17 +302,20 @@ def register():
         )
     )
 
-    send_welcome_email(
-        app_config=current_app.config,
-        logger=current_app.logger,
-        to_email=email,
-        name=name,
-        firm_name=firm_name,
-        staff_slug=staff_slug,
-        staff_name=staff_meta['name'],
-        states=states,
-        temp_password=temp_password,
-    )
+    # For non-Iris staff, send the portal welcome email directly.
+    # For Iris, the iris-agent sends the richer onboarding Stage 0 email instead.
+    if staff_slug != 'iris':
+        send_welcome_email(
+            app_config=current_app.config,
+            logger=current_app.logger,
+            to_email=email,
+            name=name,
+            firm_name=firm_name,
+            staff_slug=staff_slug,
+            staff_name=staff_meta['name'],
+            states=states,
+            temp_password=temp_password,
+        )
 
     # ── Notify iris-agent to create client profile + start onboarding ──────
     if staff_slug == 'iris':
