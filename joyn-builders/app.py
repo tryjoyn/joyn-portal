@@ -258,14 +258,14 @@ def apply():
     builder_id = str(uuid.uuid4())
     conn.execute("""
         INSERT INTO builders
-        (id,full_name,email,current_role,domain,years_experience,
+        (id,full_name,email,applicant_role,domain,years_experience,
          vertical,track,staff_concept,manual_task_replaced,
          build_tools,referral_source,catalogue_role_id,claimed_role_name,
          is_founding_builder,revenue_share)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
     """, (
         builder_id, data['full_name'], email,
-        data.get('current_role',''), data.get('domain',''),
+        data.get('applicant_role',''), data.get('domain',''),
         data.get('years_experience',''), data['vertical'],
         data.get('track','A'), data['staff_concept'],
         data.get('manual_task_replaced',''),
@@ -1083,7 +1083,7 @@ def init_db():
             id TEXT PRIMARY KEY,
             full_name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
-            current_role TEXT,
+            applicant_role TEXT,
             domain TEXT,
             years_experience TEXT,
             vertical TEXT,
