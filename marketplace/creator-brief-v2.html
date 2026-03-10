@@ -78,9 +78,19 @@ body {
   overflow: hidden;
 }
 
-/* SIDEBAR LEFT - GATE PROGRESS */
+/* SIDEBAR LEFT - HELP & TIPS (swapped) */
 .sidebar-left {
   border-right: 1px solid var(--rule);
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* SIDEBAR RIGHT - GATE PROGRESS (swapped) */
+.sidebar-right {
+  border-left: 1px solid var(--rule);
   padding: 1.5rem;
   overflow-y: auto;
   background: var(--surface);
@@ -369,16 +379,7 @@ body {
   height: 20px;
 }
 
-/* SIDEBAR RIGHT - HELP & ACTIONS */
-.sidebar-right {
-  border-left: 1px solid var(--rule);
-  padding: 1.5rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
+/* HELP CARDS */
 .help-card {
   padding: 1rem;
   border: 1px solid var(--rule);
@@ -576,8 +577,85 @@ body {
 </nav>
 
 <div class="main-container">
-  <!-- LEFT SIDEBAR - Gate Progress -->
+  <!-- LEFT SIDEBAR - Help & Tips (swapped) -->
   <aside class="sidebar-left">
+    <div class="help-card">
+      <div class="help-card-title">Current Focus</div>
+      <p id="help-focus">Tell Sage about the manual work you're trying to eliminate. Be specific — who does it today, and what's painful about it?</p>
+    </div>
+    
+    <div class="help-card">
+      <div class="help-card-title">Tips</div>
+      <p>Speak like you're describing a colleague's job, not configuring software. Sage will push back if answers are vague.</p>
+    </div>
+    
+    <div class="fallback-options" id="fallback-options">
+      <div class="help-card-title">Stuck? Try these:</div>
+      <button class="btn-fallback" onclick="triggerFallback('reverse')">
+        Describe who does this manually today →
+      </button>
+      <button class="btn-fallback" onclick="triggerFallback('choices')">
+        Answer quick yes/no questions →
+      </button>
+    </div>
+    
+    <button class="btn-complete" id="btn-complete" onclick="completeSession()">
+      Generate My Visionary Spec →
+    </button>
+    
+    <a href="creator-brief.html" class="classic-link">Switch to classic form →</a>
+  </aside>
+  
+  <!-- CHAT AREA -->
+  <main class="chat-container">
+    <div class="chat-header">
+      <div class="sage-avatar">S</div>
+      <div class="sage-info">
+        <h2>Sage</h2>
+        <p>Staffing Architect at Joyn</p>
+      </div>
+      <button class="btn-mute" id="btn-mute" title="Mute Sage's voice" style="margin-left:auto;padding:0.5rem;background:none;border:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-secondary);">
+        <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <span id="mute-label">Voice On</span>
+      </button>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages">
+      <!-- Messages will be added here -->
+    </div>
+    
+    <div class="typing-indicator" id="typing-indicator">
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+    
+    <div class="chat-input-area">
+      <div class="input-row">
+        <button class="btn-voice" id="btn-voice" title="Voice input">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+          </svg>
+        </button>
+        <div class="input-wrapper">
+          <textarea 
+            class="chat-textarea" 
+            id="chat-input" 
+            placeholder="Type your response..."
+            rows="1"
+          ></textarea>
+        </div>
+        <button class="btn-send" id="btn-send">Send</button>
+      </div>
+    </div>
+  </main>
+  
+  <!-- RIGHT SIDEBAR - Quality Gates (swapped) -->
+  <aside class="sidebar-right">
     <div class="sidebar-title">Quality Gates</div>
     <div class="gate-list" id="gate-list">
       <div class="gate-item active" data-gate="role_clarity">
@@ -623,77 +701,6 @@ body {
       <div class="ready-badge" id="ready-badge">Ready for Spec</div>
     </div>
   </aside>
-  
-  <!-- CHAT AREA -->
-  <main class="chat-container">
-    <div class="chat-header">
-      <div class="sage-avatar">S</div>
-      <div class="sage-info">
-        <h2>Sage</h2>
-        <p>Staffing Architect at Joyn</p>
-      </div>
-    </div>
-    
-    <div class="chat-messages" id="chat-messages">
-      <!-- Messages will be added here -->
-    </div>
-    
-    <div class="typing-indicator" id="typing-indicator">
-      <div class="typing-dots">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    </div>
-    
-    <div class="chat-input-area">
-      <div class="input-row">
-        <button class="btn-voice" id="btn-voice" title="Voice input">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-          </svg>
-        </button>
-        <div class="input-wrapper">
-          <textarea 
-            class="chat-textarea" 
-            id="chat-input" 
-            placeholder="Type your response..."
-            rows="1"
-          ></textarea>
-        </div>
-        <button class="btn-send" id="btn-send">Send</button>
-      </div>
-    </div>
-  </main>
-  
-  <!-- RIGHT SIDEBAR - Help & Actions -->
-  <aside class="sidebar-right">
-    <div class="help-card">
-      <div class="help-card-title">Current Focus</div>
-      <p id="help-focus">Tell Sage about the manual work you're trying to eliminate. Be specific — who does it today, and what's painful about it?</p>
-    </div>
-    
-    <div class="help-card">
-      <div class="help-card-title">Tips</div>
-      <p>Speak like you're describing a colleague's job, not configuring software. Sage will push back if answers are vague.</p>
-    </div>
-    
-    <div class="fallback-options" id="fallback-options">
-      <div class="help-card-title">Stuck? Try these:</div>
-      <button class="btn-fallback" onclick="triggerFallback('reverse')">
-        Describe who does this manually today →
-      </button>
-      <button class="btn-fallback" onclick="triggerFallback('choices')">
-        Answer quick yes/no questions →
-      </button>
-    </div>
-    
-    <button class="btn-complete" id="btn-complete" onclick="completeSession()">
-      Generate My Visionary Spec →
-    </button>
-    
-    <a href="creator-brief.html" class="classic-link">Switch to classic form →</a>
-  </aside>
 </div>
 
 <!-- Loading Overlay -->
@@ -724,6 +731,8 @@ let builderId = null;
 let isRecording = false;
 let mediaRecorder = null;
 let audioChunks = [];
+let voiceEnabled = true; // Sage speaks by default
+let currentAudio = null; // Track current audio for stopping
 
 // Gate help text mapping
 const GATE_HELP = {
@@ -797,6 +806,11 @@ async function startNewSession() {
     updateStatus(data.status);
     hideLoading();
     
+    // Sage speaks her opener
+    if (voiceEnabled) {
+      speakText(data.message);
+    }
+    
   } catch (err) {
     hideLoading();
     alert('Error starting conversation: ' + err.message);
@@ -840,6 +854,12 @@ async function sendMessage() {
   
   if (!message || !sessionId) return;
   
+  // Stop any current audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  
   // Add user message to chat
   addMessage('user', message);
   input.value = '';
@@ -869,6 +889,11 @@ async function sendMessage() {
     // Add Sage's response
     addMessage('sage', data.response);
     updateStatus(data.status);
+    
+    // Sage speaks her response
+    if (voiceEnabled && data.response) {
+      speakText(data.response);
+    }
     
   } catch (err) {
     hideTyping();
@@ -921,6 +946,12 @@ async function toggleVoice() {
 async function sendVoice(audioBlob) {
   showTyping();
   
+  // Stop any current audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  
   const formData = new FormData();
   formData.append('session_id', sessionId);
   formData.append('audio', audioBlob, 'recording.webm');
@@ -944,6 +975,11 @@ async function sendVoice(audioBlob) {
     // Add Sage's response
     addMessage('sage', data.response);
     updateStatus(data.status);
+    
+    // Sage speaks her response
+    if (voiceEnabled && data.response) {
+      speakText(data.response);
+    }
     
   } catch (err) {
     hideTyping();
@@ -1164,6 +1200,78 @@ textarea.addEventListener('input', () => autoResize(textarea));
 function autoResize(el) {
   el.style.height = 'auto';
   el.style.height = Math.min(el.scrollHeight, 150) + 'px';
+}
+
+// ── SAGE VOICE (TTS) ─────────────────────────────────────────────────────────
+
+// Toggle voice on/off
+document.getElementById('btn-mute').addEventListener('click', toggleMute);
+
+function toggleMute() {
+  voiceEnabled = !voiceEnabled;
+  const label = document.getElementById('mute-label');
+  const icon = document.getElementById('mute-icon');
+  
+  if (voiceEnabled) {
+    label.textContent = 'Voice On';
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+  } else {
+    label.textContent = 'Voice Off';
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />';
+    // Stop any playing audio
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+  }
+}
+
+// Speak text using Sage's voice
+async function speakText(text) {
+  if (!voiceEnabled || !text) return;
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/tts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: text })
+    });
+    
+    if (!res.ok) {
+      console.log('TTS unavailable, falling back to browser speech');
+      fallbackSpeak(text);
+      return;
+    }
+    
+    const data = await res.json();
+    
+    if (data.audio) {
+      // Play the audio
+      const audio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+      currentAudio = audio;
+      audio.play().catch(err => {
+        console.log('Audio play failed, using fallback:', err);
+        fallbackSpeak(text);
+      });
+    }
+  } catch (err) {
+    console.log('TTS error, using fallback:', err);
+    fallbackSpeak(text);
+  }
+}
+
+// Fallback to browser speech synthesis
+function fallbackSpeak(text) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    // Try to find a female voice
+    const voices = speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google UK English Female'));
+    if (femaleVoice) utterance.voice = femaleVoice;
+    speechSynthesis.speak(utterance);
+  }
 }
 </script>
 

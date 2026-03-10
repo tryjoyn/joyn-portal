@@ -45,6 +45,21 @@ _rate_limits = {}  # {builder_id: {"count": N, "reset_at": timestamp}}
 RATE_LIMIT_MAX = 60  # messages per hour
 RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
 
+# TTS setup for Sage's voice
+_TTS_AVAILABLE = False
+_tts_client = None
+try:
+    from emergentintegrations.llm.openai import OpenAITextToSpeech
+    from dotenv import load_dotenv
+    load_dotenv()
+    _emergent_key = os.environ.get("EMERGENT_LLM_KEY") or os.environ.get("OPENAI_API_KEY")
+    if _emergent_key:
+        _tts_client = OpenAITextToSpeech(api_key=_emergent_key)
+        _TTS_AVAILABLE = True
+except Exception as _tts_err:
+    import logging
+    logging.getLogger(__name__).warning(f'TTS unavailable: {_tts_err}')
+
 app = Flask(__name__)
 
 # CORS — explicit origins, no wildcard with credentials
@@ -1311,6 +1326,54 @@ def sage_status(session_id):
         return jsonify({"error": "Session not found"}), 404
     
     return jsonify(sage_agent.get_session_status(session))
+
+
+@app.route("/api/sage/tts", methods=["POST"])
+def sage_tts():
+    """
+    Generate Sage's voice audio from text using OpenAI TTS.
+    Returns base64-encoded audio.
+    """
+    if not _TTS_AVAILABLE:
+        return jsonify({"error": "Voice output unavailable"}), 503
+    
+    data = request.get_json()
+    text = data.get("text", "").strip()
+    
+    if not text:
+        return jsonify({"error": "text required"}), 400
+    
+    # Limit text length
+    if len(text) > 4096:
+        text = text[:4096]
+    
+    try:
+        import asyncio
+        
+        async def generate():
+            audio_base64 = await _tts_client.generate_speech_base64(
+                text=text,
+                model="tts-1",  # Fast model for real-time
+                voice="sage",   # Sage's voice!
+                speed=1.0
+            )
+            return audio_base64
+        
+        # Run async function
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        audio_base64 = loop.run_until_complete(generate())
+        loop.close()
+        
+        return jsonify({
+            "audio": audio_base64,
+            "format": "mp3"
+        })
+        
+    except Exception as e:
+        import logging
+        logging.getLogger(__name__).error(f"TTS error: {e}")
+        return jsonify({"error": "Voice generation failed"}), 500
 
 
 @app.route("/api/sage/complete", methods=["POST"])
