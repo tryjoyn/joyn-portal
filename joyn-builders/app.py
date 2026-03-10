@@ -1149,12 +1149,27 @@ def _check_rate_limit(builder_id: str) -> tuple[bool, str]:
 @app.route("/api/sage/debug", methods=["GET"])
 def sage_debug():
     """Debug endpoint to check Sage status."""
+    
+    # Try a direct LLM call to test
+    test_result = None
+    if sage_agent and sage_agent._LLM_AVAILABLE and sage_agent._client:
+        try:
+            resp = sage_agent._client.chat.completions.create(
+                model=sage_agent._MODEL,
+                messages=[{"role": "user", "content": "Say hello"}],
+                max_tokens=10
+            )
+            test_result = resp.choices[0].message.content
+        except Exception as e:
+            test_result = f"Error: {type(e).__name__}: {str(e)}"
+    
     return jsonify({
         "sage_available": _SAGE_AVAILABLE,
         "sage_llm_available": sage_agent._LLM_AVAILABLE if sage_agent else False,
         "sage_model": sage_agent._MODEL if sage_agent else None,
         "tts_available": _TTS_AVAILABLE,
         "openai_key_set": bool(os.environ.get("OPENAI_API_KEY")),
+        "test_llm_call": test_result,
     })
 
 
