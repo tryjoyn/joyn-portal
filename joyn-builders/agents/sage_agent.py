@@ -160,16 +160,27 @@ def process_message(session: SageSession, user_message: str) -> Generator[str, N
     # Update collected data based on current gate
     _update_collected_data(session, user_message)
     
-    # Score current gate
+    # Score ALL gates from collected data (not just current)
+    all_gates_status = score_all_gates(session.collected_data)
+    
+    # Update session gate scores
+    for gate_result in all_gates_status.get("gates", []):
+        gate_key = gate_result["gate"].split("_", 1)[1] if "_" in gate_result["gate"] else gate_result["gate"]
+        session.gate_scores[gate_key] = gate_result
+    
+    # Get current gate score for LLM context
     current_gate_id = f"0{list(session.collected_data.keys()).index(session.current_gate) + 1}_{session.current_gate}"
     gate_score = score_gate(current_gate_id, session.collected_data.get(session.current_gate, ""))
-    session.gate_scores[session.current_gate] = gate_score
     
     # Track attempts for fallback
     session.gate_attempts[session.current_gate] = session.gate_attempts.get(session.current_gate, 0) + 1
     
     # Check if we should offer fallback
     should_fallback = session.gate_attempts.get(session.current_gate, 0) >= 3 and gate_score["status"] != "pass"
+    
+    # Auto-advance gate if current one passed
+    if gate_score["status"] == "pass":
+        _advance_gate(session)
     
     # Build messages for LLM
     llm_messages = _build_llm_messages(session, gate_score, should_fallback)
@@ -337,18 +348,38 @@ Be encouraging, not frustrated."""
 
 
 def _update_collected_data(session: SageSession, user_message: str):
-    """Update collected data based on current gate and user message."""
+    """Update collected data based on content detection, not just current gate."""
     
-    # Append to current gate's data
+    msg_lower = user_message.lower()
+    
+    # Smart detection: assign content to appropriate gates based on keywords
+    # Role clarity - who hires, what they do
+    if any(kw in msg_lower for kw in ["broker", "agent", "hirer", "customer", "client", "who", "helps", "for"]):
+        session.collected_data["role_clarity"] = session.collected_data.get("role_clarity", "") + "\n" + user_message
+    
+    # Output standard - deliverables, formats, triggers
+    if any(kw in msg_lower for kw in ["email", "alert", "report", "pdf", "slack", "send", "deliver", "output", "daily", "weekly"]):
+        session.collected_data["output_standard"] = session.collected_data.get("output_standard", "") + "\n" + user_message
+    
+    # Hirer experience - onboarding, time, intervention
+    if any(kw in msg_lower for kw in ["onboard", "minute", "hour", "time", "review", "approve", "intervene", "interact"]):
+        session.collected_data["hirer_experience"] = session.collected_data.get("hirer_experience", "") + "\n" + user_message
+    
+    # Failure handling - errors, scenarios, fallback
+    if any(kw in msg_lower for kw in ["fail", "error", "wrong", "down", "scenario", "notify", "fallback", "unclear"]):
+        session.collected_data["failure_handling"] = session.collected_data.get("failure_handling", "") + "\n" + user_message
+    
+    # Calibration - feedback, learning, improve
+    if any(kw in msg_lower for kw in ["feedback", "learn", "improve", "calibrat", "adjust", "like", "dislike", "thumb"]):
+        session.collected_data["calibration"] = session.collected_data.get("calibration", "") + "\n" + user_message
+    
+    # Also append to current gate (fallback)
     current = session.collected_data.get(session.current_gate, "")
-    if current:
-        session.collected_data[session.current_gate] = f"{current}\n{user_message}"
-    else:
-        session.collected_data[session.current_gate] = user_message
+    if user_message not in current:
+        session.collected_data[session.current_gate] = f"{current}\n{user_message}".strip()
     
     # Try to extract staff name if mentioned
     if not session.collected_data.get("staff_name"):
-        # Look for "called X" or "named X" patterns
         import re
         name_match = re.search(r'(?:called|named|name is|it\'s)\s+([A-Z][a-z]+)', user_message)
         if name_match:
@@ -356,9 +387,9 @@ def _update_collected_data(session: SageSession, user_message: str):
     
     # Try to extract mode if mentioned
     if not session.collected_data.get("mode"):
-        if "autonomous" in user_message.lower() or "on its own" in user_message.lower():
+        if "autonomous" in msg_lower or "on its own" in msg_lower:
             session.collected_data["mode"] = "autonomous"
-        elif "supervised" in user_message.lower() or "approval" in user_message.lower():
+        elif "supervised" in msg_lower or "approval" in msg_lower:
             session.collected_data["mode"] = "supervised"
 
 

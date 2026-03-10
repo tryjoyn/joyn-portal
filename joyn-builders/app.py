@@ -48,17 +48,19 @@ _rate_limits = {}  # {builder_id: {"count": N, "reset_at": timestamp}}
 RATE_LIMIT_MAX = 60  # messages per hour
 RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
 
-# TTS setup for Sage's voice
+# TTS setup for Sage's voice (using OpenAI directly)
 _TTS_AVAILABLE = False
 _tts_client = None
 try:
-    from emergentintegrations.llm.openai import OpenAITextToSpeech
+    from openai import OpenAI
     from dotenv import load_dotenv
     load_dotenv()
-    _emergent_key = os.environ.get("EMERGENT_LLM_KEY") or os.environ.get("OPENAI_API_KEY")
-    if _emergent_key:
-        _tts_client = OpenAITextToSpeech(api_key=_emergent_key)
+    _tts_key = os.environ.get("OPENAI_API_KEY")
+    if _tts_key:
+        _tts_client = OpenAI(api_key=_tts_key)
         _TTS_AVAILABLE = True
+        import logging
+        logging.getLogger(__name__).info('TTS initialized with OpenAI')
 except Exception as _tts_err:
     import logging
     logging.getLogger(__name__).warning(f'TTS unavailable: {_tts_err}')
@@ -1369,7 +1371,7 @@ def sage_tts():
     Generate Sage's voice audio from text using OpenAI TTS.
     Returns base64-encoded audio.
     """
-    if not _TTS_AVAILABLE:
+    if not _TTS_AVAILABLE or not _tts_client:
         return jsonify({"error": "Voice output unavailable"}), 503
     
     data = request.get_json()
@@ -1383,22 +1385,18 @@ def sage_tts():
         text = text[:4096]
     
     try:
-        import asyncio
+        import base64
         
-        async def generate():
-            audio_base64 = await _tts_client.generate_speech_base64(
-                text=text,
-                model="tts-1",  # Fast model for real-time
-                voice="sage",   # Sage's voice!
-                speed=1.0
-            )
-            return audio_base64
+        # Use OpenAI TTS directly
+        response = _tts_client.audio.speech.create(
+            model="tts-1",
+            voice="nova",  # Warm female voice (nova, shimmer, alloy are female)
+            input=text,
+            speed=1.0
+        )
         
-        # Run async function
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        audio_base64 = loop.run_until_complete(generate())
-        loop.close()
+        # Convert to base64
+        audio_base64 = base64.b64encode(response.content).decode('utf-8')
         
         return jsonify({
             "audio": audio_base64,
@@ -1422,6 +1420,7 @@ def sage_complete():
     
     data = request.get_json()
     session_id = data.get("session_id")
+    force = data.get("force", False)  # Allow force completion
     
     if not session_id:
         return jsonify({"error": "session_id required"}), 400
@@ -1430,9 +1429,9 @@ def sage_complete():
     if not session:
         return jsonify({"error": "Session not found"}), 404
     
-    # Check if ready for completion
+    # Check if ready for completion (unless forced)
     status = sage_agent.get_session_status(session)
-    if not status["ready_for_spec"]:
+    if not force and not status["ready_for_spec"] and status["overall_score"] < 40:
         return jsonify({
             "error": "Not ready for completion",
             "blocking_gates": status["blocking_gates"],

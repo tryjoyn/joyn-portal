@@ -1026,20 +1026,26 @@ async function sendQuickChoices() {
 }
 
 // Complete session
-async function completeSession() {
+async function completeSession(force = false) {
   showLoading('Generating your Visionary Spec...');
   
   try {
     const res = await fetch(`${API_BASE}/api/sage/complete`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ session_id: sessionId })
+      body: JSON.stringify({ session_id: sessionId, force: force })
     });
     
     const data = await res.json();
     hideLoading();
     
     if (!res.ok) {
+      // If not ready, offer force option
+      if (data.overall_score && data.overall_score >= 30) {
+        if (confirm(`Quality score is ${data.overall_score}%. Generate spec anyway?`)) {
+          return completeSession(true);
+        }
+      }
       throw new Error(data.error || 'Completion failed');
     }
     
@@ -1117,7 +1123,9 @@ function updateStatus(status) {
   // Update ready badge
   const readyBadge = document.getElementById('ready-badge');
   const completeBtn = document.getElementById('btn-complete');
-  if (status.ready_for_spec) {
+  
+  // Show complete button if score >= 40% OR ready_for_spec OR enough messages
+  if (status.ready_for_spec || status.overall_score >= 40 || status.message_count >= 6) {
     readyBadge.classList.add('visible');
     completeBtn.classList.add('visible');
   } else {
