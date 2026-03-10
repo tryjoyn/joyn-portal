@@ -673,7 +673,7 @@ def save_brief():
             except Exception as _e:
                 pass  # Never fail the brief route due to agent error
 
-        return jsonify({"saved":True,"completed":True,"visionary_spec_generated": bool(visionary_spec)})
+        return jsonify({"saved":True,"completed":True,"visionary_spec_generated": bool(visionary_spec), "visionary_spec": visionary_spec})
 
     conn.commit()
     conn.close()

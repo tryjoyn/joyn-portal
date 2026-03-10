@@ -803,9 +803,28 @@ async function generateSpec() {
   }, 1200);
 
   try {
+    // Map frontend field names to architect agent expected format
+    const mappedAnswers = {
+      q1_staff_name: answers.staff_name,
+      q2_role_definition: answers.one_sentence,
+      q3_mode: answers.mode,
+      q4_target_hirer: answers.who_hires,
+      q5_core_pain: answers.pain_point,
+      q6_core_tasks: answers.manual_task,
+      q7_named_outputs: answers.outputs,
+      q8_hirer_touchpoints: `Onboarding: ${answers.onboarding_time || 'N/A'}\nIntervention points: ${answers.intervention_points || 'N/A'}\nTime saved: ${answers.time_saved || 'N/A'}`,
+      q9_failure_scenarios: answers.failure_scenarios,
+      q10_calibration: answers.calibration,
+      q11_moat: answers.pricing_rationale,
+      q12_tools: answers.integrations,
+      role_title: answers.role_title,
+      suggested_price: answers.suggested_price
+    };
+
     const payload = {
       builder_id: builderId,
-      brief: answers
+      answers: mappedAnswers,
+      completed: true
     };
 
     const res = await fetch(`${API_BASE}/api/builder/brief`, {
