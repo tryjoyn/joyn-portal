@@ -1,0 +1,17 @@
+Contact: mailto:security@tryjoyn.me
+Expires: 2027-03-10T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://tryjoyn.me/.well-known/security.txt
+Policy: https://tryjoyn.me/legal/privacy.html
+
+# Responsible Disclosure Policy
+#
+# If you discover a security vulnerability on tryjoyn.me, please report it
+# responsibly by emailing security@tryjoyn.me. We will acknowledge receipt
+# within 48 hours and aim to resolve confirmed issues within 30 days.
+#
+# Please do not publicly disclose vulnerabilities before we have had a
+# reasonable opportunity to address them.
+#
+# We appreciate the security research community's efforts to keep our
+# users safe. We do not currently operate a bug bounty programme.

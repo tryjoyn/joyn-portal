@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TDD Practice Team — Technology Due Diligence | Joyn</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'; img-src 'self' data: https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
@@ -489,5 +492,30 @@
     <a href="../marketplace/tdd-hire.html" class="btn-primary">Hire TDD Practice Team →</a>
   </section>
 
+<style>
+.site-footer{border-top:1px solid var(--rule);padding:1.5rem clamp(1.5rem,5vw,4rem)}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}.footer-copy{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:var(--ink-secondary)}.footer-legal{display:flex;gap:1.5rem}.footer-legal a{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color .15s}.footer-legal a:hover{color:var(--ink)}
+.cookie-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:1rem clamp(1.5rem,5vw,4rem);display:none;align-items:center;justify-content:space-between;gap:1.5rem;z-index:9000;flex-wrap:wrap;border-top:2px solid var(--gold-display)}.cookie-bar p{margin:0;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:rgba(250,250,248,.8);max-width:70ch}.cookie-bar a{color:var(--gold-display)}.cookie-btns{display:flex;gap:.75rem;flex-shrink:0}.cookie-btn{font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.2rem;border:none;cursor:pointer;min-height:36px;border-radius:0;transition:all .2s}.cookie-accept{background:var(--white);color:var(--ink)}.cookie-accept:hover{background:var(--gold-display);color:var(--white)}.cookie-decline{background:transparent;color:rgba(250,250,248,.65);border:1px solid rgba(250,250,248,.3)}.cookie-decline:hover{color:rgba(250,250,248,1);border-color:rgba(250,250,248,.7)}
+</style>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 YNOT.NOW. All rights reserved.</span>
+    <nav class="footer-legal" aria-label="Legal navigation">
+      <a href="/legal/privacy.html">Privacy Policy</a>
+      <a href="/legal/terms.html">Terms of Use</a>
+    </nav>
+  </div>
+</footer>
+<div id="cookie-bar" class="cookie-bar" role="dialog" aria-label="Cookie notice" aria-live="polite">
+  <p>We use localStorage to remember your preferences. Fonts load from Google Fonts. Forms use Web3Forms. <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-accept" onclick="cookieAccept()">Accept</button>
+    <button class="cookie-btn cookie-decline" onclick="cookieDecline()">Decline</button>
+  </div>
+</div>
+<script>
+(function(){var b=document.getElementById('cookie-bar');if(b&&!localStorage.getItem('joyn_consent'))b.style.display='flex';})();
+function cookieAccept(){localStorage.setItem('joyn_consent','accepted');document.getElementById('cookie-bar').style.display='none';}
+function cookieDecline(){localStorage.setItem('joyn_consent','declined');document.getElementById('cookie-bar').style.display='none';}
+</script>
 </body>
 </html>
