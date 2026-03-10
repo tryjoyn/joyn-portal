@@ -33,17 +33,23 @@ from prompts.sage_v1 import (
 # Import shared gate scoring
 from shared.gate_scoring import score_all_gates, score_gate
 
+# Load environment variables
+from dotenv import load_dotenv
+load_dotenv()
+
 # OpenAI setup
 _client = None
 _LLM_AVAILABLE = False
-_MODEL = os.environ.get("SAGE_MODEL", "gpt-4.1-mini")
+_MODEL = os.environ.get("SAGE_MODEL", "gpt-4o-mini")  # Use gpt-4o-mini as default
 
 try:
     from openai import OpenAI
     api_key = os.environ.get("OPENAI_API_KEY")
+    logger.info(f"OPENAI_API_KEY present: {bool(api_key)}")
     if api_key:
         _client = OpenAI(api_key=api_key)
         _LLM_AVAILABLE = True
+        logger.info(f"Sage LLM initialized successfully with model: {_MODEL}")
     else:
         logger.warning("OPENAI_API_KEY not set — Sage running in fallback mode")
 except ImportError:
@@ -165,6 +171,7 @@ def process_message(session: SageSession, user_message: str) -> Generator[str, N
     try:
         # Stream response from LLM
         response_content = ""
+        logger.info(f"Calling LLM with model: {_MODEL}, LLM_AVAILABLE: {_LLM_AVAILABLE}")
         stream = _client.chat.completions.create(
             model=_MODEL,
             messages=llm_messages,
@@ -193,7 +200,9 @@ def process_message(session: SageSession, user_message: str) -> Generator[str, N
         session.updated_at = datetime.now(timezone.utc).isoformat()
         
     except Exception as e:
-        logger.error(f"Sage LLM error: {e}")
+        logger.error(f"Sage LLM error: {type(e).__name__}: {e}")
+        import traceback
+        logger.error(traceback.format_exc())
         yield "I hit a snag — let me try that again. Could you rephrase what you just said?"
 
 

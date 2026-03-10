@@ -28,6 +28,9 @@ try:
     sage_agent = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(sage_agent)
     _SAGE_AVAILABLE = True
+    
+    import logging
+    logging.getLogger(__name__).info(f'Sage agent loaded. LLM available: {sage_agent._LLM_AVAILABLE}')
 except Exception as _sage_err:
     import logging
     logging.getLogger(__name__).warning(f'Sage agent unavailable: {_sage_err}')
@@ -1139,6 +1142,20 @@ def _check_rate_limit(builder_id: str) -> tuple[bool, str]:
     
     limit["count"] += 1
     return True, ""
+
+
+# ── SAGE CONVERSATIONAL BRIEF ────────────────────────────────────────────────
+
+@app.route("/api/sage/debug", methods=["GET"])
+def sage_debug():
+    """Debug endpoint to check Sage status."""
+    return jsonify({
+        "sage_available": _SAGE_AVAILABLE,
+        "sage_llm_available": sage_agent._LLM_AVAILABLE if sage_agent else False,
+        "sage_model": sage_agent._MODEL if sage_agent else None,
+        "tts_available": _TTS_AVAILABLE,
+        "openai_key_set": bool(os.environ.get("OPENAI_API_KEY")),
+    })
 
 
 @app.route("/api/sage/start", methods=["POST"])
