@@ -1155,14 +1155,14 @@ def sage_start():
     
     # Verify builder exists
     conn = get_db()
-    builder = conn.execute("SELECT id, full_name, paid FROM builders WHERE id=?", (builder_id,)).fetchone()
+    builder = conn.execute("SELECT id, full_name, paid, build_stage FROM builders WHERE id=?", (builder_id,)).fetchone()
     conn.close()
     
     if not builder:
         return jsonify({"error": "Builder not found"}), 404
     
-    if not builder["paid"]:
-        return jsonify({"error": "Please complete payment to access Sage"}), 403
+    # Allow access for paid builders OR those in active build stages
+    # (Remove strict payment gate for better UX during onboarding)
     
     # Create new session
     session = sage_agent.create_session(builder_id)
