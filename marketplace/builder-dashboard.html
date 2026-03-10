@@ -612,8 +612,8 @@ function renderDashboard(b) {
   document.getElementById('journey-fill').style.width = progress + '%';
   document.getElementById('journey-pct').textContent = progress + '% complete';
 
-  // Sidebar nav state
-  updateSidebarNav(b.status);
+  // Sidebar nav state - pass hasSpec to unlock spec panel
+  updateSidebarNav(b.status, !!b.visionary_spec);
 
   // Nudge
   renderNudge(b);
@@ -664,8 +664,16 @@ function getJourneyProgress(status) {
   return map[status] || 0;
 }
 
-function updateSidebarNav(status) {
-  const unlocked = { overview: true, brief: ['paid','brief_started','brief_complete','spec_generated','under_review','approved','deployed','rejected'].includes(status), spec: ['spec_generated','under_review','approved','deployed','rejected'].includes(status), review: ['under_review','approved','deployed','rejected'].includes(status), deploy: ['deployed'].includes(status) };
+function updateSidebarNav(status, hasSpec = false) {
+  // Unlock spec panel if we have a visionary_spec OR if status indicates it
+  const specStatuses = ['spec_generated','building','under_review','approved','deployed','rejected'];
+  const unlocked = { 
+    overview: true, 
+    brief: ['paid','brief_started','brief_complete','spec_generated','building','under_review','approved','deployed','rejected'].includes(status), 
+    spec: hasSpec || specStatuses.includes(status), 
+    review: ['under_review','approved','deployed','rejected'].includes(status), 
+    deploy: ['deployed'].includes(status) 
+  };
   ['brief','spec','review','deploy'].forEach(key => {
     const el = document.getElementById(`nav-${key}`);
     if (el) {
