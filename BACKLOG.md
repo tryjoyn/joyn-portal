@@ -70,13 +70,8 @@
 
 | Item | Context | Owner | Target |
 |------|---------|-------|--------|
-| Sage v2 Conversational Brief | Chat-based brief collection with real-time gate scoring | TBD | Jan 2026 |
-| `/api/sage/chat` endpoint | New backend for Sage conversations | TBD | Jan 2026 |
-| Streaming responses (SSE) | Real-time "typing" effect for Sage | TBD | Jan 2026 |
-| Prompt versioning system | `/app/joyn-builders/prompts/` folder structure | TBD | Jan 2026 |
-| Session resume | Save conversation turns, allow builder to resume if they leave | TBD | Jan 2026 |
-| Rate limiting (in-memory) | Max 60 messages/hour per builder | TBD | Jan 2026 |
-| Graceful LLM fallback | If OpenAI down, Sage says "unavailable" not crash | TBD | Jan 2026 |
+| Streaming responses (SSE) | Real-time "typing" effect for Sage (currently batch response) | TBD | Feb 2026 |
+| Admin conversation viewer | `/api/admin/conversations` — see what builders are saying to Sage | TBD | Feb 2026 |
 
 ---
 
@@ -93,6 +88,15 @@
 | Item | Context | Completed |
 |------|---------|-----------|
 | Creator Brief bug fix | Fixed payload format (answers not brief), added completed flag, return visionary_spec | Jan 2026 |
+| Sage v2 Conversational Brief | Chat-based brief collection with real-time gate scoring | Jan 2026 |
+| `/api/sage/chat` endpoint | New backend for Sage conversations (stateful, non-streaming for MVP) | Jan 2026 |
+| Prompt versioning system | `/app/joyn-builders/prompts/` folder structure with sage_v1.py | Jan 2026 |
+| Shared gate scoring module | `/app/joyn-builders/shared/gate_scoring.py` — reusable across agents | Jan 2026 |
+| Rate limiting (in-memory) | Max 60 messages/hour per builder | Jan 2026 |
+| Voice input endpoint | `/api/sage/voice` with Whisper transcription | Jan 2026 |
+| A/B test redirect | `?v=2` param redirects to Sage from classic form | Jan 2026 |
+| Session resume | Save conversation turns, allow builder to resume if they leave | Jan 2026 |
+| Graceful LLM fallback | If OpenAI down, Sage says "unavailable" not crash | Jan 2026 |
 
 ---
 

@@ -2,7 +2,7 @@ import os
 import json
 import uuid
 from datetime import datetime
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response, stream_with_context
 from db import get_db
 
 # Agent system — graceful degradation if agents unavailable
@@ -14,10 +14,36 @@ except ImportError as _agent_err:
     _AGENTS_AVAILABLE = False
     import logging
     logging.getLogger(__name__).warning(f'Agent system unavailable: {_agent_err}')
+
+# Sage agent — conversational brief collection
+# Use importlib to bypass __init__.py chain that may fail without OPENAI_API_KEY
+_SAGE_AVAILABLE = False
+sage_agent = None
+try:
+    import importlib.util
+    _joyn_path = os.path.dirname(os.path.abspath(__file__))
+    _sage_path = os.path.join(_joyn_path, 'agents', 'sage_agent.py')
+    
+    spec = importlib.util.spec_from_file_location("sage_agent", _sage_path)
+    sage_agent = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(sage_agent)
+    _SAGE_AVAILABLE = True
+except Exception as _sage_err:
+    import logging
+    logging.getLogger(__name__).warning(f'Sage agent unavailable: {_sage_err}')
+
 from flask_cors import CORS
 import stripe
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+
+# In-memory session store (for MVP — move to Redis for production scale)
+_sage_sessions = {}
+
+# Rate limiting (in-memory for MVP)
+_rate_limits = {}  # {builder_id: {"count": N, "reset_at": timestamp}}
+RATE_LIMIT_MAX = 60  # messages per hour
+RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
 
 app = Flask(__name__)
 
@@ -1075,6 +1101,377 @@ def load_extensions():
     })
 
 
+# ── SAGE CONVERSATIONAL BRIEF ────────────────────────────────────────────────
+
+def _check_rate_limit(builder_id: str) -> tuple[bool, str]:
+    """Check if builder is within rate limit. Returns (allowed, message)."""
+    import time
+    now = time.time()
+    
+    if builder_id not in _rate_limits:
+        _rate_limits[builder_id] = {"count": 0, "reset_at": now + RATE_LIMIT_WINDOW}
+    
+    limit = _rate_limits[builder_id]
+    
+    # Reset if window expired
+    if now > limit["reset_at"]:
+        limit["count"] = 0
+        limit["reset_at"] = now + RATE_LIMIT_WINDOW
+    
+    if limit["count"] >= RATE_LIMIT_MAX:
+        mins_remaining = int((limit["reset_at"] - now) / 60)
+        return False, f"Rate limit reached. Try again in {mins_remaining} minutes."
+    
+    limit["count"] += 1
+    return True, ""
+
+
+@app.route("/api/sage/start", methods=["POST"])
+def sage_start():
+    """Start a new Sage conversation session."""
+    if not _SAGE_AVAILABLE:
+        return jsonify({"error": "Sage is currently unavailable. Please use the classic form."}), 503
+    
+    data = request.get_json()
+    builder_id = data.get("builder_id")
+    
+    if not builder_id:
+        return jsonify({"error": "builder_id required"}), 400
+    
+    # Verify builder exists
+    conn = get_db()
+    builder = conn.execute("SELECT id, full_name, paid FROM builders WHERE id=?", (builder_id,)).fetchone()
+    conn.close()
+    
+    if not builder:
+        return jsonify({"error": "Builder not found"}), 404
+    
+    if not builder["paid"]:
+        return jsonify({"error": "Please complete payment to access Sage"}), 403
+    
+    # Create new session
+    session = sage_agent.create_session(builder_id)
+    _sage_sessions[session.session_id] = session
+    
+    # Persist to DB
+    _save_sage_session(session)
+    
+    return jsonify({
+        "session_id": session.session_id,
+        "message": session.messages[0]["content"],  # Sage's opener
+        "status": sage_agent.get_session_status(session)
+    })
+
+
+@app.route("/api/sage/chat", methods=["POST"])
+def sage_chat():
+    """
+    Send a message to Sage and receive streaming response.
+    Uses Server-Sent Events for real-time streaming.
+    """
+    if not _SAGE_AVAILABLE:
+        return jsonify({"error": "Sage is currently unavailable"}), 503
+    
+    data = request.get_json()
+    session_id = data.get("session_id")
+    message = data.get("message", "").strip()
+    builder_id = data.get("builder_id")
+    
+    if not session_id or not message:
+        return jsonify({"error": "session_id and message required"}), 400
+    
+    # Get session
+    session = _sage_sessions.get(session_id)
+    if not session:
+        # Try to load from DB
+        session = _load_sage_session(session_id)
+        if not session:
+            return jsonify({"error": "Session not found"}), 404
+        _sage_sessions[session_id] = session
+    
+    # Check rate limit
+    allowed, limit_msg = _check_rate_limit(session.builder_id)
+    if not allowed:
+        return jsonify({"error": limit_msg}), 429
+    
+    # Non-streaming response for simplicity (streaming SSE below)
+    response_chunks = []
+    for chunk in sage_agent.process_message(session, message):
+        response_chunks.append(chunk)
+    
+    full_response = "".join(response_chunks)
+    
+    # Save session
+    _save_sage_session(session)
+    
+    return jsonify({
+        "response": full_response,
+        "status": sage_agent.get_session_status(session)
+    })
+
+
+@app.route("/api/sage/chat/stream", methods=["POST"])
+def sage_chat_stream():
+    """
+    Send a message to Sage with SSE streaming response.
+    """
+    if not _SAGE_AVAILABLE:
+        return jsonify({"error": "Sage is currently unavailable"}), 503
+    
+    data = request.get_json()
+    session_id = data.get("session_id")
+    message = data.get("message", "").strip()
+    
+    if not session_id or not message:
+        return jsonify({"error": "session_id and message required"}), 400
+    
+    session = _sage_sessions.get(session_id) or _load_sage_session(session_id)
+    if not session:
+        return jsonify({"error": "Session not found"}), 404
+    _sage_sessions[session_id] = session
+    
+    # Check rate limit
+    allowed, limit_msg = _check_rate_limit(session.builder_id)
+    if not allowed:
+        return jsonify({"error": limit_msg}), 429
+    
+    def generate():
+        try:
+            for chunk in sage_agent.process_message(session, message):
+                yield f"data: {json.dumps({'chunk': chunk})}\n\n"
+            
+            # Send final status
+            _save_sage_session(session)
+            status = sage_agent.get_session_status(session)
+            yield f"data: {json.dumps({'done': True, 'status': status})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    
+    return Response(
+        stream_with_context(generate()),
+        mimetype='text/event-stream',
+        headers={
+            'Cache-Control': 'no-cache',
+            'X-Accel-Buffering': 'no'
+        }
+    )
+
+
+@app.route("/api/sage/voice", methods=["POST"])
+def sage_voice():
+    """
+    Process voice input via Whisper transcription.
+    """
+    if not _SAGE_AVAILABLE:
+        return jsonify({"error": "Sage is currently unavailable"}), 503
+    
+    session_id = request.form.get("session_id")
+    if not session_id:
+        return jsonify({"error": "session_id required"}), 400
+    
+    session = _sage_sessions.get(session_id) or _load_sage_session(session_id)
+    if not session:
+        return jsonify({"error": "Session not found"}), 404
+    _sage_sessions[session_id] = session
+    
+    # Check rate limit
+    allowed, limit_msg = _check_rate_limit(session.builder_id)
+    if not allowed:
+        return jsonify({"error": limit_msg}), 429
+    
+    # Get audio file
+    if 'audio' not in request.files:
+        return jsonify({"error": "No audio file provided"}), 400
+    
+    audio_file = request.files['audio']
+    audio_data = audio_file.read()
+    
+    # Process voice
+    transcribed_text, response_gen = sage_agent.process_voice(session, audio_data)
+    
+    # Collect response
+    response_chunks = list(response_gen)
+    full_response = "".join(response_chunks)
+    
+    # Save session
+    _save_sage_session(session)
+    
+    return jsonify({
+        "transcribed": transcribed_text,
+        "response": full_response,
+        "status": sage_agent.get_session_status(session)
+    })
+
+
+@app.route("/api/sage/status/<session_id>", methods=["GET"])
+def sage_status(session_id):
+    """Get current session status and gate scores."""
+    session = _sage_sessions.get(session_id) or _load_sage_session(session_id)
+    if not session:
+        return jsonify({"error": "Session not found"}), 404
+    
+    return jsonify(sage_agent.get_session_status(session))
+
+
+@app.route("/api/sage/complete", methods=["POST"])
+def sage_complete():
+    """
+    Complete the Sage session and submit to brief endpoint.
+    Triggers Architect Agent for Visionary Spec generation.
+    """
+    if not _SAGE_AVAILABLE:
+        return jsonify({"error": "Sage is currently unavailable"}), 503
+    
+    data = request.get_json()
+    session_id = data.get("session_id")
+    
+    if not session_id:
+        return jsonify({"error": "session_id required"}), 400
+    
+    session = _sage_sessions.get(session_id) or _load_sage_session(session_id)
+    if not session:
+        return jsonify({"error": "Session not found"}), 404
+    
+    # Check if ready for completion
+    status = sage_agent.get_session_status(session)
+    if not status["ready_for_spec"]:
+        return jsonify({
+            "error": "Not ready for completion",
+            "blocking_gates": status["blocking_gates"],
+            "overall_score": status["overall_score"]
+        }), 400
+    
+    # Finalize session
+    brief_data = sage_agent.finalize_session(session)
+    _save_sage_session(session)
+    
+    # Submit to brief endpoint (reuse existing logic)
+    conn = get_db()
+    builder_id = session.builder_id
+    answers = brief_data["answers"]
+    
+    # Save brief session
+    existing = conn.execute(
+        "SELECT id FROM brief_sessions WHERE builder_id=?", (builder_id,)
+    ).fetchone()
+    
+    now = datetime.utcnow().isoformat()
+    if existing:
+        conn.execute(
+            "UPDATE brief_sessions SET answers=?, completed=?, last_saved=? WHERE builder_id=?",
+            (json.dumps(answers), True, now, builder_id)
+        )
+    else:
+        conn.execute(
+            "INSERT INTO brief_sessions (id,builder_id,answers,completed,last_saved) VALUES (?,?,?,?,?)",
+            (str(uuid.uuid4()), builder_id, json.dumps(answers), True, now)
+        )
+    
+    conn.execute(
+        "UPDATE builders SET build_stage='brief_approved', brief_data=? WHERE id=?",
+        (json.dumps(answers), builder_id)
+    )
+    log_event(builder_id, 'brief_approved', {'via': 'sage', 'session_id': session_id})
+    conn.commit()
+    
+    # Run Architect Agent
+    visionary_spec = {}
+    if _AGENTS_AVAILABLE:
+        try:
+            builder_row = conn.execute("SELECT * FROM builders WHERE id=?", (builder_id,)).fetchone()
+            if builder_row:
+                visionary_spec = architect_agent(answers, dict(builder_row))
+                conn.execute(
+                    "UPDATE builders SET visionary_spec=?, build_stage='building' WHERE id=?",
+                    (json.dumps(visionary_spec), builder_id)
+                )
+                conn.commit()
+                log_event(builder_id, 'visionary_spec_generated', {
+                    'model': visionary_spec.get('_meta', {}).get('model', ''),
+                    'via': 'sage'
+                })
+        except Exception as e:
+            logging.getLogger(__name__).error(f"Architect agent error: {e}")
+    
+    conn.close()
+    
+    return jsonify({
+        "success": True,
+        "visionary_spec_generated": bool(visionary_spec),
+        "visionary_spec": visionary_spec,
+        "conversation_turns": brief_data["conversation_turns"]
+    })
+
+
+@app.route("/api/sage/resume/<builder_id>", methods=["GET"])
+def sage_resume(builder_id):
+    """Check if builder has an active Sage session to resume."""
+    conn = get_db()
+    row = conn.execute(
+        "SELECT session_data FROM sage_sessions WHERE builder_id=? AND status='active' ORDER BY updated_at DESC LIMIT 1",
+        (builder_id,)
+    ).fetchone()
+    conn.close()
+    
+    if not row:
+        return jsonify({"has_session": False})
+    
+    try:
+        session_data = json.loads(row["session_data"])
+        session = sage_agent.SageSession.from_dict(session_data)
+        return jsonify({
+            "has_session": True,
+            "session_id": session.session_id,
+            "message_count": len(session.messages),
+            "current_gate": session.current_gate,
+            "last_message": session.messages[-1]["content"] if session.messages else ""
+        })
+    except:
+        return jsonify({"has_session": False})
+
+
+def _save_sage_session(session):
+    """Persist Sage session to database."""
+    conn = get_db()
+    session_data = json.dumps(session.to_dict())
+    
+    existing = conn.execute(
+        "SELECT id FROM sage_sessions WHERE session_id=?", (session.session_id,)
+    ).fetchone()
+    
+    if existing:
+        conn.execute(
+            "UPDATE sage_sessions SET session_data=?, status=?, updated_at=? WHERE session_id=?",
+            (session_data, session.status, session.updated_at, session.session_id)
+        )
+    else:
+        conn.execute(
+            "INSERT INTO sage_sessions (id, session_id, builder_id, session_data, status, created_at, updated_at) VALUES (?,?,?,?,?,?,?)",
+            (str(uuid.uuid4()), session.session_id, session.builder_id, session_data, session.status, session.created_at, session.updated_at)
+        )
+    
+    conn.commit()
+    conn.close()
+
+
+def _load_sage_session(session_id: str):
+    """Load Sage session from database."""
+    conn = get_db()
+    row = conn.execute(
+        "SELECT session_data FROM sage_sessions WHERE session_id=?", (session_id,)
+    ).fetchone()
+    conn.close()
+    
+    if not row:
+        return None
+    
+    try:
+        session_data = json.loads(row["session_data"])
+        return sage_agent.SageSession.from_dict(session_data)
+    except:
+        return None
+
+
 def init_db():
     conn = get_db()
     conn.executescript("""
@@ -1164,11 +1561,23 @@ def init_db():
             overall_status TEXT CHECK(overall_status IN ('pass','fail','warning')),
             FOREIGN KEY (builder_id) REFERENCES builders(id)
         );
+        CREATE TABLE IF NOT EXISTS sage_sessions (
+            id TEXT PRIMARY KEY,
+            session_id TEXT UNIQUE NOT NULL,
+            builder_id TEXT NOT NULL,
+            session_data TEXT NOT NULL,
+            status TEXT DEFAULT 'active' CHECK(status IN ('active','completed','abandoned')),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (builder_id) REFERENCES builders(id)
+        );
         CREATE INDEX IF NOT EXISTS idx_builders_email ON builders(email);
         CREATE INDEX IF NOT EXISTS idx_builders_stage ON builders(build_stage);
         CREATE INDEX IF NOT EXISTS idx_catalogue_vertical ON catalogue(vertical);
         CREATE INDEX IF NOT EXISTS idx_catalogue_status ON catalogue(status);
         CREATE INDEX IF NOT EXISTS idx_events_builder ON builder_events(builder_id);
+        CREATE INDEX IF NOT EXISTS idx_sage_builder ON sage_sessions(builder_id);
+        CREATE INDEX IF NOT EXISTS idx_sage_session ON sage_sessions(session_id);
     """)
     conn.commit()
     conn.close()

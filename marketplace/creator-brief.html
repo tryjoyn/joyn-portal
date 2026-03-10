@@ -9,6 +9,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+// A/B Test: Redirect to Sage (v2) if ?v=2 param present
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('v') === '2') {
+    const builderId = params.get('builder_id');
+    const newUrl = 'creator-brief-v2.html' + (builderId ? '?builder_id=' + builderId : '');
+    window.location.replace(newUrl);
+  }
+})();
+</script>
 <style>
 :root {
   --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
