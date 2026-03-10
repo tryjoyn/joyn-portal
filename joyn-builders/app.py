@@ -1152,24 +1152,27 @@ def sage_debug():
     
     # Try a direct LLM call to test
     test_result = None
-    if sage_agent and sage_agent._LLM_AVAILABLE and sage_agent._client:
+    test_error = None
+    if sage_agent and sage_agent._client:
         try:
             resp = sage_agent._client.chat.completions.create(
                 model=sage_agent._MODEL,
-                messages=[{"role": "user", "content": "Say hello"}],
+                messages=[{"role": "user", "content": "Say hello in 3 words"}],
                 max_tokens=10
             )
             test_result = resp.choices[0].message.content
         except Exception as e:
-            test_result = f"Error: {type(e).__name__}: {str(e)}"
+            test_error = f"{type(e).__name__}: {str(e)}"
     
     return jsonify({
         "sage_available": _SAGE_AVAILABLE,
         "sage_llm_available": sage_agent._LLM_AVAILABLE if sage_agent else False,
         "sage_model": sage_agent._MODEL if sage_agent else None,
+        "sage_client_exists": bool(sage_agent._client) if sage_agent else False,
         "tts_available": _TTS_AVAILABLE,
         "openai_key_set": bool(os.environ.get("OPENAI_API_KEY")),
-        "test_llm_call": test_result,
+        "test_llm_result": test_result,
+        "test_llm_error": test_error,
     })
 
 

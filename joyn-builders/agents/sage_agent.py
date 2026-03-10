@@ -46,28 +46,16 @@ load_dotenv()
 # OpenAI setup
 _client = None
 _LLM_AVAILABLE = False
-_MODEL = os.environ.get("SAGE_MODEL", "gpt-4o-mini")  # gpt-4o-mini is the correct name
+_MODEL = os.environ.get("SAGE_MODEL", "gpt-4o-mini")
 
 try:
     from openai import OpenAI
     api_key = os.environ.get("OPENAI_API_KEY")
-    logger.info(f"OPENAI_API_KEY present: {bool(api_key)}, length: {len(api_key) if api_key else 0}")
+    logger.info(f"OPENAI_API_KEY present: {bool(api_key)}")
     if api_key:
         _client = OpenAI(api_key=api_key)
         _LLM_AVAILABLE = True
-        logger.info(f"Sage LLM initialized successfully with model: {_MODEL}")
-        
-        # Test the API connection
-        try:
-            test_response = _client.chat.completions.create(
-                model=_MODEL,
-                messages=[{"role": "user", "content": "test"}],
-                max_tokens=5
-            )
-            logger.info(f"OpenAI API test successful")
-        except Exception as test_err:
-            logger.error(f"OpenAI API test failed: {test_err}")
-            _LLM_AVAILABLE = False
+        logger.info(f"Sage LLM initialized with model: {_MODEL}")
     else:
         logger.warning("OPENAI_API_KEY not set — Sage running in fallback mode")
 except ImportError:
