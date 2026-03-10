@@ -38,18 +38,30 @@ Builders/creators marketplace for Joyn - AI staffing platform where domain exper
   - API now returns `visionary_spec` in response
 
 ## Prioritized Backlog
-### P0 (Critical)
-- [ ] Deploy fixed Creator Brief (push to GitHub)
 
-### P1 (High)
-- [ ] Add error logging for Architect Agent failures
-- [ ] Retry logic for spec generation timeouts
+> **Full backlog with parking lot:** See `/app/BACKLOG.md`
 
-### P2 (Medium)
-- [ ] Email notifications when Visionary Spec is ready
-- [ ] Better loading states during generation
+### Current Sprint (Jan 2026)
+- [x] Deploy fixed Creator Brief (pushed to GitHub)
+- [ ] Build Sage v2 — Conversational Brief with real-time gate scoring
+- [ ] New `/api/sage/chat` endpoint (stateful, streaming)
+- [ ] Voice input (Whisper integration)
+- [ ] A/B test infrastructure (URL param redirect)
+
+### Parked (See BACKLOG.md)
+- Multi-language support
+- Admin conversation viewer
+- GDPR delete endpoint
+- Cost monitoring alerts
+
+## Architectural Decisions
+- **ADR-001:** Sage is stateful (server stores conversation)
+- **ADR-002:** Persona named "Sage" not "Joyn"
+- **ADR-003:** A/B via URL param `?v=2`
+- **ADR-004:** New `/api/sage/chat` → feeds into existing `/api/builder/brief`
 
 ## Next Tasks
-1. Push changes to GitHub
-2. Verify Railway auto-deploys backend
-3. Test full Creator Brief flow with test account
+1. Build Sage backend (`/api/sage/chat`)
+2. Build Sage frontend (`creator-brief-v2.html`)
+3. Integrate voice input
+4. Test A/B redirect flow
