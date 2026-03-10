@@ -909,7 +909,38 @@ function renderReview(review) {
 
 async function submitForReview() {
   if (!builder) return;
-  alert('Submission for The Bar review is available once your build is complete. Describe your build in the Creator Brief and submit.');
+  
+  if (!builder.visionary_spec) {
+    alert('Please complete the Creator Brief first to generate your Visionary Spec.');
+    return;
+  }
+  
+  if (confirm('Submit your AI staff for The Bar review? The Reviewer Agent will evaluate against all 5 gates.')) {
+    try {
+      document.getElementById('review-content').innerHTML = '<div style="text-align:center;padding:3rem;"><div class="loading-spinner"></div><p>Running The Bar review...</p></div>';
+      showPanel('review');
+      
+      const res = await fetch(`${API_BASE}/api/builder/preflight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ builder_id: builder.id })
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Review submission failed');
+      }
+      
+      // Refresh builder data to get review results
+      await loadBuilder(builder.email);
+      showPanel('review');
+      
+    } catch (err) {
+      alert('Error: ' + err.message);
+      document.getElementById('review-content').innerHTML = '<div style="text-align:center;padding:3rem;border:1px solid var(--rule);"><p>Review failed. Please try again.</p></div>';
+    }
+  }
 }
 
 function downloadSpec() {
