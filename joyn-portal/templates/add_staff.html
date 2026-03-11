@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Staff — Joyn Portal</title>
+<link rel="icon" type="image/svg+xml" href="https://tryjoyn.me/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:         #fafaf8;
+  --ink:           #111110;
+  --ink-secondary: #3f3f3e;
+  --rule:          #e8e4dc;
+  --rule-mid:      #d0ccc4;
+  --surface:       #f4f1eb;
+  --gold-display:  #b8902a;
+  --gold-text:     #8B6914;
+  --gold-hover:    #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1rem; line-height: 1.8; -webkit-font-smoothing: antialiased; min-height: 100vh; display: flex; flex-direction: column; }
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+em { font-style: italic; color: var(--gold-display); }
+p { color: var(--ink-secondary); }
+a { color: inherit; }
+
+/* ── HEADER ── */
+.header { padding: 1.25rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; background: rgba(250,250,248,0.97); position: sticky; top: 0; z-index: 100; }
+.header-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; }
+.header-nav { display: flex; gap: 2rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover, .nav-link.active { color: var(--ink); }
+.nav-user { display: flex; align-items: center; gap: 0.5rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+.nav-user-dot { width: 6px; height: 6px; background: var(--gold-text); display: inline-block; }
+
+/* ── MAIN ── */
+.main { flex: 1; padding: clamp(2.5rem,5vw,4rem) clamp(1.5rem,5vw,4rem); max-width: 900px; width: 100%; margin: 0 auto; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb a { color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.breadcrumb a:hover { color: var(--ink); }
+.breadcrumb-sep { color: var(--rule-mid); }
+
+/* ── PAGE HERO ── */
+.page-hero { margin-bottom: 3rem; padding-bottom: 2.5rem; border-bottom: 1px solid var(--rule); }
+.label { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 0.75rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+.page-hero h1 { font-size: clamp(2rem,4vw,3rem); font-weight: 300; line-height: 1.1; margin-bottom: 0.75rem; }
+.page-hero p { font-size: 0.975rem; max-width: 54ch; color: var(--ink-secondary); }
+
+/* ── STAFF GRID ── */
+.staff-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-bottom: 3rem; }
+.staff-card { background: var(--white); padding: 1.75rem; cursor: pointer; transition: background 0.2s; position: relative; }
+.staff-card:hover { background: var(--surface); }
+.staff-card.selected { background: var(--surface); outline: 2px solid var(--ink); outline-offset: -2px; }
+.staff-card.already-hired { background: var(--surface); cursor: default; opacity: 0.55; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+.tag { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.6rem; display: inline-block; }
+.tag-live { border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
+.tag-auto { background: var(--ink); color: var(--white); }
+.tag-sup { border: 1.5px solid var(--ink); color: var(--ink); }
+.tag-hired { border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
+.card-name { font-family: 'Cormorant Garamond', serif; font-size: 2.25rem; font-weight: 400; line-height: 1; color: var(--ink); margin-bottom: 0.35rem; }
+.card-role { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); }
+.card-desc { font-size: 0.875rem; color: var(--ink-secondary); line-height: 1.7; margin-bottom: 1.25rem; }
+.card-select-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: flex; align-items: center; gap: 0.4rem; }
+.card-hired-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.selected-check { position: absolute; top: 1rem; right: 1rem; width: 20px; height: 20px; background: var(--ink); display: none; align-items: center; justify-content: center; }
+.staff-card.selected .selected-check { display: flex; }
+.selected-check::after { content: ''; display: block; width: 5px; height: 9px; border-right: 2px solid var(--white); border-bottom: 2px solid var(--white); transform: rotate(45deg) translate(-1px, -1px); }
+
+/* ── INTAKE PANEL ── */
+.intake-panel { display: none; border: 1px solid var(--rule); padding: 2.5rem; margin-bottom: 3rem; }
+.intake-panel.visible { display: block; }
+.intake-hd { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.intake-hd-text h2 { font-size: clamp(1.5rem,3vw,2rem); font-weight: 400; margin-bottom: 0.25rem; }
+.intake-hd-text p { font-size: 0.875rem; color: var(--ink-secondary); margin: 0; }
+.intake-change { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); background: none; border: 1px solid var(--rule-mid); padding: 0.4rem 0.875rem; cursor: pointer; transition: border-color 0.15s; white-space: nowrap; }
+.intake-change:hover { border-color: var(--ink); color: var(--ink); }
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.5rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-label span { color: var(--gold-text); margin-left: 0.25rem; }
+.form-input { font-family: 'Syne', sans-serif; font-size: 0.95rem; padding: 0.75rem 1rem; border: 1px solid var(--rule-mid); background: var(--white); color: var(--ink); outline: none; transition: border-color 0.15s; width: 100%; }
+.form-input:focus { border-color: var(--ink); }
+.form-input::placeholder { color: var(--rule-mid); }
+.form-select { font-family: 'Syne', sans-serif; font-size: 0.95rem; padding: 0.75rem 1rem; border: 1px solid var(--rule-mid); background: var(--white); color: var(--ink); outline: none; transition: border-color 0.15s; width: 100%; appearance: none; cursor: pointer; }
+.form-select:focus { border-color: var(--ink); }
+.form-hint { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); margin-top: 0.35rem; }
+.prefilled-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.prefilled-field { display: flex; flex-direction: column; gap: 0.4rem; }
+.prefilled-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.prefilled-value { font-size: 0.95rem; color: var(--ink-secondary); padding: 0.75rem 1rem; border: 1px solid var(--rule); background: var(--surface); }
+.prefilled-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); margin-bottom: 2rem; }
+.prefilled-note a { color: var(--gold-text); text-decoration: none; }
+.prefilled-note a:hover { color: var(--gold-hover); }
+.form-error-msg { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--ink-secondary); border: 1px solid var(--rule-mid); background: var(--surface); padding: 0.75rem 1rem; margin-bottom: 1.5rem; display: none; }
+.form-error-msg.visible { display: block; }
+.btn-hire { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.875rem 2.5rem; background: var(--ink); color: var(--white); border: 1px solid var(--ink); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.btn-hire:hover { background: var(--white); color: var(--ink); }
+.btn-hire:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* ── SUCCESS STATE ── */
+.success-panel { display: none; border: 1px solid rgba(139,105,20,0.3); background: rgba(139,105,20,0.04); padding: 2.5rem; margin-bottom: 3rem; text-align: center; }
+.success-panel.visible { display: block; }
+.success-panel h2 { font-size: clamp(1.75rem,3vw,2.5rem); margin-bottom: 0.75rem; }
+.success-panel p { font-size: 0.95rem; color: var(--ink-secondary); max-width: 48ch; margin: 0 auto 2rem; }
+.btn-dashboard { display: inline-block; font-family: 'DM Mono', monospace; font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.875rem 2.5rem; background: var(--ink); color: var(--white); text-decoration: none; border: 1px solid var(--ink); transition: background 0.2s, color 0.2s; }
+.btn-dashboard:hover { background: var(--white); color: var(--ink); }
+
+/* ── FOOTER ── */
+.page-footer { padding: 1.5rem clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+.page-footer-copy { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+@media (max-width: 640px) {
+  .header-nav { gap: 1rem; }
+  .staff-grid { grid-template-columns: 1fr; }
+  .prefilled-row { grid-template-columns: 1fr; }
+  .intake-hd { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <a href="https://tryjoyn.me" class="header-logo">JOYN.</a>
+  <nav class="header-nav">
+    <a href="{{ url_for('portal.dashboard') }}" class="nav-link">Dashboard</a>
+    <a href="{{ url_for('portal.add_staff') }}" class="nav-link active">Add Staff</a>
+    <a href="{{ url_for('portal.settings') }}" class="nav-link">Settings</a>
+    <span class="nav-user">
+      <span class="nav-user-dot"></span>
+      {{ client.company_name }}
+    </span>
+    <a href="{{ url_for('auth.logout') }}" class="nav-link">Sign out</a>
+  </nav>
+</header>
+
+<main class="main">
+
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ url_for('portal.dashboard') }}">Dashboard</a>
+    <span class="breadcrumb-sep">→</span>
+    <span>Add Staff</span>
+  </nav>
+
+  <div class="page-hero">
+    <div class="label">Staff Marketplace</div>
+    <h1>Add staff to your<br><em>portal.</em></h1>
+    <p>Select a staff member below. Your account details are pre-filled — just complete the intake for the staff member you are hiring.</p>
+  </div>
+
+  <!-- ── STEP 1: STAFF SELECTION ── -->
+  <div id="step-select">
+    <div class="staff-grid" id="staff-grid">
+
+      {% for staff in available_staff %}
+      {% if staff.slug in already_hired_slugs %}
+      <div class="staff-card already-hired" aria-label="{{ staff.name }} — already hired">
+        <div class="card-top">
+          <span class="tag tag-live">Live</span>
+          <span class="tag {{ 'tag-auto' if staff.mode == 'autonomous' else 'tag-sup' }}">{{ 'Autonomous' if staff.mode == 'autonomous' else 'Supervised' }}</span>
+        </div>
+        <div class="card-name">{{ staff.name }}</div>
+        <div class="card-role">{{ staff.role }}</div>
+        <p class="card-desc">{{ staff.description }}</p>
+        <span class="card-hired-label">Already on your team</span>
+      </div>
+      {% else %}
+      <div class="staff-card" role="button" tabindex="0"
+           data-slug="{{ staff.slug }}"
+           data-name="{{ staff.name }}"
+           data-mode="{{ staff.mode }}"
+           onclick="selectStaff(this)"
+           onkeydown="if(event.key==='Enter'||event.key===' ')selectStaff(this)"
+           aria-label="Select {{ staff.name }}">
+        <div class="selected-check" aria-hidden="true"></div>
+        <div class="card-top">
+          <span class="tag tag-live">Live</span>
+          <span class="tag {{ 'tag-auto' if staff.mode == 'autonomous' else 'tag-sup' }}">{{ 'Autonomous' if staff.mode == 'autonomous' else 'Supervised' }}</span>
+        </div>
+        <div class="card-name">{{ staff.name }}</div>
+        <div class="card-role">{{ staff.role }}</div>
+        <p class="card-desc">{{ staff.description }}</p>
+        <span class="card-select-hint">Select to hire →</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+
+    </div>
+  </div>
+
+  <!-- ── STEP 2: INTAKE ── -->
+  <div class="intake-panel" id="intake-panel" aria-live="polite">
+    <div class="intake-hd">
+      <div class="intake-hd-text">
+        <h2 id="intake-title">Hire <em id="intake-staff-name"></em></h2>
+        <p id="intake-subtitle"></p>
+      </div>
+      <button class="intake-change" onclick="clearSelection()">← Change selection</button>
+    </div>
+
+    <!-- Pre-filled identity — read-only -->
+    <div class="prefilled-row">
+      <div class="prefilled-field">
+        <span class="prefilled-label">Your name</span>
+        <div class="prefilled-value">{{ client.primary_contact_name }}</div>
+      </div>
+      <div class="prefilled-field">
+        <span class="prefilled-label">Email</span>
+        <div class="prefilled-value">{{ client.email }}</div>
+      </div>
+    </div>
+    <div class="prefilled-row">
+      <div class="prefilled-field">
+        <span class="prefilled-label">Organisation</span>
+        <div class="prefilled-value">{{ client.company_name }}</div>
+      </div>
+    </div>
+    <p class="prefilled-note">
+      Your account details are pre-filled. To update them, visit
+      <a href="{{ url_for('portal.settings') }}#contacts">Account Settings</a>.
+    </p>
+
+    <!-- Staff-specific intake fields — shown/hidden by JS -->
+    <div id="intake-iris" class="intake-fields" style="display:none;">
+      <div class="form-field">
+        <label class="form-label" for="iris-states">States to monitor <span>*</span></label>
+        <input class="form-input" type="text" id="iris-states" name="states"
+               placeholder="e.g. Florida, Texas, California"
+               autocomplete="off">
+        <span class="form-hint">Separate multiple states with commas. Iris monitors all lines of business within each state.</span>
+      </div>
+    </div>
+
+    <div id="intake-probe" class="intake-fields" style="display:none;">
+      <div class="form-field">
+        <label class="form-label" for="probe-org-type">Organisation type <span>*</span></label>
+        <select class="form-select" id="probe-org-type" name="org_type">
+          <option value="" disabled selected>Select your organisation type</option>
+          <option value="Carrier">Carrier</option>
+          <option value="MGA">MGA</option>
+          <option value="Insurtech">Insurtech</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="probe-hypothesis">Innovation hypothesis <span>*</span></label>
+        <input class="form-input" type="text" id="probe-hypothesis" name="hypothesis"
+               placeholder="e.g. Parametric flood products could reduce claims handling time by 60%"
+               autocomplete="off">
+        <span class="form-hint">One sentence. Probe will formalise this into a structured Experiment Brief within 24 hours.</span>
+      </div>
+    </div>
+
+    <div id="intake-tdd" class="intake-fields" style="display:none;">
+      <div class="form-field">
+        <label class="form-label" for="tdd-target">Target company <span>*</span></label>
+        <input class="form-input" type="text" id="tdd-target" name="target_company"
+               placeholder="e.g. Acme Software Ltd"
+               autocomplete="off">
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="tdd-engagement">Engagement type <span>*</span></label>
+        <select class="form-select" id="tdd-engagement" name="engagement_type">
+          <option value="" disabled selected>Select engagement type</option>
+          <option value="Pre-LOI Screening">Pre-LOI Screening</option>
+          <option value="Full DD">Full DD</option>
+          <option value="IC Memo Only">IC Memo Only</option>
+          <option value="Vendor Assessment">Vendor Assessment</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="tdd-brief">Brief <span>*</span></label>
+        <textarea class="form-input" id="tdd-brief" name="brief" rows="4"
+                  placeholder="Describe the target, your investment thesis, and any specific areas of concern..."></textarea>
+      </div>
+      <div class="form-field">
+        <label class="form-label" for="tdd-timeline">Timeline</label>
+        <input class="form-input" type="text" id="tdd-timeline" name="timeline"
+               placeholder="e.g. IC presentation in 3 weeks"
+               autocomplete="off">
+      </div>
+    </div>
+
+    <div class="form-error-msg" id="form-error"></div>
+
+    <button class="btn-hire" id="hire-btn" onclick="submitHire()" disabled>
+      Hire <span id="hire-btn-name"></span> →
+    </button>
+  </div>
+
+  <!-- ── STEP 3: SUCCESS ── -->
+  <div class="success-panel" id="success-panel">
+    <div class="label" style="justify-content:center;">Staff added</div>
+    <h2><em id="success-name"></em> is on your team.</h2>
+    <p id="success-msg"></p>
+    <a href="{{ url_for('portal.dashboard') }}" class="btn-dashboard">Back to dashboard →</a>
+  </div>
+
+</main>
+
+<footer class="page-footer">
+  <span class="page-footer-copy">Joyn &middot; tryjoyn.me</span>
+  <span class="page-footer-copy">Client Portal</span>
+</footer>
+
+<script>
+var selectedSlug = null;
+
+var INTAKE_SUBTITLES = {
+  'iris':              'Monitors insurance regulation continuously. Tell us which states to cover.',
+  'probe':             'Runs structured innovation experiments. Tell us your hypothesis.',
+  'tdd-practice-team': 'Eight-agent technology due diligence team. Tell us about the target.'
+};
+
+function selectStaff(el) {
+  // Deselect all
+  document.querySelectorAll('.staff-card').forEach(function(c) {
+    c.classList.remove('selected');
+  });
+  el.classList.add('selected');
+  selectedSlug = el.dataset.slug;
+  var staffName = el.dataset.name;
+
+  // Update intake panel
+  document.getElementById('intake-staff-name').textContent = staffName;
+  document.getElementById('intake-subtitle').textContent = INTAKE_SUBTITLES[selectedSlug] || '';
+  document.getElementById('hire-btn-name').textContent = staffName;
+
+  // Show correct intake fields
+  document.querySelectorAll('.intake-fields').forEach(function(f) {
+    f.style.display = 'none';
+  });
+  var intakeId = 'intake-' + selectedSlug.replace('tdd-practice-team', 'tdd');
+  var intakeEl = document.getElementById(intakeId);
+  if (intakeEl) intakeEl.style.display = 'block';
+
+  // Enable hire button
+  document.getElementById('hire-btn').disabled = false;
+  document.getElementById('form-error').classList.remove('visible');
+
+  // Show intake panel, scroll to it
+  var panel = document.getElementById('intake-panel');
+  panel.classList.add('visible');
+  setTimeout(function() {
+    panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
+}
+
+function clearSelection() {
+  document.querySelectorAll('.staff-card').forEach(function(c) {
+    c.classList.remove('selected');
+  });
+  selectedSlug = null;
+  document.getElementById('intake-panel').classList.remove('visible');
+  document.getElementById('hire-btn').disabled = true;
+  document.getElementById('form-error').classList.remove('visible');
+  document.getElementById('step-select').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function getIntakePayload() {
+  var payload = {};
+  if (selectedSlug === 'iris') {
+    var states = document.getElementById('iris-states').value.trim();
+    if (!states) return { error: 'Please enter at least one state for Iris to monitor.' };
+    payload.states = states;
+  } else if (selectedSlug === 'probe') {
+    var orgType = document.getElementById('probe-org-type').value;
+    var hypothesis = document.getElementById('probe-hypothesis').value.trim();
+    if (!orgType) return { error: 'Please select your organisation type.' };
+    if (!hypothesis) return { error: 'Please enter your innovation hypothesis.' };
+    payload.org_type = orgType;
+    payload.hypothesis = hypothesis;
+  } else if (selectedSlug === 'tdd-practice-team') {
+    var target = document.getElementById('tdd-target').value.trim();
+    var engagement = document.getElementById('tdd-engagement').value;
+    var brief = document.getElementById('tdd-brief').value.trim();
+    if (!target) return { error: 'Please enter the target company name.' };
+    if (!engagement) return { error: 'Please select an engagement type.' };
+    if (!brief) return { error: 'Please enter a brief for the TDD Practice Team.' };
+    payload.target_company = target;
+    payload.engagement_type = engagement;
+    payload.brief = brief;
+    payload.timeline = document.getElementById('tdd-timeline').value.trim();
+  }
+  return payload;
+}
+
+function submitHire() {
+  if (!selectedSlug) return;
+
+  var payload = getIntakePayload();
+  if (payload.error) {
+    var errEl = document.getElementById('form-error');
+    errEl.textContent = payload.error;
+    errEl.classList.add('visible');
+    return;
+  }
+
+  var btn = document.getElementById('hire-btn');
+  btn.disabled = true;
+  btn.textContent = 'Hiring…';
+  document.getElementById('form-error').classList.remove('visible');
+
+  // POST to the portal add-staff route (server-side, uses session identity)
+  fetch('/add-staff', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(Object.assign({ staff_slug: selectedSlug }, payload))
+  })
+  .then(function(r) { return r.json().then(function(d) { return { ok: r.ok, data: d }; }); })
+  .then(function(res) {
+    if (res.ok && res.data.success) {
+      var staffName = document.querySelector('.staff-card.selected').dataset.name;
+      document.getElementById('success-name').textContent = staffName;
+      document.getElementById('success-msg').textContent = res.data.message || (staffName + ' has been added to your portal. Head back to your dashboard to see them in action.');
+      document.getElementById('intake-panel').classList.remove('visible');
+      document.getElementById('step-select').style.display = 'none';
+      var sp = document.getElementById('success-panel');
+      sp.classList.add('visible');
+      sp.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      var errEl = document.getElementById('form-error');
+      errEl.textContent = res.data.error || 'Something went wrong. Please try again or contact hire@tryjoyn.me';
+      errEl.classList.add('visible');
+      btn.disabled = false;
+      btn.innerHTML = 'Hire <span id="hire-btn-name">' + (document.querySelector('.staff-card.selected').dataset.name) + '</span> →';
+    }
+  })
+  .catch(function() {
+    var errEl = document.getElementById('form-error');
+    errEl.textContent = 'Network error. Please check your connection and try again.';
+    errEl.classList.add('visible');
+    btn.disabled = false;
+  });
+}
+</script>
+</body>
+</html>
+

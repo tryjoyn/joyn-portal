@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Iris",
+    "role": "Insurance Regulatory Intelligence",
+    "mode": "autonomous",
+    "vertical": "insurance",
+    "status": "live",
+    "unlockDate": null,
+    "description": "Monitors Florida OIR continuously. Alerts you the moment a material change affects your line of business. No portal hunting. No missed bulletins."
+  },
+  {
+    "name": "TDD Practice Team",
+    "role": "Technology Due Diligence · 8 Agents",
+    "mode": "supervised",
+    "vertical": "technology",
+    "status": "live",
+    "unlockDate": null,
+    "description": "Pre-LOI screening to IC-ready output in 72 hours. Works alongside your practitioners. Calibrates to your firm's methodology."
+  },
+  {
+    "name": "Renew",
+    "role": "Renewal Specialist",
+    "mode": "autonomous",
+    "vertical": "insurance",
+    "status": "coming-soon",
+    "unlockDate": "2026-03-31",
+    "description": "Monitors your policy book, identifies renewal risk 90 days out, and manages outreach automatically."
+  },
+  {
+    "name": "Dispatch",
+    "role": "Field Services Dispatcher",
+    "mode": "autonomous",
+    "vertical": "operations",
+    "status": "coming-soon",
+    "unlockDate": "2026-03-31",
+    "description": "Answers every inbound call, books jobs, manages the schedule, and sends confirmations — including the calls that come in at 2am."
+  },
+  {
+    "name": "Scout",
+    "role": "Lead Qualifier & Showing Coordinator",
+    "mode": "autonomous",
+    "vertical": "real-estate",
+    "status": "coming-soon",
+    "unlockDate": "2026-04-14",
+    "description": "Responds to portal enquiries within 60 seconds, qualifies buyers, and books showings directly into your calendar."
+  },
+  {
+    "name": "Comply",
+    "role": "Compliance Monitor",
+    "mode": "autonomous",
+    "vertical": "legal-compliance",
+    "status": "coming-soon",
+    "unlockDate": "2026-04-28",
+    "description": "Continuously monitors regulatory feeds across your jurisdictions and flags compliance obligations before they become exposure."
+  },
+  {
+    "name": "Brief",
+    "role": "Client Brief Specialist",
+    "mode": "autonomous",
+    "vertical": "operations",
+    "status": "coming-soon",
+    "unlockDate": "2026-05-12",
+    "description": "Converts intake calls and intake forms into structured, actionable client briefs — ready for your team to execute against."
+  },
+  {
+    "name": "File",
+    "role": "Document Filing Specialist",
+    "mode": "autonomous",
+    "vertical": "operations",
+    "status": "coming-soon",
+    "unlockDate": "2026-05-26",
+    "description": "Classifies, names, and routes inbound documents into the right folders with the right metadata. Zero manual filing."
+  },
+  {
+    "name": "Counsel",
+    "role": "Legal Counsel Support",
+    "mode": "supervised",
+    "vertical": "legal-compliance",
+    "status": "coming-soon",
+    "unlockDate": "2026-06-09",
+    "description": "Works alongside your legal team — researching precedent, summarising case law, and drafting first-pass memos under practitioner direction."
+  },
+  {
+    "name": "Accord",
+    "role": "Contract Review Specialist",
+    "mode": "supervised",
+    "vertical": "legal-compliance",
+    "status": "coming-soon",
+    "unlockDate": "2026-06-23",
+    "description": "Reads contracts against your standard positions, flags deviations, and produces a redline summary — ready for partner review."
+  },
+  {
+    "name": "Ledger",
+    "role": "Financial Reconciliation",
+    "mode": "supervised",
+    "vertical": "financial-services",
+    "status": "coming-soon",
+    "unlockDate": "2026-07-07",
+    "description": "Reconciles accounts, flags discrepancies, and produces period-end summaries — working under your finance team's oversight."
+  },
+  {
+    "name": "Publish",
+    "role": "Content Strategist",
+    "mode": "autonomous",
+    "vertical": "operations",
+    "status": "coming-soon",
+    "unlockDate": "2026-07-21",
+    "description": "Pulls SEMrush data, identifies keyword gaps, produces a monthly content calendar with fully briefed articles."
+  }
+]

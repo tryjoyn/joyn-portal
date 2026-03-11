@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Studio — Build AI Staff · Joyn · tryjoyn.me</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="description" content="Apply to build AI staff on Joyn. Encode your domain expertise and earn performance-linked income on every hire. Open roles across Insurance, Financial Services, Healthcare, Legal, Real Estate, and Operations.">
+<!-- Security headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://joyn-portal-production-b64e.up.railway.app; img-src 'self' data: https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1.0625rem; line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+.skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+em { font-style: italic; color: var(--gold-display); }
+p { color: var(--ink-secondary); line-height: 1.8; }
+p strong { color: var(--ink); font-weight: 600; }
+a { color: inherit; }
+
+.label { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); background: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; padding: 0 1.25rem; transition: background 0.2s; }
+.nav-cta:hover { background: var(--gold-hover); }
+
+/* BREADCRUMB */
+.breadcrumb { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.875rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; align-items: center; gap: 0.5rem; }
+.breadcrumb a { color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.breadcrumb a:hover { color: var(--ink); text-decoration: underline; }
+.breadcrumb-sep { color: var(--ink-secondary); }
+.breadcrumb-current { color: var(--gold-text); font-weight: 500; }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-gold { background: var(--gold-text); color: var(--white); }
+.btn-gold:hover { background: var(--gold-hover); }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* HERO */
+.hero { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.hero h1 { margin-bottom: 1.25rem; }
+.hero p { font-size: 1.1rem; max-width: 52ch; margin-bottom: 2rem; }
+.hero-proof { display: flex; gap: 1.5rem; flex-wrap: wrap; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.proof-item { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); display: flex; align-items: center; gap: 0.4rem; }
+.proof-item::before { content: '✓'; color: var(--gold-text); }
+
+/* PLATFORM TILES */
+.platforms-section { padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.platforms-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 2rem; }
+.platform-tile { background: var(--white); padding: 2rem 1.75rem; text-align: center; transition: background 0.2s; }
+.platform-tile:hover { background: var(--surface); }
+.platform-icon { font-size: 2rem; margin-bottom: 0.75rem; line-height: 1; }
+.platform-name { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.4rem; }
+.platform-desc { font-size: 0.85rem; color: var(--ink-secondary); }
+
+/* KNOWLEDGE ARCHITECTURE */
+.knowledge-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.knowledge-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(3rem,6vw,6rem); align-items: start; margin-top: 3rem; }
+.knowledge-layers { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--rule); background: var(--rule); }
+.layer { background: var(--white); padding: 1.25rem 1.75rem; display: flex; align-items: center; gap: 1.25rem; border-bottom: 1px solid var(--rule); position: relative; transition: background 0.2s; }
+.layer:last-child { border-bottom: none; }
+.layer:hover { background: #ece8df; }
+.layer-num { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--rule-mid); line-height: 1; min-width: 2rem; }
+.layer-body {}
+.layer-name { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.2rem; }
+.layer-desc { font-size: 0.875rem; color: var(--ink-secondary); }
+.knowledge-copy p { margin-bottom: 1.25rem; font-size: 1rem; }
+.knowledge-copy p:last-child { margin-bottom: 0; }
+
+/* EARNINGS CALCULATOR */
+.income-preview { border: 1px solid var(--rule); background: var(--surface); padding: 1.25rem 1.5rem; margin: 0.25rem 0 1.25rem; }
+.income-preview-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.5rem; }
+.income-preview-range { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.5rem; }
+.income-preview-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.04em; color: var(--ink-secondary); border-top: 1px solid var(--rule); padding-top: 0.625rem; margin-top: 0.625rem; }
+
+/* OPEN ROLES */
+.roles-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--surface); }
+.roles-filter-bar { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2.5rem; margin-bottom: 0; padding: 1rem 1.5rem; border: 1px solid var(--rule); background: var(--white); }
+.roles-filter-label { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); flex-shrink: 0; }
+.roles-filter-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.filter-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
+.filter-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.filter-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
+.roles-filter-count { margin-left: auto; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); white-space: nowrap; }
+.roles-filter-count strong { color: var(--gold-text); }
+.roles-empty { padding: 3rem 2rem; text-align: center; color: var(--ink-secondary); font-size: 0.975rem; border: 1px solid var(--rule); background: var(--white); }
+.roles-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-top: 0; }
+.role-card { background: var(--white); padding: 2.25rem; display: flex; flex-direction: column; transition: background 0.2s; }
+.role-card:hover { background: #ece8df; }
+.role-vertical { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
+.role-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem,2.5vw,2rem); font-weight: 400; color: var(--ink); line-height: 1.1; margin-bottom: 0.75rem; padding-bottom: 0.875rem; border-bottom: 1px solid var(--rule); }
+.role-desc { font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.75; margin-bottom: 1.5rem; flex: 1; }
+.role-desc strong { color: var(--ink); }
+.role-prereqs { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); padding: 0.75rem; border: 1px solid var(--rule); background: var(--surface); margin-bottom: 1.25rem; }
+.role-apply-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; background: none; border: none; cursor: pointer; padding: 0; transition: color 0.2s; }
+.role-apply-btn:hover { color: var(--gold-hover); }
+.roles-pagination { display: flex; gap: 0.5rem; align-items: center; margin-top: 2rem; }
+.page-btn { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.5rem 1rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; }
+.page-btn.active { border-color: var(--ink); color: var(--ink); background: var(--surface); }
+.page-btn:hover:not(.active) { border-color: var(--ink-secondary); color: var(--ink); }
+
+/* APPLICATION FORM */
+.apply-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); }
+.apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(3rem,6vw,6rem); align-items: start; }
+.apply-context h2 { margin-bottom: 1rem; }
+.apply-context p { margin-bottom: 1.5rem; }
+.apply-points { display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1.5rem; border-top: 1px solid var(--rule); }
+.apply-point { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.975rem; color: var(--ink-secondary); }
+.apply-point::before { content: '✓'; color: var(--gold-text); font-family: 'DM Mono', monospace; font-size: 0.85rem; flex-shrink: 0; margin-top: 0.1rem; }
+.apply-point strong { color: var(--ink); }
+.apply-form-wrap { border: 1px solid var(--rule-mid); padding: 2.5rem; background: var(--surface); }
+.apply-form-wrap h3 { margin-bottom: 0.5rem; }
+.apply-form-wrap > p { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 2rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 1rem; color: var(--ink); background: var(--white); border: 1.5px solid var(--rule-mid); padding: 0.85rem 1rem; min-height: 44px; width: 100%; border-radius: 0; appearance: none; outline: none; transition: border-color 0.2s; }
+.form-input::placeholder, .form-textarea::placeholder { color: var(--ink-secondary); }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold-text); }
+.form-textarea { min-height: 100px; resize: vertical; line-height: 1.65; }
+.form-submit { width: 100%; padding: 1rem; background: var(--ink); color: var(--white); font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s; min-height: 44px; margin-top: 0.5rem; }
+.form-submit:hover { background: #2a2a29; }
+.form-success { display: none; padding: 2rem; border: 1px solid rgba(139,105,20,0.3); background: rgba(139,105,20,0.06); text-align: center; }
+.form-success h4 { margin-bottom: 0.5rem; }
+.form-success p { font-size: 0.975rem; max-width: none; }
+.form-note { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--ink-secondary); text-align: center; margin-top: 1rem; }
+
+/* MODAL (role apply shortcut) */
+.modal-overlay { position: fixed; inset: 0; background: rgba(17,17,16,0.65); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--white); max-width: 480px; width: 100%; border: 1px solid var(--rule-mid); max-height: 90vh; overflow-y: auto; }
+.modal-hd { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.modal-hd-text h3 { font-size: clamp(1.25rem,2.5vw,1.75rem); margin-bottom: 0.25rem; }
+.modal-hd-text p { font-size: 0.875rem; color: var(--ink-secondary); margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; font-size: 1.5rem; line-height: 1; color: var(--ink-secondary); min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: color 0.2s; }
+.modal-close:hover { color: var(--ink); }
+.modal-bd { padding: 1.75rem 2rem; }
+.mfg { margin-bottom: 1.125rem; }
+.mfl { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); display: block; margin-bottom: 0.4rem; }
+.mfi, .mfs, .mft { width: 100%; padding: 0.7rem 0.9rem; background: var(--white); border: 1px solid var(--rule-mid); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 0.9rem; border-radius: 0; transition: border-color 0.2s; }
+.mfi:focus, .mfs:focus, .mft:focus { outline: none; border-color: var(--ink); }
+.mfi[readonly] { background: var(--surface); color: var(--ink-secondary); cursor: default; }
+.mft { resize: vertical; min-height: 80px; line-height: 1.65; }
+.mfs { appearance: none; cursor: pointer; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+.modal-success { display: none; text-align: center; padding: 3rem 2rem; }
+.modal-success h3 { margin-bottom: 0.5rem; }
+.modal-success p { font-size: 0.9rem; }
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
+.footer-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.footer-tag { font-family: 'Syne', sans-serif; font-size: 0.875rem; color: var(--ink-secondary); }
+.footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; margin-left: 1.5rem; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.footer-nav a:hover { color: var(--ink); text-decoration: underline; }
+.back-to-top { position: fixed; bottom: 2rem; right: 2rem; z-index: 200; font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); background: var(--white); border: 1px solid var(--rule-mid); padding: 0.5rem 0.875rem; cursor: pointer; min-height: 36px; display: none; align-items: center; gap: 0.35rem; transition: color 0.15s, border-color 0.15s; }
+.back-to-top:hover { color: var(--ink); border-color: var(--ink-secondary); }
+.back-to-top.visible { display: flex; }
+
+@media (max-width: 768px) {
+  .nav { padding: 0 1.25rem; }
+  .breadcrumb { padding: 0.875rem 1.25rem; }
+  .hero-grid, .apply-grid, .knowledge-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .platforms-grid { grid-template-columns: repeat(2,1fr); }
+  .roles-grid { grid-template-columns: 1fr; }
+  .apply-form-wrap { padding: 1.5rem; }
+  .footer-inner { flex-direction: column; align-items: flex-start; }
+  .footer-nav { display: flex; flex-wrap: wrap; }
+  .footer-nav a { margin-left: 0; margin-right: 1rem; }
+  .footer-tag { display: none; }
+}
+@media (max-width: 480px) {
+  .platforms-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="nav" aria-label="Main navigation">
+  <a href="../index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Marketplace</a>
+    <a href="creator-studio.html" class="nav-link" aria-current="page">Creator Studio</a>
+  </div>
+  <a href="https://app.tryjoyn.me/login" class="nav-cta">Sign In →</a>
+</nav>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="../index.html">Home</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <a href="index.html">Marketplace</a>
+  <span class="breadcrumb-sep" aria-hidden="true">→</span>
+  <span class="breadcrumb-current" aria-current="page">Creator Studio</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="main">
+  <div class="hero-grid">
+    <div>
+      <div class="label">Creator Studio</div>
+      <h1>Your expertise,<br>encoded. <em>Earning.</em></h1>
+      <p>Joyn is built by practitioners — people who have worked the roles they now encode. If you have deep domain expertise and a clear point of view, we want to hear from you.</p>
+      <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2rem;">
+        <a href="builder-onboarding.html" class="btn btn-primary">Start Building</a>
+        <a href="index.html" class="btn btn-outline">Browse Open Roles</a>
+      </div>
+      <div class="hero-proof" role="list" aria-label="Key facts">
+        <div class="proof-item" role="listitem">No technical build required</div>
+        <div class="proof-item" role="listitem">75% revenue share</div>
+        <div class="proof-item" role="listitem">$99 one-time</div>
+        <div class="proof-item" role="listitem">Reviewed within 3 business days</div>
+      </div>
+    </div>
+    <div>
+      <!-- Visual Journey Timeline -->
+      <div style="background:var(--white); border:1px solid var(--rule); padding:1.75rem;">
+        <div style="font-family:'DM Mono',monospace; font-size:0.65rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-secondary); margin-bottom:1.25rem;">Your Build Journey</div>
+        
+        <div style="display:flex; flex-direction:column; gap:0;">
+          <!-- Stage 1 -->
+          <div style="display:flex; align-items:flex-start; gap:1rem;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:var(--gold-display); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:0.7rem; font-weight:600;">01</div>
+              <div style="width:2px; height:2rem; background:linear-gradient(to bottom, var(--gold-display), var(--rule));"></div>
+            </div>
+            <div style="padding-top:0.35rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--ink);">Onboarding</div>
+              <div style="font-size:0.8rem; color:var(--ink-secondary);">Claim your seat · $99</div>
+            </div>
+          </div>
+          
+          <!-- Stage 2 -->
+          <div style="display:flex; align-items:flex-start; gap:1rem;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:var(--ink); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:0.7rem; font-weight:600;">02</div>
+              <div style="width:2px; height:2rem; background:linear-gradient(to bottom, var(--ink), var(--rule));"></div>
+            </div>
+            <div style="padding-top:0.35rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--ink);">Creator Brief</div>
+              <div style="font-size:0.8rem; color:var(--ink-secondary);">Transfer your expertise</div>
+            </div>
+          </div>
+          
+          <!-- Stage 3 -->
+          <div style="display:flex; align-items:flex-start; gap:1rem;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:var(--ink); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:0.7rem; font-weight:600;">03</div>
+              <div style="width:2px; height:2rem; background:linear-gradient(to bottom, var(--ink), var(--rule));"></div>
+            </div>
+            <div style="padding-top:0.35rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--ink);">Visionary Spec</div>
+              <div style="font-size:0.8rem; color:var(--ink-secondary);">AI generates the spec</div>
+            </div>
+          </div>
+          
+          <!-- Stage 4 -->
+          <div style="display:flex; align-items:flex-start; gap:1rem;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:var(--ink); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:0.7rem; font-weight:600;">04</div>
+              <div style="width:2px; height:2rem; background:linear-gradient(to bottom, var(--ink), var(--rule));"></div>
+            </div>
+            <div style="padding-top:0.35rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--ink);">Review</div>
+              <div style="font-size:0.8rem; color:var(--ink-secondary);">Pass The Bar gates</div>
+            </div>
+          </div>
+          
+          <!-- Stage 5 -->
+          <div style="display:flex; align-items:flex-start; gap:1rem;">
+            <div style="display:flex; flex-direction:column; align-items:center;">
+              <div style="width:2.5rem; height:2.5rem; border-radius:50%; background:var(--gold-display); color:var(--white); display:flex; align-items:center; justify-content:center; font-family:'DM Mono',monospace; font-size:0.7rem; font-weight:600;">05</div>
+            </div>
+            <div style="padding-top:0.35rem;">
+              <div style="font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:500; color:var(--ink);">Deploy & Earn</div>
+              <div style="font-size:0.8rem; color:var(--ink-secondary);">75% revenue share</div>
+            </div>
+          </div>
+        </div>
+        
+        <div style="margin-top:1.5rem; padding-top:1.25rem; border-top:1px solid var(--rule);">
+          <a href="builder-onboarding.html" style="font-family:'DM Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold-text); text-decoration:none; display:flex; align-items:center; gap:0.5rem;">
+            Start your journey <span style="font-size:1rem;">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">JOYN.</span>
+      <span class="footer-tag">Where Human Expertise Comes to Scale Itself</span>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="../index.html">Home</a>
+      <a href="mailto:hire@tryjoyn.me">Contact Us</a>
+      <a href="/legal/privacy.html">Privacy</a>
+      <a href="/legal/terms.html">Terms</a>
+    </nav>
+    <span class="footer-copy">© 2026 YNOT.NOW. All rights reserved.</span>
+  </div>
+</footer>
+
+<!-- ROLE DETAIL MODAL -->
+<div class="modal-overlay" id="modal-role" role="dialog" aria-modal="true" aria-labelledby="role-modal-title" onclick="closeOnOverlay(event,'modal-role')">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-text">
+        <h3 id="role-modal-title">Role Details</h3>
+        <p id="role-modal-sub">Build this staff and earn 75% of every hire</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-role')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-bd">
+      <div class="mfg">
+        <label class="mfl">Role</label>
+        <div id="rm-role" style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--ink);"></div>
+      </div>
+      <div class="mfg">
+        <label class="mfl">What you'll build</label>
+        <div id="rm-desc" style="font-size:0.9rem;color:var(--ink-secondary);line-height:1.6;"></div>
+      </div>
+      <div class="mfg">
+        <label class="mfl">Build details</label>
+        <div id="rm-prereqs" style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--ink-secondary);"></div>
+      </div>
+      <div class="modal-actions" style="margin-top:1.5rem;">
+        <a href="builder-onboarding.html" class="btn btn-gold" style="flex:1;text-align:center;text-decoration:none;">Start Building →</a>
+        <button class="btn btn-outline" onclick="closeModal('modal-role')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── INCOME ESTIMATE ──
+function updateIncomeEstimate() {
+  const vertical = document.getElementById('apply-vertical').value;
+  const preview = document.getElementById('income-preview');
+  if (!vertical) { preview.style.display = 'none'; return; }
+  const rates = {
+    'Insurance & Risk':   { low: 60,  high: 130 },
+    'Financial Services': { low: 65,  high: 140 },
+    'Healthcare':         { low: 55,  high: 120 },
+    'Legal & Compliance': { low: 65,  high: 140 },
+    'Real Estate':        { low: 50,  high: 100 },
+    'Operations':         { low: 45,  high: 90  },
+    'Technology':         { low: 50,  high: 110 },
+    'Other':              { low: 50,  high: 120 },
+  };
+  const r = rates[vertical] || rates['Other'];
+  const ref = 20;
+  const low  = (r.low  * ref).toLocaleString();
+  const high = (r.high * ref).toLocaleString();
+  document.getElementById('income-range').textContent = '$' + low + ' – $' + high + '/mo';
+  preview.style.display = 'block';
+}
+
+// ── ROLES DATA (87 roles from catalogue) ──
+const roles = [
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Insurance Regulatory Intelligence Specialist',
+    desc: '<strong>Missing regulatory bulletins that create E&O exposure</strong> Monitor state bulletins across all active states',
+    prereqs: 'Moderate complexity · 2-3 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Compliance File Auditor',
+    desc: '<strong>E&O exposure from compliance gaps discovered only at audit</strong> Audit client files against current state requirements',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Carrier Rate Change Monitor',
+    desc: '<strong>Not knowing carrier rate changes until renewal surprises clients</strong> Monitor NAIC and state rate filings daily',
+    prereqs: 'Moderate complexity · 2-3 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Producer License Monitor',
+    desc: '<strong>Producer licenses lapsing without notice creating binding authority gaps</strong> Track license expiry dates for all producers in agency',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Surplus Lines Compliance Specialist',
+    desc: '<strong>Surplus lines affidavit and tax filing deadlines missed across multiple states</strong> Track surplus lines filing deadlines by state',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Renewal Specialist',
+    desc: '<strong>Missing renewal windows and arriving unprepared to renewal conversations</strong> Surface accounts entering 90/60/30-day renewal windows',
+    prereqs: 'Moderate complexity · 2-3 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Client Retention Specialist',
+    desc: '<strong>Not knowing which clients are at flight risk until they have already left</strong> Score each client account by flight risk signals',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Policy Lapse Prevention Specialist',
+    desc: '<strong>Policies lapsing due to missed premium payments without proactive intervention</strong> Monitor payment status across policy portfolio',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Quoting Support Specialist',
+    desc: '<strong>Submission triage taking hours before a carrier is even selected</strong> Ingest submission data and assess risk appetite',
+    prereqs: 'Complex complexity · 4-6 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Loss Run Analyst',
+    desc: '<strong>Loss run analysis taking hours of manual work per submission</strong> Parse loss run documents regardless of format',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Submission Triage Specialist',
+    desc: '<strong>Submissions sitting in queue without prioritisation</strong> Score incoming submissions by completeness and appetite fit',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'supervised',
+    title: 'Claims Advocacy Specialist',
+    desc: '<strong>Complex claims taking weeks to build documentation packages</strong> Reconstruct claim timeline from available documentation',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Claims Reserve Analyst',
+    desc: '<strong>Reserve adequacy unknown until late in claim lifecycle</strong> Monitor open claims for reserve adequacy signals',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Bind and Issue Coordinator',
+    desc: '<strong>Stalled binds after proposal acceptance causing client frustration</strong> Track policy issuance queue across all pending binds',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Certificate of Insurance Manager',
+    desc: '<strong>Certificate requests backing up and expiry dates missed</strong> Monitor incoming certificate requests and SLA windows',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'supervised',
+    title: 'Insurance Innovation Experimenter',
+    desc: '<strong>Innovation ideas never tested because consulting costs are prohibitive</strong> Design structured experiment from hirer hypothesis',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'supervised',
+    title: 'Coverage Opinion Analyst',
+    desc: '<strong>Coverage opinion drafting taking days of attorney time</strong> Research coverage precedent by jurisdiction and policy form',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Insurance & Risk', mode: 'autonomous',
+    title: 'Small Agency Book Protection Specialist',
+    desc: '<strong>Small agencies losing accounts to direct writers without knowing until it is too late</strong> Monitor book of business for early departure signals',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Prior Authorisation Specialist',
+    desc: '<strong>Prior auth denials and lapses causing delayed care and revenue loss</strong> Monitor pending prior auth requests and identify lapse risks',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Denial Management Specialist',
+    desc: '<strong>Denials piling up without systematic appeal prioritisation</strong> Categorise incoming denials by root cause and appeal potential',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Medical Coding Review Specialist',
+    desc: '<strong>Coding errors causing denials and compliance risk</strong> Review encounter documentation for coding completeness',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Insurance Eligibility Verifier',
+    desc: '<strong>Eligibility surprises at time of service causing patient billing issues</strong> Run eligibility verification ahead of scheduled appointments',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Charge Capture Specialist',
+    desc: '<strong>Charge capture gaps losing millions in billable revenue annually</strong> Cross-reference procedure documentation against submitted charges',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Provider Credentialing Specialist',
+    desc: '<strong>Provider credentialing delays holding up revenue and onboarding</strong> Track credentialing application status across all payers',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'HIPAA Compliance Monitor',
+    desc: '<strong>HIPAA compliance gaps discovered only at audit</strong> Monitor practice workflows against current HIPAA requirements',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'supervised',
+    title: 'Complex Appeals Specialist',
+    desc: '<strong>Complex payer appeals requiring clinical narrative taking weeks</strong> Build complete case file from available documentation',
+    prereqs: 'Complex complexity · 4-6 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'autonomous',
+    title: 'Quality Measure Specialist',
+    desc: '<strong>Quality measure gaps costing bonus payments and contract standing</strong> Monitor quality measure performance against thresholds',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Healthcare Administration', mode: 'supervised',
+    title: 'Payer Contract Analyst',
+    desc: '<strong>Payer contract renewals accepted without understanding rate impact</strong> Model reimbursement rate impact of proposed contract terms',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'autonomous',
+    title: 'Portfolio Watch Specialist',
+    desc: '<strong>Portfolio drift and regulatory triggers missed between review cycles</strong> Monitor portfolios against agreed drift thresholds',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'autonomous',
+    title: 'Financial Regulatory Monitor',
+    desc: '<strong>SEC, FINRA, and state regulatory changes missed until examination</strong> Monitor SEC, FINRA, and state-level filings and guidance',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'autonomous',
+    title: 'Financial Plan Maintenance Specialist',
+    desc: '<strong>Financial plans going stale between formal reviews</strong> Monitor client life events that affect the plan',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'autonomous',
+    title: 'Market Event Briefing Specialist',
+    desc: '<strong>Market events triggering client calls without advisor preparation</strong> Monitor market events and economic developments',
+    prereqs: 'Moderate complexity · 2-3 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'supervised',
+    title: 'Estate Planning Analyst',
+    desc: '<strong>Estate plans not reviewed against current tax law until crisis</strong> Review estate plans against current federal and state tax law',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'autonomous',
+    title: 'Tax Planning Monitor',
+    desc: '<strong>Tax planning opportunities missed because they are identified too late in the year</strong> Monitor portfolio for tax-loss harvesting opportunities',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Financial Advisory', mode: 'supervised',
+    title: 'Manager Due Diligence Specialist',
+    desc: '<strong>Manager due diligence taking weeks of analyst time</strong> Research manager track record and organisational stability',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
+    title: 'Legislative and Regulatory Tracker',
+    desc: '<strong>Material legislative changes missed until they affect clients</strong> Monitor federal and state legislative activity by practice area',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
+    title: 'Litigation Deadline Monitor',
+    desc: '<strong>Missed deadlines creating malpractice exposure</strong> Track filing deadlines, SOL dates, and response windows across all matters',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
+    title: 'Case Law Research Specialist',
+    desc: '<strong>New decisions affecting active matters missed between research cycles</strong> Monitor new decisions in specified practice areas',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'supervised',
+    title: 'Contract Review Specialist',
+    desc: '<strong>Commercial contract reviews taking days of attorney time</strong> Produce first-pass redline against standard playbook',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
+    title: 'Data Privacy Compliance Monitor',
+    desc: '<strong>GDPR, CCPA, and state privacy law changes creating compliance gaps</strong> Monitor global privacy law developments',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Legal & Compliance', mode: 'autonomous',
+    title: 'IP Portfolio Monitor',
+    desc: '<strong>Patent, trademark, and copyright maintenance deadlines missed</strong> Track maintenance fee deadlines across IP portfolio',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Real Estate', mode: 'autonomous',
+    title: 'Lead Qualifier and Showing Coordinator',
+    desc: '<strong>Agents wasting time on unqualified leads who never convert</strong> Qualify incoming buyer and seller leads against defined criteria',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Real Estate', mode: 'autonomous',
+    title: 'Transaction Pipeline Monitor',
+    desc: '<strong>Transactions falling through due to missed contingency deadlines</strong> Track all active transaction milestones and contingency dates',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Real Estate', mode: 'autonomous',
+    title: 'Submarket Intelligence Specialist',
+    desc: '<strong>Market decisions made on stale data from monthly reports</strong> Monitor comparable sales and new listings in defined submarkets',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Real Estate', mode: 'autonomous',
+    title: 'Tenant Relations Specialist',
+    desc: '<strong>Tenant requests aging past SLAs causing dissatisfaction and churn</strong> Monitor tenant maintenance and communication queues',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Real Estate', mode: 'supervised',
+    title: 'Commercial Valuation Analyst',
+    desc: '<strong>Valuation models taking days to build from scratch per property</strong> Pull comparable sales and lease data for subject property',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Software Engineering', mode: 'autonomous',
+    title: 'Test Coverage Specialist',
+    desc: '<strong>Production bugs caused by uncovered code paths</strong> Monitor test suite coverage against defined thresholds',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Software Engineering', mode: 'autonomous',
+    title: 'Dependency Security Monitor',
+    desc: '<strong>Vulnerable dependencies discovered only after exploitation</strong> Monitor dependency graph for known CVEs and deprecations',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Software Engineering', mode: 'autonomous',
+    title: 'Deployment Health Monitor',
+    desc: '<strong>Post-deployment degradation noticed only when users complain</strong> Monitor error rates, latency, and rollback triggers post-deployment',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Software Engineering', mode: 'supervised',
+    title: 'Technology Due Diligence Team',
+    desc: '<strong>Tech diligence taking 2-4 weeks and still missing critical risks</strong> Deploy 8-agent team across 11 technology lenses simultaneously',
+    prereqs: 'Complex complexity · 8+ weeks to build' },
+  { vertical: 'HR & People Ops', mode: 'autonomous',
+    title: 'Employee Engagement Monitor',
+    desc: '<strong>Engagement problems identified only at exit interview</strong> Analyse engagement signals across survey data and attendance patterns',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'HR & People Ops', mode: 'autonomous',
+    title: 'Compensation Benchmarking Specialist',
+    desc: '<strong>Compensation bands drifting from market without notice until turnover spikes</strong> Monitor market compensation data in specified roles and geographies',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'HR & People Ops', mode: 'autonomous',
+    title: 'Employment Law Compliance Monitor',
+    desc: '<strong>Employment law changes creating policy gaps before HR notices</strong> Track federal and state employment law developments',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'HR & People Ops', mode: 'autonomous',
+    title: 'Recruiting Pipeline Monitor',
+    desc: '<strong>Requisitions aging without visibility into where they are stuck</strong> Monitor recruiting pipeline stages across all open requisitions',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'HR & People Ops', mode: 'autonomous',
+    title: 'Employee Onboarding Coordinator',
+    desc: '<strong>Onboarding tasks falling through gaps causing poor new hire experience</strong> Track onboarding task completion by new hire and hiring manager',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Operations & Logistics', mode: 'autonomous',
+    title: 'Field Services Dispatcher',
+    desc: '<strong>SLA breaches occurring because scheduling conflicts are not caught early</strong> Monitor field job queues and technician availability',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Operations & Logistics', mode: 'autonomous',
+    title: 'Supply Chain Risk Monitor',
+    desc: '<strong>Supplier risks not identified until supply disruption has already occurred</strong> Monitor supplier financial health and geopolitical signals',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Operations & Logistics', mode: 'autonomous',
+    title: 'Vendor Performance Monitor',
+    desc: '<strong>Vendor underperformance not visible until contract renewal</strong> Track vendor SLA delivery, invoice accuracy, and contract compliance',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Operations & Logistics', mode: 'supervised',
+    title: 'Strategic Sourcing Analyst',
+    desc: '<strong>RFP processes taking months and delivering suboptimal supplier selection</strong> Produce supplier landscape analysis for target category',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Construction & Property', mode: 'autonomous',
+    title: 'Mechanics Lien Monitor',
+    desc: '<strong>Mechanics liens filed without early warning creating title and financial risk</strong> Monitor lien filing activity on active projects',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Construction & Property', mode: 'autonomous',
+    title: 'Permit and Inspection Tracker',
+    desc: '<strong>Permit delays and missed inspection windows causing project schedule slippage</strong> Track permit application status across all active projects',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Construction & Property', mode: 'autonomous',
+    title: 'Project Budget Monitor',
+    desc: '<strong>Budget overruns identified too late to course-correct</strong> Track committed and actual costs against budget by line item',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Accounting & Tax', mode: 'autonomous',
+    title: 'Month-End Close Coordinator',
+    desc: '<strong>Month-end close taking longer than it should with tasks falling through</strong> Track close task completion against calendar milestones',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Accounting & Tax', mode: 'autonomous',
+    title: 'Accounts Receivable Specialist',
+    desc: '<strong>DSO increasing because collection follow-up is inconsistent</strong> Monitor invoice aging and customer payment patterns',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Accounting & Tax', mode: 'autonomous',
+    title: 'Accounts Payable Monitor',
+    desc: '<strong>Early payment discounts missed and late payment penalties incurred</strong> Monitor invoice approval queues and payment due dates',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Accounting & Tax', mode: 'supervised',
+    title: 'Audit Preparation Specialist',
+    desc: '<strong>Audit preparation taking months of internal team time</strong> Organise and reconcile schedules to trial balance',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Private Equity & VC', mode: 'autonomous',
+    title: 'Deal Flow Intelligence Specialist',
+    desc: '<strong>Deal flow monitored manually with signals missed between reviews</strong> Monitor acquisition signals across defined sectors',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Private Equity & VC', mode: 'autonomous',
+    title: 'Portfolio Company Health Monitor',
+    desc: '<strong>Portfolio company deterioration not visible until management reports</strong> Monitor portfolio company KPIs against plan continuously',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Private Equity & VC', mode: 'supervised',
+    title: 'Commercial Due Diligence Analyst',
+    desc: '<strong>Commercial DD taking 4-6 weeks and relying on management information</strong> Research market size, competitive dynamics, and growth drivers independently',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Marketing & Growth', mode: 'autonomous',
+    title: 'Content Strategy Specialist',
+    desc: '<strong>Content calendar falling behind and performance not tracked systematically</strong> Monitor content pipeline against calendar commitments',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Marketing & Growth', mode: 'autonomous',
+    title: 'Competitive Intelligence Monitor',
+    desc: '<strong>Competitor moves not caught until they have already affected market position</strong> Monitor competitor pricing, product, and messaging changes',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Supply Chain', mode: 'autonomous',
+    title: 'Trade and Tariff Monitor',
+    desc: '<strong>Tariff changes affecting landed cost not identified until invoices arrive</strong> Monitor tariff schedule changes by HS code and country',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Supply Chain', mode: 'autonomous',
+    title: 'Inventory Health Monitor',
+    desc: '<strong>Stockouts and overstock positions not visible until they are crises</strong> Monitor inventory levels against reorder points and safety stock',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Life Sciences', mode: 'autonomous',
+    title: 'FDA Regulatory Monitor',
+    desc: '<strong>FDA guidance changes and new precedents missed between regulatory reviews</strong> Monitor FDA guidance documents and decision letters by therapeutic area',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Life Sciences', mode: 'supervised',
+    title: 'Clinical Trial Feasibility Specialist',
+    desc: '<strong>Site feasibility assessments based on optimistic projections not reality</strong> Research site historical performance against protocol requirements',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Energy & Utilities', mode: 'autonomous',
+    title: 'Grid Compliance Monitor',
+    desc: '<strong>NERC and FERC compliance requirements changing faster than internal processes track</strong> Monitor NERC, FERC, and state PUC regulatory developments',
+    prereqs: 'Complex complexity · 4-8 weeks to build' },
+  { vertical: 'Energy & Utilities', mode: 'autonomous',
+    title: 'Energy Market Price Monitor',
+    desc: '<strong>Price signals missed between manual market reviews</strong> Monitor energy spot and forward markets continuously',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Government & Public Sector', mode: 'autonomous',
+    title: 'Grant Opportunity Monitor',
+    desc: '<strong>Grant opportunities missed because monitoring is manual and inconsistent</strong> Monitor federal, state, and foundation grant databases by programme area',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Government & Public Sector', mode: 'autonomous',
+    title: 'Government Procurement Monitor',
+    desc: '<strong>RFP and solicitation opportunities missed due to inconsistent monitoring</strong> Monitor federal, state, and local procurement portals by NAICS code',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Media & Publishing', mode: 'autonomous',
+    title: 'IP Rights Monitor',
+    desc: '<strong>Licensing and rights expiry creating content distribution gaps</strong> Track licensing agreements and rights expiry dates across content portfolio',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Architecture & Engineering', mode: 'autonomous',
+    title: 'Building Code Compliance Monitor',
+    desc: '<strong>Building code changes affecting active projects not identified until plan review</strong> Monitor building code amendments by jurisdiction',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Retail & Consumer', mode: 'autonomous',
+    title: 'Competitive Pricing Monitor',
+    desc: '<strong>Competitor price changes not detected until conversion drops</strong> Monitor competitor prices on specified SKUs daily',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Hospitality & Events', mode: 'autonomous',
+    title: 'Guest Review Intelligence Specialist',
+    desc: '<strong>Negative review patterns not identified until they have affected rating</strong> Monitor guest reviews across all platforms continuously',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Hospitality & Events', mode: 'autonomous',
+    title: 'Salon Front Desk Specialist',
+    desc: '<strong>Front desk calls and booking admin consuming owner and stylist time during client hours</strong> Handle incoming booking requests and confirmations',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Nonprofit & Social', mode: 'autonomous',
+    title: 'Program Impact Monitor',
+    desc: '<strong>Program outcomes not tracked systematically against stated impact goals</strong> Monitor program KPIs against theory of change milestones',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' },
+  { vertical: 'Sports & Entertainment', mode: 'autonomous',
+    title: 'Talent Contract Monitor',
+    desc: '<strong>Contract option windows and performance bonus triggers missed</strong> Track contract option windows and decision deadlines',
+    prereqs: 'Simple complexity · 1-2 weeks to build' },
+  { vertical: 'Education & Training', mode: 'autonomous',
+    title: 'Accreditation Compliance Monitor',
+    desc: '<strong>Accreditation standard changes creating compliance gaps before renewal</strong> Monitor accreditation standard updates by accrediting body',
+    prereqs: 'Moderate complexity · 2-4 weeks to build' }
+];
+
+const ROLES_PER_PAGE = 12;
+let currentPage = 0;
+let activeRoleMode = 'all';
+let activeRoleVertical = 'all';
+
+function getFilteredRoles() {
+  return roles.filter(r => {
+    const modeMatch = activeRoleMode === 'all' || r.mode === activeRoleMode;
+    // Support partial matching for verticals (e.g., 'Insurance' matches 'Insurance & Risk')
+    const vertMatch = activeRoleVertical === 'all' || r.vertical.includes(activeRoleVertical) || activeRoleVertical.includes(r.vertical.split(' ')[0]);
+    return modeMatch && vertMatch;
+  });
+}
+
+function filterRoleMode(mode, btn) {
+  activeRoleMode = mode;
+  document.querySelectorAll('#role-mode-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage = 0;
+  renderRoles();
+}
+
+function filterRoleVertical(vertical, btn) {
+  activeRoleVertical = vertical;
+  document.querySelectorAll('#role-vert-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage = 0;
+  renderRoles();
+}
+
+function renderRoles() {
+  const filtered = getFilteredRoles();
+  const grid = document.getElementById('roles-grid');
+  const pagination = document.getElementById('roles-pagination');
+  const countEl = document.getElementById('roles-count');
+
+  countEl.textContent = filtered.length;
+
+  if (filtered.length === 0) {
+    grid.className = '';
+    grid.innerHTML = '<div class="roles-empty">No roles match these filters. Try broadening your selection — or describe your expertise in the application below.</div>';
+    pagination.innerHTML = '';
+    return;
+  }
+
+  grid.className = 'roles-grid';
+  const start = currentPage * ROLES_PER_PAGE;
+  const pageRoles = filtered.slice(start, start + ROLES_PER_PAGE);
+
+  const modeTag = m => m === 'autonomous'
+    ? '<span style="font-family:\'DM Mono\',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:0.15rem 0.45rem;margin-left:0.5rem;">Autonomous</span>'
+    : '<span style="font-family:\'DM Mono\',monospace;font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--ink);color:var(--ink);padding:0.15rem 0.45rem;margin-left:0.5rem;">Supervised</span>';
+
+  grid.innerHTML = pageRoles.map(r => `
+    <div class="role-card" role="listitem">
+      <div class="role-vertical">${r.vertical}${modeTag(r.mode)}</div>
+      <div class="role-title">${r.title}</div>
+      <p class="role-desc">${r.desc}</p>
+      <div class="role-prereqs">${r.prereqs}</div>
+      <button class="role-apply-btn" onclick="openRoleModal('${r.title.replace(/'/g,"\\'")}','${r.vertical.replace(/'/g,"\\'")}','${r.desc.replace(/'/g,"\\'")}','${r.prereqs.replace(/'/g,"\\'")}')">Build this role →</button>
+    </div>
+  `).join('');
+
+  const totalPages = Math.ceil(filtered.length / ROLES_PER_PAGE);
+  pagination.innerHTML = totalPages > 1
+    ? Array.from({length: totalPages}, (_, i) =>
+        `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})" aria-label="Page ${i+1}">${i+1}</button>`
+      ).join('')
+    : '';
+}
+
+function goPage(n) {
+  currentPage = n;
+  renderRoles();
+  document.getElementById('roles').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+renderRoles();
+
+// ── MODAL ──
+function openModal(id) {
+  const m = document.getElementById(id);
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  m.querySelector('input:not([readonly]), textarea, select')?.focus();
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open'); document.body.style.overflow = '';
+    });
+  }
+});
+
+function openRoleModal(title, vertical, desc, prereqs) {
+  document.getElementById('rm-role').textContent = title;
+  document.getElementById('role-modal-sub').textContent = vertical + ' · Build this role';
+  document.getElementById('rm-desc').innerHTML = desc || '';
+  document.getElementById('rm-prereqs').textContent = prereqs || '';
+  openModal('modal-role');
+}
+
+// ── API CONFIG ──
+const BUILDERS_API = 'https://joyn-portal-production-b64e.up.railway.app';
+
+// ── LIVE CATALOGUE STATS ──
+async function loadLiveStats() {
+  try {
+    const res = await fetch(BUILDERS_API + '/api/catalogue/verticals');
+    if (!res.ok) return;
+    const data = await res.json();
+    const total = (data.verticals || []).reduce((s, v) => s + v.total, 0);
+    const countEl = document.getElementById('roles-count');
+    if (countEl && total > 0) countEl.textContent = total;
+    // Update hero stats if present
+    const heroRolesEl = document.querySelector('[data-stat="roles"]');
+    if (heroRolesEl && total > 0) heroRolesEl.textContent = total;
+  } catch(e) { /* silently fail — static data still shows */ }
+}
+loadLiveStats();
+window.addEventListener('scroll', function() {
+  document.getElementById('back-to-top').classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑ Top</button>
+<div id="cookie-bar" class="cookie-bar" role="dialog" aria-label="Cookie notice" aria-live="polite">
+  <p>We use localStorage to remember your preferences. Fonts load from Google Fonts. Forms use Web3Forms. <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-accept" onclick="cookieAccept()">Accept</button>
+    <button class="cookie-btn cookie-decline" onclick="cookieDecline()">Decline</button>
+  </div>
+</div>
+<script>
+(function(){var b=document.getElementById('cookie-bar');if(b&&!localStorage.getItem('joyn_consent'))b.style.display='flex';})();
+function cookieAccept(){localStorage.setItem('joyn_consent','accepted');document.getElementById('cookie-bar').style.display='none';}
+function cookieDecline(){localStorage.setItem('joyn_consent','declined');document.getElementById('cookie-bar').style.display='none';}
+</script>
+</body>
+</html>

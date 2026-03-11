@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Joyn">
+  <title>Joyn</title>
+  <rect width="32" height="32" rx="6" fill="#111110"/>
+  <path d="M 16 6 L 21 6 L 21 22 Q 21 27 15 27 Q 9 27 9 21 L 9 18 L 13 18 Q 13 24 15 24 Q 17 24 16 22 Z" fill="#fafaf8"/>
+  <circle cx="26" cy="26" r="3" fill="#b8902a"/>
+</svg>

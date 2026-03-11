@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joyn — AI Staff for Your Business · tryjoyn.me</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<meta name="description" content="Joyn connects businesses with expert-built AI staff. Hire AI staff that works from day one — or encode your domain expertise and earn while you sleep.">
+<!-- Security headers -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self' https://api.web3forms.com; img-src 'self' data: https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:          #fafaf8;
+  --ink:            #111110;
+  --ink-secondary:  #3f3f3e;
+  --rule:           #e8e4dc;
+  --rule-mid:       #d0ccc4;
+  --surface:        #f4f1eb;
+  --gold-display:   #b8902a;
+  --gold-text:      #8B6914;
+  --gold-hover:     #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1.0625rem; line-height: 1.8; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+.skip-link { position: absolute; top: -100%; left: 1rem; background: var(--ink); color: var(--white); padding: 0.5rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; text-decoration: none; z-index: 9999; }
+.skip-link:focus { top: 1rem; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; line-height: 1.05; color: var(--ink); letter-spacing: -0.01em; }
+h1 { font-size: clamp(2.75rem, 6vw, 5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
+h3 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+h4 { font-size: clamp(1.125rem, 2vw, 1.5rem); }
+em { font-style: italic; color: var(--gold-display); }
+p { color: var(--ink-secondary); line-height: 1.8; }
+p strong { color: var(--ink); font-weight: 600; }
+a { color: inherit; }
+
+.label { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem, 5vw, 4rem); background: rgba(250,250,248,0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); min-height: 60px; }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; min-height: 44px; display: flex; align-items: center; }
+.nav-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); text-decoration: none; min-height: 44px; display: flex; align-items: center; transition: color 0.2s; }
+.nav-cta:hover { color: var(--gold-hover); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-link[aria-current="page"] { color: var(--ink); font-weight: 500; }
+
+/* SPLIT ENTRY */
+.split-entry { display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid var(--rule); }
+.entry-panel { padding: clamp(4rem,9vw,8rem) clamp(2rem,5vw,4rem); display: flex; flex-direction: column; min-height: 78vh; text-decoration: none; color: var(--ink); transition: background 0.25s; }
+.entry-panel:first-child { border-right: 1px solid var(--rule); }
+.entry-panel.build-panel { background: var(--surface); }
+.entry-panel:hover { background: #ece8df; }
+.entry-panel.build-panel:hover { background: #ede9e0; }
+.entry-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: auto; }
+.entry-body { margin-top: 3rem; }
+.entry-h { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.25rem,4.5vw,4rem); font-weight: 400; line-height: 1.04; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 1.5rem; }
+.entry-h em { font-style: italic; color: var(--gold-display); }
+.entry-detail { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); line-height: 1.9; margin-bottom: 2.5rem; }
+.entry-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.5rem; }
+
+/* SECTION SHARED */
+.section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); }
+.section h2 { margin-bottom: 3rem; }
+.section-desc { max-width: 54ch; margin-bottom: 3rem; font-size: 1.05rem; margin-top: -1.5rem; }
+
+/* BUTTON */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.9rem 2rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; border: none; cursor: pointer; border-radius: 0; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-outline { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+/* TAG */
+.tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.7rem; display: inline-block; }
+.tag-live { border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
+.tag-always { background: var(--ink); color: var(--white); }
+.tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
+.tag-soon { border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
+
+/* MODES */
+.modes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.mode-card { background: var(--white); padding: 2.5rem; }
+.mode-tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.3rem 0.7rem; margin-bottom: 1.25rem; display: inline-block; }
+.mode-tag-instant { background: var(--ink); color: var(--white); }
+.mode-tag-craft { border: 1.5px solid var(--ink); color: var(--ink); }
+.mode-card h3 { margin-bottom: 0.75rem; }
+.mode-card p { font-size: 0.975rem; margin-bottom: 1.25rem; max-width: none; }
+.mode-detail { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); padding-top: 1.25rem; border-top: 1px solid var(--rule); }
+
+/* STEPS */
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.steps-grid.three { grid-template-columns: repeat(3,1fr); }
+.step { background: var(--white); padding: 2rem 1.75rem; }
+.step-num { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--rule-mid); line-height: 1; margin-bottom: 1rem; }
+.step h4 { margin-bottom: 0.5rem; }
+.step p { font-size: 0.9rem; max-width: none; }
+
+/* STAFF PREVIEW */
+.staff-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); }
+.staff-card { background: var(--white); padding: 2.25rem; text-decoration: none; color: var(--ink); display: block; transition: background 0.2s; }
+.staff-card:hover { background: var(--surface); }
+.staff-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.staff-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem,5vw,3.5rem); font-weight: 400; line-height: 1; color: var(--ink); margin-bottom: 0.35rem; }
+.staff-role { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 1.25rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--rule); }
+.staff-desc { font-size: 0.975rem; color: var(--ink-secondary); margin-bottom: 1.5rem; line-height: 1.75; }
+.staff-desc strong { color: var(--ink); }
+.staff-cta { font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.4rem; min-height: 44px; }
+.staff-card.soon { background: var(--surface); border: 1.5px dashed var(--rule-mid); }
+.staff-card.soon:hover { background: var(--surface); }
+.staff-card.soon .staff-name { color: var(--ink-secondary); }
+.interest-btn { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.5rem 1rem; min-height: 36px; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: transparent; cursor: pointer; border-radius: 0; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; }
+.interest-btn:hover { border-color: var(--ink); color: var(--ink); }
+.modal-overlay { position: fixed; inset: 0; background: rgba(17,17,16,0.65); z-index: 500; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--white); max-width: 520px; width: 100%; border: 1px solid var(--rule-mid); max-height: 90vh; overflow-y: auto; }
+.modal-hd { padding: 1.75rem 2rem 1.25rem; border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
+.modal-hd-text h3 { font-size: clamp(1.25rem,2.5vw,1.75rem); margin-bottom: 0.25rem; }
+.modal-hd-text p { font-size: 0.875rem; color: var(--ink-secondary); margin: 0; }
+.modal-close { background: none; border: none; cursor: pointer; font-size: 1.5rem; line-height: 1; color: var(--ink-secondary); min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: color 0.2s; }
+.modal-close:hover { color: var(--ink); }
+.modal-bd { padding: 1.75rem 2rem; }
+.modal-success { display: none; text-align: center; padding: 3rem 2rem; }
+.modal-success h3 { margin-bottom: 0.5rem; }
+.modal-success p { font-size: 0.9rem; }
+.mfg { margin-bottom: 1.125rem; }
+.mfl { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); display: block; margin-bottom: 0.4rem; }
+.mfi, .mfs, .mft { width: 100%; padding: 0.7rem 0.9rem; background: var(--white); border: 1px solid var(--rule-mid); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 0.9rem; border-radius: 0; transition: border-color 0.2s; }
+.mfi:focus, .mfs:focus, .mft:focus { outline: none; border-color: var(--ink); }
+.mfi[readonly] { background: var(--surface); color: var(--ink-secondary); cursor: default; }
+.mft { resize: vertical; min-height: 80px; line-height: 1.65; }
+.mfs { appearance: none; cursor: pointer; }
+.modal-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+
+/* DIVIDER BAND */
+.journey-divider { border-top: 3px solid var(--rule-mid); }
+
+/* FAQ */
+.faq-section { padding: clamp(4rem,8vw,7rem) clamp(1.5rem,5vw,4rem); border-top: 1px solid var(--rule); background: var(--surface); }
+.faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 5rem; margin-top: 3rem; }
+.faq-item { border-bottom: 1px solid var(--rule); }
+.faq-q { width: 100%; text-align: left; padding: 1.5rem 0; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; font-family: 'Cormorant Garamond', serif; font-size: clamp(1.1rem,2vw,1.375rem); font-weight: 400; color: var(--ink); background: none; border: none; cursor: pointer; line-height: 1.3; min-height: 44px; transition: color 0.2s; }
+.faq-q:hover { color: var(--gold-text); }
+.faq-icon { font-size: 1.25rem; color: var(--gold-text); flex-shrink: 0; transition: transform 0.3s; line-height: 1; }
+.faq-item.open .faq-icon { transform: rotate(45deg); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+.faq-item.open .faq-a { max-height: 400px; padding-bottom: 1.5rem; }
+.faq-a p { font-size: 1rem; }
+
+/* VIDEO */
+
+/* FOOTER */
+.footer { border-top: 1px solid var(--rule); padding: 3rem clamp(1.5rem,5vw,4rem); }
+.footer-inner { max-width: 1160px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem; }
+.footer-brand { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.footer-logo { font-family: 'DM Mono', monospace; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.footer-tag { font-family: 'Syne', sans-serif; font-size: 0.875rem; color: var(--ink-secondary); }
+.footer-nav { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.footer-nav a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; transition: color 0.2s; }
+.footer-nav a:hover { color: var(--ink); text-decoration: underline; }
+.footer-copy { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-secondary); }
+.cookie-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:1rem clamp(1.5rem,5vw,4rem);display:none;align-items:center;justify-content:space-between;gap:1.5rem;z-index:9000;flex-wrap:wrap;border-top:2px solid var(--gold-display)}.cookie-bar p{margin:0;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:rgba(250,250,248,.8);max-width:70ch}.cookie-bar a{color:var(--gold-display)}.cookie-btns{display:flex;gap:.75rem;flex-shrink:0}.cookie-btn{font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.2rem;border:none;cursor:pointer;min-height:36px;border-radius:0;transition:all .2s}.cookie-accept{background:var(--white);color:var(--ink)}.cookie-accept:hover{background:var(--gold-display);color:var(--white)}.cookie-decline{background:transparent;color:rgba(250,250,248,.65);border:1px solid rgba(250,250,248,.3)}.cookie-decline:hover{color:rgba(250,250,248,1);border-color:rgba(250,250,248,.7)}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav { padding: 0 1.25rem; }
+  .split-entry { grid-template-columns: 1fr; }
+  .entry-panel { min-height: 50vh; }
+  .entry-panel:first-child { border-right: none; border-bottom: 1px solid var(--rule); }
+  .modes-grid, .staff-grid, .faq-grid { grid-template-columns: 1fr; }
+  .steps-grid, .steps-grid.three { grid-template-columns: 1fr 1fr; }
+  .footer-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+  .footer-brand { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+  .footer-nav { flex-wrap: wrap; gap: 1rem; }
+  .footer-tag { display: block; }
+}
+@media (max-width: 480px) {
+  .steps-grid, .steps-grid.three { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- NAV -->
+<nav class="nav" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Joyn home">JOYN.</a>
+  <div class="nav-links">
+    <a href="marketplace/index.html" class="nav-link">Marketplace</a>
+    <a href="marketplace/creator-studio.html" class="nav-link">Creator Studio</a>
+  </div>
+  <a href="https://app.tryjoyn.me/login" class="nav-cta">Sign In &rarr;</a>
+</nav>
+
+
+<!-- SPLIT ENTRY -->
+<section class="split-entry" id="main" aria-label="Choose your path">
+
+  <a href="marketplace/index.html#catalogue" class="entry-panel" aria-label="Hire AI staff">
+    <div class="entry-eyebrow">For businesses</div>
+    <div class="entry-body">
+      <h1 class="entry-h">Hire AI staff that works from <em>day one.</em></h1>
+      <div class="entry-detail">
+        Expert-built · Vetted domain experts<br>
+        Ready · No setup required<br>
+        Live in 10 minutes
+      </div>
+      <span class="entry-cta">Hire Staff →</span>
+    </div>
+  </a>
+
+  <a href="#build" class="entry-panel build-panel" aria-label="Explore the build journey">
+    <div class="entry-eyebrow">For Creators and Builders</div>
+    <div class="entry-body">
+      <h1 class="entry-h">Encode your expertise.<br>Earn while <em>you sleep.</em></h1>
+      <div class="entry-detail">
+        Open roles across multiple verticals<br>
+        Performance-linked income on every hire<br>
+        Your knowledge · Infinite reach
+      </div>
+      <span class="entry-cta">How it works ↓</span>
+    </div>
+  </a>
+
+</section>
+
+<!-- ─────────────── HIRE JOURNEY ─────────────── -->
+
+<!-- HIRE: TWO MODES -->
+<section class="section" id="hire" aria-labelledby="modes-heading">
+  <div class="label">Two modes</div>
+  <h2 id="modes-heading">AI staff that fits<br>how <em>you work.</em></h2>
+  <p class="section-desc">Not every role works the same way. Autonomous staff run from day one with no oversight required. Supervised staff work alongside your practitioners on judgment-intensive engagements.</p>
+  <p style="font-family:'Syne',sans-serif; color:var(--ink-secondary); margin-bottom:2rem; font-size:1.05rem; line-height:1.8;">Joyn gives human expertise two modes of scale: embedded in Autonomous staff, extended through Supervised staff.</p>
+  <div class="modes-grid" role="list">
+    <div class="mode-card" role="listitem">
+      <div class="mode-tag mode-tag-instant">Autonomous</div>
+      <h3>Hire once.<br>Running from day one.</h3>
+      <p>Pre-trained by vetted domain experts. Connect your business context in a 10-minute intake — no configuration, no technical setup, no oversight required. Your AI staff member handles real work immediately.</p>
+      <div class="mode-detail">Live in 10 minutes · 24/7 autonomous · No technical setup</div>
+    </div>
+    <div class="mode-card" role="listitem">
+      <div class="mode-tag mode-tag-craft">Supervised</div>
+      <h3>Shaped by your<br>practitioners over time.</h3>
+      <p>Works alongside your team on complex, judgment-intensive engagements. Calibrates to your firm's methodology through an ongoing partnership. Private corpus belongs to your firm.</p>
+      <div class="mode-detail">Practitioner-led · Calibrates over time · Private corpus yours</div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRE: HOW IT WORKS -->
+<section class="section" style="background:var(--surface);" aria-labelledby="hiw-heading">
+  <div class="label">How hiring works</div>
+  <h2 id="hiw-heading">From browsing to working,<br>in <em>minutes.</em></h2>
+  <div class="steps-grid" role="list">
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">01</div>
+      <h4>Browse the Marketplace</h4>
+      <p>Every listing shows creator credentials and documented outcomes. You know exactly who built it and what it delivers before you hire.</p>
+    </div>
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">02</div>
+      <h4>Complete the Intake</h4>
+      <p>A guided 10-minute intake — not a configuration panel. Share your business context, tone, and workflow. Your AI staff learns who they work for.</p>
+    </div>
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">03</div>
+      <h4>Go Live Immediately</h4>
+      <p>Your staff member handles real interactions from day one. Your clients see your brand. Joyn stays invisible.</p>
+    </div>
+    <div class="step" role="listitem">
+      <div class="step-num" aria-hidden="true">04</div>
+      <h4>Deepens Over Time</h4>
+      <p>Every interaction deepens their knowledge of your business. The more they work, the sharper they get.</p>
+    </div>
+  </div>
+  <div style="margin-top:2.5rem;">
+    <a href="marketplace/index.html#catalogue" class="btn btn-primary">Hire Staff →</a>
+  </div>
+</section>
+
+<!-- HIRE: STAFF PREVIEW -->
+<section class="section" aria-labelledby="staff-heading">
+  <div class="label">AI Staff</div>
+  <h2 id="staff-heading">Available to hire <em>now.</em></h2>
+  <div class="staff-grid">
+
+    <a href="marketplace/iris-insurance-regulatory.html" class="staff-card" aria-label="Hire Iris — Insurance Regulatory Intelligence">
+      <div class="staff-card-top">
+        <span class="tag tag-live">Live</span>
+        <span class="tag tag-always">Autonomous</span>
+      </div>
+      <div class="staff-name">Iris</div>
+      <div class="staff-role">Insurance Regulatory Intelligence</div>
+      <p class="staff-desc">Monitors Florida OIR continuously. Alerts you the moment a material change affects your line of business. <strong>No portal hunting. No analyst hours.</strong></p>
+      <span class="staff-cta">Hire Iris →</span>
+    </a>
+
+    <a href="practice/tdd-practice-team.html" class="staff-card" aria-label="View TDD Practice Team">
+      <div class="staff-card-top">
+        <span class="tag tag-live">Live</span>
+        <span class="tag tag-craft">Supervised</span>
+      </div>
+      <div class="staff-name" style="font-size:clamp(1.75rem,3.5vw,2.5rem); line-height:1.1;">TDD Practice<br>Team</div>
+      <div class="staff-role">Technology Due Diligence · 8 Agents</div>
+      <p class="staff-desc">Pre-LOI screening to IC-ready output in 72 hours. <strong>Works alongside your practitioners.</strong> Calibrates to your firm's methodology.</p>
+      <span class="staff-cta">View Team →</span>
+    </a>
+
+    <div class="staff-card soon" aria-label="Renew — coming soon" role="article">
+      <div class="staff-card-top">
+        <span class="tag tag-soon">Coming Soon</span>
+        <span class="tag tag-always" style="opacity:0.35;" aria-hidden="true">Autonomous</span>
+      </div>
+      <div class="staff-name">Renew</div>
+      <div class="staff-role" style="color:var(--ink-secondary);">Insurance Renewal Specialist</div>
+      <p class="staff-desc">Monitors your policy book and flags renewal risk 90 days out. Built by a 30-year insurance veteran.</p>
+      <button class="interest-btn" onclick="openInterest('Renew','Insurance Renewal Specialist')">Express interest →</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- DIVIDER: HIRE → BUILD -->
+<div class="journey-divider" aria-hidden="true"></div>
+
+<!-- ─────────────── SHARED: FAQ ─────────────── -->
+
+<section class="faq-section" aria-labelledby="faq-heading">
+  <div class="label">Questions</div>
+  <h2 id="faq-heading">Worth <em>asking.</em></h2>
+  <div class="faq-grid">
+    <div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How is this different from a chatbot? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>A chatbot answers questions. A Joyn staff member holds a role, carries institutional knowledge about your business, and is accountable to outcomes — renewal rates, bookings secured, assessments delivered. They learn your business, your voice, and your standards over time.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Who builds the AI staff? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>Every Joyn AI staff member is built by a <strong>vetted domain expert</strong> — a practitioner with a verified career in the relevant field. You are hiring their knowledge, not a generic AI model.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Does Joyn replace my existing team? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>No — and this is a values commitment. Joyn measures success in <strong>outcomes amplified</strong>. The businesses we celebrate are those whose team members bring their full attention to highest-value work because Joyn staff handle the rest alongside them.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What is the AI Staff Marketplace? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>The Marketplace is where you browse and hire AI staff. Each listing shows the role, capabilities, pricing, and the vertical they serve. Filter by mode (Autonomous or Supervised) or vertical (Insurance, Healthcare, Legal, etc.) to find the right fit for your business.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What is the difference between Autonomous and Supervised? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p><strong>Autonomous</strong> staff work independently from day one — monitoring, alerting, and taking action without your involvement. <strong>Supervised</strong> staff work alongside your team, collaborating on complex tasks that require human judgment. Choose based on the nature of the work.</p></div>
+      </div>
+    </div>
+    <div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What does the intake process involve? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p><strong>Autonomous</strong> staff require a 10-minute intake — your business context, tone, and workflow. They start immediately. <strong>Supervised</strong> staff involve a deeper onboarding: a scoping call, engagement brief, and ongoing calibration with your practitioners.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What happens to my business data? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>Your engagement data improves your AI staff only. It is never used to train agents for other buyers or shared with other firms. For Supervised engagements, all credentials are scoped, read-only, and automatically revoked when the engagement closes.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">Who can apply to build? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>Any practitioner with genuine domain expertise in an open role. You do not need to be a developer — the Joyn team handles the technical build. You need deep field experience, a clear point of view, and the ability to transfer that knowledge into a structured, repeatable output.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">What is the Creator Studio? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>The Creator Studio is where domain experts apply to build AI staff. Browse open roles, claim your Founding Builder Seat ($99 one-time), and earn 75% revenue share on every hire. The build process is: Onboarding → Creator Brief → Visionary Spec → Reviewer Agent → Deploy.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" aria-expanded="false" onclick="toggleFaq(this)">How much can I earn as a builder? <span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a" role="region"><p>Founding Builders earn <strong>75% revenue share</strong> on every hire of the AI staff they create. This is performance-linked income — the more businesses hire your staff, the more you earn. Founding Builder status is permanent and locks in your rate for life.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="footer-logo">JOYN.</span>
+      <span class="footer-tag">Where Human Expertise Comes to Scale Itself</span>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="mailto:hire@tryjoyn.me">Contact Us</a>
+      <a href="/legal/privacy.html">Privacy</a>
+      <a href="/legal/terms.html">Terms</a>
+    </nav>
+    <span class="footer-copy">© 2026 YNOT.NOW. All rights reserved.</span>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+}
+</script>
+
+<!-- EXPRESS INTEREST MODAL -->
+<div class="modal-overlay" id="modal-interest" role="dialog" aria-modal="true" aria-labelledby="int-title" onclick="closeOnOverlay(event,'modal-interest')">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div class="modal-hd-text">
+        <h3 id="int-title">Express interest</h3>
+        <p>Tell us your timeline and we'll prioritise accordingly.</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-interest')" aria-label="Close">×</button>
+    </div>
+    <div class="modal-bd" id="int-form-wrap">
+      <div class="mfg">
+        <label class="mfl" for="int-staff">AI staff member</label>
+        <input class="mfi" type="text" id="int-staff" readonly>
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-name">Your name *</label>
+        <input class="mfi" type="text" id="int-name" placeholder="Jane Smith" autocomplete="name">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-email">Work email *</label>
+        <input class="mfi" type="email" id="int-email" placeholder="jane@company.com" autocomplete="email">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-company">Company</label>
+        <input class="mfi" type="text" id="int-company" placeholder="Acme Corp" autocomplete="organization">
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-timeline">When do you plan to hire?</label>
+        <select class="mfs" id="int-timeline">
+          <option value="As soon as possible">As soon as possible</option>
+          <option value="In 1–3 months">In 1–3 months</option>
+          <option value="In 3–6 months">In 3–6 months</option>
+          <option value="6+ months out">6+ months out</option>
+          <option value="Just exploring">Just exploring</option>
+        </select>
+      </div>
+      <div class="mfg">
+        <label class="mfl" for="int-notes">Additional notes</label>
+        <textarea class="mft" id="int-notes" placeholder="Any specific requirements, context, or questions..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="submitInterest()" style="flex:1;">Submit interest</button>
+        <button class="btn btn-outline" onclick="closeModal('modal-interest')">Cancel</button>
+      </div>
+    </div>
+    <div class="modal-success" id="int-success">
+      <div style="font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:300; color:var(--gold-display); line-height:1; margin-bottom:1.25rem;">✓</div>
+      <h3>Interest noted.</h3>
+      <p>We'll be in touch about <strong id="int-success-name"></strong> — and if your timeline is urgent, we may reach out sooner to explore early access.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  const m = document.getElementById(id);
+  m.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  m.querySelector('input:not([readonly]), textarea, select')?.focus();
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeOnOverlay(e, id) {
+  if (e.target === document.getElementById(id)) closeModal(id);
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.open').forEach(m => {
+      m.classList.remove('open'); document.body.style.overflow = '';
+    });
+  }
+});
+function openInterest(staffName, staffRole) {
+  document.getElementById('int-staff').value = staffName + ' — ' + staffRole;
+  document.getElementById('int-success-name').textContent = staffName;
+  ['int-name','int-email','int-company','int-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('int-timeline').selectedIndex = 0;
+  document.getElementById('int-form-wrap').style.display = '';
+  document.getElementById('int-success').style.display = 'none';
+  openModal('modal-interest');
+}
+async function submitInterest() {
+  const name  = document.getElementById('int-name').value.trim();
+  const email = document.getElementById('int-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email to continue.'); return; }
+  const btn = event.target; btn.textContent = 'Sending…'; btn.disabled = true;
+  try {
+    // Use server-side proxy to avoid exposing API key
+    const resp = await fetch('https://app.tryjoyn.me/api/forms/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        form_type:     'interest',
+        name, email,
+        company:       document.getElementById('int-company').value.trim(),
+        interested_in: document.getElementById('int-staff').value,
+        hire_timeline: document.getElementById('int-timeline').value,
+        notes:         document.getElementById('int-notes').value.trim()
+      })
+    });
+    if (resp.ok) {
+      document.getElementById('int-form-wrap').style.display = 'none';
+      document.getElementById('int-success').style.display = 'block';
+    } else {
+      throw new Error('Form submission failed');
+    }
+  } catch {
+    btn.textContent = 'Submit interest'; btn.disabled = false;
+    alert('Something went wrong. Please email hire@tryjoyn.me directly.');
+  }
+}
+</script>
+<style>
+</style>
+<div id="cookie-bar" class="cookie-bar" role="dialog" aria-label="Cookie notice" aria-live="polite">
+  <p>We use localStorage to remember your preferences. Fonts load from Google Fonts. Forms use Web3Forms. <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-accept" onclick="cookieAccept()">Accept</button>
+    <button class="cookie-btn cookie-decline" onclick="cookieDecline()">Decline</button>
+  </div>
+</div>
+<script>
+(function(){var b=document.getElementById('cookie-bar');if(b&&!localStorage.getItem('joyn_consent'))b.style.display='flex';})();
+function cookieAccept(){localStorage.setItem('joyn_consent','accepted');document.getElementById('cookie-bar').style.display='none';}
+function cookieDecline(){localStorage.setItem('joyn_consent','declined');document.getElementById('cookie-bar').style.display='none';}
+</script>
+</body>
+</html>

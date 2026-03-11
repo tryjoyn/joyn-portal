@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iris — Insurance Regulatory Intelligence | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <!-- Security headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; connect-src 'self'; img-src 'self' data: https:; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    nav .iris-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    nav .iris-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    /* ── Gold label pattern ── */
+    .gold-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gold-label::before {
+      content: '';
+      display: block;
+      width: 1.25rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Section shared ── */
+    .section-rule-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-rule-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .section-rule-heading .across-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SECTION 1: HERO ── */
+    .hero {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      max-width: 700px;
+      color: var(--ink);
+      margin-bottom: 0;
+    }
+
+    .hero .subheading {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      color: var(--ink-secondary);
+      max-width: 560px;
+      line-height: 1.8;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+
+    .hero-stat .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--gold-text);
+      line-height: 1;
+    }
+
+    .hero-stat .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+      margin-top: 0.35rem;
+    }
+
+    /* ── SECTION 2: WHAT IRIS MONITORS ── */
+    .section-monitors {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .monitors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .monitors-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .monitor-card {
+      padding: 1.75rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .monitor-card .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .monitor-card .card-body {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── SECTION 3: HOW IT WORKS ── */
+    .section-how {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-how h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-item {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.5rem;
+    }
+
+    .step-item .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-item .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .step-item .step-body {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── SECTION 4: BOTTOM CTA BAND ── */
+    .cta-band {
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      padding: 3rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .cta-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .cta-band .cta-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <a href="https://app.tryjoyn.me/login" style="font-family:'DM Mono',monospace;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='var(--ink)'" onmouseout="this.style.color='var(--ink-secondary)'">Log in</a>
+    <span class="iris-label">
+      <span class="rule-line"></span>
+      Iris
+    </span>
+  </nav>
+
+  <!-- ── Section 1: Hero ── -->
+  <section class="hero">
+    <div class="gold-label">— Insurance · Autonomous</div>
+    <h1>Never be the last<br>to know.</h1>
+    <p class="subheading">
+      Iris monitors state insurance department filings continuously — rate changes,
+      carrier actions, regulatory orders — and tells you what matters for your book,
+      before your clients find out first.
+    </p>
+    <a href="iris-preview.html" class="btn-primary">See How Iris Works →</a>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-number">2h</div>
+        <div class="stat-label">Monitoring Cycle</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-number">50</div>
+        <div class="stat-label">States Covered</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Missed Bulletins</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2: What Iris Monitors ── -->
+  <section class="section-monitors">
+    <div class="section-rule-heading">
+      <h2>What Iris monitors</h2>
+      <span class="across-label">Across all 50 states</span>
+    </div>
+    <div class="monitors-grid">
+
+      <div class="monitor-card">
+        <div class="gold-label">— Rate Filings</div>
+        <h3 class="card-title">Carrier rate changes</h3>
+        <p class="card-body">
+          Filed rate increases or decreases affecting your carriers and lines of
+          business. Know before renewal season hits.
+        </p>
+      </div>
+
+      <div class="monitor-card">
+        <div class="gold-label">— Company Actions</div>
+        <h3 class="card-title">Carrier approvals &amp; withdrawals</h3>
+        <p class="card-body">
+          OIR and DOI orders on carrier admissions, suspensions, consent orders,
+          and market withdrawals. Know which carriers are under pressure.
+        </p>
+      </div>
+
+      <div class="monitor-card">
+        <div class="gold-label">— Regulatory Orders</div>
+        <h3 class="card-title">Bulletins &amp; compliance notices</h3>
+        <p class="card-body">
+          State DOI directives, compliance bulletins, and regulatory orders that
+          affect how you write, service, and renew policies.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Section 3: How It Works ── -->
+  <section class="section-how">
+    <h2>Three steps. Then Iris runs.</h2>
+    <div class="steps-grid">
+
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Select your states</h3>
+        <p class="step-body">
+          Tell Iris which states you are licensed in. She monitors all of them.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Iris runs automatically</h3>
+        <p class="step-body">
+          Every 2 hours, Iris checks for new filings, orders, and bulletins
+          across your states.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <h3 class="step-title">You get alerted</h3>
+        <p class="step-body">
+          When something material changes, Iris emails you a plain-English
+          summary of what happened and why it matters.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Section 4: Bottom CTA Band ── -->
+  <section class="cta-band">
+    <div>
+      <h2>Your clients should hear it from you first.</h2>
+      <p class="cta-sub">Iris runs every 2 hours. 14-day free trial.</p>
+    </div>
+    <a href="iris-preview.html" class="btn-primary">See How Iris Works →</a>
+  </section>
+
+<style>
+.site-footer{border-top:1px solid var(--rule);padding:1.5rem clamp(1.5rem,5vw,4rem)}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:1.5rem;flex-wrap:wrap}.footer-copy{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;color:var(--ink-secondary)}.footer-legal{display:flex;gap:1.5rem}.footer-legal a{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-secondary);text-decoration:none;transition:color .15s}.footer-legal a:hover{color:var(--ink)}
+.cookie-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:1rem clamp(1.5rem,5vw,4rem);display:none;align-items:center;justify-content:space-between;gap:1.5rem;z-index:9000;flex-wrap:wrap;border-top:2px solid var(--gold-display)}.cookie-bar p{margin:0;font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.06em;color:rgba(250,250,248,.8);max-width:70ch}.cookie-bar a{color:var(--gold-display)}.cookie-btns{display:flex;gap:.75rem;flex-shrink:0}.cookie-btn{font-family:'DM Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:.55rem 1.2rem;border:none;cursor:pointer;min-height:36px;border-radius:0;transition:all .2s}.cookie-accept{background:var(--white);color:var(--ink)}.cookie-accept:hover{background:var(--gold-display);color:var(--white)}.cookie-decline{background:transparent;color:rgba(250,250,248,.65);border:1px solid rgba(250,250,248,.3)}.cookie-decline:hover{color:rgba(250,250,248,1);border-color:rgba(250,250,248,.7)}
+</style>
+<footer class="site-footer">
+  <div class="footer-inner">
+    <span class="footer-copy">&copy; 2026 YNOT.NOW. All rights reserved.</span>
+    <nav class="footer-legal" aria-label="Legal navigation">
+      <a href="/legal/privacy.html">Privacy Policy</a>
+      <a href="/legal/terms.html">Terms of Use</a>
+    </nav>
+  </div>
+</footer>
+<div id="cookie-bar" class="cookie-bar" role="dialog" aria-label="Cookie notice" aria-live="polite">
+  <p>We use localStorage to remember your preferences. Fonts load from Google Fonts. Forms use Web3Forms. <a href="/legal/privacy.html">Privacy Policy</a>.</p>
+  <div class="cookie-btns">
+    <button class="cookie-btn cookie-accept" onclick="cookieAccept()">Accept</button>
+    <button class="cookie-btn cookie-decline" onclick="cookieDecline()">Decline</button>
+  </div>
+</div>
+<script>
+(function(){var b=document.getElementById('cookie-bar');if(b&&!localStorage.getItem('joyn_consent'))b.style.display='flex';})();
+function cookieAccept(){localStorage.setItem('joyn_consent','accepted');document.getElementById('cookie-bar').style.display='none';}
+function cookieDecline(){localStorage.setItem('joyn_consent','declined');document.getElementById('cookie-bar').style.display='none';}
+</script>
+</body>
+</html>

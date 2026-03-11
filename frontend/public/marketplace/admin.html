@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Joyn Founder Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1rem; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+p { color: var(--ink-secondary); }
+.label { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+.notice { background: #fff3cd; border: 1px solid #b8902a40; padding: 1rem 1.5rem; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.04em; color: #5a4000; }
+.header { padding: 2rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+.header-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); text-decoration: none; }
+.main { padding: clamp(2rem,4vw,4rem) clamp(1.5rem,5vw,4rem); max-width: 1100px; }
+.section { margin-bottom: 3rem; }
+.section-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.75rem; font-weight: 400; }
+.section-meta { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+table { width: 100%; border-collapse: collapse; border: 1px solid var(--rule); }
+th { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); padding: 0.75rem 1rem; text-align: left; background: var(--surface); border-bottom: 1px solid var(--rule); }
+td { padding: 0.875rem 1rem; font-size: 0.9rem; color: var(--ink-secondary); border-bottom: 1px solid var(--rule); vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--surface); }
+.status-live { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
+.status-soon { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
+.mode-auto { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ink); color: var(--white); padding: 0.2rem 0.5rem; }
+.mode-sup { font-family: 'DM Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid var(--ink); color: var(--ink); padding: 0.2rem 0.5rem; }
+.note-cell { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.04em; color: var(--ink-secondary); }
+.empty-row td { color: var(--rule-mid); font-style: italic; font-size: 0.875rem; text-align: center; padding: 1.5rem; }
+.add-row { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); padding: 0.75rem 1rem; text-align: center; border-top: 1px solid var(--rule); cursor: pointer; background: var(--surface); transition: background 0.2s; }
+.add-row:hover { background: #ece8df; }
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-bottom: 3rem; }
+.stat-box { background: var(--white); padding: 1.5rem; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.stat-l { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+</style>
+</head>
+<body>
+
+<div class="notice">
+  ⚠ Not linked publicly. For founder use only. — <strong>tryjoyn.me/marketplace/admin.html</strong>
+</div>
+
+<div class="header">
+  <a href="../index.html" class="header-logo">JOYN. Admin</a>
+  <span class="label">Founder Dashboard</span>
+</div>
+
+<main class="main">
+
+  <div class="stats-row" role="list" aria-label="Summary statistics">
+    <div class="stat-box" role="listitem">
+      <div class="stat-n" id="stat-live">2</div>
+      <div class="stat-l">Staff live</div>
+    </div>
+    <div class="stat-box" role="listitem">
+      <div class="stat-n" id="stat-pipeline">9</div>
+      <div class="stat-l">In pipeline</div>
+    </div>
+    <div class="stat-box" role="listitem">
+      <div class="stat-n" id="stat-hires">—</div>
+      <div class="stat-l">Hires this week</div>
+    </div>
+    <div class="stat-box" role="listitem">
+      <div class="stat-n" id="stat-interest">—</div>
+      <div class="stat-l">Interest forms this week</div>
+    </div>
+  </div>
+
+  <!-- HIRES THIS WEEK -->
+  <div class="section">
+    <div class="section-hd">
+      <span class="section-title">New hires this week</span>
+      <span class="section-meta" id="hires-week-label">Week of —</span>
+    </div>
+    <table aria-label="New hires this week">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Staff member</th>
+          <th>Business</th>
+          <th>Contact email</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="hires-tbody">
+        <tr class="empty-row"><td colspan="5">No hires recorded this week — add below</td></tr>
+      </tbody>
+    </table>
+    <div class="add-row" onclick="addHireRow()" role="button" tabindex="0" aria-label="Add hire row">+ Add hire</div>
+  </div>
+
+  <!-- INTEREST FORMS -->
+  <div class="section">
+    <div class="section-hd">
+      <span class="section-title">Interest forms this week</span>
+      <span class="section-meta" id="interest-week-label">Week of —</span>
+    </div>
+    <table aria-label="Interest form submissions this week">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Interested in</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Timeline</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody id="interest-tbody">
+        <tr class="empty-row"><td colspan="6">No interest forms recorded this week</td></tr>
+      </tbody>
+    </table>
+    <div class="add-row" onclick="addInterestRow()" role="button" tabindex="0" aria-label="Add interest row">+ Add interest</div>
+  </div>
+
+  <!-- PIPELINE STATUS -->
+  <div class="section">
+    <div class="section-hd">
+      <span class="section-title">Pipeline status</span>
+      <span class="section-meta">All upcoming staff</span>
+    </div>
+    <table aria-label="Pipeline status">
+      <thead>
+        <tr>
+          <th>Staff member</th>
+          <th>Mode</th>
+          <th>Vertical</th>
+          <th>Status</th>
+          <th>Unlock date</th>
+          <th>Interest count</th>
+        </tr>
+      </thead>
+      <tbody id="pipeline-tbody">
+        <tr>
+          <td><strong>Renew</strong> — Renewal Specialist</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Insurance</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">31 Mar 2026</td>
+          <td class="note-cell" id="interest-renew">—</td>
+        </tr>
+        <tr>
+          <td><strong>Dispatch</strong> — Field Services Dispatcher</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Operations · Trades</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">31 Mar 2026</td>
+          <td class="note-cell" id="interest-dispatch">—</td>
+        </tr>
+        <tr>
+          <td><strong>Scout</strong> — Lead Qualifier</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Real Estate</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">14 Apr 2026</td>
+          <td class="note-cell" id="interest-scout">—</td>
+        </tr>
+        <tr>
+          <td><strong>Comply</strong> — Compliance Monitor</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Legal &amp; Compliance</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">28 Apr 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>Brief</strong> — Client Brief Specialist</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Operations</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">12 May 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>File</strong> — Document Filing Specialist</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Operations</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">26 May 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>Counsel</strong> — Legal Counsel Support</td>
+          <td><span class="mode-sup">Supervised</span></td>
+          <td>Legal &amp; Compliance</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">9 Jun 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>Accord</strong> — Contract Review</td>
+          <td><span class="mode-sup">Supervised</span></td>
+          <td>Legal &amp; Compliance</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">23 Jun 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>Ledger</strong> — Financial Reconciliation</td>
+          <td><span class="mode-sup">Supervised</span></td>
+          <td>Financial Services</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">7 Jul 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+        <tr>
+          <td><strong>Publish</strong> — Content Strategist</td>
+          <td><span class="mode-auto">Autonomous</span></td>
+          <td>Marketing</td>
+          <td><span class="status-soon">Coming Soon</span></td>
+          <td class="note-cell">21 Jul 2026</td>
+          <td class="note-cell">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script>
+// Set week label
+const now = new Date();
+const monday = new Date(now);
+monday.setDate(now.getDate() - ((now.getDay() + 6) % 7));
+const fmt = d => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+document.getElementById('hires-week-label').textContent = 'Week of ' + fmt(monday);
+document.getElementById('interest-week-label').textContent = 'Week of ' + fmt(monday);
+
+function makeEditableRow(cells) {
+  const tr = document.createElement('tr');
+  cells.forEach(placeholder => {
+    const td = document.createElement('td');
+    td.contentEditable = 'true';
+    td.style.outline = 'none';
+    td.style.minWidth = '80px';
+    if (placeholder) td.textContent = placeholder;
+    tr.appendChild(td);
+  });
+  return tr;
+}
+
+function addHireRow() {
+  const tbody = document.getElementById('hires-tbody');
+  const empty = tbody.querySelector('.empty-row');
+  if (empty) empty.remove();
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  tbody.appendChild(makeEditableRow([today, '', '', '', '']));
+}
+
+function addInterestRow() {
+  const tbody = document.getElementById('interest-tbody');
+  const empty = tbody.querySelector('.empty-row');
+  if (empty) empty.remove();
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  tbody.appendChild(makeEditableRow([today, '', '', '', '', '']));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Brief — Build Your AI Staff | Joyn</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Complete the Creator Brief to generate your Visionary Spec — the complete blueprint for your AI staff.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+// A/B Test: Redirect to Sage (v2) if ?v=2 param present
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('v') === '2') {
+    const builderId = params.get('builder_id');
+    const newUrl = 'creator-brief-v2.html' + (builderId ? '?builder_id=' + builderId : '');
+    window.location.replace(newUrl);
+  }
+})();
+</script>
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+  --green: #2d6a4f; --green-bg: rgba(45,106,79,0.07);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1rem; line-height: 1.8; -webkit-font-smoothing: antialiased; min-height: 100vh; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+p { color: var(--ink-secondary); }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+
+/* NAV */
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); border-bottom: 1px solid var(--rule); background: var(--white); position: sticky; top: 0; z-index: 100; backdrop-filter: blur(16px); }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.nav-right { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-save { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* PROGRESS */
+.brief-progress { padding: 0 clamp(1.5rem,5vw,4rem); background: var(--surface); border-bottom: 1px solid var(--rule); }
+.brief-progress-inner { display: flex; align-items: center; gap: 1.5rem; padding: 1rem 0; }
+.brief-progress-bar { flex: 1; height: 2px; background: var(--rule); }
+.brief-progress-fill { height: 100%; background: var(--gold-text); transition: width 0.4s ease; }
+.brief-progress-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); white-space: nowrap; }
+.brief-progress-pct { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--gold-text); white-space: nowrap; }
+
+/* LAYOUT */
+.brief-layout { display: grid; grid-template-columns: 1fr 360px; min-height: calc(100vh - 110px); }
+.brief-main { padding: clamp(2.5rem,5vw,4rem) clamp(2rem,5vw,4rem); }
+.brief-sidebar { padding: 2.5rem 2rem; background: var(--surface); border-left: 1px solid var(--rule); position: sticky; top: 110px; height: calc(100vh - 110px); overflow-y: auto; }
+
+/* SECTION NAVIGATION */
+.section-nav { display: flex; flex-direction: column; gap: 0.25rem; margin-bottom: 2rem; }
+.section-nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0.75rem; font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-secondary); cursor: pointer; transition: all 0.15s; border-left: 2px solid transparent; }
+.section-nav-item:hover { color: var(--ink); }
+.section-nav-item.active { color: var(--gold-text); border-left-color: var(--gold-text); }
+.section-nav-item.done { color: var(--green); border-left-color: var(--green); }
+.section-nav-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--rule-mid); flex-shrink: 0; }
+.section-nav-item.active .section-nav-dot { background: var(--gold-text); }
+.section-nav-item.done .section-nav-dot { background: var(--green); }
+
+/* BRIEF SECTIONS */
+.brief-section { display: none; }
+.brief-section.active { display: block; }
+.section-header { margin-bottom: 2.5rem; }
+.section-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; margin-bottom: 1rem; }
+.section-eyebrow::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+.section-title { font-size: clamp(1.75rem,3vw,2.5rem); line-height: 1.1; margin-bottom: 0.75rem; }
+.section-desc { font-size: 1rem; max-width: 55ch; color: var(--ink-secondary); }
+
+/* FORM ELEMENTS */
+.form-field { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 2rem; }
+.form-label { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); }
+.form-input, .form-select, .form-textarea { font-family: 'Syne', sans-serif; font-size: 0.95rem; padding: 0.875rem 1rem; border: 1px solid var(--rule-mid); background: var(--white); color: var(--ink); outline: none; transition: border-color 0.15s; width: 100%; -webkit-appearance: none; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--ink); }
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-hint { font-size: 0.8rem; color: var(--ink-secondary); line-height: 1.6; }
+.form-example { font-size: 0.8rem; color: var(--ink-secondary); background: var(--surface); border-left: 2px solid var(--gold-text); padding: 0.75rem 1rem; margin-top: 0.5rem; font-style: italic; }
+
+/* IRIS EXAMPLE TOGGLE */
+.iris-example { border: 1px solid var(--rule); margin-top: 0.5rem; }
+.iris-example-toggle { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; cursor: pointer; background: var(--surface); font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+.iris-example-toggle:hover { color: var(--ink); }
+.iris-example-body { display: none; padding: 1rem; font-size: 0.875rem; color: var(--ink-secondary); line-height: 1.7; border-top: 1px solid var(--rule); }
+.iris-example-body.open { display: block; }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.875rem 1.75rem; display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-gold { background: var(--gold-text); color: var(--white); }
+.btn-gold:hover { background: var(--gold-hover); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--rule-mid); }
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-row { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--rule); }
+
+/* PREVIEW PANEL */
+.preview-section { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+.preview-section:last-child { border-bottom: none; }
+.preview-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.5rem; }
+.preview-value { font-size: 0.875rem; color: var(--ink); line-height: 1.6; }
+.preview-empty { font-size: 0.8rem; color: var(--rule-mid); font-style: italic; }
+
+/* SPEC OUTPUT */
+.spec-output { display: none; }
+.spec-output.visible { display: block; }
+.spec-card { border: 1px solid var(--rule); padding: 2rem; background: var(--white); margin-bottom: 1.5rem; }
+.spec-section-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.75rem; }
+.spec-content { font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.8; white-space: pre-wrap; }
+
+/* GENERATING STATE */
+.generating-state { text-align: center; padding: 4rem 2rem; display: none; }
+.generating-state.visible { display: block; }
+.generating-icon { font-family: 'Cormorant Garamond', serif; font-size: 3rem; color: var(--gold-text); margin-bottom: 1.5rem; animation: pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.generating-title { font-size: clamp(1.5rem,2.5vw,2rem); margin-bottom: 0.75rem; }
+.generating-steps { display: flex; flex-direction: column; gap: 0.5rem; max-width: 40ch; margin: 0 auto; }
+.gen-step { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-secondary); display: flex; align-items: center; gap: 0.75rem; }
+.gen-step.done { color: var(--green); }
+.gen-step.active { color: var(--gold-text); }
+.gen-step-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule-mid); flex-shrink: 0; }
+.gen-step.done .gen-step-dot { background: var(--green); }
+.gen-step.active .gen-step-dot { background: var(--gold-text); animation: blink 1s ease-in-out infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .brief-layout { grid-template-columns: 1fr; }
+  .brief-sidebar { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">JOYN.</a>
+  <div class="nav-right">
+    <span class="nav-save" id="nav-save-status">All changes saved</span>
+    <a href="./builder-dashboard.html" class="nav-link">Dashboard</a>
+  </div>
+</nav>
+
+<!-- PROGRESS -->
+<div class="brief-progress">
+  <div class="brief-progress-inner">
+    <span class="brief-progress-label">Creator Brief</span>
+    <div class="brief-progress-bar">
+      <div class="brief-progress-fill" id="brief-fill" style="width:0%"></div>
+    </div>
+    <span class="brief-progress-pct" id="brief-pct">0 of 6 sections</span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="brief-layout">
+
+  <!-- MAIN -->
+  <main class="brief-main" id="brief-main">
+
+    <!-- INTRO -->
+    <div id="brief-intro" style="max-width:700px;margin:0 auto;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-text);display:inline-flex;align-items:center;gap:0.65rem;margin-bottom:1.5rem;">
+        <span style="display:block;width:1.5rem;height:1px;background:var(--gold-text);"></span>
+        Creator Brief
+      </div>
+      <h1 style="font-size:clamp(2rem,4vw,3.5rem);line-height:1.05;margin-bottom:1.25rem;">
+        You are about to create<br>
+        <em style="font-style:italic;color:var(--gold-display);">a fellow worker.</em>
+      </h1>
+      <p style="font-size:1.05rem;max-width:55ch;margin-bottom:2rem;">
+        The Creator Brief is not a form. It is a structured conversation that generates your Visionary Spec — the complete blueprint for your AI staff. The more specific your answers, the better your spec.
+      </p>
+      <div style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);margin-bottom:2rem;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Before you begin</div>
+        <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.7;">
+          Read <a href="./iris-insurance-regulatory.html" style="color:var(--gold-text);">Iris's listing page</a> first. Every question in this brief maps to a section of your future marketplace listing. Iris's answers are shown as examples throughout. The brief takes 20–30 minutes.
+        </div>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <button class="btn btn-gold" onclick="startBrief()" style="font-size:0.8rem;padding:1rem 2.5rem;">Begin the Creator Brief →</button>
+        <a href="./builder-dashboard.html" class="btn btn-ghost" style="font-size:0.8rem;">Back to Dashboard</a>
+      </div>
+    </div>
+
+    <!-- SECTIONS (hidden until started) -->
+    <div id="brief-sections-wrap" style="display:none;max-width:700px;margin:0 auto;">
+
+      <!-- SECTION 1: Identity -->
+      <div class="brief-section active" id="section-1" data-section="1">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 1 of 6 · Identity</div>
+          <h2 class="section-title">Who is your AI staff?</h2>
+          <p class="section-desc">Give your AI staff a name and a clear role. This is how hirers will find them, remember them, and introduce them to their team.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-staff_name">What is the name of your AI staff? <span style="color:var(--gold-text);">*</span></label>
+          <input type="text" class="form-input" id="q-staff_name" placeholder="e.g. Iris, Aria, Max, Compass, Scout" oninput="updatePreview()">
+          <div class="form-hint">A single word or short name. Not a product name — a staff name. Something a hirer would use when introducing them: "This is Iris, our regulatory specialist."</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Iris. Named for the iris of the eye — the part that adjusts to changing light. Regulatory environments change constantly; Iris adjusts.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-role_title">What is the role title? <span style="color:var(--gold-text);">*</span></label>
+          <input type="text" class="form-input" id="q-role_title" placeholder="e.g. Insurance Regulatory Intelligence Specialist" oninput="updatePreview()">
+          <div class="form-hint">The professional title a human would have if they did this job. Specific, not generic.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Insurance Regulatory Intelligence Specialist. Not "AI assistant" or "compliance tool" — a specific professional role that a hirer can explain to their team.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-one_sentence">Describe what your AI staff does in one sentence <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-one_sentence" placeholder="e.g. Monitors state insurance department bulletins, scores them by client impact, and routes severity alerts to P&C brokers before regulatory deadlines." oninput="updatePreview()"></textarea>
+          <div class="form-hint">One sentence. No jargon. A hirer should immediately understand what they are getting. This is the first sentence on your listing page.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Monitors state insurance department bulletins, scores them by client impact, and routes severity alerts to P&C brokers before regulatory deadlines create E&O exposure.</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="nextSection(2)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- SECTION 2: The Problem -->
+      <div class="brief-section" id="section-2" data-section="2">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 2 of 6 · The Problem</div>
+          <h2 class="section-title">What problem does your staff solve?</h2>
+          <p class="section-desc">The most important section. Hirers hire because they have a specific, painful problem. Describe it precisely.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-pain_point">What specific pain does this solve? <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-pain_point" placeholder="e.g. P&C brokers miss state DOI bulletins because monitoring 50+ websites manually is impossible. When they miss a bulletin, they face E&O exposure and client complaints." oninput="updatePreview()" rows="5"></textarea>
+          <div class="form-hint">Be specific about the consequence of the problem not being solved. What goes wrong? What does it cost?</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Independent P&C brokers operate across multiple states. Each state's Department of Insurance publishes bulletins, circulars, and appetite changes — sometimes daily. Monitoring 50+ DOI websites manually is impossible for a small broker. When they miss a bulletin that affects their clients' coverage, they face E&O exposure, client complaints, and potential regulatory action. The cost of a missed bulletin can be catastrophic; the cost of monitoring is currently a full-time job.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-who_hires">Who specifically hires this AI staff? <span style="color:var(--gold-text);">*</span></label>
+          <input type="text" class="form-input" id="q-who_hires" placeholder="e.g. Independent P&C brokers and MGAs with 5–50 staff" oninput="updatePreview()">
+          <div class="form-hint">Job title + company type + size. Not "anyone in insurance" — a specific buyer profile.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Independent P&C brokers and MGAs with 5–50 staff, operating across 3+ states, without a dedicated compliance function. Typically the principal or compliance manager is the buyer.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-manual_task">What manual task does this replace? <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-manual_task" placeholder="e.g. A compliance analyst spending 3 hours every Monday checking 50 state DOI websites and emailing individual brokers about relevant bulletins." oninput="updatePreview()" rows="4"></textarea>
+          <div class="form-hint">Describe the exact manual workflow being replaced. Hours per week, who does it, what tools they use. The more specific, the better.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">A compliance analyst (or the principal themselves) spending 2–4 hours every Monday morning: (1) visiting each state DOI website, (2) reading every new bulletin, (3) deciding if it affects any client, (4) drafting and sending individual emails. At a $75/hour loaded cost, this is $150–300 per week — $7,800–$15,600 per year — for a task that Iris does continuously and automatically.</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="nextSection(1)">← Back</button>
+          <button class="btn btn-primary" onclick="nextSection(3)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- SECTION 3: Outputs -->
+      <div class="brief-section" id="section-3" data-section="3">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 3 of 6 · What It Produces</div>
+          <h2 class="section-title">What does your staff deliver?</h2>
+          <p class="section-desc">Every output must be named, formatted, triggered, and scheduled. If you cannot name it, it is not ready. This is Gate 2 of The Bar.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-outputs">List every named output <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-outputs" placeholder="e.g.&#10;1. Regulatory Alert — email, triggered immediately when a bulletin is scored 6+&#10;2. Weekly Digest — PDF, every Monday 8am, all bulletins from prior week&#10;3. Impact Score — 1–10 rating, attached to every alert&#10;4. Monthly Summary — PDF, first Monday of month, trend analysis" oninput="updatePreview()" rows="6"></textarea>
+          <div class="form-hint">Format: Name — type, trigger/schedule, description. List every output. If a hirer asks "what will I receive?" — this is your answer.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">
+              1. Regulatory Alert — email + Slack, triggered within 2 hours of bulletin publication, for any bulletin scored 6+<br>
+              2. Weekly Digest — PDF, every Monday 8am, all bulletins from prior 7 days with impact scores<br>
+              3. Impact Score — 1–10 rating (1=informational, 10=immediate action required), attached to every alert<br>
+              4. Monthly Trend Report — PDF, first Monday of month, regulatory environment analysis by state<br>
+              5. Client Exposure Map — updated quarterly, maps each client's coverage to relevant regulatory changes
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-mode">Autonomous or Supervised? <span style="color:var(--gold-text);">*</span></label>
+          <select class="form-select" id="q-mode" oninput="updatePreview()">
+            <option value="">Select…</option>
+            <option value="autonomous">Autonomous — acts without human approval</option>
+            <option value="supervised">Supervised — presents recommendations for human sign-off</option>
+          </select>
+          <div class="form-hint">Autonomous staff sends outputs directly. Supervised staff presents outputs for the hirer to review and approve before sending.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">Autonomous. Iris sends alerts directly — the value is speed. A regulatory alert that waits for human approval may arrive after the deadline. The hirer sets the impact score threshold (default: 6+) above which alerts are sent automatically.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-integrations">What integrations does it need?</label>
+          <textarea class="form-textarea" id="q-integrations" placeholder="e.g. Email (Gmail/Outlook), Slack, PDF generation, state DOI website monitoring, client database (CSV or CRM)" oninput="updatePreview()" rows="3"></textarea>
+          <div class="form-hint">List every external system, API, or tool the staff needs to do its job.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="nextSection(2)">← Back</button>
+          <button class="btn btn-primary" onclick="nextSection(4)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- SECTION 4: Hirer Experience -->
+      <div class="brief-section" id="section-4" data-section="4">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 4 of 6 · The Hirer Experience</div>
+          <h2 class="section-title">What is it like to hire your staff?</h2>
+          <p class="section-desc">Map the complete hirer journey — from the moment they hire to the moment they receive their first output. This is Gate 3 of The Bar.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-onboarding_time">How long does onboarding take? <span style="color:var(--gold-text);">*</span></label>
+          <input type="text" class="form-input" id="q-onboarding_time" placeholder="e.g. 20 minutes — hirer provides their state list and client book format" oninput="updatePreview()">
+          <div class="form-hint">Total time from hire to first output. Be realistic. Include every step the hirer needs to take.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">20 minutes total: (1) Upload client book CSV — 5 min. (2) Select states to monitor — 3 min. (3) Set alert threshold (default 6+) — 2 min. (4) Connect email/Slack — 5 min. (5) Receive first alert within 24 hours of any new bulletin — automatic.</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-intervention_points">Where does the hirer need to intervene? <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-intervention_points" placeholder="e.g.&#10;Setup: provide state list and client book (one-time, 20 min)&#10;Weekly: review and approve digest before sending (5 min)&#10;Exception: any bulletin scored 9+ requires manual review before alert" oninput="updatePreview()" rows="4"></textarea>
+          <div class="form-hint">For supervised staff: every approval point. For autonomous: every exception that requires human judgment. Be honest — hirers need to know what they are signing up for.</div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-time_saved">How much time does the hirer save per week?</label>
+          <input type="text" class="form-input" id="q-time_saved" placeholder="e.g. 3–5 hours per week on regulatory monitoring" oninput="updatePreview()">
+          <div class="form-hint">Conservative estimate. This appears prominently on your listing page.</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="nextSection(3)">← Back</button>
+          <button class="btn btn-primary" onclick="nextSection(5)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- SECTION 5: Quality & Reliability -->
+      <div class="brief-section" id="section-5" data-section="5">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 5 of 6 · Quality &amp; Reliability</div>
+          <h2 class="section-title">How does your staff handle failure?</h2>
+          <p class="section-desc">Gates 4 and 5 of The Bar. Every AI staff fails sometimes. What matters is what happens when it does.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-failure_scenarios">Describe three failure scenarios and how the staff handles them <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-failure_scenarios" placeholder="e.g.&#10;1. DOI website down: retries after 2h, flags in digest as 'pending check'&#10;2. Ambiguous bulletin: scores conservatively (7+), flags for human review with note&#10;3. Client book format change: requests updated file, pauses client-specific alerts" oninput="updatePreview()" rows="6"></textarea>
+          <div class="form-hint">Three specific scenarios. Each with a specific, named response. Vague answers ("handles gracefully") fail Gate 4.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">
+              1. DOI website unavailable: Retries every 2 hours for 24 hours. If still unavailable, flags in the next digest as "Pending — [State] DOI website unavailable. Manual check recommended." Never silently skips.<br>
+              2. Bulletin language is ambiguous (could be significant or routine): Scores conservatively at 7, adds note "Ambiguous — recommend manual review," and includes full bulletin text in alert.<br>
+              3. Client book CSV format changes: Detects format mismatch on next upload, pauses client-specific scoring, sends "Action required: client book format has changed" notification with instructions.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-calibration">How does the staff improve over time? <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-calibration" placeholder="e.g.&#10;Feedback: hirer rates each alert (relevant/not relevant) — adjusts impact scoring weights&#10;Corpus: monthly update with new bulletin types and regulatory patterns&#10;Carry-forward: client-specific preferences persist across sessions" oninput="updatePreview()" rows="5"></textarea>
+          <div class="form-hint">The feedback mechanism, corpus structure, and carry-forward logic. This is Gate 5 — the calibration architecture.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">
+              Feedback loop: Each alert includes a one-click "Relevant / Not relevant" rating. Ratings adjust the impact scoring model for that hirer's specific state mix and client book.<br>
+              Corpus: Monthly update with new bulletin types, regulatory patterns, and state-specific terminology. Iris learns the language of each state's DOI.<br>
+              Carry-forward: Hirer preferences (alert threshold, notification channels, client book structure) persist across sessions. State-specific scoring adjustments accumulate over time.
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="nextSection(4)">← Back</button>
+          <button class="btn btn-primary" onclick="nextSection(6)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- SECTION 6: Pricing -->
+      <div class="brief-section" id="section-6" data-section="6">
+        <div class="section-header">
+          <div class="section-eyebrow">Section 6 of 6 · Pricing</div>
+          <h2 class="section-title">What is your staff worth?</h2>
+          <p class="section-desc">Price based on value delivered, not cost to build. Show the ROI. Hirers need to see the calculation.</p>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-suggested_price">Monthly price for hirers <span style="color:var(--gold-text);">*</span></label>
+          <select class="form-select" id="q-suggested_price" oninput="updatePricingCalc()">
+            <option value="">Select…</option>
+            <option value="49">$49/month</option>
+            <option value="99">$99/month</option>
+            <option value="149">$149/month</option>
+            <option value="199">$199/month</option>
+            <option value="299">$299/month</option>
+            <option value="499">$499/month</option>
+            <option value="custom">Custom pricing</option>
+          </select>
+          <div id="pricing-calc" style="display:none;margin-top:0.75rem;border:1px solid var(--rule);padding:1rem;background:var(--surface);">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:0.5rem;">Your earnings at this price</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;">
+              <div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold-text);" id="calc-10">—</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-secondary);">10 hirers/mo</div>
+              </div>
+              <div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold-text);" id="calc-50">—</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-secondary);">50 hirers/mo</div>
+              </div>
+              <div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold-text);" id="calc-100">—</div>
+                <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-secondary);">100 hirers/mo</div>
+              </div>
+            </div>
+            <div style="font-size:0.75rem;color:var(--ink-secondary);margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--rule);">Founding Builder rate: 75% revenue share</div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="q-pricing_rationale">Why is this the right price? <span style="color:var(--gold-text);">*</span></label>
+          <textarea class="form-textarea" id="q-pricing_rationale" placeholder="e.g. At $99/month, the hirer saves 3 hours/week at $75/hour = $900/month in time saved. The staff pays for itself in 3 days." oninput="updatePreview()" rows="3"></textarea>
+          <div class="form-hint">Show the ROI calculation. Hirers need to see the value clearly. This appears on your listing page.</div>
+          <div class="iris-example">
+            <div class="iris-example-toggle" onclick="toggleExample(this)">
+              <span>See how Iris answered this</span>
+              <span>+</span>
+            </div>
+            <div class="iris-example-body">At $99/month: A compliance analyst costs $75/hour loaded. Iris replaces 3–4 hours of weekly monitoring = $225–300/week = $900–1,200/month. Iris pays for itself in 3 days. The E&O risk reduction from never missing a bulletin is worth multiples of the fee.</div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-ghost" onclick="nextSection(5)">← Back</button>
+          <button class="btn btn-gold" onclick="generateSpec()" id="generate-btn" style="font-size:0.8rem;padding:1rem 2.5rem;">Generate My Visionary Spec →</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GENERATING STATE -->
+    <div class="generating-state" id="generating-state" style="max-width:600px;margin:0 auto;">
+      <div class="generating-icon">✦</div>
+      <h2 class="generating-title">Generating your Visionary Spec</h2>
+      <p style="margin-bottom:2rem;max-width:45ch;margin-left:auto;margin-right:auto;">The Architect Agent is analysing your Creator Brief and generating your complete build blueprint.</p>
+      <div class="generating-steps">
+        <div class="gen-step active" id="gen-step-1">
+          <div class="gen-step-dot"></div>
+          Analysing your domain expertise
+        </div>
+        <div class="gen-step" id="gen-step-2">
+          <div class="gen-step-dot"></div>
+          Mapping outputs to The Bar criteria
+        </div>
+        <div class="gen-step" id="gen-step-3">
+          <div class="gen-step-dot"></div>
+          Generating technical architecture
+        </div>
+        <div class="gen-step" id="gen-step-4">
+          <div class="gen-step-dot"></div>
+          Writing hirer experience design
+        </div>
+        <div class="gen-step" id="gen-step-5">
+          <div class="gen-step-dot"></div>
+          Finalising Visionary Spec
+        </div>
+      </div>
+    </div>
+
+    <!-- SPEC OUTPUT -->
+    <div class="spec-output" id="spec-output" style="max-width:800px;margin:0 auto;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);display:inline-flex;align-items:center;gap:0.65rem;margin-bottom:1.5rem;">
+        <span style="display:block;width:1.5rem;height:1px;background:var(--green);"></span>
+        Visionary Spec Generated
+      </div>
+      <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.75rem;" id="spec-staff-name">Your AI Staff</h2>
+      <p style="margin-bottom:2.5rem;" id="spec-role-title"></p>
+
+      <div id="spec-sections">
+        <!-- Populated by JS -->
+      </div>
+
+      <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--rule);display:flex;gap:1rem;flex-wrap:wrap;">
+        <button class="btn btn-gold" onclick="proceedToBuild()" style="font-size:0.8rem;">Proceed to Build →</button>
+        <button class="btn btn-ghost" onclick="downloadSpec()" style="font-size:0.8rem;">Download Spec</button>
+        <a href="./builder-dashboard.html" class="btn btn-ghost" style="font-size:0.8rem;">Back to Dashboard</a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SIDEBAR -->
+  <aside class="brief-sidebar" aria-label="Brief navigation and preview">
+
+    <!-- SECTION NAV -->
+    <div style="margin-bottom:2rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--rule);">Sections</div>
+      <div class="section-nav" id="section-nav">
+        <div class="section-nav-item active" id="snav-1" onclick="goToSection(1)">
+          <div class="section-nav-dot"></div>Identity
+        </div>
+        <div class="section-nav-item" id="snav-2" onclick="goToSection(2)">
+          <div class="section-nav-dot"></div>The Problem
+        </div>
+        <div class="section-nav-item" id="snav-3" onclick="goToSection(3)">
+          <div class="section-nav-dot"></div>What It Produces
+        </div>
+        <div class="section-nav-item" id="snav-4" onclick="goToSection(4)">
+          <div class="section-nav-dot"></div>Hirer Experience
+        </div>
+        <div class="section-nav-item" id="snav-5" onclick="goToSection(5)">
+          <div class="section-nav-dot"></div>Quality &amp; Reliability
+        </div>
+        <div class="section-nav-item" id="snav-6" onclick="goToSection(6)">
+          <div class="section-nav-dot"></div>Pricing
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:0.75rem;padding-bottom:0.5rem;border-bottom:1px solid var(--rule);">Live Preview</div>
+
+      <div class="preview-section">
+        <div class="preview-label">Staff Name</div>
+        <div class="preview-value" id="prev-name"><span class="preview-empty">Not yet entered</span></div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-label">Role</div>
+        <div class="preview-value" id="prev-role"><span class="preview-empty">Not yet entered</span></div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-label">One-Sentence Description</div>
+        <div class="preview-value" id="prev-desc"><span class="preview-empty">Not yet entered</span></div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-label">Who Hires</div>
+        <div class="preview-value" id="prev-hires"><span class="preview-empty">Not yet entered</span></div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-label">Mode</div>
+        <div class="preview-value" id="prev-mode"><span class="preview-empty">Not yet selected</span></div>
+      </div>
+      <div class="preview-section">
+        <div class="preview-label">Price</div>
+        <div class="preview-value" id="prev-price"><span class="preview-empty">Not yet selected</span></div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = 'https://joyn-portal-production-b64e.up.railway.app';
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let currentSection = 1;
+let completedSections = new Set();
+let generatedSpec = null;
+let builderId = null;
+
+// ── URL PARAMS ──────────────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  builderId = urlParams.get('id') || sessionStorage.getItem('builder_id');
+  // Auto-start if coming from dashboard
+  if (urlParams.get('start') === '1') startBrief();
+  // If no builder_id, show an email prompt to redirect to the dashboard
+  if (!builderId) {
+    const email = urlParams.get('email') || sessionStorage.getItem('prefill_email');
+    if (email) {
+      window.location.href = `./builder-dashboard.html?email=${encodeURIComponent(email)}&panel=brief`;
+    } else {
+      const introEl = document.getElementById('brief-intro');
+      if (introEl) {
+        introEl.innerHTML = `
+          <div style="max-width:560px;margin:0 auto;text-align:center;padding:4rem 2rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1rem;">Creator Brief</div>
+            <h1 style="font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;line-height:1.1;margin-bottom:1rem;">Access your Creator Brief</h1>
+            <p style="color:var(--ink-secondary);margin-bottom:2rem;">Enter the email you used to claim your Founding Builder Seat.</p>
+            <div style="display:flex;gap:0.75rem;max-width:400px;margin:0 auto;">
+              <input type="email" id="brief-email-input" placeholder="your@email.com" style="flex:1;font-family:'Syne',sans-serif;font-size:0.95rem;padding:0.875rem 1rem;border:1px solid #d0ccc4;background:#fafaf8;color:#111110;outline:none;" />
+              <button onclick="window.location.href='./builder-dashboard.html?email='+encodeURIComponent(document.getElementById('brief-email-input').value)+'&panel=brief'" style="font-family:'DM Mono',monospace;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.875rem 1.5rem;background:#111110;color:#fafaf8;border:none;cursor:pointer;">Access →</button>
+            </div>
+            <p style="margin-top:1.5rem;font-size:0.8rem;color:var(--ink-secondary);">Don’t have an account? <a href="./builder-onboarding.html" style="color:var(--gold-text);">Claim your seat →</a></p>
+          </div>
+        `;
+      }
+    }
+  }
+});
+
+// ── BRIEF FLOW ────────────────────────────────────────────────────────────────
+function startBrief() {
+  document.getElementById('brief-intro').style.display = 'none';
+  document.getElementById('brief-sections-wrap').style.display = 'block';
+  updateProgress();
+}
+
+function nextSection(n) {
+  if (n > currentSection) {
+    // Mark current as done
+    completedSections.add(currentSection);
+    const navEl = document.getElementById(`snav-${currentSection}`);
+    if (navEl) { navEl.classList.remove('active'); navEl.classList.add('done'); }
+  }
+
+  // Hide all sections
+  document.querySelectorAll('.brief-section').forEach(s => s.classList.remove('active'));
+
+  // Show target
+  const target = document.getElementById(`section-${n}`);
+  if (target) {
+    target.classList.add('active');
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Update sidebar nav
+  document.querySelectorAll('.section-nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById(`snav-${n}`);
+  if (navEl) { navEl.classList.add('active'); navEl.classList.remove('done'); }
+
+  currentSection = n;
+  updateProgress();
+}
+
+function goToSection(n) {
+  nextSection(n);
+}
+
+function updateProgress() {
+  const pct = Math.round((completedSections.size / 6) * 100);
+  document.getElementById('brief-fill').style.width = pct + '%';
+  document.getElementById('brief-pct').textContent = `${completedSections.size} of 6 sections`;
+}
+
+// ── LIVE PREVIEW ──────────────────────────────────────────────────────────────
+function updatePreview() {
+  const name = document.getElementById('q-staff_name')?.value.trim();
+  const role = document.getElementById('q-role_title')?.value.trim();
+  const desc = document.getElementById('q-one_sentence')?.value.trim();
+  const hires = document.getElementById('q-who_hires')?.value.trim();
+  const mode = document.getElementById('q-mode')?.value;
+  const price = document.getElementById('q-suggested_price')?.value;
+
+  setPreview('prev-name', name);
+  setPreview('prev-role', role);
+  setPreview('prev-desc', desc);
+  setPreview('prev-hires', hires);
+  setPreview('prev-mode', mode ? (mode === 'autonomous' ? 'Autonomous' : 'Supervised') : '');
+  setPreview('prev-price', price && price !== 'custom' ? `$${price}/month` : price === 'custom' ? 'Custom' : '');
+
+  // Auto-save to sessionStorage
+  autoSave();
+}
+
+function setPreview(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  if (value) {
+    el.innerHTML = escHtml(value.substring(0, 100) + (value.length > 100 ? '…' : ''));
+  } else {
+    el.innerHTML = '<span class="preview-empty">Not yet entered</span>';
+  }
+}
+
+// ── PRICING CALC ──────────────────────────────────────────────────────────────
+function updatePricingCalc() {
+  const priceEl = document.getElementById('q-suggested_price');
+  const calcEl = document.getElementById('pricing-calc');
+  const price = parseInt(priceEl?.value);
+
+  if (!price || isNaN(price)) { calcEl.style.display = 'none'; return; }
+  calcEl.style.display = 'block';
+
+  const share = 0.75; // Founding Builder
+  document.getElementById('calc-10').textContent = '$' + Math.round(price * 10 * share).toLocaleString();
+  document.getElementById('calc-50').textContent = '$' + Math.round(price * 50 * share).toLocaleString();
+  document.getElementById('calc-100').textContent = '$' + Math.round(price * 100 * share).toLocaleString();
+
+  updatePreview();
+}
+
+// ── IRIS EXAMPLES ─────────────────────────────────────────────────────────────
+function toggleExample(toggle) {
+  const body = toggle.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  toggle.querySelector('span:last-child').textContent = isOpen ? '+' : '−';
+}
+
+// ── AUTO-SAVE ─────────────────────────────────────────────────────────────────
+let saveTimer;
+function autoSave() {
+  clearTimeout(saveTimer);
+  document.getElementById('nav-save-status').textContent = 'Saving…';
+  saveTimer = setTimeout(() => {
+    const answers = collectAnswers();
+    sessionStorage.setItem('brief_answers', JSON.stringify(answers));
+    document.getElementById('nav-save-status').textContent = 'All changes saved';
+  }, 1000);
+}
+
+function collectAnswers() {
+  const fields = ['staff_name','role_title','one_sentence','pain_point','who_hires','manual_task','outputs','mode','integrations','onboarding_time','intervention_points','time_saved','failure_scenarios','calibration','suggested_price','pricing_rationale'];
+  const answers = {};
+  fields.forEach(f => {
+    const el = document.getElementById(`q-${f}`);
+    if (el) answers[f] = el.value.trim();
+  });
+  return answers;
+}
+
+// ── GENERATE SPEC ─────────────────────────────────────────────────────────────
+async function generateSpec() {
+  const answers = collectAnswers();
+
+  // Validate required fields
+  const required = ['staff_name','role_title','one_sentence','pain_point','who_hires','outputs','mode','failure_scenarios','calibration','suggested_price','pricing_rationale'];
+  const missing = required.filter(k => !answers[k]);
+  if (missing.length > 0) {
+    alert(`Please complete these required fields before generating your spec:\n${missing.map(k => k.replace(/_/g,' ')).join('\n')}`);
+    return;
+  }
+
+  // Mark all sections done
+  for (let i = 1; i <= 6; i++) completedSections.add(i);
+  updateProgress();
+
+  // Show generating state
+  document.getElementById('brief-sections-wrap').style.display = 'none';
+  const genState = document.getElementById('generating-state');
+  genState.classList.add('visible');
+
+  // Animate generation steps
+  const steps = ['gen-step-1','gen-step-2','gen-step-3','gen-step-4','gen-step-5'];
+  let stepIdx = 0;
+  const stepInterval = setInterval(() => {
+    if (stepIdx > 0) {
+      document.getElementById(steps[stepIdx - 1]).classList.remove('active');
+      document.getElementById(steps[stepIdx - 1]).classList.add('done');
+    }
+    if (stepIdx < steps.length) {
+      document.getElementById(steps[stepIdx]).classList.add('active');
+      stepIdx++;
+    } else {
+      clearInterval(stepInterval);
+    }
+  }, 1200);
+
+  try {
+    // Map frontend field names to architect agent expected format
+    const mappedAnswers = {
+      q1_staff_name: answers.staff_name,
+      q2_role_definition: answers.one_sentence,
+      q3_mode: answers.mode,
+      q4_target_hirer: answers.who_hires,
+      q5_core_pain: answers.pain_point,
+      q6_core_tasks: answers.manual_task,
+      q7_named_outputs: answers.outputs,
+      q8_hirer_touchpoints: `Onboarding: ${answers.onboarding_time || 'N/A'}\nIntervention points: ${answers.intervention_points || 'N/A'}\nTime saved: ${answers.time_saved || 'N/A'}`,
+      q9_failure_scenarios: answers.failure_scenarios,
+      q10_calibration: answers.calibration,
+      q11_moat: answers.pricing_rationale,
+      q12_tools: answers.integrations,
+      role_title: answers.role_title,
+      suggested_price: answers.suggested_price
+    };
+
+    const payload = {
+      builder_id: builderId,
+      answers: mappedAnswers,
+      completed: true
+    };
+
+    const res = await fetch(`${API_BASE}/api/builder/brief`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    clearInterval(stepInterval);
+    steps.forEach(s => { document.getElementById(s).classList.remove('active'); document.getElementById(s).classList.add('done'); });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Spec generation failed');
+
+    generatedSpec = data.visionary_spec || data;
+
+    // Small delay for UX
+    await new Promise(r => setTimeout(r, 800));
+
+    genState.classList.remove('visible');
+    renderSpecOutput(answers, generatedSpec);
+
+  } catch (err) {
+    clearInterval(stepInterval);
+    genState.classList.remove('visible');
+    document.getElementById('brief-sections-wrap').style.display = 'block';
+    alert('Error generating spec: ' + (err.message || 'Please try again'));
+  }
+}
+
+// ── RENDER SPEC ───────────────────────────────────────────────────────────────
+function renderSpecOutput(answers, spec) {
+  const specOutput = document.getElementById('spec-output');
+  specOutput.classList.add('visible');
+
+  document.getElementById('spec-staff-name').textContent = answers.staff_name || 'Your AI Staff';
+  document.getElementById('spec-role-title').textContent = answers.role_title || '';
+
+  const specText = typeof spec === 'string' ? spec : JSON.stringify(spec, null, 2);
+
+  // Parse spec into sections if it's structured
+  const sections = parseSpecSections(specText, answers);
+
+  document.getElementById('spec-sections').innerHTML = sections.map(s => `
+    <div class="spec-card">
+      <div class="spec-section-title">${escHtml(s.title)}</div>
+      <div class="spec-content">${escHtml(s.content)}</div>
+    </div>
+  `).join('');
+
+  specOutput.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function parseSpecSections(specText, answers) {
+  // If spec is already structured, parse it; otherwise create sections from answers
+  const sections = [];
+
+  if (specText && specText.length > 100) {
+    // Try to split by common section headers
+    const lines = specText.split('\n');
+    let currentSection = { title: 'Visionary Spec', content: '' };
+    lines.forEach(line => {
+      if (line.match(/^#{1,3}\s+/) || line.match(/^[A-Z][A-Z\s&]+:$/)) {
+        if (currentSection.content.trim()) sections.push(currentSection);
+        currentSection = { title: line.replace(/^#+\s+/, '').replace(/:$/, ''), content: '' };
+      } else {
+        currentSection.content += line + '\n';
+      }
+    });
+    if (currentSection.content.trim()) sections.push(currentSection);
+  }
+
+  if (sections.length === 0) {
+    // Build from answers
+    sections.push({ title: 'Identity', content: `Name: ${answers.staff_name}\nRole: ${answers.role_title}\n\n${answers.one_sentence}` });
+    sections.push({ title: 'The Problem', content: `${answers.pain_point}\n\nWho hires: ${answers.who_hires}\n\nManual task replaced: ${answers.manual_task}` });
+    sections.push({ title: 'Outputs', content: answers.outputs });
+    sections.push({ title: 'Hirer Experience', content: `Onboarding: ${answers.onboarding_time}\n\nIntervention points: ${answers.intervention_points}\n\nTime saved: ${answers.time_saved}` });
+    sections.push({ title: 'Quality & Reliability', content: `Failure handling:\n${answers.failure_scenarios}\n\nCalibration:\n${answers.calibration}` });
+    sections.push({ title: 'Pricing', content: `$${answers.suggested_price}/month\n\n${answers.pricing_rationale}` });
+  }
+
+  return sections.filter(s => s.title && s.content.trim());
+}
+
+function proceedToBuild() {
+  window.location.href = './builder-dashboard.html';
+}
+
+function downloadSpec() {
+  const answers = collectAnswers();
+  const specText = generatedSpec ? (typeof generatedSpec === 'string' ? generatedSpec : JSON.stringify(generatedSpec, null, 2)) : JSON.stringify(answers, null, 2);
+  const blob = new Blob([specText], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${(answers.staff_name || 'visionary').toLowerCase()}-spec.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

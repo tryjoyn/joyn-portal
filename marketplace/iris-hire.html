@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Iris — 14-Day Free Trial | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .iris-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    nav .iris-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Step indicator ── */
+    .step-indicator {
+      padding: 1rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .step-indicator .step { color: var(--ink-secondary); }
+    .step-indicator .step.active { color: var(--ink); font-weight: 500; }
+    .step-indicator .sep { color: var(--rule-mid); }
+
+    /* ── Page layout ── */
+    .page-body {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    @media (max-width: 768px) {
+      .page-body {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .right-panel { display: none; }
+    }
+
+    /* ── Left column ── */
+    .left-col h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .left-col .subtext {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    /* ── Form ── */
+    .form-field {
+      margin-bottom: 1.25rem;
+    }
+    .form-field label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .form-field input {
+      width: 100%;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--rule-mid);
+      background: var(--white);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-field input:focus {
+      border-color: var(--ink);
+    }
+
+    .stripe-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .trust-items {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Success state ── */
+    #successState {
+      display: none;
+    }
+    #successState h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    #successState .success-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    #successState .success-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 2rem;
+    }
+
+    .panel-gold-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-text);
+      margin-bottom: 0.5rem;
+    }
+    .panel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .panel-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+    }
+
+    .panel-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 1.25rem 0;
+    }
+
+    .panel-list {
+      list-style: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+      line-height: 2;
+    }
+
+    .panel-monitoring-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-text);
+      margin-bottom: 0.6rem;
+    }
+
+    .state-tag {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--rule-mid);
+      padding: 0.2rem 0.6rem;
+      margin: 0.2rem 0.2rem 0 0;
+      color: var(--ink-secondary);
+    }
+
+    .panel-trial-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      font-style: italic;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="iris-label">
+      <span class="rule-line"></span>
+      Iris
+    </span>
+  </nav>
+
+  <!-- ── Step indicator ── -->
+  <div class="step-indicator">
+    <span class="step">01 — Select States</span>
+    <span class="sep"> — </span>
+    <span class="step">02 — Preview</span>
+    <span class="sep"> — </span>
+    <span class="step active">03 — Hire</span>
+  </div>
+
+  <!-- ── Page body ── -->
+  <div class="page-body">
+
+    <!-- Left column -->
+    <div class="left-col">
+
+      <!-- Form state -->
+      <div id="formState">
+        <h1>Your portal is ready.</h1>
+        <p class="subtext" id="hireSubtext">
+          Iris will monitor your selected states starting the moment you hire her.
+        </p>
+
+        <form id="hireForm">
+
+          <div class="form-field">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="name" placeholder="Jane Smith" required autocomplete="name">
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="jane@youragency.com" required autocomplete="email">
+          </div>
+
+          <div class="form-field">
+            <label for="firmName">Firm Name</label>
+            <input type="text" id="firmName" name="firm_name" placeholder="Smith Insurance Group" required autocomplete="organization">
+          </div>
+
+          <p class="stripe-note">
+            Payment details are handled securely via Stripe. You will not be charged for 14 days.
+          </p>
+
+          <button type="submit" class="btn-primary">Hire Iris →</button>
+          <p id="formError" style="display:none;font-family:'Syne',sans-serif;font-size:0.85rem;color:var(--ink-secondary);margin-top:0.75rem;">
+            Something went wrong. Please email <a href="mailto:hire@tryjoyn.me" style="color:var(--gold-text);">hire@tryjoyn.me</a> and we'll get you set up.
+          </p>
+        </form>
+
+        <div class="trust-items">
+          <span>No charge for 14 days</span>
+          <span>Cancel any time</span>
+          <span>Portal activates immediately</span>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div id="successState">
+        <h2>Iris is now working for you.</h2>
+        <p class="success-sub">
+          Check your email for your portal login details.
+        </p>
+        <a href="https://app.tryjoyn.me/login" class="btn-primary" style="display:inline-block;width:auto;margin-bottom:1.25rem;text-decoration:none;">
+          Log in to your portal →
+        </a>
+        <p class="success-note">
+          Questions? Reply to any Iris email or write to hire@tryjoyn.me
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Right panel -->
+    <div class="right-panel">
+      <p class="panel-gold-label">You are hiring</p>
+      <h2 class="panel-name">Iris</h2>
+      <p class="panel-role">Insurance Regulatory Intelligence</p>
+
+      <hr class="panel-divider">
+
+      <ul class="panel-list">
+        <li>— Monitors your states every 2 hours</li>
+        <li>— Alerts you on high-impact changes only</li>
+        <li>— No setup or configuration required</li>
+      </ul>
+
+      <hr class="panel-divider">
+
+      <p class="panel-monitoring-label">Monitoring</p>
+      <div id="stateTags">
+        <span class="state-tag" style="color:var(--ink-secondary);font-size:0.7rem;border:none;padding:0;">
+          Select states on the previous step to see them here.
+        </span>
+      </div>
+
+      <hr class="panel-divider">
+
+      <p class="panel-trial-note">
+        14-day free trial. Cancel before day 14 and you will not be charged.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Read states from URL param ──────────────────────────────────────────
+    const params = new URLSearchParams(window.location.search);
+    const statesParam = params.get('states') || '';
+    const statesList = statesParam
+      ? statesParam.split(',').map(s => s.trim().toUpperCase()).filter(Boolean)
+      : [];
+
+    // Update subtext
+    if (statesList.length > 0) {
+      document.getElementById('hireSubtext').textContent =
+        `Iris will monitor ${statesList.join(', ')} starting the moment you hire her.`;
+    }
+
+    // Populate state tags in right panel
+    if (statesList.length > 0) {
+      const container = document.getElementById('stateTags');
+      container.innerHTML = '';
+      statesList.forEach(code => {
+        const tag = document.createElement('span');
+        tag.className = 'state-tag';
+        tag.textContent = code;
+        container.appendChild(tag);
+      });
+    }
+
+    // ── Form submission ─────────────────────────────────────────────────────
+    const form = document.getElementById('hireForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = form.querySelector('button[type="submit"]');
+      const errorEl = document.getElementById('formError');
+      btn.textContent = 'Submitting…';
+      btn.style.opacity = '0.6';
+      btn.disabled = true;
+      errorEl.style.display = 'none';
+
+      const payload = {
+        name:      document.getElementById('fullName').value.trim(),
+        email:     document.getElementById('email').value.trim(),
+        firm_name: document.getElementById('firmName').value.trim(),
+        states:    statesList.join(', '),
+      };
+
+      try {
+        const response = await fetch('https://app.tryjoyn.me/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById('formState').style.display = 'none';
+          document.getElementById('successState').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          btn.textContent = 'Hire Iris →';
+          btn.style.opacity = '1';
+          btn.disabled = false;
+          errorEl.style.display = 'block';
+        }
+      } catch (err) {
+        btn.textContent = 'Hire Iris →';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+        errorEl.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>

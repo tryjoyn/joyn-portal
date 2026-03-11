@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probe — Preview Your Experiment | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .probe-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    nav .probe-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Step indicator ── */
+    .step-indicator {
+      padding: 1rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .step-indicator .step {
+      color: var(--ink-secondary);
+      transition: color 0.15s;
+    }
+    .step-indicator .step.active {
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .step-indicator .sep {
+      color: var(--rule-mid);
+    }
+
+    /* ── Main content ── */
+    .main {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+      max-width: 960px;
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+    .btn-primary:disabled,
+    .btn-primary.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ── STEP 1: EXPERIMENT INPUTS ── */
+    #step1 h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    #step1 .subtext {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .form-block {
+      margin-bottom: 1.5rem;
+    }
+    .form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Org type selector */
+    .org-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 640px) {
+      .org-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .org-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.75rem 0.5rem;
+      width: 100%;
+      border: 1px solid var(--rule-mid);
+      background: var(--white);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .org-btn:hover {
+      border-color: var(--ink);
+      color: var(--ink);
+    }
+    .org-btn.selected {
+      background: var(--ink);
+      color: var(--white);
+      border-color: var(--ink);
+    }
+
+    /* Hypothesis input */
+    .hypothesis-input {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--rule-mid);
+      padding: 0.85rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+      line-height: 1.6;
+    }
+    .hypothesis-input::placeholder {
+      color: var(--ink-secondary);
+    }
+    .hypothesis-input:focus {
+      border-color: var(--gold-text);
+    }
+
+    /* ── STEP 2: PREVIEW ── */
+    #step2 { display: none; }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .preview-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .org-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.08em;
+      text-align: right;
+    }
+
+    .change-link {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.5rem;
+      transition: color 0.15s;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .change-link:hover { color: var(--gold-hover); }
+
+    /* ── Output cards ── */
+    .output-card {
+      border: 1px solid var(--rule);
+      padding: 1.5rem;
+      background: var(--white);
+      margin-bottom: 1rem;
+    }
+    .output-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .output-type {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      background: var(--surface);
+      color: var(--ink-secondary);
+      border: 1px solid var(--rule-mid);
+    }
+    .output-agent {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--rule-mid);
+      color: var(--gold-text);
+    }
+    .output-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .output-card-body {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+    .output-card-body strong {
+      color: var(--ink);
+    }
+    .output-card-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+    }
+
+    .feed-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      font-style: italic;
+      margin-top: 0.5rem;
+      margin-bottom: 0;
+    }
+
+    .feed-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 2rem 0;
+    }
+
+    /* ── Hire CTA block ── */
+    .hire-cta h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .hire-cta .hire-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="probe-label">
+      <span class="rule-line"></span>
+      Probe
+    </span>
+  </nav>
+
+  <!-- ── Step indicator ── -->
+  <div class="step-indicator">
+    <span class="step active" id="si-01">01 — Your Experiment</span>
+    <span class="sep"> — </span>
+    <span class="step" id="si-02">02 — Preview</span>
+    <span class="sep"> — </span>
+    <span class="step" id="si-03">03 — Hire</span>
+  </div>
+
+  <!-- ── Main ── -->
+  <div class="main">
+
+    <!-- STEP 1 -->
+    <div id="step1">
+      <h1>Tell us about your experiment.</h1>
+      <p class="subtext">Probe will show you what its Intake, Scout, and Challenger agents would produce for your specific hypothesis.</p>
+
+      <div class="form-block">
+        <label class="form-label" for="orgGrid">Organisation type</label>
+        <div class="org-grid" id="orgGrid">
+          <button class="org-btn" data-org="Carrier" onclick="selectOrg(this)">Carrier</button>
+          <button class="org-btn" data-org="MGA" onclick="selectOrg(this)">MGA</button>
+          <button class="org-btn" data-org="Insurtech" onclick="selectOrg(this)">Insurtech</button>
+          <button class="org-btn" data-org="Other" onclick="selectOrg(this)">Other</button>
+        </div>
+      </div>
+
+      <div class="form-block">
+        <label class="form-label" for="hypothesisInput">Innovation hypothesis</label>
+        <input
+          class="hypothesis-input"
+          id="hypothesisInput"
+          type="text"
+          placeholder="e.g. Parametric flood cover for SME commercial properties could reduce claims handling time by 60%."
+          oninput="updateBtn()"
+          aria-required="true"
+        >
+      </div>
+
+      <button class="btn-primary disabled" id="showPreviewBtn" onclick="showPreview()">
+        Show Me What Probe Found →
+      </button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2">
+      <button class="change-link" onclick="backToStep1()">← Change experiment</button>
+
+      <div class="preview-header">
+        <h2>Probe produced three outputs for your experiment.</h2>
+        <div class="org-label" id="orgLabel"></div>
+      </div>
+
+      <div id="outputItems"></div>
+
+      <p class="feed-note">
+        This is a representative sample. Your live experiment begins within 24 hours of hiring.
+      </p>
+
+      <hr class="feed-divider">
+
+      <div class="hire-cta">
+        <h3>Your portal is ready.</h3>
+        <p class="hire-sub">Probe will begin your experiment within 24 hours.</p>
+        <a href="probe-hire.html" class="btn-primary">Hire Probe — 14 Day Free Trial →</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ── State ───────────────────────────────────────────────────────────────
+    let selectedOrg = null;
+
+    // ── Org selection ────────────────────────────────────────────────────────
+    function selectOrg(btn) {
+      document.querySelectorAll('.org-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedOrg = btn.dataset.org;
+      updateBtn();
+    }
+
+    function updateBtn() {
+      const hypothesis = document.getElementById('hypothesisInput').value.trim();
+      const btn = document.getElementById('showPreviewBtn');
+      if (selectedOrg && hypothesis.length > 0) {
+        btn.classList.remove('disabled');
+      } else {
+        btn.classList.add('disabled');
+      }
+    }
+
+    // ── Output card builder ──────────────────────────────────────────────────
+    function buildOutputCard(type, agent, title, body, meta) {
+      const metaHtml = meta.map(m => `<span>${m}</span>`).join('');
+      return `
+        <div class="output-card">
+          <div class="output-card-top">
+            <span class="output-type">${type}</span>
+            <span class="output-agent">${agent}</span>
+          </div>
+          <h3 class="output-card-title">${title}</h3>
+          <div class="output-card-body">${body}</div>
+          <div class="output-card-meta">${metaHtml}</div>
+        </div>
+      `;
+    }
+
+    // ── Output data by org type ──────────────────────────────────────────────
+    const OUTPUT_DATA = {
+      Carrier: {
+        brief: {
+          title: 'Experiment Brief — Parametric Flood Cover for Commercial SME',
+          body: `<strong>Hypothesis formalised by Intake:</strong> A parametric trigger structure applied to commercial SME flood risk can reduce claims handling time by 60% while maintaining loss ratio discipline. <strong>Scope:</strong> UK commercial property, SME segment, £500k–£5m sum insured. <strong>Experiment type:</strong> Feasibility and market sizing. <strong>Success condition:</strong> Viable trigger mechanism identified, addressable market quantified, carrier appetite confirmed.`,
+          meta: ['Agent: Intake', 'Status: Formalised', 'Experiment type: Feasibility']
+        },
+        landscape: {
+          title: 'Landscape Memo — Parametric Flood: Market & Carrier Activity',
+          body: `<strong>Scout found:</strong> Three carriers actively writing parametric flood in the UK commercial segment — Zurich, Convex, and a Lloyd\'s syndicate (1969). Trigger mechanisms vary: rainfall accumulation (72h), river gauge threshold, and satellite-derived inundation. <strong>Gap identified:</strong> No carrier has a product targeting the £500k–£5m sum insured band specifically. Broker feedback suggests demand is present but unmet. <strong>Regulatory note:</strong> FCA has issued no specific guidance on parametric triggers for commercial property — standard ICOBS rules apply.`,
+          meta: ['Agent: Scout', 'Sources reviewed: 14', 'Gap identified: Yes']
+        },
+        redteam: {
+          title: 'Red Team Memo — Challenges Challenger Would Flag',
+          body: `<strong>Challenger flagged three risks:</strong> (1) <strong>Basis risk:</strong> Parametric triggers may not correlate with actual SME loss experience — a flood event triggering payout may not correspond to policyholder damage. Requires actuarial validation before product launch. (2) <strong>Adverse selection:</strong> SMEs in high-risk flood zones will self-select into parametric products if pricing is not risk-differentiated. (3) <strong>Claims handling assumption:</strong> The 60% reduction claim assumes current claims handling is manual — this needs verification against actual carrier data before the hypothesis is presented externally.`,
+          meta: ['Agent: Challenger', 'Risks flagged: 3', 'Verdict: Conditional proceed']
+        }
+      },
+      MGA: {
+        brief: {
+          title: 'Experiment Brief — Parametric Flood Cover for Commercial SME',
+          body: `<strong>Hypothesis formalised by Intake:</strong> An MGA-led parametric flood product for SME commercial properties can be brought to market faster than a carrier-led equivalent, with lower basis risk through tighter geographic segmentation. <strong>Scope:</strong> UK commercial property, SME segment, MGA distribution model. <strong>Experiment type:</strong> Product design and carrier appetite. <strong>Success condition:</strong> Carrier capacity identified, trigger mechanism agreed, distribution economics confirmed.`,
+          meta: ['Agent: Intake', 'Status: Formalised', 'Experiment type: Product design']
+        },
+        landscape: {
+          title: 'Landscape Memo — MGA Parametric Products: Precedents & Capacity',
+          body: `<strong>Scout found:</strong> Two MGAs have launched parametric products in adjacent lines — FloodFlash (residential, IoT sensor trigger) and Descartes Underwriting (agricultural, satellite trigger). Neither operates in commercial SME property. <strong>Capacity landscape:</strong> Lloyd\'s syndicates 1969 and 2357 have indicated appetite for parametric commercial property in the £250m–£500m capacity range. Reinsurance support available from Swiss Re and Munich Re parametric desks. <strong>Distribution gap:</strong> No MGA currently offering parametric flood through the commercial broker channel at SME scale.`,
+          meta: ['Agent: Scout', 'Sources reviewed: 11', 'Gap identified: Yes']
+        },
+        redteam: {
+          title: 'Red Team Memo — Challenges Challenger Would Flag',
+          body: `<strong>Challenger flagged three risks:</strong> (1) <strong>Trigger calibration:</strong> IoT sensor triggers (FloodFlash model) require hardware deployment — this adds cost and operational complexity that may erode MGA margin at SME scale. (2) <strong>Carrier dependency:</strong> MGA model requires ongoing carrier appetite — parametric capacity has historically been volatile in hard market conditions. (3) <strong>Regulatory classification:</strong> FCA may classify parametric products differently from indemnity products under PROD rules — legal opinion required before launch.`,
+          meta: ['Agent: Challenger', 'Risks flagged: 3', 'Verdict: Conditional proceed']
+        }
+      },
+      Insurtech: {
+        brief: {
+          title: 'Experiment Brief — Parametric Flood Cover for Commercial SME',
+          body: `<strong>Hypothesis formalised by Intake:</strong> An insurtech-built parametric flood product using satellite inundation data as the trigger can achieve 60% faster claims settlement than traditional indemnity products, with a fully digital distribution and claims journey. <strong>Scope:</strong> UK commercial property, SME segment, direct and broker channel. <strong>Experiment type:</strong> Technology and distribution feasibility. <strong>Success condition:</strong> Satellite trigger validated against historical loss data, carrier or fronting partner identified, unit economics confirmed.`,
+          meta: ['Agent: Intake', 'Status: Formalised', 'Experiment type: Technology feasibility']
+        },
+        landscape: {
+          title: 'Landscape Memo — Satellite Trigger Technology & Insurtech Precedents',
+          body: `<strong>Scout found:</strong> Descartes Underwriting and Arbol have both deployed satellite-derived inundation triggers at scale — primarily in agricultural and energy sectors. Commercial property application is nascent. <strong>Data providers:</strong> Planet Labs, Copernicus (ESA), and Spire Global all offer inundation datasets with 3–6 hour latency — sufficient for parametric trigger purposes. <strong>Fronting partners:</strong> Three fronting carriers active in the UK insurtech space — Accelerate, Volante, and Canopius — have indicated openness to parametric commercial property programmes.`,
+          meta: ['Agent: Scout', 'Sources reviewed: 16', 'Gap identified: Yes']
+        },
+        redteam: {
+          title: 'Red Team Memo — Challenges Challenger Would Flag',
+          body: `<strong>Challenger flagged three risks:</strong> (1) <strong>Data latency vs. trigger timing:</strong> 3–6 hour satellite latency may create disputes about trigger timing in fast-moving flood events — contract wording must define trigger moment precisely. (2) <strong>Fronting dependency:</strong> Fronting arrangements add cost and regulatory complexity — the insurtech margin model must account for fronting fees before unit economics are confirmed. (3) <strong>SME digital adoption:</strong> The assumption of a fully digital journey may not hold for the SME segment — broker channel dependency may be higher than the hypothesis assumes.`,
+          meta: ['Agent: Challenger', 'Risks flagged: 3', 'Verdict: Conditional proceed']
+        }
+      },
+      Other: {
+        brief: {
+          title: 'Experiment Brief — Parametric Flood Cover for Commercial SME',
+          body: `<strong>Hypothesis formalised by Intake:</strong> A parametric trigger structure applied to commercial SME flood risk can reduce claims handling time by 60% while delivering a materially better policyholder experience than traditional indemnity products. <strong>Scope:</strong> UK commercial property, SME segment. <strong>Experiment type:</strong> Feasibility and stakeholder mapping. <strong>Success condition:</strong> Viable trigger mechanism identified, key stakeholders mapped, initial carrier appetite confirmed.`,
+          meta: ['Agent: Intake', 'Status: Formalised', 'Experiment type: Feasibility']
+        },
+        landscape: {
+          title: 'Landscape Memo — Parametric Flood: Market Overview',
+          body: `<strong>Scout found:</strong> Parametric flood insurance is an active and growing segment in the UK commercial market. Key players include FloodFlash (residential IoT), Descartes Underwriting (satellite, agricultural), and Lloyd\'s syndicates 1969 and 2357 (commercial property). <strong>SME gap:</strong> The £500k–£5m commercial property band is underserved by parametric products — existing products target either residential or large commercial. <strong>Broker appetite:</strong> Commercial broker feedback indicates strong client interest in faster claims settlement, particularly post-2020 and 2021 flood events.`,
+          meta: ['Agent: Scout', 'Sources reviewed: 12', 'Gap identified: Yes']
+        },
+        redteam: {
+          title: 'Red Team Memo — Challenges Challenger Would Flag',
+          body: `<strong>Challenger flagged three risks:</strong> (1) <strong>Basis risk:</strong> Parametric triggers may not correlate with actual SME loss experience — actuarial validation is required before any product or partnership commitment. (2) <strong>Stakeholder alignment:</strong> Carrier, broker, and regulator alignment on parametric product design is non-trivial — the experiment must map these stakeholders before assuming a viable route to market. (3) <strong>Claims handling assumption:</strong> The 60% reduction claim requires a baseline measurement of current claims handling time — this data must be sourced before the hypothesis can be tested.`,
+          meta: ['Agent: Challenger', 'Risks flagged: 3', 'Verdict: Conditional proceed']
+        }
+      }
+    };
+
+    // ── Show preview (Step 2) ────────────────────────────────────────────────
+    function showPreview() {
+      if (!selectedOrg) return;
+      const hypothesis = document.getElementById('hypothesisInput').value.trim();
+      if (!hypothesis) return;
+
+      const data = OUTPUT_DATA[selectedOrg];
+
+      const briefCard = buildOutputCard(
+        'Experiment Brief',
+        'Intake',
+        data.brief.title,
+        data.brief.body,
+        data.brief.meta
+      );
+      const landscapeCard = buildOutputCard(
+        'Landscape Memo',
+        'Scout',
+        data.landscape.title,
+        data.landscape.body,
+        data.landscape.meta
+      );
+      const redteamCard = buildOutputCard(
+        'Red Team Memo',
+        'Challenger',
+        data.redteam.title,
+        data.redteam.body,
+        data.redteam.meta
+      );
+
+      document.getElementById('outputItems').innerHTML =
+        briefCard + landscapeCard + redteamCard;
+
+      document.getElementById('orgLabel').textContent =
+        'Organisation type: ' + selectedOrg;
+
+      // Update step indicator
+      document.getElementById('si-01').classList.remove('active');
+      document.getElementById('si-02').classList.add('active');
+
+      // Swap views
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Back to step 1 ───────────────────────────────────────────────────────
+    function backToStep1() {
+      document.getElementById('step2').style.display = 'none';
+      document.getElementById('step1').style.display = 'block';
+      document.getElementById('si-02').classList.remove('active');
+      document.getElementById('si-01').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>

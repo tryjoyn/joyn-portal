@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hire Probe — Insurance Innovation Experimentation | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+    body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .probe-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    nav .probe-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Layout ── */
+    .page-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 73px);
+    }
+    @media (max-width: 768px) {
+      .page-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Left panel ── */
+    .left-panel {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-right: 1px solid var(--rule);
+    }
+    .gold-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .gold-label::before {
+      content: '';
+      display: block;
+      width: 1.25rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+    .left-panel h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.25rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1.25rem;
+    }
+    .left-panel .subheading {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      color: var(--ink-secondary);
+      line-height: 1.8;
+      max-width: 44ch;
+      margin-bottom: 2.5rem;
+    }
+
+    /* What's included */
+    .includes {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--rule);
+    }
+    .include-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .include-item:last-child { border-bottom: none; }
+    .include-check {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      flex-shrink: 0;
+    }
+    .include-text {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.5;
+    }
+    .include-text strong { color: var(--ink); }
+
+    .trial-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      margin-top: 1.5rem;
+    }
+
+    /* ── Right panel / form ── */
+    .right-panel {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+    }
+    .right-panel h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .right-panel .form-subtext {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .form-block { margin-bottom: 1.25rem; }
+    .form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-secondary);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink);
+      background: var(--white);
+      border: 1px solid var(--rule-mid);
+      padding: 0.85rem 1rem;
+      width: 100%;
+      outline: none;
+      transition: border-color 0.15s;
+      appearance: none;
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--ink-secondary); }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold-text); }
+    .form-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 480px) { .form-row-2 { grid-template-columns: 1fr; } }
+
+    .btn-submit {
+      width: 100%;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--white); color: var(--ink); }
+    .form-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-secondary);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    /* ── Success state ── */
+    .form-success {
+      display: none;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    .success-mark {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--gold-display);
+      line-height: 1;
+      margin-bottom: 1.25rem;
+    }
+    .form-success h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .form-success p {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      max-width: 36ch;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="probe-label">
+      <span class="rule-line"></span>
+      Probe
+    </span>
+  </nav>
+
+  <div class="page-grid">
+
+    <!-- ── Left: context ── -->
+    <div class="left-panel">
+      <div class="gold-label">— Technology · Supervised</div>
+      <h1>Start your first<br>experiment.</h1>
+      <p class="subheading">Probe begins within 24 hours. Your first experiment is free for 14 days — no payment required to start.</p>
+
+      <div class="includes">
+        <div class="include-item">
+          <span class="include-check">✓</span>
+          <span class="include-text"><strong>Seven agents</strong> — Intake, Scout, Architect, Challenger, Environ, Run, Debrief working in parallel on your hypothesis</span>
+        </div>
+        <div class="include-item">
+          <span class="include-check">✓</span>
+          <span class="include-text"><strong>Six named outputs</strong> — Experiment Brief, Landscape Memo, Architecture Document, Red Team Memo, Run Report, Debrief</span>
+        </div>
+        <div class="include-item">
+          <span class="include-check">✓</span>
+          <span class="include-text"><strong>~2.5 hours of your time</strong> across the full experiment lifecycle</span>
+        </div>
+        <div class="include-item">
+          <span class="include-check">✓</span>
+          <span class="include-text"><strong>Evidence-based verdict</strong> — proceed, pivot, or stop, with clear reasoning</span>
+        </div>
+        <div class="include-item">
+          <span class="include-check">✓</span>
+          <span class="include-text"><strong>Findings are yours</strong> — never shared outside your engagement</span>
+        </div>
+      </div>
+
+      <p class="trial-note">14-day free trial · No credit card required · hire@tryjoyn.me</p>
+    </div>
+
+    <!-- ── Right: form ── -->
+    <div class="right-panel">
+      <h2>Your details</h2>
+      <p class="form-subtext">We'll set up your experiment and confirm within 24 hours.</p>
+
+      <form id="hire-form" onsubmit="submitHire(event)">
+
+        <div class="form-row-2">
+          <div class="form-block">
+            <label class="form-label" for="h-name">Your name *</label>
+            <input class="form-input" id="h-name" name="name" type="text" autocomplete="name" required placeholder="Sarah Okonkwo">
+          </div>
+          <div class="form-block">
+            <label class="form-label" for="h-email">Work email *</label>
+            <input class="form-input" id="h-email" name="email" type="email" autocomplete="email" required placeholder="sarah@yourfirm.com">
+          </div>
+        </div>
+
+        <div class="form-row-2">
+          <div class="form-block">
+            <label class="form-label" for="h-org">Organisation *</label>
+            <input class="form-input" id="h-org" name="organisation" type="text" autocomplete="organization" required placeholder="Okonkwo Insurance Group">
+          </div>
+          <div class="form-block">
+            <label class="form-label" for="h-type">Organisation type *</label>
+            <select class="form-select" id="h-type" name="org_type" required>
+              <option value="" disabled selected>Select</option>
+              <option value="Carrier">Carrier</option>
+              <option value="MGA">MGA</option>
+              <option value="Insurtech">Insurtech</option>
+              <option value="Broker">Broker</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-block">
+          <label class="form-label" for="h-hypothesis">First experiment hypothesis *</label>
+          <textarea class="form-textarea" id="h-hypothesis" name="hypothesis" required placeholder="What do you want to test? e.g. Parametric flood cover for SME commercial properties could reduce claims handling time by 60%."></textarea>
+        </div>
+
+        <div class="form-block">
+          <label class="form-label" for="h-context">Any context or constraints</label>
+          <input class="form-input" id="h-context" name="context" type="text" placeholder="Regulatory environment, budget ceiling, timeline…">
+        </div>
+
+        <button type="submit" class="btn-submit">Start My Free Trial →</button>
+        <p class="form-note">Submission goes to hire@tryjoyn.me · Probe begins within 24 hours</p>
+      </form>
+
+      <div class="form-success" id="hire-success">
+        <div class="success-mark">✓</div>
+        <h3>You're hired.</h3>
+        <p>Probe will begin your experiment within 24 hours. Check your inbox for a confirmation from hire@tryjoyn.me.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    async function submitHire(e) {
+      e.preventDefault();
+      const form = document.getElementById('hire-form');
+      const btn = form.querySelector('.btn-submit');
+      btn.textContent = 'Starting…';
+      btn.disabled = true;
+      const body = {
+        name:       form.querySelector('#h-name').value.trim(),
+        email:      form.querySelector('#h-email').value.trim(),
+        firm_name:  form.querySelector('#h-org').value.trim(),
+        staff_slug: 'probe',
+        staff_name: 'Probe',
+        states:     '',
+      };
+      try {
+        const res = await fetch('https://app.tryjoyn.me/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('hire-success').style.display = 'block';
+        } else {
+          btn.textContent = json.error || 'Try again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+[
+  {
+    "id": "TC001",
+    "description": "NAIC Model Law amendment — immediate impact on admitted carriers in CA and TX",
+    "bulletin_text": "The California Department of Insurance has issued Emergency Bulletin 2026-03 effective immediately. All admitted property and casualty carriers must file updated rate schedules for homeowners lines within 30 days. Carriers failing to comply will face suspension of writing authority. This follows the passage of AB 1234 which mandates rate transparency for wildfire-exposed properties.",
+    "client_profile": {
+      "company_name": "Pacific Shield Insurance",
+      "jurisdictions": ["CA", "TX"],
+      "lines_of_business": ["homeowners", "commercial_property"],
+      "subscription_status": "active"
+    },
+    "expected_priority": "IMMEDIATE",
+    "expected_affected_lines": ["homeowners"],
+    "expected_output": {
+      "priority": "IMMEDIATE",
+      "summary": "California DOI Emergency Bulletin 2026-03 requires all admitted P&C carriers to file updated homeowners rate schedules within 30 days or face suspension of writing authority. Triggered by AB 1234 wildfire rate transparency mandate.",
+      "affected_lines": ["homeowners"],
+      "recommended_action": "File updated homeowners rate schedules with California DOI within 30 days. Engage rate filing counsel immediately. Review AB 1234 compliance requirements for wildfire-exposed properties."
+    }
+  },
+  {
+    "id": "TC002",
+    "description": "NAIC model regulation update — digest-level, future effective date",
+    "bulletin_text": "The Texas Department of Insurance has published proposed amendments to the Texas Administrative Code Title 28, Chapter 21, relating to claims handling practices. The proposed rules would require insurers to acknowledge receipt of claims within 10 business days (currently 15) and complete investigations within 30 days (currently 45). A public comment period is open until April 30, 2026. Final rules are expected to take effect January 1, 2027.",
+    "client_profile": {
+      "company_name": "Lone Star Mutual",
+      "jurisdictions": ["TX"],
+      "lines_of_business": ["auto", "homeowners", "commercial_liability"],
+      "subscription_status": "active"
+    },
+    "expected_priority": "DIGEST",
+    "expected_affected_lines": ["auto", "homeowners", "commercial_liability"],
+    "expected_output": {
+      "priority": "DIGEST",
+      "summary": "Texas DOI proposes tightening claims handling timelines: acknowledgement reduced from 15 to 10 business days; investigation completion from 45 to 30 days. Comment period open until April 30, 2026. Effective January 1, 2027.",
+      "affected_lines": ["auto", "homeowners", "commercial_liability"],
+      "recommended_action": "Review current claims handling workflows against proposed timelines. Consider submitting public comment by April 30, 2026. Begin operational planning for 2027 compliance."
+    }
+  },
+  {
+    "id": "TC003",
+    "description": "Out-of-jurisdiction bulletin — should be MONITOR, not actioned",
+    "bulletin_text": "The Florida Office of Insurance Regulation has issued a market conduct examination bulletin requiring all life and health insurers writing individual health policies in Florida to submit a data call by June 1, 2026. The data call covers premium volume, claims ratios, and network adequacy metrics for ACA-compliant plans.",
+    "client_profile": {
+      "company_name": "Pacific Shield Insurance",
+      "jurisdictions": ["CA", "TX"],
+      "lines_of_business": ["homeowners", "commercial_property"],
+      "subscription_status": "active"
+    },
+    "expected_priority": "MONITOR",
+    "expected_affected_lines": [],
+    "expected_output": {
+      "priority": "MONITOR",
+      "summary": "Florida OIR data call for life and health insurers writing individual health in Florida. Not applicable to Pacific Shield Insurance (jurisdictions: CA, TX; lines: homeowners, commercial property).",
+      "affected_lines": [],
+      "recommended_action": "No action required. Monitor for any expansion of scope to CA or TX markets."
+    }
+  },
+  {
+    "id": "TC004",
+    "description": "Cybersecurity regulation — cross-jurisdictional, IMMEDIATE for large carriers",
+    "bulletin_text": "Effective March 1, 2026, the NAIC Insurance Data Security Model Law has been adopted in California and Texas. All licensed insurers with more than $10 million in direct written premium must implement an Information Security Program meeting the requirements of the Model Law, including annual risk assessments, incident response plans, and third-party service provider oversight. Non-compliant carriers must submit a remediation plan to their domiciliary regulator within 60 days.",
+    "client_profile": {
+      "company_name": "Pacific Shield Insurance",
+      "jurisdictions": ["CA", "TX"],
+      "lines_of_business": ["homeowners", "commercial_property"],
+      "subscription_status": "active"
+    },
+    "expected_priority": "IMMEDIATE",
+    "expected_affected_lines": ["homeowners", "commercial_property"],
+    "expected_output": {
+      "priority": "IMMEDIATE",
+      "summary": "NAIC Insurance Data Security Model Law now effective in CA and TX (March 1, 2026). Carriers with >$10M DWP must have an Information Security Program in place. Non-compliant carriers have 60 days to submit a remediation plan.",
+      "affected_lines": ["homeowners", "commercial_property"],
+      "recommended_action": "Assess current Information Security Program against NAIC Model Law requirements. If non-compliant, prepare remediation plan for submission within 60 days. Engage CISO and outside counsel immediately."
+    }
+  },
+  {
+    "id": "TC005",
+    "description": "Regulatory guidance letter — informational, low urgency",
+    "bulletin_text": "The California Department of Insurance has issued Guidance Letter GL-2026-01 clarifying the definition of 'replacement cost' for personal lines homeowners policies. The letter confirms that replacement cost calculations must be based on current local construction costs and may not use national averages. This guidance is consistent with existing regulation and does not require policy form changes.",
+    "client_profile": {
+      "company_name": "Pacific Shield Insurance",
+      "jurisdictions": ["CA", "TX"],
+      "lines_of_business": ["homeowners", "commercial_property"],
+      "subscription_status": "active"
+    },
+    "expected_priority": "MONITOR",
+    "expected_affected_lines": ["homeowners"],
+    "expected_output": {
+      "priority": "MONITOR",
+      "summary": "California DOI Guidance Letter GL-2026-01 clarifies that replacement cost for homeowners must use local construction costs, not national averages. No policy form changes required — consistent with existing regulation.",
+      "affected_lines": ["homeowners"],
+      "recommended_action": "Confirm current replacement cost calculation methodology uses local CA construction cost data. No immediate action required if already compliant."
+    }
+  }
+]

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iris — {{ client.company_name }} · Joyn</title>
+<link rel="icon" type="image/svg+xml" href="https://tryjoyn.me/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8;
+  --ink: #111110;
+  --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc;
+  --rule-mid: #d0ccc4;
+  --surface: #f4f1eb;
+  --gold-display: #b8902a;
+  --gold-text: #8B6914;
+  --gold-hover: #7a5c10;
+  --pause-red: #8B2020;
+  --pause-tint: #f7f0f0;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; }
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+h1, h2, h3, h4 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+p { color: var(--ink-secondary); }
+
+/* ── Pulse animation ── */
+@keyframes pulse-glow { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── Header ── */
+.header {
+  padding: 1.25rem clamp(1.5rem,5vw,4rem);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.header-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: .95rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.header-nav { display: flex; align-items: center; gap: 2rem; }
+.nav-link {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-link:hover, .nav-link.active { color: var(--ink); }
+.nav-user {
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.nav-user-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--gold-display);
+  display: inline-block;
+  flex-shrink: 0;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Status banner ── */
+.status-banner {
+  padding: .875rem clamp(1.5rem,5vw,4rem);
+  border-bottom: 1px solid var(--rule);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: .68rem;
+  letter-spacing: .05em;
+  color: var(--ink-secondary);
+  flex-shrink: 0;
+}
+.banner-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--gold-text);
+  flex-shrink: 0;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Two-column page layout ── */
+.page-wrap {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  border-right: 1px solid var(--rule);
+  padding: 2rem 1.75rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+.sidebar-status-row {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: 1.5rem;
+}
+.sidebar-pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--gold-display);
+  flex-shrink: 0;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.sidebar-status-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+.sidebar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+.sidebar-role {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-bottom: 1.25rem;
+}
+.sidebar-hired-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-bottom: .2rem;
+}
+.sidebar-hired-date {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.sidebar-rule { border: none; border-top: 1px solid var(--rule); margin: 1.25rem 0; }
+
+/* Stats 2×2 grid */
+.sidebar-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--rule);
+}
+.stat-cell {
+  padding: .875rem 1rem;
+  border-right: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+}
+.stat-cell:nth-child(2n)   { border-right: none; }
+.stat-cell:nth-child(3),
+.stat-cell:nth-child(4)    { border-bottom: none; }
+.stat-n {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--gold-text);
+  line-height: 1;
+  margin-bottom: .2rem;
+}
+.stat-l {
+  font-family: 'DM Mono', monospace;
+  font-size: .55rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* Jurisdictions list */
+.sidebar-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-bottom: .75rem;
+}
+.sidebar-jur-list { list-style: none; }
+.sidebar-jur-item {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .3rem 0;
+  border-bottom: 1px solid var(--rule);
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .05em;
+  color: var(--ink);
+}
+.sidebar-jur-item:last-child { border-bottom: none; }
+.sidebar-jur-dot {
+  width: 5px;
+  height: 5px;
+  background: var(--gold-text);
+  flex-shrink: 0;
+}
+
+/* Alert email */
+.sidebar-alert-email {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  color: var(--ink);
+  letter-spacing: .03em;
+  word-break: break-all;
+  margin-bottom: 1.25rem;
+}
+
+/* Threshold buttons */
+.sidebar-thresh-row { display: flex; gap: .5rem; }
+.thresh-btn {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .35rem .75rem;
+  border: 1px solid var(--rule-mid);
+  background: transparent;
+  color: var(--ink-secondary);
+  cursor: default;
+}
+.thresh-btn.active {
+  border-color: var(--gold-text);
+  color: var(--gold-text);
+  background: rgba(139,105,20,.06);
+}
+
+/* ── Main content area ── */
+.main-area {
+  padding: 2.5rem clamp(1.5rem,4vw,3rem);
+  overflow-y: auto;
+}
+.content-section { margin-bottom: 3rem; }
+
+/* Section heading */
+.section-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 1.25rem;
+}
+.section-hd h2 {
+  font-size: clamp(1.35rem,2.5vw,1.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+}
+.section-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* ── Briefing cards ── */
+.briefing-card { border: 1px solid var(--rule); margin-bottom: .5rem; }
+.briefing-card-header {
+  padding: 1.1rem 1.5rem;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 8rem 1fr auto;
+  gap: 1.25rem;
+  align-items: center;
+  transition: background .15s;
+  user-select: none;
+}
+.briefing-card-header:hover { background: var(--surface); }
+.briefing-card.is-open .briefing-card-header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+}
+.bc-date {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+.bc-title {
+  font-size: .95rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.4;
+  margin-bottom: .35rem;
+}
+.bc-badges { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; }
+.bc-expand {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  white-space: nowrap;
+}
+.briefing-card.is-open .bc-expand { color: var(--ink-secondary); }
+
+/* Severity badges */
+.sev-critical {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .5rem;
+  background: var(--ink);
+  color: var(--white);
+}
+.sev-high {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .5rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+}
+.sev-medium {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .5rem;
+  border: 1px solid rgba(139,105,20,.4);
+  color: var(--gold-text);
+  background: rgba(139,105,20,.06);
+}
+.sev-low, .sev-info {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .5rem;
+  border: 1px solid var(--rule);
+  color: var(--ink-secondary);
+}
+.type-badge {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: .2rem .5rem;
+  border: 1px solid var(--rule);
+  color: var(--ink-secondary);
+}
+
+/* Briefing expanded body */
+.briefing-body { padding: 1.75rem 1.5rem; }
+.briefing-section { margin-bottom: 1.75rem; }
+.briefing-section:last-child { margin-bottom: 0; }
+.briefing-section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: .62rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-bottom: .65rem;
+  padding-bottom: .4rem;
+  border-bottom: 1px solid var(--rule);
+}
+.briefing-summary {
+  font-size: .95rem;
+  color: var(--ink-secondary);
+  line-height: 1.8;
+}
+.briefing-analysis {
+  font-size: .9rem;
+  color: var(--ink-secondary);
+  line-height: 1.8;
+}
+
+/* ── Empty state ── */
+.empty-state {
+  padding: 2.5rem 2rem;
+  border: 1px solid var(--rule);
+  background: var(--surface);
+}
+.empty-head {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: .5rem;
+  line-height: 1.2;
+}
+.empty-body {
+  font-size: .9rem;
+  color: var(--ink-secondary);
+  line-height: 1.8;
+  max-width: 58ch;
+}
+
+/* ── Activity log ── */
+.activity-scroll {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--rule);
+}
+.feed-list { list-style: none; }
+.feed-item {
+  display: grid;
+  grid-template-columns: 11rem 1fr auto;
+  gap: 1.5rem;
+  align-items: baseline;
+  padding: .875rem 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-time {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  white-space: nowrap;
+}
+.feed-body { font-size: .875rem; color: var(--ink-secondary); line-height: 1.6; }
+.feed-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.feed-tag-crawl    { color: var(--ink-secondary); }
+.feed-tag-assess   { color: var(--gold-text); }
+.feed-tag-briefing { color: var(--ink); font-weight: 700; }
+.feed-tag-alert    { color: var(--ink); font-weight: 700; }
+.feed-tag-digest   { color: var(--ink-secondary); }
+.feed-tag-filing   { color: var(--ink-secondary); }
+.feed-empty {
+  padding: 1.5rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: .7rem;
+  color: var(--ink-secondary);
+}
+
+/* ── Footer ── */
+.page-footer {
+  padding: 1.25rem clamp(1.5rem,5vw,4rem);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.page-footer-copy {
+  font-family: 'DM Mono', monospace;
+  font-size: .65rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: color .15s;
+}
+.page-footer-copy:hover { color: var(--ink); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--rule); }
+  .briefing-card-header { grid-template-columns: 1fr auto; }
+  .bc-date { display: none; }
+  .feed-item { grid-template-columns: 1fr auto; row-gap: .25rem; }
+  .feed-time { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <a href="{{ url_for('portal.dashboard') }}" class="header-logo">JOYN.</a>
+  <nav class="header-nav">
+    <a href="{{ url_for('portal.dashboard') }}" class="nav-link">Dashboard</a>
+    <a href="{{ url_for('portal.add_staff') }}" class="nav-link">Add Staff</a>
+    <a href="{{ url_for('portal.settings') }}" class="nav-link">Settings</a>
+    <span class="nav-user">
+      <span class="nav-user-dot"></span>
+      {{ client.company_name }}
+    </span>
+  </nav>
+</header>
+
+<!-- ── Status banner ── -->
+<div class="status-banner">
+  <span class="banner-dot"></span>
+  Iris is monitoring {{ iris_stats.jurisdictions_count }} jurisdiction{{ 's' if iris_stats.jurisdictions_count != 1 else '' }} — crawling every 2 hours, assessing every document, briefing you only when something material changes.{% if outputs | length == 0 %} Nothing has crossed your threshold yet — that is Iris working.{% endif %}
+</div>
+
+<!-- ── Two-column layout ── -->
+<div class="page-wrap">
+
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+
+    <div class="sidebar-status-row">
+      <span class="sidebar-pulse"></span>
+      <span class="sidebar-status-label">Autonomous · Live</span>
+    </div>
+
+    <h1 class="sidebar-name">Iris</h1>
+    <div class="sidebar-role">Insurance Regulatory Intelligence</div>
+
+    <div class="sidebar-hired-label">Hired</div>
+    <div class="sidebar-hired-date">{{ iris_hired_date }}</div>
+
+    <hr class="sidebar-rule">
+
+    <div class="sidebar-stats">
+      <div class="stat-cell">
+        <div class="stat-n">{{ iris_stats.docs_reviewed }}</div>
+        <div class="stat-l">Docs Reviewed</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">{{ iris_stats.briefings_sent }}</div>
+        <div class="stat-l">Briefings Sent</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">{{ iris_stats.jurisdictions_count }}</div>
+        <div class="stat-l">Jurisdictions</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-n">{{ iris_stats.action_items }}</div>
+        <div class="stat-l">Action Items</div>
+      </div>
+    </div>
+
+    <hr class="sidebar-rule">
+
+    <div class="sidebar-section-label">Jurisdictions</div>
+    <ul class="sidebar-jur-list">
+      {% for j in iris_settings.get('jurisdictions', []) %}
+      <li class="sidebar-jur-item">
+        <span class="sidebar-jur-dot"></span>
+        {{ j }}
+      </li>
+      {% endfor %}
+      {% if not iris_settings.get('jurisdictions') %}
+      <li class="sidebar-jur-item" style="color:var(--ink-secondary)">None configured</li>
+      {% endif %}
+    </ul>
+
+    <hr class="sidebar-rule">
+
+    <div class="sidebar-section-label">Alert Email</div>
+    <div class="sidebar-alert-email">{{ iris_settings.get('alert_email') or client.email }}</div>
+
+    <div class="sidebar-section-label">Alert Threshold</div>
+    <div class="sidebar-thresh-row">
+      <button class="thresh-btn">Low</button>
+      <button class="thresh-btn active">Medium</button>
+      <button class="thresh-btn">High</button>
+    </div>
+
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="main-area">
+
+    <!-- Section 1: Briefings & Alerts -->
+    <section class="content-section">
+      <div class="section-hd">
+        <h2>Briefings &amp; Alerts</h2>
+        <span class="section-meta">{{ outputs | length }} output{{ 's' if outputs | length != 1 else '' }}</span>
+      </div>
+
+      {% if outputs | length == 0 %}
+      <div class="empty-state">
+        <div class="empty-head">Nothing to act on.</div>
+        <p class="empty-body">Iris has reviewed every document and nothing has crossed your alert threshold. When it does, a structured briefing appears here.</p>
+      </div>
+      {% else %}
+      {% for output in outputs %}
+      <div class="briefing-card" id="bc-{{ loop.index }}">
+        <div class="briefing-card-header" onclick="toggleCard(this)">
+          <div class="bc-date" data-utc="{{ output.delivered_at[:16] if output.delivered_at else '' }}">{{ format_date(output.delivered_at)[:11] if output.delivered_at else '\u2014' }}</div>
+          <div>
+            <div class="bc-title">{{ output.title }}</div>
+            <div class="bc-badges">
+              <span class="sev-{{ output.severity or 'info' }}">{{ (output.severity or 'info') | upper }}</span>
+              {% if output.output_type %}
+              <span class="type-badge">{{ output.output_type | title }}</span>
+              {% endif %}
+            </div>
+          </div>
+          <span class="bc-expand">Read briefing ↓</span>
+        </div>
+        <div class="briefing-body" style="display:none">
+          {% if output.summary %}
+          <div class="briefing-section">
+            <div class="briefing-section-label">Summary</div>
+            <p class="briefing-summary">{{ output.summary }}</p>
+          </div>
+          {% endif %}
+          {% if output.full_content %}
+          <div class="briefing-section">
+            <div class="briefing-section-label">Full Briefing</div>
+            <p class="briefing-analysis">{{ output.full_content }}</p>
+          </div>
+          {% endif %}
+          <div class="briefing-section">
+            <div class="briefing-section-label">Severity Reasoning</div>
+            <p class="briefing-analysis">
+              {% if output.severity == 'critical' %}Iris scored this Critical — immediate compliance action required.
+              {% elif output.severity == 'high' %}Iris scored this High — action required before the stated deadline.
+              {% elif output.severity == 'medium' %}Iris scored this Medium — material but not immediately urgent.
+              {% else %}Iris scored this Low — informational, no immediate action needed.{% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      {% endif %}
+    </section>
+
+    <!-- Section 2: Activity Log -->
+    <section class="content-section">
+      <div class="section-hd">
+        <h2>Activity Log</h2>
+        <span class="section-meta">Last 50 entries</span>
+      </div>
+      <div class="activity-scroll">
+        {% if activity | length == 0 %}
+        <div class="feed-empty">No activity logged yet — Iris will record every document she reviews here.</div>
+        {% else %}
+        <ul class="feed-list">
+          {% for item in activity %}
+          <li class="feed-item">
+            <span class="feed-time" data-utc="{{ item.timestamp[:16] if item.timestamp else '' }}">{{ format_date(item.timestamp) }}</span>
+            <span class="feed-body">{{ item.action_description }}</span>
+            <span class="feed-tag feed-tag-{{ item.action_type or 'action' }}">{{ item.action_type or '—' }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- ── Footer ── -->
+<footer class="page-footer">
+  <span class="page-footer-copy">Joyn &middot; tryjoyn.me</span>
+  <a href="{{ url_for('auth.logout') }}" class="page-footer-copy">Log out</a>
+</footer>
+
+<script>
+// ── UTC → browser-local timezone conversion ─────────────────────────────────
+// Timestamps are stored as UTC in SQLite ('YYYY-MM-DD HH:MM').
+// We embed them as data-utc attributes and convert to the visitor's
+// local timezone using the Intl API so every client sees their own time.
+(function () {
+  function fmtLocal(utcStr, dateOnly) {
+    if (!utcStr) return '\u2014';
+    // Append 'Z' so JS parses as UTC, not local
+    var d = new Date(utcStr.replace(' ', 'T') + ':00Z');
+    if (isNaN(d)) return utcStr;
+    if (dateOnly) {
+      return d.toLocaleDateString([], { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+    return d.toLocaleString([], {
+      day: 'numeric', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+  // Activity log timestamps
+  document.querySelectorAll('.feed-time[data-utc]').forEach(function (el) {
+    var utc = el.getAttribute('data-utc');
+    if (utc) el.textContent = fmtLocal(utc, false);
+  });
+  // Briefing card dates (date-only display)
+  document.querySelectorAll('.bc-date[data-utc]').forEach(function (el) {
+    var utc = el.getAttribute('data-utc');
+    if (utc) el.textContent = fmtLocal(utc, true);
+  });
+})();
+
+function toggleCard(headerEl) {
+  var card = headerEl.closest('.briefing-card');
+  var body = card.querySelector('.briefing-body');
+  var expand = headerEl.querySelector('.bc-expand');
+  var isOpen = card.classList.contains('is-open');
+  card.classList.toggle('is-open', !isOpen);
+  body.style.display = isOpen ? 'none' : 'block';
+  if (expand) expand.textContent = isOpen ? 'Read briefing \u2193' : 'Close \u2191';
+}
+</script>
+
+</body>
+</html>

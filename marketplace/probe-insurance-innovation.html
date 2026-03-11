@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Probe — Insurance Innovation Experimentation | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    nav .probe-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+
+    nav .probe-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      display: inline-block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    /* ── Gold label pattern ── */
+    .gold-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .gold-label::before {
+      content: '';
+      display: block;
+      width: 1.25rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Section shared ── */
+    .section-rule-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .section-rule-heading h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .section-rule-heading .across-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── SECTION 1: HERO ── */
+    .hero {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      max-width: 700px;
+      color: var(--ink);
+      margin-bottom: 0;
+    }
+
+    .hero .subheading {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      color: var(--ink-secondary);
+      max-width: 560px;
+      line-height: 1.8;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin-top: 3rem;
+    }
+
+    .hero-stat .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 400;
+      color: var(--gold-text);
+      line-height: 1;
+    }
+
+    .hero-stat .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+      margin-top: 0.35rem;
+    }
+
+    /* ── SECTION 2: WHAT PROBE RUNS ── */
+    .section-monitors {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .monitors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .monitors-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .monitor-card {
+      padding: 1.75rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .monitor-card .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .monitor-card .card-body {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── SECTION 3: HOW IT WORKS ── */
+    .section-how {
+      padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .section-how h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .steps-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-item {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.5rem;
+    }
+
+    .step-item .step-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--gold-text);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+
+    .step-item .step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+
+    .step-item .step-body {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── SECTION 4: BOTTOM CTA BAND ── */
+    .cta-band {
+      background: var(--surface);
+      border-top: 1px solid var(--rule);
+      padding: 3rem clamp(1.5rem, 5vw, 4rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .cta-band h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .cta-band .cta-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="probe-label">
+      <span class="rule-line"></span>
+      Probe
+    </span>
+  </nav>
+
+  <!-- ── Section 1: Hero ── -->
+  <section class="hero">
+    <div class="gold-label">— Technology · Supervised</div>
+    <h1>From hypothesis<br>to verdict.</h1>
+    <p class="subheading">
+      Probe runs structured insurance innovation experiments end to end —
+      from hypothesis formation through controlled execution to evidence-based
+      verdict. Your innovation leads direct. Seven agents work in parallel.
+    </p>
+    <a href="probe-preview.html" class="btn-primary">See How Probe Works →</a>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Agents</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-number">~2.5h</div>
+        <div class="stat-label">Hirer Time</div>
+      </div>
+      <div class="hero-stat">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Named Outputs</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Section 2: What Probe Runs ── -->
+  <section class="section-monitors">
+    <div class="section-rule-heading">
+      <h2>What Probe runs</h2>
+      <span class="across-label">End-to-end experiments</span>
+    </div>
+    <div class="monitors-grid">
+
+      <div class="monitor-card">
+        <div class="gold-label">— Product Innovation</div>
+        <h3 class="card-title">New product hypotheses</h3>
+        <p class="card-body">
+          Test new coverage concepts, policy structures, and product features
+          in controlled conditions before committing development resources.
+        </p>
+      </div>
+
+      <div class="monitor-card">
+        <div class="gold-label">— Distribution Testing</div>
+        <h3 class="card-title">Channel experiments</h3>
+        <p class="card-body">
+          Validate distribution strategies, partnership models, and go-to-market
+          approaches with evidence before scaling.
+        </p>
+      </div>
+
+      <div class="monitor-card">
+        <div class="gold-label">— Pricing Experiments</div>
+        <h3 class="card-title">Rate &amp; model validation</h3>
+        <p class="card-body">
+          Test pricing hypotheses, segmentation strategies, and rating algorithm
+          changes in isolated environments with full audit trails.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Section 3: How It Works ── -->
+  <section class="section-how">
+    <h2>Three steps. Then Probe runs.</h2>
+    <div class="steps-grid">
+
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <h3 class="step-title">Submit your hypothesis</h3>
+        <p class="step-body">
+          Tell Probe what you want to test. Intake transforms your brief into
+          a testable hypothesis with clear success criteria.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <h3 class="step-title">Probe runs the experiment</h3>
+        <p class="step-body">
+          Seven agents work in parallel — designing, stress-testing, and
+          executing your experiment in a controlled environment.
+        </p>
+      </div>
+
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <h3 class="step-title">You receive the verdict</h3>
+        <p class="step-body">
+          Debrief delivers an evidence-based verdict with clear implications,
+          a demo video, and actionable recommendations.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Section 4: Bottom CTA Band ── -->
+  <section class="cta-band">
+    <div>
+      <h2>Test before you build. Know before you scale.</h2>
+      <p class="cta-sub">~2.5 hours of your time across the full experiment lifecycle.</p>
+    </div>
+    <a href="probe-hire.html" class="btn-primary">Hire Probe — 14 Day Free Trial →</a>
+  </section>
+
+</body>
+</html>

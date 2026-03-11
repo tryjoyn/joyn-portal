@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Builder Dashboard — Creator Studio | Joyn</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="description" content="Your Creator Studio dashboard. Track your build journey, complete the Creator Brief, and deploy your AI staff.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8; --ink: #111110; --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc; --rule-mid: #d0ccc4; --surface: #f4f1eb;
+  --gold-display: #b8902a; --gold-text: #8B6914; --gold-hover: #7a5c10;
+  --green: #2d6a4f; --green-bg: rgba(45,106,79,0.07);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--white); color: var(--ink); font-family: 'Syne', sans-serif; font-size: 1rem; line-height: 1.8; -webkit-font-smoothing: antialiased; }
+h1, h2, h3 { font-family: 'Cormorant Garamond', serif; font-weight: 400; color: var(--ink); }
+p { color: var(--ink-secondary); }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--gold-text); outline-offset: 3px; }
+
+/* NAV */
+.nav { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.25rem clamp(1.5rem,5vw,4rem); background: rgba(250,250,248,0.96); backdrop-filter: blur(16px); border-bottom: 1px solid var(--rule); }
+.nav-logo { font-family: 'DM Mono', monospace; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; color: var(--ink); }
+.nav-links { display: flex; gap: 1.5rem; align-items: center; }
+.nav-link { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); transition: color 0.15s; }
+.nav-link:hover { color: var(--ink); }
+.nav-builder-name { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-text); }
+
+/* LABEL */
+.label { font-family: 'DM Mono', monospace; font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-text); display: inline-flex; align-items: center; gap: 0.65rem; }
+.label::before { content: ''; display: block; width: 1.5rem; height: 1px; background: var(--gold-text); }
+
+/* BUTTONS */
+.btn { font-family: 'DM Mono', monospace; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.875rem 1.75rem; display: inline-flex; align-items: center; justify-content: center; border: none; cursor: pointer; transition: background 0.2s, color 0.2s; text-decoration: none; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover { background: #2a2a29; }
+.btn-gold { background: var(--gold-text); color: var(--white); }
+.btn-gold:hover { background: var(--gold-hover); }
+.btn-ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--rule-mid); }
+.btn-ghost:hover { border-color: var(--ink); }
+.btn-sm { padding: 0.5rem 1rem; font-size: 0.65rem; }
+
+/* LAYOUT */
+.dashboard-layout { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 65px); }
+.sidebar { border-right: 1px solid var(--rule); padding: 2rem 1.5rem; background: var(--surface); position: sticky; top: 65px; height: calc(100vh - 65px); overflow-y: auto; }
+.main-content { padding: clamp(2rem,4vw,3.5rem) clamp(1.5rem,4vw,3rem); }
+
+/* SIDEBAR NAV */
+.sidebar-section { margin-bottom: 2rem; }
+.sidebar-section-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--rule); }
+.sidebar-nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 0.75rem; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-secondary); cursor: pointer; transition: all 0.15s; border: 1px solid transparent; margin-bottom: 0.25rem; }
+.sidebar-nav-item:hover { color: var(--ink); background: var(--white); }
+.sidebar-nav-item.active { color: var(--ink); background: var(--white); border-color: var(--rule); }
+.sidebar-nav-item.locked { opacity: 0.4; cursor: not-allowed; }
+.sidebar-nav-dot { width: 6px; height: 6px; background: var(--rule-mid); flex-shrink: 0; }
+.sidebar-nav-item.active .sidebar-nav-dot { background: var(--gold-text); }
+.sidebar-nav-item.done .sidebar-nav-dot { background: var(--green); }
+
+/* JOURNEY PROGRESS */
+.journey-progress { margin-bottom: 1.5rem; }
+.journey-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-secondary); margin-bottom: 0.5rem; }
+.journey-bar { height: 3px; background: var(--rule); position: relative; }
+.journey-fill { height: 100%; background: var(--gold-text); transition: width 0.4s ease; }
+.journey-pct { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.06em; color: var(--gold-text); margin-top: 0.35rem; }
+
+/* CARDS */
+.card { border: 1px solid var(--rule); padding: 1.75rem; background: var(--white); }
+.card-hd { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.25rem; }
+.card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; }
+.card-body { font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.7; }
+
+/* STATUS BADGES */
+.badge { font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.2rem 0.6rem; }
+.badge-pending { border: 1px solid var(--rule-mid); color: var(--ink-secondary); background: var(--surface); }
+.badge-active { border: 1px solid rgba(139,105,20,0.3); color: var(--gold-text); background: rgba(139,105,20,0.07); }
+.badge-review { border: 1px solid rgba(45,106,79,0.3); color: var(--green); background: var(--green-bg); }
+.badge-live { background: var(--ink); color: var(--white); }
+.badge-founding { border: 1px solid var(--gold-text); color: var(--gold-text); background: rgba(139,105,20,0.05); }
+
+/* JOURNEY STEPS */
+.journey-steps { display: flex; flex-direction: column; gap: 0; }
+.journey-step { display: flex; gap: 1.25rem; padding: 1.25rem 0; border-bottom: 1px solid var(--rule); align-items: flex-start; }
+.journey-step:last-child { border-bottom: none; }
+.journey-step-icon { width: 2.5rem; height: 2.5rem; border: 1px solid var(--rule-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--ink-secondary); }
+.journey-step-icon.done { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.journey-step-icon.active { background: var(--gold-text); border-color: var(--gold-text); color: var(--white); }
+.journey-step-body { flex: 1; }
+.journey-step-title { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.25rem; }
+.journey-step.locked .journey-step-title { color: var(--ink-secondary); }
+.journey-step-desc { font-size: 0.85rem; color: var(--ink-secondary); line-height: 1.6; }
+.journey-step-action { margin-top: 0.75rem; }
+
+/* NUDGE */
+.nudge { border: 1px solid rgba(139,105,20,0.25); background: rgba(139,105,20,0.05); padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+.nudge-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-text); margin-bottom: 0.5rem; }
+.nudge-text { font-size: 0.9rem; color: var(--ink-secondary); line-height: 1.7; }
+.nudge-text strong { color: var(--ink); }
+
+/* STATS ROW */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid var(--rule); background: var(--rule); margin-bottom: 2rem; }
+.stat-cell { background: var(--white); padding: 1.5rem; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 400; color: var(--gold-text); line-height: 1; margin-bottom: 0.25rem; }
+.stat-l { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-secondary); }
+
+/* SECTION HEADER */
+.section-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; }
+
+/* PANELS */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* GATE CHECKS */
+.gate-check { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.gate-check:last-child { border-bottom: none; }
+.gate-check-icon { width: 1.5rem; height: 1.5rem; border: 1px solid var(--rule-mid); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.7rem; }
+.gate-check-icon.pass { background: var(--ink); border-color: var(--ink); color: var(--white); }
+.gate-check-icon.fail { border-color: #c0392b; color: #c0392b; }
+.gate-check-body { flex: 1; }
+.gate-check-title { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 0.2rem; }
+.gate-check-feedback { font-size: 0.85rem; color: var(--ink-secondary); line-height: 1.6; }
+
+/* LOADING STATE */
+.loading-state { text-align: center; padding: 4rem 2rem; }
+.loading-spinner { width: 2rem; height: 2rem; border: 2px solid var(--rule); border-top-color: var(--gold-text); animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .dashboard-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; height: auto; display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">JOYN.</a>
+  <div class="nav-links">
+    <a href="./creator-studio.html" class="nav-link">Creator Studio</a>
+    <a href="./index.html" class="nav-link">Marketplace</a>
+    <span class="nav-builder-name" id="nav-builder-name">Loading…</span>
+  </div>
+</nav>
+
+<!-- LAYOUT -->
+<div class="dashboard-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" aria-label="Dashboard navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Build Journey</div>
+
+      <div class="journey-progress">
+        <div class="journey-label">Overall progress</div>
+        <div class="journey-bar"><div class="journey-fill" id="journey-fill" style="width:0%"></div></div>
+        <div class="journey-pct" id="journey-pct">0% complete</div>
+      </div>
+
+      <div class="sidebar-nav-item active" onclick="showPanel('overview')" id="nav-overview">
+        <div class="sidebar-nav-dot"></div>
+        Overview
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('brief')" id="nav-brief">
+        <div class="sidebar-nav-dot"></div>
+        Creator Brief
+      </div>
+      <div class="sidebar-nav-item locked" onclick="showPanel('spec')" id="nav-spec">
+        <div class="sidebar-nav-dot"></div>
+        Visionary Spec
+      </div>
+      <div class="sidebar-nav-item locked" onclick="showPanel('review')" id="nav-review">
+        <div class="sidebar-nav-dot"></div>
+        The Bar Review
+      </div>
+      <div class="sidebar-nav-item locked" onclick="showPanel('deploy')" id="nav-deploy">
+        <div class="sidebar-nav-dot"></div>
+        Deployment
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Tools</div>
+      <div class="sidebar-nav-item" onclick="showPanel('preflight')" id="nav-preflight">
+        <div class="sidebar-nav-dot"></div>
+        Pre-Flight Check
+      </div>
+      <div class="sidebar-nav-item" onclick="showPanel('resources')" id="nav-resources">
+        <div class="sidebar-nav-dot"></div>
+        Build Resources
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">My Staff</div>
+      <div id="sidebar-staff-list">
+        <div style="font-size:0.8rem;color:var(--ink-secondary);">No staff deployed yet.</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-label">Resources</div>
+      <a href="./iris-insurance-regulatory.html" style="display:block;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.5rem;">View Iris →</a>
+      <a href="./creator-studio.html" style="display:block;font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-secondary);">Creator Studio →</a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content" id="main-content">
+
+    <!-- LOADING STATE -->
+    <div id="loading-state" class="loading-state">
+      <div class="loading-spinner"></div>
+      <p>Loading your dashboard…</p>
+    </div>
+
+    <!-- NOT FOUND STATE -->
+    <div id="not-found-state" style="display:none;text-align:center;padding:4rem 2rem;">
+      <h2 style="font-size:1.75rem;margin-bottom:1rem;">No builder account found</h2>
+      <p style="margin-bottom:2rem;">We couldn't find a builder account for this email. Have you claimed your Founding Builder Seat?</p>
+      <a href="./builder-onboarding.html" class="btn btn-gold">Claim Your Seat →</a>
+    </div>
+
+    <!-- OVERVIEW PANEL -->
+    <div class="panel active" id="panel-overview">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Builder Dashboard</div>
+        <h1 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;" id="welcome-title">Welcome back</h1>
+        <p id="welcome-subtitle">Here is where your build stands today.</p>
+      </div>
+
+      <!-- NUDGE -->
+      <div class="nudge" id="main-nudge" style="display:none;">
+        <div class="nudge-label" id="nudge-label">Next step</div>
+        <div class="nudge-text" id="nudge-text"></div>
+        <div style="margin-top:1rem;" id="nudge-action"></div>
+      </div>
+
+      <!-- STATS -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-cell">
+          <div class="stat-n" id="stat-status">—</div>
+          <div class="stat-l">Build status</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n" id="stat-track">—</div>
+          <div class="stat-l">Track</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n" id="stat-share">75%</div>
+          <div class="stat-l">Revenue share</div>
+        </div>
+        <div class="stat-cell">
+          <div class="stat-n" id="stat-hirers">0</div>
+          <div class="stat-l">Active hirers</div>
+        </div>
+      </div>
+
+      <!-- JOURNEY STEPS -->
+      <div class="section-hd">
+        <div class="section-title">Your build journey</div>
+        <span class="badge badge-founding" id="founding-badge" style="display:none;">Founding Builder</span>
+      </div>
+
+      <div class="journey-steps" id="journey-steps">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- CREATOR BRIEF PANEL -->
+    <div class="panel" id="panel-brief">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Creator Brief</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Define your AI staff</h2>
+        <p>Choose how you'd like to complete your Creator Brief. Both generate the same Visionary Spec.</p>
+      </div>
+
+      <div id="brief-loading" class="loading-state" style="display:none;">
+        <div class="loading-spinner"></div>
+        <p>Generating your Visionary Spec…</p>
+      </div>
+
+      <div id="brief-form">
+        <div class="nudge" style="margin-bottom:2rem;">
+          <div class="nudge-label">Before you begin</div>
+          <div class="nudge-text">Read <a href="./iris-insurance-regulatory.html" style="color:var(--gold-text);">Iris's listing</a> first. Every question maps to a section of your future listing page. The more specific your answers, the better your Visionary Spec.</div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
+          <!-- Option 1: Sage Conversation -->
+          <div style="padding:1.5rem;border:2px solid var(--green,#2d6a4f);background:rgba(45,106,79,0.05);text-align:center;">
+            <div style="display:inline-block;padding:0.25rem 0.75rem;background:var(--green,#2d6a4f);color:#fff;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Recommended</div>
+            <div style="width:50px;height:50px;background:var(--green,#2d6a4f);color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.5rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">S</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:0.5rem;">Chat with Sage</h3>
+            <p style="font-size:0.8rem;color:var(--ink-secondary);margin-bottom:1rem;line-height:1.5;">Have a conversation with Sage, your staffing architect. She'll guide you through defining your AI staff.</p>
+            <ul style="text-align:left;font-size:0.75rem;color:var(--ink-secondary);margin-bottom:1.25rem;padding-left:1.25rem;">
+              <li>Natural conversation flow</li>
+              <li>Real-time quality feedback</li>
+              <li>Voice input supported</li>
+              <li>~10-15 minutes</li>
+            </ul>
+            <button class="btn btn-gold" onclick="startSageConversation()" style="font-size:0.8rem;width:100%;">Start Conversation →</button>
+          </div>
+
+          <!-- Option 2: Classic Form -->
+          <div style="padding:1.5rem;border:1px solid var(--rule);text-align:center;">
+            <div style="height:calc(0.25rem + 0.75rem + 1rem);"></div>
+            <div style="width:50px;height:50px;background:var(--surface);border:1px solid var(--rule);color:var(--ink-secondary);font-family:'DM Mono',monospace;font-size:1rem;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">📝</div>
+            <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.35rem;margin-bottom:0.5rem;">Classic Form</h3>
+            <p style="font-size:0.8rem;color:var(--ink-secondary);margin-bottom:1rem;line-height:1.5;">Prefer to work through a structured form? Answer questions at your own pace.</p>
+            <ul style="text-align:left;font-size:0.75rem;color:var(--ink-secondary);margin-bottom:1.25rem;padding-left:1.25rem;">
+              <li>6 structured sections</li>
+              <li>Save and resume anytime</li>
+              <li>See all questions upfront</li>
+              <li>~15-20 minutes</li>
+            </ul>
+            <button class="btn" onclick="startClassicForm()" style="font-size:0.8rem;width:100%;background:var(--surface);border:1px solid var(--rule-mid);color:var(--ink);">Use Classic Form →</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="brief-spec-preview" style="display:none;">
+        <!-- Spec preview populated after generation -->
+      </div>
+    </div>
+
+    <!-- VISIONARY SPEC PANEL -->
+    <div class="panel" id="panel-spec">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Visionary Spec</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Your build blueprint</h2>
+        <p>The Visionary Spec is the complete technical and operational blueprint for your AI staff. Build to this spec. When you are ready, submit for The Bar review.</p>
+      </div>
+      <div id="spec-content">
+        <div style="text-align:center;padding:3rem;border:1px solid var(--rule);">
+          <p>Complete the Creator Brief to generate your Visionary Spec.</p>
+          <button class="btn btn-gold" onclick="showPanel('brief')" style="margin-top:1rem;font-size:0.75rem;">Go to Creator Brief →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- THE BAR REVIEW PANEL -->
+    <div class="panel" id="panel-review">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">The Bar Review</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Five gates. One standard.</h2>
+        <p>The Reviewer Agent evaluates your AI staff against The Bar. All five gates must pass before your staff is deployed. Unlimited resubmissions.</p>
+      </div>
+      <div id="review-content">
+        <div style="text-align:center;padding:3rem;border:1px solid var(--rule);">
+          <p>Submit your build for review once you have completed the Creator Brief and built your AI staff.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEPLOYMENT PANEL -->
+    <div class="panel" id="panel-deploy">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Deployment</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Your staff is ready to earn</h2>
+        <p>The Deployment Agent has generated your marketplace listing. Your AI staff is live and available for hire.</p>
+      </div>
+      <div id="deploy-content">
+        <div style="text-align:center;padding:3rem;border:1px solid var(--rule);">
+          <p>Pass The Bar to unlock deployment.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRE-FLIGHT PANEL -->
+    <div class="panel" id="panel-preflight">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Pre-Flight Check</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Run before you submit</h2>
+        <p>The Pre-Flight Check evaluates your build against The Bar's five gates before you formally submit. Identify gaps early. Fix them before the clock starts.</p>
+      </div>
+      <div class="nudge" style="margin-bottom:2rem;">
+        <div class="nudge-label">How it works</div>
+        <div class="nudge-text">Paste your build description below. The Reviewer Agent evaluates it against all five gates and returns gate-by-gate feedback. This is not a formal submission — it is a rehearsal. Run it as many times as you need.</div>
+      </div>
+      <div style="margin-bottom:1.5rem;">
+        <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);display:block;margin-bottom:0.5rem;">Describe your build</label>
+        <textarea id="preflight-input" rows="8" style="font-family:'Syne',sans-serif;font-size:0.9rem;padding:1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;resize:vertical;min-height:180px;" placeholder="Describe what your AI staff does, what it produces, how it handles failures, and how it improves over time. The more specific, the more useful the feedback."></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="runPreflight()" id="preflight-btn" style="font-size:0.75rem;">Run Pre-Flight Check →</button>
+      <div id="preflight-results" style="margin-top:2rem;"></div>
+    </div>
+
+    <!-- RESOURCES PANEL -->
+    <div class="panel" id="panel-resources">
+      <div style="margin-bottom:2rem;">
+        <div class="label" style="margin-bottom:1rem;">Build Resources</div>
+        <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:0.5rem;">Everything you need to build</h2>
+        <p>Your build prompt, design standards, tool guidance, and reference implementations. Everything is specific to your claimed role.</p>
+      </div>
+      <div id="resources-content">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;border:1px solid var(--rule);background:var(--rule);margin-bottom:2rem;">
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Your Build Prompt</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">A pre-populated prompt for Manus, Claude Code, or any AI tool — specific to your claimed role. Copy and paste to start your build.</div>
+            <button class="btn btn-primary btn-sm" onclick="loadBuildPrompt()" style="font-size:0.65rem;">Generate My Build Prompt →</button>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Design Standard</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">The Joyn design spec your AI staff must follow. Named outputs, hirer experience, calibration architecture, and The Bar's five gates.</div>
+            <a href="https://github.com/tryjoyn/joyn-portal/blob/main/JOYN-DESIGN-SPEC.md" target="_blank" class="btn btn-ghost btn-sm" style="font-size:0.65rem;">View Design Spec →</a>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Reference Implementation</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">Iris is the reference implementation. Study her listing, her named outputs, and her calibration architecture before you build.</div>
+            <a href="./iris-insurance-regulatory.html" target="_blank" class="btn btn-ghost btn-sm" style="font-size:0.65rem;">Study Iris →</a>
+          </div>
+          <div style="background:var(--white);padding:1.5rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:0.75rem;">Recommended Tools</div>
+            <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:1rem;">Tools are open. Manus, Claude Code, n8n, Make, Zapier, Python — use whatever you know. Standards are closed.</div>
+            <button class="btn btn-ghost btn-sm" onclick="showPanel('resources'); document.getElementById('tool-guide').scrollIntoView({behavior:'smooth'})" style="font-size:0.65rem;">View Tool Guide ↓</button>
+          </div>
+        </div>
+
+        <div id="build-prompt-output" style="display:none;margin-bottom:2rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1rem;padding-bottom:0.75rem;border-bottom:1px solid var(--rule);">Your Build Prompt</div>
+          <div id="build-prompt-text" style="border:1px solid var(--rule);padding:1.5rem;background:var(--surface);font-family:'Syne',sans-serif;font-size:0.875rem;line-height:1.8;white-space:pre-wrap;"></div>
+          <button class="btn btn-ghost" onclick="copyBuildPrompt()" style="margin-top:1rem;font-size:0.7rem;">Copy to Clipboard</button>
+        </div>
+
+        <div id="tool-guide" style="border-top:1px solid var(--rule);padding-top:2rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);margin-bottom:1.5rem;">Tool Guide — Tools are open. Standards are closed.</div>
+          ${[
+            { name:'Manus', use:'Full-stack AI staff with memory, tools, and web access. Best for complex multi-step workflows.', link:'https://manus.im' },
+            { name:'Claude Code', use:'Code-first AI staff. Best for builders with technical backgrounds who want precise control.', link:'https://claude.ai' },
+            { name:'n8n / Make', use:'Workflow automation. Best for integration-heavy staff that connects multiple APIs and data sources.', link:'https://n8n.io' },
+            { name:'Zapier', use:'No-code automation. Best for simple trigger-action workflows with standard SaaS integrations.', link:'https://zapier.com' },
+            { name:'Python + OpenAI', use:'Custom code. Best for builders who want full control over logic, prompts, and data handling.', link:'https://platform.openai.com' },
+          ].map(t => `
+            <div style="display:flex;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--rule);align-items:flex-start;">
+              <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink);width:120px;flex-shrink:0;padding-top:0.15rem;">${t.name}</div>
+              <div style="flex:1;">
+                <div style="font-size:0.875rem;color:var(--ink-secondary);line-height:1.6;margin-bottom:0.5rem;">${t.use}</div>
+                <a href="${t.link}" target="_blank" style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold-text);">→ ${t.link.replace('https://','')}</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
+const API_BASE = 'https://joyn-portal-production-b64e.up.railway.app';
+
+// ── STATE ───────────────────────────────────────────────────────────────────
+let builder = null;
+let briefData = {};
+
+// ── BRIEF QUESTIONS ──────────────────────────────────────────────────────────
+const BRIEF_QUESTIONS = [
+  {
+    section: 'Identity',
+    questions: [
+      { id: 'staff_name', label: 'What is the name of your AI staff?', type: 'text', placeholder: 'e.g. Iris, Aria, Max, Compass — a name that reflects the role', hint: 'A single word or short name. Not a product name — a staff name.' },
+      { id: 'role_title', label: 'What is the role title?', type: 'text', placeholder: 'e.g. Insurance Regulatory Intelligence Specialist', hint: 'The professional title a human would have if they did this job.' },
+      { id: 'one_sentence', label: 'Describe what your AI staff does in one sentence', type: 'textarea', placeholder: 'e.g. Monitors state insurance department bulletins, scores them by client impact, and routes severity alerts to P&C brokers before regulatory deadlines.', hint: 'One sentence. No jargon. A hirer should immediately understand what they are getting.' }
+    ]
+  },
+  {
+    section: 'The Problem',
+    questions: [
+      { id: 'pain_point', label: 'What specific pain does this solve?', type: 'textarea', placeholder: 'e.g. P&C brokers miss state DOI bulletins because monitoring 50+ websites manually is impossible. When they miss a bulletin, they face E&O exposure and client complaints.', hint: 'Be specific about the consequence of the problem not being solved.' },
+      { id: 'who_hires', label: 'Who specifically hires this AI staff?', type: 'text', placeholder: 'e.g. Independent P&C brokers and MGAs with 5–50 staff', hint: 'Job title + company type + size. Not "anyone in insurance".' },
+      { id: 'manual_task', label: 'What manual task does this replace?', type: 'textarea', placeholder: 'e.g. A compliance analyst spending 3 hours every Monday checking 50 state DOI websites and emailing individual brokers about relevant bulletins.', hint: 'Describe the exact manual workflow being replaced. Hours per week, who does it, what tools they use.' }
+    ]
+  },
+  {
+    section: 'What It Produces',
+    questions: [
+      { id: 'outputs', label: 'What are the named outputs?', type: 'textarea', placeholder: 'e.g. 1. Regulatory Alert (email, daily, triggered by new bulletin) 2. Weekly Digest (PDF, Monday 8am, all bulletins from prior week) 3. Impact Score (1-10, attached to each alert)', hint: 'List every output by name, format, trigger, and schedule. If you cannot name it, it is not ready.' },
+      { id: 'mode', label: 'Autonomous or Supervised?', type: 'select', options: ['autonomous', 'supervised'], hint: 'Autonomous: acts without human approval. Supervised: presents recommendations for human sign-off.' },
+      { id: 'integrations', label: 'What integrations does it need?', type: 'textarea', placeholder: 'e.g. Email (Gmail/Outlook), Slack notifications, PDF generation, state DOI website monitoring', hint: 'List every external system, API, or tool the staff needs to do its job.' }
+    ]
+  },
+  {
+    section: 'The Hirer Experience',
+    questions: [
+      { id: 'onboarding_time', label: 'How long does onboarding take?', type: 'text', placeholder: 'e.g. 20 minutes — hirer provides their state list and client book format', hint: 'Total time from hire to first output. Be realistic.' },
+      { id: 'intervention_points', label: 'Where does the hirer need to intervene?', type: 'textarea', placeholder: 'e.g. Initial setup: provide state list and client book. Weekly: review and approve digest before sending. Exception: escalate any bulletin scored 8+.', hint: 'For supervised staff: every approval point. For autonomous: every exception.' },
+      { id: 'time_saved', label: 'How much time does the hirer save per week?', type: 'text', placeholder: 'e.g. 3–5 hours per week on regulatory monitoring', hint: 'Conservative estimate. This appears on your listing.' }
+    ]
+  },
+  {
+    section: 'Quality & Reliability',
+    questions: [
+      { id: 'failure_scenarios', label: 'Describe three failure scenarios and how the staff handles them', type: 'textarea', placeholder: 'e.g. 1. DOI website down: retries after 2h, flags in digest as "pending". 2. Ambiguous bulletin: scores conservatively (7+), flags for human review. 3. Client book format change: requests updated file, pauses alerts until resolved.', hint: 'Three specific scenarios. Each with a specific response. Vague answers fail Gate 4.' },
+      { id: 'calibration', label: 'How does the staff improve over time?', type: 'textarea', placeholder: 'e.g. Hirer feedback on alert relevance (thumbs up/down) adjusts impact scoring weights. Monthly corpus update with new bulletin types. Carry-forward of client-specific preferences.', hint: 'The feedback mechanism, corpus structure, and carry-forward logic. This is Gate 5.' }
+    ]
+  },
+  {
+    section: 'Pricing',
+    questions: [
+      { id: 'suggested_price', label: 'What monthly price do you suggest for hirers?', type: 'select', options: ['$49/month', '$99/month', '$149/month', '$199/month', '$299/month', '$499/month', 'Custom pricing'], hint: 'Standard Joyn pricing tiers. You earn 75% of this as a Founding Builder.' },
+      { id: 'pricing_rationale', label: 'Why is this the right price?', type: 'textarea', placeholder: 'e.g. At $99/month, the hirer saves 3 hours/week at $75/hour = $900/month in time saved. The staff pays for itself in 2 days.', hint: 'Show the ROI calculation. Hirers need to see the value clearly.' }
+    ]
+  }
+];
+
+// ── INIT ─────────────────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const email = urlParams.get('email') || sessionStorage.getItem('prefill_email');
+  const builderId = urlParams.get('id');
+  const panelParam = urlParams.get('panel'); // e.g. ?panel=brief to auto-open a panel
+
+  if (email || builderId) {
+    loadBuilder(email, builderId).then(() => {
+      if (panelParam) showPanel(panelParam);
+    }).catch(() => {});
+  } else {
+    // Show login prompt
+    showLoginPrompt();
+  }
+  renderBriefForm();
+});
+
+async function loadBuilder(email, builderId) {
+  try {
+    let url = `${API_BASE}/api/builder/status`;
+    if (builderId) url += `?id=${builderId}`;
+    else if (email) url += `?email=${encodeURIComponent(email)}`;
+
+    const res = await fetch(url);
+
+    if (res.status === 404) {
+      document.getElementById('loading-state').style.display = 'none';
+      document.getElementById('not-found-state').style.display = 'block';
+      return;
+    }
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const data = await res.json();
+    builder = data;
+
+    document.getElementById('loading-state').style.display = 'none';
+    renderDashboard(builder);
+
+  } catch (err) {
+    console.error('Dashboard load error:', err);
+    document.getElementById('loading-state').style.display = 'none';
+    // Show demo state for unauthenticated users
+    renderDemoState();
+  }
+}
+
+function showLoginPrompt() {
+  document.getElementById('loading-state').style.display = 'none';
+  document.getElementById('main-content').innerHTML = `
+    <div style="text-align:center;padding:4rem 2rem;">
+      <div class="label" style="justify-content:center;margin-bottom:1.5rem;">Builder Dashboard</div>
+      <h2 style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:1rem;">Access your dashboard</h2>
+      <p style="max-width:45ch;margin:0 auto 2rem;">Enter your builder email to access your dashboard.</p>
+      <div style="max-width:360px;margin:0 auto;">
+        <input type="email" id="login-email" class="form-input" placeholder="your@email.com"
+          style="font-family:'Syne',sans-serif;font-size:0.95rem;padding:0.875rem 1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;margin-bottom:1rem;">
+        <button class="btn btn-primary" onclick="loginWithEmail()" style="width:100%;">Access Dashboard →</button>
+      </div>
+      <p style="margin-top:2rem;font-size:0.875rem;color:var(--ink-secondary);">
+        Not a builder yet? <a href="./builder-onboarding.html" style="color:var(--gold-text);">Claim your Founding Builder Seat →</a>
+      </p>
+    </div>
+  `;
+}
+
+function loginWithEmail() {
+  const email = document.getElementById('login-email')?.value.trim();
+  if (!email) return;
+  sessionStorage.setItem('prefill_email', email);
+  window.location.href = `./builder-dashboard.html?email=${encodeURIComponent(email)}`;
+}
+
+// ── RENDER DASHBOARD ──────────────────────────────────────────────────────────
+function renderDashboard(b) {
+  // Nav
+  document.getElementById('nav-builder-name').textContent = b.full_name || b.email;
+
+  // Welcome
+  document.getElementById('welcome-title').textContent = `Welcome back, ${(b.full_name || '').split(' ')[0] || 'Builder'}`;
+  document.getElementById('welcome-subtitle').textContent = `Here is where your build stands today — ${new Date().toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long'})}.`;
+
+  // Stats
+  document.getElementById('stat-status').textContent = formatStatus(b.status);
+  document.getElementById('stat-track').textContent = b.track === 'B' ? 'Franchise' : 'Brief';
+  document.getElementById('stat-share').textContent = b.is_founding_builder ? '75%' : '70%';
+  document.getElementById('stat-hirers').textContent = b.active_hirers || '0';
+
+  // Founding badge
+  if (b.is_founding_builder) {
+    document.getElementById('founding-badge').style.display = 'inline-flex';
+  }
+
+  // Journey progress
+  const progress = getJourneyProgress(b.status);
+  document.getElementById('journey-fill').style.width = progress + '%';
+  document.getElementById('journey-pct').textContent = progress + '% complete';
+
+  // Sidebar nav state - pass hasSpec to unlock spec panel
+  updateSidebarNav(b.status, !!b.visionary_spec);
+
+  // Nudge
+  renderNudge(b);
+
+  // Journey steps
+  renderJourneySteps(b);
+
+  // Load spec if available
+  if (b.visionary_spec) {
+    renderSpec(b.visionary_spec);
+  }
+
+  // Load review if available
+  if (b.review_result) {
+    renderReview(b.review_result);
+  }
+}
+
+function renderDemoState() {
+  // Show a demo/preview state for unauthenticated visitors
+  document.getElementById('nav-builder-name').textContent = 'Demo View';
+  document.getElementById('welcome-title').textContent = 'Your Builder Dashboard';
+  document.getElementById('welcome-subtitle').textContent = 'This is what your dashboard looks like once you claim your Founding Builder Seat.';
+  document.getElementById('stat-status').textContent = 'Applied';
+  document.getElementById('stat-track').textContent = 'Brief';
+  document.getElementById('stat-share').textContent = '75%';
+  document.getElementById('stat-hirers').textContent = '0';
+  document.getElementById('founding-badge').style.display = 'inline-flex';
+  document.getElementById('journey-fill').style.width = '14%';
+  document.getElementById('journey-pct').textContent = '14% complete';
+
+  const nudge = document.getElementById('main-nudge');
+  nudge.style.display = 'block';
+  document.getElementById('nudge-label').textContent = 'Your next step';
+  document.getElementById('nudge-text').innerHTML = '<strong>Claim your Founding Builder Seat to begin.</strong> Once you complete payment, your dashboard activates and you can start the Creator Brief.';
+  document.getElementById('nudge-action').innerHTML = '<a href="./builder-onboarding.html" class="btn btn-gold" style="font-size:0.75rem;">Claim Your Seat →</a>';
+
+  renderJourneySteps({ status: 'applied' });
+}
+
+function formatStatus(status) {
+  const map = { applied: 'Applied', paid: 'Active', brief_started: 'Briefing', brief_complete: 'Spec Ready', spec_generated: 'Building', under_review: 'In Review', approved: 'Approved', deployed: 'Live', rejected: 'Revise' };
+  return map[status] || status;
+}
+
+function getJourneyProgress(status) {
+  const map = { applied: 5, paid: 14, brief_started: 28, brief_complete: 42, spec_generated: 56, under_review: 70, approved: 85, deployed: 100, rejected: 65 };
+  return map[status] || 0;
+}
+
+function updateSidebarNav(status, hasSpec = false) {
+  // Unlock spec panel if we have a visionary_spec OR if status indicates it
+  const specStatuses = ['spec_generated','building','under_review','approved','deployed','rejected'];
+  const unlocked = { 
+    overview: true, 
+    brief: ['paid','brief_started','brief_complete','spec_generated','building','under_review','approved','deployed','rejected'].includes(status), 
+    spec: hasSpec || specStatuses.includes(status), 
+    review: ['under_review','approved','deployed','rejected'].includes(status), 
+    deploy: ['deployed'].includes(status) 
+  };
+  ['brief','spec','review','deploy'].forEach(key => {
+    const el = document.getElementById(`nav-${key}`);
+    if (el) {
+      el.classList.toggle('locked', !unlocked[key]);
+    }
+  });
+}
+
+function renderNudge(b) {
+  const nudges = {
+    applied: { label: 'Payment required', text: 'Your application is received. Complete payment to activate your Founding Builder Seat and begin the Creator Brief.', action: '<a href="./builder-onboarding.html" class="btn btn-gold btn-sm">Complete Payment →</a>' },
+    paid: { label: 'Start your Creator Brief', text: '<strong>Your seat is active.</strong> The Creator Brief is your next step. It takes 20–30 minutes and generates your complete Visionary Spec.', action: '<button class="btn btn-gold btn-sm" onclick="showPanel(\'brief\')">Start Creator Brief →</button>' },
+    brief_started: { label: 'Complete your Creator Brief', text: '<strong>You started the Creator Brief but haven\'t finished.</strong> Complete all sections to generate your Visionary Spec.', action: '<button class="btn btn-gold btn-sm" onclick="showPanel(\'brief\')">Continue Creator Brief →</button>' },
+    brief_complete: { label: 'Generating your Visionary Spec', text: '<strong>Your Creator Brief is complete.</strong> The Architect Agent is generating your Visionary Spec. This usually takes a few minutes.', action: '' },
+    spec_generated: { label: 'Build your AI staff', text: '<strong>Your Visionary Spec is ready.</strong> Build your AI staff to the spec. When ready, submit for The Bar review.', action: '<button class="btn btn-primary btn-sm" onclick="showPanel(\'spec\')">View Your Spec →</button>' },
+    under_review: { label: 'Under review', text: '<strong>Your submission is being evaluated by the Reviewer Agent.</strong> The Bar has five gates. Results are usually available within 24 hours.', action: '' },
+    approved: { label: 'Ready to deploy', text: '<strong>Your AI staff has passed The Bar.</strong> The Deployment Agent is generating your marketplace listing.', action: '' },
+    deployed: { label: 'Live on the marketplace', text: '<strong>Your AI staff is live.</strong> Share your listing to attract hirers. You earn 75% of every hire.', action: '' },
+    rejected: { label: 'Revisions required', text: '<strong>Your submission did not pass all five gates.</strong> Review the feedback below and resubmit. There is no limit on resubmissions.', action: '<button class="btn btn-primary btn-sm" onclick="showPanel(\'review\')">View Feedback →</button>' }
+  };
+
+  const nudge = nudges[b.status] || nudges['paid'];
+  const nudgeEl = document.getElementById('main-nudge');
+  nudgeEl.style.display = 'block';
+  document.getElementById('nudge-label').textContent = nudge.label;
+  document.getElementById('nudge-text').innerHTML = nudge.text;
+  document.getElementById('nudge-action').innerHTML = nudge.action;
+}
+
+function renderJourneySteps(b) {
+  const status = b.status || 'applied';
+  const steps = [
+    { id: 'seat', label: 'Claim Your Seat', desc: 'Founding Builder Seat activated. $99 one-time. 75% revenue share from day one.', doneAt: ['paid','brief_started','brief_complete','spec_generated','under_review','approved','deployed'], activeAt: ['applied'] },
+    { id: 'brief', label: 'Complete the Creator Brief', desc: 'A guided 20–30 minute conversation that generates your complete Visionary Spec.', doneAt: ['brief_complete','spec_generated','under_review','approved','deployed'], activeAt: ['paid','brief_started'], action: '<button class="btn btn-gold btn-sm" onclick="showPanel(\'brief\')">Start Creator Brief →</button>' },
+    { id: 'spec', label: 'Receive Your Visionary Spec', desc: 'The Architect Agent generates your complete technical and operational blueprint.', doneAt: ['spec_generated','under_review','approved','deployed'], activeAt: ['brief_complete'], action: '' },
+    { id: 'build', label: 'Build Your AI Staff', desc: 'Build to your Visionary Spec using any tools. Manus, Claude Code, n8n, Make — tools are open.', doneAt: ['under_review','approved','deployed'], activeAt: ['spec_generated'], action: '<button class="btn btn-primary btn-sm" onclick="showPanel(\'spec\')">View Your Spec →</button>' },
+    { id: 'review', label: 'Pass The Bar', desc: 'Five gates. The Reviewer Agent evaluates your submission. Unlimited resubmissions.', doneAt: ['approved','deployed'], activeAt: ['under_review','rejected'], action: '' },
+    { id: 'deploy', label: 'Deploy & Earn', desc: 'The Deployment Agent generates your marketplace listing. Your AI staff is live for hire.', doneAt: ['deployed'], activeAt: ['approved'], action: '' }
+  ];
+
+  const container = document.getElementById('journey-steps');
+  container.innerHTML = steps.map(step => {
+    const isDone = step.doneAt.includes(status);
+    const isActive = step.activeAt.includes(status);
+    const isLocked = !isDone && !isActive;
+    return `
+      <div class="journey-step${isLocked ? ' locked' : ''}">
+        <div class="journey-step-icon${isDone ? ' done' : isActive ? ' active' : ''}">
+          ${isDone ? '✓' : step.id.substring(0,2).toUpperCase()}
+        </div>
+        <div class="journey-step-body">
+          <div class="journey-step-title">${step.label}</div>
+          <div class="journey-step-desc">${step.desc}</div>
+          ${isActive && step.action ? `<div class="journey-step-action">${step.action}</div>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── CREATOR BRIEF FORM ────────────────────────────────────────────────────────
+function renderBriefForm() {
+  const container = document.getElementById('brief-sections');
+  if (!container) return;
+
+  container.innerHTML = BRIEF_QUESTIONS.map((section, si) => `
+    <div style="margin-bottom:2.5rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-text);margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--rule);">
+        ${String(si + 1).padStart(2,'0')} · ${section.section}
+      </div>
+      ${section.questions.map(q => renderBriefQuestion(q)).join('')}
+    </div>
+  `).join('');
+}
+
+function renderBriefQuestion(q) {
+  const fieldId = `brief-${q.id}`;
+  let input = '';
+  if (q.type === 'text') {
+    input = `<input type="text" class="form-input" id="${fieldId}" placeholder="${escHtml(q.placeholder || '')}" style="font-family:'Syne',sans-serif;font-size:0.95rem;padding:0.875rem 1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;">`;
+  } else if (q.type === 'textarea') {
+    input = `<textarea class="form-textarea" id="${fieldId}" placeholder="${escHtml(q.placeholder || '')}" rows="4" style="font-family:'Syne',sans-serif;font-size:0.95rem;padding:0.875rem 1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;resize:vertical;min-height:100px;"></textarea>`;
+  } else if (q.type === 'select') {
+    const opts = q.options.map(o => `<option value="${o}">${o.charAt(0).toUpperCase() + o.slice(1)}</option>`).join('');
+    input = `<select class="form-select" id="${fieldId}" style="font-family:'Syne',sans-serif;font-size:0.95rem;padding:0.875rem 1rem;border:1px solid var(--rule-mid);background:var(--white);color:var(--ink);outline:none;width:100%;-webkit-appearance:none;"><option value="">Select…</option>${opts}</select>`;
+  }
+  return `
+    <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1.5rem;">
+      <label style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-secondary);" for="${fieldId}">${q.label}</label>
+      ${input}
+      ${q.hint ? `<div style="font-size:0.8rem;color:var(--ink-secondary);">${q.hint}</div>` : ''}
+    </div>
+  `;
+}
+
+async function submitBrief() {
+  if (!builder) {
+    alert('Please access your dashboard via your builder email first.');
+    return;
+  }
+
+  const btn = document.getElementById('brief-submit-btn');
+  btn.textContent = 'Generating…';
+  btn.disabled = true;
+
+  // Collect all brief answers
+  const answers = {};
+  BRIEF_QUESTIONS.forEach(section => {
+    section.questions.forEach(q => {
+      const el = document.getElementById(`brief-${q.id}`);
+      if (el) answers[q.id] = el.value.trim();
+    });
+  });
+
+  // Validate required fields
+  const required = ['staff_name','role_title','one_sentence','pain_point','who_hires','outputs','mode'];
+  const missing = required.filter(k => !answers[k]);
+  if (missing.length > 0) {
+    alert(`Please complete these required fields: ${missing.join(', ')}`);
+    btn.textContent = 'Generate My Visionary Spec →';
+    btn.disabled = false;
+    return;
+  }
+
+  document.getElementById('brief-form').style.display = 'none';
+  document.getElementById('brief-loading').style.display = 'block';
+
+  try {
+    // Map frontend field names to architect agent expected format
+    const mappedAnswers = {
+      q1_staff_name: answers.staff_name,
+      q2_role_definition: answers.one_sentence,
+      q3_mode: answers.mode,
+      q4_target_hirer: answers.who_hires,
+      q5_core_pain: answers.pain_point,
+      q6_core_tasks: answers.manual_task || '',
+      q7_named_outputs: answers.outputs,
+      q8_hirer_touchpoints: `Onboarding: ${answers.onboarding_time || 'N/A'}\nIntervention points: ${answers.intervention_points || 'N/A'}\nTime saved: ${answers.time_saved || 'N/A'}`,
+      q9_failure_scenarios: answers.failure_scenarios || '',
+      q10_calibration: answers.calibration || '',
+      q11_moat: answers.pricing_rationale || '',
+      q12_tools: answers.integrations || '',
+      role_title: answers.role_title,
+      suggested_price: answers.suggested_price || ''
+    };
+
+    const res = await fetch(`${API_BASE}/api/builder/brief`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        builder_id: builder.id,
+        answers: mappedAnswers,
+        completed: true
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Brief submission failed');
+
+    document.getElementById('brief-loading').style.display = 'none';
+
+    // Show spec preview
+    if (data.visionary_spec) {
+      renderSpec(data.visionary_spec);
+      showPanel('spec');
+    } else {
+      document.getElementById('brief-form').style.display = 'block';
+      document.getElementById('brief-spec-preview').style.display = 'block';
+      document.getElementById('brief-spec-preview').innerHTML = `
+        <div style="border:1px solid rgba(45,106,79,0.3);background:var(--green-bg);padding:1.5rem;margin-top:1.5rem;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:0.75rem;">Brief submitted</div>
+          <p style="font-size:0.9rem;">Your Creator Brief has been submitted. The Architect Agent is generating your Visionary Spec. Check back in a few minutes.</p>
+        </div>
+      `;
+    }
+
+  } catch (err) {
+    document.getElementById('brief-loading').style.display = 'none';
+    document.getElementById('brief-form').style.display = 'block';
+    btn.textContent = 'Generate My Visionary Spec →';
+    btn.disabled = false;
+    alert('Error: ' + (err.message || 'Please try again'));
+  }
+}
+
+// ── RENDER SPEC ───────────────────────────────────────────────────────────────
+function renderSpec(spec) {
+  const container = document.getElementById('spec-content');
+  if (!spec) return;
+
+  const specText = typeof spec === 'string' ? spec : JSON.stringify(spec, null, 2);
+  container.innerHTML = `
+    <div class="nudge" style="margin-bottom:1.5rem;">
+      <div class="nudge-label">Your Visionary Spec is ready</div>
+      <div class="nudge-text">Build your AI staff to this spec. When you are ready, submit for The Bar review. Tools are open — use Manus, Claude Code, n8n, Make, or any other tool.</div>
+    </div>
+    <div style="border:1px solid var(--rule);padding:2rem;background:var(--surface);font-family:'Syne',sans-serif;font-size:0.9rem;line-height:1.8;white-space:pre-wrap;overflow-x:auto;">${escHtml(specText)}</div>
+    <div style="margin-top:1.5rem;display:flex;gap:1rem;">
+      <button class="btn btn-primary" onclick="submitForReview()" style="font-size:0.75rem;">Submit for The Bar Review →</button>
+      <button class="btn btn-ghost" onclick="downloadSpec()" style="font-size:0.75rem;">Download Spec</button>
+    </div>
+  `;
+}
+
+// ── RENDER REVIEW ─────────────────────────────────────────────────────────────
+function renderReview(review) {
+  const container = document.getElementById('review-content');
+  if (!review) return;
+
+  const gates = review.gates || [];
+  const passed = gates.filter(g => g.pass).length;
+  const allPass = passed === 5;
+
+  container.innerHTML = `
+    <div style="margin-bottom:1.5rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:${allPass ? 'var(--green)' : '#c0392b'};margin-bottom:0.5rem;">${allPass ? 'All gates passed' : `${passed} of 5 gates passed`}</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;">${allPass ? 'Your AI staff has passed The Bar' : 'Revisions required'}</div>
+    </div>
+    <div>
+      ${gates.map(g => `
+        <div class="gate-check">
+          <div class="gate-check-icon ${g.pass ? 'pass' : 'fail'}">${g.pass ? '✓' : '✗'}</div>
+          <div class="gate-check-body">
+            <div class="gate-check-title">${escHtml(g.gate)}</div>
+            <div class="gate-check-feedback">${escHtml(g.feedback)}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    ${!allPass ? `<div style="margin-top:1.5rem;"><button class="btn btn-primary" onclick="showPanel('brief')" style="font-size:0.75rem;">Revise and Resubmit →</button></div>` : ''}
+  `;
+}
+
+async function submitForReview() {
+  if (!builder) return;
+  
+  if (!builder.visionary_spec) {
+    alert('Please complete the Creator Brief first to generate your Visionary Spec.');
+    return;
+  }
+  
+  if (confirm('Submit your AI staff for The Bar review? The Reviewer Agent will evaluate against all 5 gates.')) {
+    try {
+      document.getElementById('review-content').innerHTML = '<div style="text-align:center;padding:3rem;"><div class="loading-spinner"></div><p>Running The Bar review...</p></div>';
+      showPanel('review');
+      
+      const res = await fetch(`${API_BASE}/api/builder/preflight`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ builder_id: builder.id })
+      });
+      
+      const data = await res.json();
+      
+      if (!res.ok) {
+        throw new Error(data.error || 'Review submission failed');
+      }
+      
+      // Refresh builder data to get review results
+      await loadBuilder(builder.email);
+      showPanel('review');
+      
+    } catch (err) {
+      alert('Error: ' + err.message);
+      document.getElementById('review-content').innerHTML = '<div style="text-align:center;padding:3rem;border:1px solid var(--rule);"><p>Review failed. Please try again.</p></div>';
+    }
+  }
+}
+
+function downloadSpec() {
+  const content = document.querySelector('#spec-content pre, #spec-content div[style*="pre-wrap"]');
+  if (!content) return;
+  const blob = new Blob([content.textContent], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'visionary-spec.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── PRE-FLIGHT CHECK ─────────────────────────────────────────────────────────
+async function runPreflight() {
+  const input = document.getElementById('preflight-input').value.trim();
+  if (!input || input.length < 50) {
+    alert('Please describe your build in more detail (at least 50 characters).');
+    return;
+  }
+  const btn = document.getElementById('preflight-btn');
+  btn.textContent = 'Running check…';
+  btn.disabled = true;
+  const results = document.getElementById('preflight-results');
+  results.innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:0.75rem;color:var(--ink-secondary);">Evaluating against The Bar\'s five gates…</div>';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/builder/preflight`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ description: input, builder_id: builder?.id })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Pre-flight check failed');
+
+    const gates = data.gates || [];
+    const passed = gates.filter(g => g.pass).length;
+    results.innerHTML = `
+      <div style="margin-bottom:1rem;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:${passed===5?'var(--green)':'#c0392b'};margin-bottom:0.5rem;">${passed} of 5 gates passed</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.25rem;">${passed===5?'Your build is ready for The Bar':'Gaps identified — address these before submitting'}</div>
+      </div>
+      ${gates.map(g => `
+        <div class="gate-check">
+          <div class="gate-check-icon ${g.pass?'pass':'fail'}">${g.pass?'✓':'✗'}</div>
+          <div class="gate-check-body">
+            <div class="gate-check-title">${escHtml(g.gate)}</div>
+            <div class="gate-check-feedback">${escHtml(g.feedback)}</div>
+          </div>
+        </div>
+      `).join('')}
+      ${passed===5?'<div style="margin-top:1.5rem;"><button class="btn btn-primary" onclick="submitForReview()" style="font-size:0.75rem;">Submit for The Bar Review →</button></div>':''}
+    `;
+  } catch(err) {
+    results.innerHTML = `<div style="color:#c0392b;font-size:0.875rem;">${err.message || 'Pre-flight check failed. Please try again.'}</div>`;
+  } finally {
+    btn.textContent = 'Run Pre-Flight Check →';
+    btn.disabled = false;
+  }
+}
+
+// ── BUILD PROMPT GENERATOR ────────────────────────────────────────────────────
+async function loadBuildPrompt() {
+  if (!builder) {
+    alert('Please access your dashboard via your builder email first.');
+    return;
+  }
+  const output = document.getElementById('build-prompt-output');
+  const promptText = document.getElementById('build-prompt-text');
+  output.style.display = 'block';
+  promptText.textContent = 'Generating your build prompt…';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/builder/build-prompt?id=${builder.id}`);
+    if (!res.ok) throw new Error('Could not generate build prompt');
+    const data = await res.json();
+    promptText.textContent = data.prompt || 'Build prompt not available. Complete the Creator Brief first.';
+  } catch(err) {
+    // Fallback: generate a generic prompt from builder data
+    const role = builder.catalogue_role;
+    const prompt = role
+      ? `You are building ${role.name} — ${role.role}.\n\nContext:\n- Vertical: ${role.vertical}\n- Mode: ${role.mode}\n- Target hirer: ${role.target_pain || 'domain professionals'}\n\nYour task:\nBuild an AI staff that ${role.role.toLowerCase()}. The staff must:\n1. Produce named, scheduled outputs (not just answers to questions)\n2. Have a clear onboarding flow for the hirer (under 30 minutes)\n3. Handle failure scenarios gracefully\n4. Improve over time through hirer feedback\n\nDesign standard:\n- Follow the Joyn design spec (see JOYN-DESIGN-SPEC.md)\n- Study Iris as the reference implementation\n- Tools are open. Standards are closed.\n\nStart by defining the three most important named outputs, their format, trigger, and schedule.`
+      : `You are building an AI staff for the Joyn marketplace.\n\nComplete the Creator Brief first to generate a role-specific build prompt.`;
+    promptText.textContent = prompt;
+  }
+}
+
+function copyBuildPrompt() {
+  const text = document.getElementById('build-prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => { btn.textContent = 'Copy to Clipboard'; }, 2000);
+  });
+}
+
+// ── PANEL NAVIGATION ──────────────────────────────────────────────────────────
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById(`panel-${name}`);
+  if (panel) panel.classList.add('active');
+
+  document.querySelectorAll('.sidebar-nav-item').forEach(el => el.classList.remove('active'));
+  const navEl = document.getElementById(`nav-${name}`);
+  if (navEl && !navEl.classList.contains('locked')) navEl.classList.add('active');
+}
+
+// ── CREATOR BRIEF OPTIONS ──────────────────────────────────────────────────────
+function startSageConversation() {
+  if (!builder?.id) {
+    alert('Please log in first');
+    return;
+  }
+  window.location.href = `creator-brief-v2.html?builder_id=${builder.id}`;
+}
+
+function startClassicForm() {
+  if (!builder?.id) {
+    alert('Please log in first');
+    return;
+  }
+  window.location.href = `creator-brief.html?builder_id=${builder.id}`;
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function escHtml(str) {
+  if (!str) return '';
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

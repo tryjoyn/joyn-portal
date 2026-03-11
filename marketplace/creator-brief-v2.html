@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creator Brief — Sage — Joyn</title>
+<meta name="description" content="Build your AI staff with Sage, Joyn's Staffing Architect.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white: #fafaf8;
+  --ink: #111110;
+  --ink-secondary: #3f3f3e;
+  --rule: #e8e4dc;
+  --rule-mid: #d0ccc4;
+  --surface: #f4f1eb;
+  --gold-display: #b8902a;
+  --gold-text: #8B6914;
+  --gold-hover: #7a5c10;
+  --sage-accent: #2d6a4f;
+  --sage-bg: rgba(45, 106, 79, 0.08);
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; }
+body {
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* NAV */
+.nav {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+.nav-logo {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: var(--ink);
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+.nav-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.nav-link:hover { color: var(--ink); }
+
+/* MAIN LAYOUT */
+.main-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 280px 1fr 280px;
+  overflow: hidden;
+}
+
+/* SIDEBAR LEFT - HELP & TIPS (swapped) */
+.sidebar-left {
+  border-right: 1px solid var(--rule);
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* SIDEBAR RIGHT - GATE PROGRESS (swapped) */
+.sidebar-right {
+  border-left: 1px solid var(--rule);
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: var(--surface);
+}
+.sidebar-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 1.5rem;
+}
+.gate-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.gate-item {
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--rule);
+  background: var(--white);
+  transition: all 0.2s;
+}
+.gate-item.active {
+  border-color: var(--sage-accent);
+  background: var(--sage-bg);
+}
+.gate-item.passed {
+  border-color: var(--sage-accent);
+}
+.gate-item.passed .gate-status { color: var(--sage-accent); }
+.gate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+.gate-name {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.gate-status {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+.gate-bar {
+  height: 3px;
+  background: var(--rule);
+  margin-top: 0.5rem;
+}
+.gate-fill {
+  height: 100%;
+  background: var(--sage-accent);
+  transition: width 0.3s ease;
+}
+
+/* OVERALL PROGRESS */
+.overall-progress {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.overall-score {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--sage-accent);
+  line-height: 1;
+}
+.overall-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  margin-top: 0.25rem;
+}
+.ready-badge {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--sage-accent);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+}
+.ready-badge.visible { display: block; }
+
+/* CHAT AREA */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chat-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+.sage-avatar {
+  width: 40px;
+  height: 40px;
+  background: var(--sage-accent);
+  color: var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sage-info h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.sage-info p {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* MESSAGES */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.message {
+  max-width: 85%;
+  padding: 1rem 1.25rem;
+  line-height: 1.65;
+}
+.message.sage {
+  background: var(--sage-bg);
+  border-left: 3px solid var(--sage-accent);
+  align-self: flex-start;
+}
+.message.user {
+  background: var(--surface);
+  border-left: 3px solid var(--rule-mid);
+  align-self: flex-end;
+}
+.message p {
+  margin-bottom: 0.5rem;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.message p:last-child { margin-bottom: 0; }
+
+.message-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-secondary);
+  margin-top: 0.5rem;
+}
+
+/* TYPING INDICATOR */
+.typing-indicator {
+  display: none;
+  align-self: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--sage-bg);
+  border-left: 3px solid var(--sage-accent);
+}
+.typing-indicator.visible { display: flex; }
+.typing-dots {
+  display: flex;
+  gap: 0.3rem;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--sage-accent);
+  border-radius: 50%;
+  animation: typingBounce 1.2s ease-in-out infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.4; }
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+
+/* INPUT AREA */
+.chat-input-area {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--rule);
+  background: var(--white);
+  flex-shrink: 0;
+}
+.input-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+.input-wrapper {
+  flex: 1;
+  position: relative;
+}
+.chat-textarea {
+  width: 100%;
+  min-height: 48px;
+  max-height: 150px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rule-mid);
+  background: var(--white);
+  color: var(--ink);
+  font-family: 'Syne', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.chat-textarea:focus { border-color: var(--sage-accent); }
+.chat-textarea::placeholder { color: var(--rule-mid); }
+
+.btn-send {
+  padding: 0.75rem 1.5rem;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+  height: 48px;
+}
+.btn-send:hover { background: #2a2a29; }
+.btn-send:disabled {
+  background: var(--rule-mid);
+  cursor: not-allowed;
+}
+
+.btn-voice {
+  width: 48px;
+  height: 48px;
+  background: var(--surface);
+  border: 1px solid var(--rule-mid);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+.btn-voice:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.btn-voice.recording {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: var(--white);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+.btn-voice svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* HELP CARDS */
+.help-card {
+  padding: 1rem;
+  border: 1px solid var(--rule);
+  background: var(--white);
+}
+.help-card-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.5rem;
+}
+.help-card p {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+  line-height: 1.6;
+}
+
+.fallback-options {
+  display: none;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.fallback-options.visible { display: flex; }
+
+.btn-fallback {
+  padding: 0.75rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule-mid);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+.btn-fallback:hover {
+  border-color: var(--ink);
+  background: var(--white);
+}
+
+.btn-complete {
+  padding: 1rem;
+  background: var(--sage-accent);
+  color: var(--white);
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: none;
+}
+.btn-complete.visible { display: block; }
+.btn-complete:hover { background: #245c43; }
+
+.classic-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  padding: 0.75rem 0;
+  text-align: center;
+  border-top: 1px solid var(--rule);
+  margin-top: auto;
+}
+.classic-link:hover { color: var(--ink); text-decoration: underline; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .main-container {
+    grid-template-columns: 1fr;
+  }
+  .sidebar-left, .sidebar-right {
+    display: none;
+  }
+}
+
+/* LOADING STATE */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(250,250,248,0.95);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 100;
+}
+.loading-overlay.visible { display: flex; }
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--rule);
+  border-top-color: var(--sage-accent);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.loading-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-secondary);
+}
+
+/* SPEC OUTPUT */
+.spec-output {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--white);
+  z-index: 200;
+  overflow-y: auto;
+}
+.spec-output.visible { display: block; }
+.spec-header {
+  padding: 2rem;
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+}
+.spec-header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+.spec-header p {
+  color: var(--ink-secondary);
+}
+.spec-content {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.spec-section {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.spec-section:last-child { border-bottom: none; }
+.spec-section-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  margin-bottom: 0.75rem;
+}
+.spec-section-content {
+  font-size: 0.95rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.spec-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  border-top: 1px solid var(--rule);
+}
+.btn-dashboard {
+  padding: 1rem 2rem;
+  background: var(--ink);
+  color: var(--white);
+  border: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+.btn-dashboard:hover { background: #2a2a29; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">JOYN.</a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Marketplace</a>
+    <a href="builder-dashboard.html" class="nav-link">Dashboard</a>
+  </div>
+</nav>
+
+<div class="main-container">
+  <!-- LEFT SIDEBAR - Help & Tips (swapped) -->
+  <aside class="sidebar-left">
+    <div class="help-card">
+      <div class="help-card-title">Current Focus</div>
+      <p id="help-focus">Tell Sage about the manual work you're trying to eliminate. Be specific — who does it today, and what's painful about it?</p>
+    </div>
+    
+    <div class="help-card">
+      <div class="help-card-title">Tips</div>
+      <p>Speak like you're describing a colleague's job, not configuring software. Sage will push back if answers are vague.</p>
+    </div>
+    
+    <div class="fallback-options" id="fallback-options">
+      <div class="help-card-title">Stuck? Try these:</div>
+      <button class="btn-fallback" onclick="triggerFallback('reverse')">
+        Describe who does this manually today →
+      </button>
+      <button class="btn-fallback" onclick="triggerFallback('choices')">
+        Answer quick yes/no questions →
+      </button>
+    </div>
+    
+    <button class="btn-complete" id="btn-complete" onclick="completeSession()">
+      Generate My Visionary Spec →
+    </button>
+    
+    <a href="creator-brief.html" class="classic-link">Switch to classic form →</a>
+  </aside>
+  
+  <!-- CHAT AREA -->
+  <main class="chat-container">
+    <div class="chat-header">
+      <div class="sage-avatar">S</div>
+      <div class="sage-info">
+        <h2>Sage</h2>
+        <p>Staffing Architect at Joyn</p>
+      </div>
+      <button class="btn-mute" id="btn-mute" title="Mute Sage's voice" style="margin-left:auto;padding:0.5rem;background:none;border:1px solid var(--rule);cursor:pointer;display:flex;align-items:center;gap:0.5rem;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-secondary);">
+        <svg id="mute-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+        </svg>
+        <span id="mute-label">Voice On</span>
+      </button>
+    </div>
+    
+    <div class="chat-messages" id="chat-messages">
+      <!-- Messages will be added here -->
+    </div>
+    
+    <div class="typing-indicator" id="typing-indicator">
+      <div class="typing-dots">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+    </div>
+    
+    <div class="chat-input-area">
+      <div class="input-row">
+        <button class="btn-voice" id="btn-voice" title="Voice input">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+          </svg>
+        </button>
+        <div class="input-wrapper">
+          <textarea 
+            class="chat-textarea" 
+            id="chat-input" 
+            placeholder="Type your response..."
+            rows="1"
+          ></textarea>
+        </div>
+        <button class="btn-send" id="btn-send">Send</button>
+      </div>
+    </div>
+  </main>
+  
+  <!-- RIGHT SIDEBAR - Quality Gates (swapped) -->
+  <aside class="sidebar-right">
+    <div class="sidebar-title">Quality Gates</div>
+    <div class="gate-list" id="gate-list">
+      <div class="gate-item active" data-gate="role_clarity">
+        <div class="gate-header">
+          <span class="gate-name">01 · Role Clarity</span>
+          <span class="gate-status" id="gate-01-status">—</span>
+        </div>
+        <div class="gate-bar"><div class="gate-fill" id="gate-01-fill" style="width:0%"></div></div>
+      </div>
+      <div class="gate-item" data-gate="output_standard">
+        <div class="gate-header">
+          <span class="gate-name">02 · Output Standard</span>
+          <span class="gate-status" id="gate-02-status">—</span>
+        </div>
+        <div class="gate-bar"><div class="gate-fill" id="gate-02-fill" style="width:0%"></div></div>
+      </div>
+      <div class="gate-item" data-gate="hirer_experience">
+        <div class="gate-header">
+          <span class="gate-name">03 · Hirer Experience</span>
+          <span class="gate-status" id="gate-03-status">—</span>
+        </div>
+        <div class="gate-bar"><div class="gate-fill" id="gate-03-fill" style="width:0%"></div></div>
+      </div>
+      <div class="gate-item" data-gate="failure_handling">
+        <div class="gate-header">
+          <span class="gate-name">04 · Failure Handling</span>
+          <span class="gate-status" id="gate-04-status">—</span>
+        </div>
+        <div class="gate-bar"><div class="gate-fill" id="gate-04-fill" style="width:0%"></div></div>
+      </div>
+      <div class="gate-item" data-gate="calibration">
+        <div class="gate-header">
+          <span class="gate-name">05 · Calibration</span>
+          <span class="gate-status" id="gate-05-status">—</span>
+        </div>
+        <div class="gate-bar"><div class="gate-fill" id="gate-05-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+    
+    <div class="overall-progress">
+      <div class="overall-score" id="overall-score">0%</div>
+      <div class="overall-label">Overall Quality</div>
+      <div class="ready-badge" id="ready-badge">Ready for Spec</div>
+    </div>
+  </aside>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading-overlay">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">Starting conversation with Sage...</div>
+</div>
+
+<!-- Spec Output -->
+<div class="spec-output" id="spec-output">
+  <div class="spec-header">
+    <h1>Your Visionary Spec</h1>
+    <p>Generated by the Architect Agent based on your conversation with Sage</p>
+  </div>
+  <div class="spec-content" id="spec-content">
+    <!-- Spec sections will be rendered here -->
+  </div>
+  <div class="spec-actions">
+    <a href="builder-dashboard.html" class="btn-dashboard">Go to Dashboard →</a>
+  </div>
+</div>
+
+<script>
+const API_BASE = 'https://joyn-portal-production-b64e.up.railway.app';
+
+let sessionId = null;
+let builderId = null;
+let isRecording = false;
+let mediaRecorder = null;
+let audioChunks = [];
+let voiceEnabled = true; // Sage speaks by default
+let currentAudio = null; // Track current audio for stopping
+
+// Gate help text mapping
+const GATE_HELP = {
+  role_clarity: "Tell Sage about the manual work you're trying to eliminate. Be specific — who does it today, and what's painful about it?",
+  output_standard: "What does your staff member actually deliver? Name each output, its format, and what triggers it.",
+  hirer_experience: "Walk through the hirer's journey — onboarding time, where they need to step in, total time commitment.",
+  failure_handling: "When things go wrong, how does your staff handle it? Give Sage three specific scenarios.",
+  calibration: "How does your staff get better over time? What feedback do you collect and how do you use it?"
+};
+
+// Initialize
+document.addEventListener('DOMContentLoaded', async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  builderId = urlParams.get('builder_id') || sessionStorage.getItem('builder_id');
+  
+  if (!builderId) {
+    // Redirect to dashboard to get builder_id
+    window.location.href = 'builder-dashboard.html?redirect=sage';
+    return;
+  }
+  
+  sessionStorage.setItem('builder_id', builderId);
+  
+  // Check for existing session to resume
+  await checkResume();
+});
+
+async function checkResume() {
+  showLoading('Checking for existing conversation...');
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/resume/${builderId}`);
+    const data = await res.json();
+    
+    if (data.has_session) {
+      // Ask to resume
+      hideLoading();
+      if (confirm(`You have an in-progress conversation (${data.message_count} messages). Resume?`)) {
+        sessionId = data.session_id;
+        await loadSession();
+      } else {
+        await startNewSession();
+      }
+    } else {
+      await startNewSession();
+    }
+  } catch (err) {
+    console.error('Resume check failed:', err);
+    await startNewSession();
+  }
+}
+
+async function startNewSession() {
+  showLoading('Starting conversation with Sage...');
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/start`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ builder_id: builderId })
+    });
+    
+    const data = await res.json();
+    
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to start session');
+    }
+    
+    sessionId = data.session_id;
+    addMessage('sage', data.message);
+    updateStatus(data.status);
+    hideLoading();
+    
+    // Sage speaks her opener
+    if (voiceEnabled) {
+      speakText(data.message);
+    }
+    
+  } catch (err) {
+    hideLoading();
+    alert('Error starting conversation: ' + err.message);
+    window.location.href = 'creator-brief.html?builder_id=' + builderId;
+  }
+}
+
+async function loadSession() {
+  showLoading('Loading conversation...');
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/status/${sessionId}`);
+    const data = await res.json();
+    
+    if (!res.ok) throw new Error(data.error);
+    
+    // We'd need an endpoint to load full messages - for now start fresh
+    // This is a simplification - in production, load full message history
+    updateStatus(data);
+    hideLoading();
+    addMessage('sage', "Welcome back! Let's continue where we left off. What were we discussing?");
+    
+  } catch (err) {
+    hideLoading();
+    await startNewSession();
+  }
+}
+
+// Send message
+document.getElementById('btn-send').addEventListener('click', sendMessage);
+document.getElementById('chat-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+async function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const message = input.value.trim();
+  
+  if (!message || !sessionId) return;
+  
+  // Stop any current audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  
+  // Add user message to chat
+  addMessage('user', message);
+  input.value = '';
+  autoResize(input);
+  
+  // Show typing indicator
+  showTyping();
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_id: sessionId,
+        message: message,
+        builder_id: builderId
+      })
+    });
+    
+    const data = await res.json();
+    hideTyping();
+    
+    if (!res.ok) {
+      throw new Error(data.error || 'Failed to send message');
+    }
+    
+    // Add Sage's response
+    addMessage('sage', data.response);
+    updateStatus(data.status);
+    
+    // Sage speaks her response
+    if (voiceEnabled && data.response) {
+      speakText(data.response);
+    }
+    
+  } catch (err) {
+    hideTyping();
+    addMessage('sage', "I hit a snag — could you try that again?");
+    console.error('Chat error:', err);
+  }
+}
+
+// Voice input
+document.getElementById('btn-voice').addEventListener('click', toggleVoice);
+
+async function toggleVoice() {
+  const btn = document.getElementById('btn-voice');
+  
+  if (!isRecording) {
+    // Start recording
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+      
+      mediaRecorder.ondataavailable = (e) => {
+        audioChunks.push(e.data);
+      };
+      
+      mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        await sendVoice(audioBlob);
+        stream.getTracks().forEach(track => track.stop());
+      };
+      
+      mediaRecorder.start();
+      isRecording = true;
+      btn.classList.add('recording');
+      btn.title = 'Stop recording';
+      
+    } catch (err) {
+      alert('Could not access microphone. Please check permissions.');
+      console.error('Mic error:', err);
+    }
+  } else {
+    // Stop recording
+    mediaRecorder.stop();
+    isRecording = false;
+    btn.classList.remove('recording');
+    btn.title = 'Voice input';
+  }
+}
+
+async function sendVoice(audioBlob) {
+  showTyping();
+  
+  // Stop any current audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+  }
+  
+  const formData = new FormData();
+  formData.append('session_id', sessionId);
+  formData.append('audio', audioBlob, 'recording.webm');
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/voice`, {
+      method: 'POST',
+      body: formData
+    });
+    
+    const data = await res.json();
+    hideTyping();
+    
+    if (!res.ok) throw new Error(data.error);
+    
+    // Show transcribed text as user message
+    if (data.transcribed) {
+      addMessage('user', data.transcribed);
+    }
+    
+    // Add Sage's response
+    addMessage('sage', data.response);
+    updateStatus(data.status);
+    
+    // Sage speaks her response
+    if (voiceEnabled && data.response) {
+      speakText(data.response);
+    }
+    
+  } catch (err) {
+    hideTyping();
+    addMessage('sage', "I couldn't catch that. Could you try again or type your response?");
+    console.error('Voice error:', err);
+  }
+}
+
+// Fallback options
+function triggerFallback(type) {
+  if (type === 'reverse') {
+    document.getElementById('chat-input').value = "Let me describe who does this job manually today: ";
+    document.getElementById('chat-input').focus();
+  } else if (type === 'choices') {
+    // Send a message asking for quick choices
+    sendQuickChoices();
+  }
+}
+
+async function sendQuickChoices() {
+  addMessage('user', "Can you give me some quick choices to pick from?");
+  showTyping();
+  
+  // The backend will recognize this and respond with choices
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/chat`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        session_id: sessionId,
+        message: "I'm stuck. Can you give me simple A/B choices?",
+        builder_id: builderId
+      })
+    });
+    
+    const data = await res.json();
+    hideTyping();
+    addMessage('sage', data.response);
+    updateStatus(data.status);
+  } catch (err) {
+    hideTyping();
+    console.error(err);
+  }
+}
+
+// Complete session
+async function completeSession(force = false) {
+  showLoading('Generating your Visionary Spec...');
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/complete`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ session_id: sessionId, force: force })
+    });
+    
+    const data = await res.json();
+    hideLoading();
+    
+    if (!res.ok) {
+      // If not ready, offer force option
+      if (data.overall_score && data.overall_score >= 30) {
+        if (confirm(`Quality score is ${data.overall_score}%. Generate spec anyway?`)) {
+          return completeSession(true);
+        }
+      }
+      throw new Error(data.error || 'Completion failed');
+    }
+    
+    if (data.visionary_spec) {
+      renderSpec(data.visionary_spec);
+    } else {
+      // Redirect to dashboard
+      window.location.href = 'builder-dashboard.html?panel=spec';
+    }
+    
+  } catch (err) {
+    hideLoading();
+    alert('Error: ' + err.message);
+  }
+}
+
+// Render spec output
+function renderSpec(spec) {
+  const container = document.getElementById('spec-content');
+  
+  const sections = [
+    { key: 'staff_name', title: 'Staff Name' },
+    { key: 'role_definition', title: 'Role Definition' },
+    { key: 'mode', title: 'Mode' },
+    { key: 'target_hirer', title: 'Target Hirer' },
+    { key: 'core_pain', title: 'Problem Solved' },
+    { key: 'named_outputs', title: 'Named Outputs' },
+    { key: 'hirer_experience', title: 'Hirer Experience' },
+    { key: 'failure_handling', title: 'Failure Handling' },
+    { key: 'calibration_architecture', title: 'Calibration Architecture' },
+    { key: 'moat_asset', title: 'Moat Asset' },
+    { key: 'bar_readiness_notes', title: 'Next Steps' }
+  ];
+  
+  let html = '';
+  sections.forEach(s => {
+    let value = spec[s.key];
+    if (value) {
+      if (typeof value === 'object') {
+        value = JSON.stringify(value, null, 2);
+      }
+      html += `
+        <div class="spec-section">
+          <div class="spec-section-title">${s.title}</div>
+          <div class="spec-section-content">${escapeHtml(value)}</div>
+        </div>
+      `;
+    }
+  });
+  
+  container.innerHTML = html;
+  document.getElementById('spec-output').classList.add('visible');
+}
+
+// UI Helpers
+function addMessage(role, content) {
+  const container = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+  
+  // Handle newlines
+  const paragraphs = content.split('\n').filter(p => p.trim());
+  div.innerHTML = paragraphs.map(p => `<p>${escapeHtml(p)}</p>`).join('');
+  
+  container.appendChild(div);
+  container.scrollTop = container.scrollHeight;
+}
+
+function updateStatus(status) {
+  if (!status) return;
+  
+  // Update overall score
+  document.getElementById('overall-score').textContent = status.overall_score + '%';
+  
+  // Update ready badge
+  const readyBadge = document.getElementById('ready-badge');
+  const completeBtn = document.getElementById('btn-complete');
+  
+  // Show complete button if score >= 40% OR ready_for_spec OR enough messages
+  if (status.ready_for_spec || status.overall_score >= 40 || status.message_count >= 6) {
+    readyBadge.classList.add('visible');
+    completeBtn.classList.add('visible');
+  } else {
+    readyBadge.classList.remove('visible');
+    completeBtn.classList.remove('visible');
+  }
+  
+  // Update gate items
+  const gateItems = document.querySelectorAll('.gate-item');
+  gateItems.forEach(item => {
+    item.classList.remove('active', 'passed');
+  });
+  
+  // Mark current gate active
+  const currentGateItem = document.querySelector(`.gate-item[data-gate="${status.current_gate}"]`);
+  if (currentGateItem) {
+    currentGateItem.classList.add('active');
+  }
+  
+  // Update gate scores
+  if (status.gates) {
+    status.gates.forEach(gate => {
+      const gateNum = gate.gate.split('_')[0];
+      const statusEl = document.getElementById(`gate-${gateNum}-status`);
+      const fillEl = document.getElementById(`gate-${gateNum}-fill`);
+      const itemEl = document.querySelector(`.gate-item[data-gate="${gate.gate.replace(/^\d+_/, '')}"]`);
+      
+      if (statusEl) statusEl.textContent = gate.status.toUpperCase();
+      if (fillEl) fillEl.style.width = gate.score + '%';
+      if (itemEl && gate.status === 'pass') {
+        itemEl.classList.add('passed');
+      }
+    });
+  }
+  
+  // Update help text
+  const helpFocus = document.getElementById('help-focus');
+  if (status.current_gate && GATE_HELP[status.current_gate]) {
+    helpFocus.textContent = GATE_HELP[status.current_gate];
+  }
+  
+  // Show fallback options if stuck
+  const fallbackOptions = document.getElementById('fallback-options');
+  const stuckGates = status.blocking_gates || [];
+  if (stuckGates.length > 0 && status.overall_score < 50) {
+    fallbackOptions.classList.add('visible');
+  } else {
+    fallbackOptions.classList.remove('visible');
+  }
+}
+
+function showTyping() {
+  document.getElementById('typing-indicator').classList.add('visible');
+  document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+}
+
+function hideTyping() {
+  document.getElementById('typing-indicator').classList.remove('visible');
+}
+
+function showLoading(text) {
+  document.querySelector('.loading-text').textContent = text;
+  document.getElementById('loading-overlay').classList.add('visible');
+}
+
+function hideLoading() {
+  document.getElementById('loading-overlay').classList.remove('visible');
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Auto-resize textarea
+const textarea = document.getElementById('chat-input');
+textarea.addEventListener('input', () => autoResize(textarea));
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 150) + 'px';
+}
+
+// ── SAGE VOICE (TTS) ─────────────────────────────────────────────────────────
+
+// Toggle voice on/off
+document.getElementById('btn-mute').addEventListener('click', toggleMute);
+
+function toggleMute() {
+  voiceEnabled = !voiceEnabled;
+  const label = document.getElementById('mute-label');
+  const icon = document.getElementById('mute-icon');
+  
+  if (voiceEnabled) {
+    label.textContent = 'Voice On';
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+  } else {
+    label.textContent = 'Voice Off';
+    icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />';
+    // Stop any playing audio
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+  }
+}
+
+// Speak text using Sage's voice
+async function speakText(text) {
+  if (!voiceEnabled || !text) return;
+  
+  try {
+    const res = await fetch(`${API_BASE}/api/sage/tts`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: text })
+    });
+    
+    if (!res.ok) {
+      console.log('TTS unavailable, falling back to browser speech');
+      fallbackSpeak(text);
+      return;
+    }
+    
+    const data = await res.json();
+    
+    if (data.audio) {
+      // Play the audio
+      const audio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+      currentAudio = audio;
+      audio.play().catch(err => {
+        console.log('Audio play failed, using fallback:', err);
+        fallbackSpeak(text);
+      });
+    }
+  } catch (err) {
+    console.log('TTS error, using fallback:', err);
+    fallbackSpeak(text);
+  }
+}
+
+// Fallback to browser speech synthesis
+function fallbackSpeak(text) {
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    // Try to find a female voice
+    const voices = speechSynthesis.getVoices();
+    const femaleVoice = voices.find(v => v.name.includes('Female') || v.name.includes('Samantha') || v.name.includes('Google UK English Female'));
+    if (femaleVoice) utterance.voice = femaleVoice;
+    speechSynthesis.speak(utterance);
+  }
+}
+</script>
+
+</body>
+</html>

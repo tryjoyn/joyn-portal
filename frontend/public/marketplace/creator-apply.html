@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply to Build — Creator Studio | Joyn</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #fafaf8;
+      --ink: #111110;
+      --ink-secondary: #3f3f3e;
+      --rule: #e8e4dc;
+      --rule-mid: #d0ccc4;
+      --surface: #f4f1eb;
+      --gold-display: #b8902a;
+      --gold-text: #8B6914;
+      --gold-hover: #7a5c10;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+    body {
+      background: var(--white);
+      color: var(--ink);
+      font-family: 'Syne', sans-serif;
+    }
+
+    /* ── Nav ── */
+    nav {
+      padding: 1.5rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a.logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    nav .staff-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-text);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    nav .staff-label span.rule-line {
+      display: block;
+      width: 1.5rem;
+      height: 1px;
+      background: var(--gold-text);
+    }
+
+    /* ── Step indicator ── */
+    .step-indicator {
+      padding: 1rem clamp(1.5rem, 5vw, 4rem);
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .step-indicator .step { color: var(--ink-secondary); }
+    .step-indicator .step.active { color: var(--ink); font-weight: 500; }
+    .step-indicator .sep { color: var(--rule-mid); }
+
+    /* ── Page layout ── */
+    .page-body {
+      padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 5vw, 4rem);
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    @media (max-width: 768px) {
+      .page-body {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .right-panel { display: none; }
+    }
+
+    /* ── Left column ── */
+    .left-col h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .left-col .subtext {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    /* ── Form ── */
+    .form-field {
+      margin-bottom: 1.25rem;
+    }
+    .form-field label {
+      display: block;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink-secondary);
+      margin-bottom: 0.4rem;
+    }
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--rule-mid);
+      background: var(--white);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-color: var(--ink);
+    }
+    .form-field textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    .form-field select {
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    @media (max-width: 520px) {
+      .form-row-2 { grid-template-columns: 1fr; }
+    }
+
+    .trial-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      display: block;
+      width: 100%;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.875rem 2rem;
+      background: var(--ink);
+      color: var(--white);
+      border: 1px solid var(--ink);
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-primary:hover {
+      background: var(--white);
+      color: var(--ink);
+    }
+
+    .trust-items {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Success state ── */
+    #successState {
+      display: none;
+    }
+    #successState h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 2.75rem);
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    #successState .success-sub {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    #successState .success-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-secondary);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Right panel ── */
+    .right-panel {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      padding: 2rem;
+    }
+
+    .panel-gold-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold-text);
+      margin-bottom: 0.5rem;
+    }
+    .panel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+    .panel-role {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-secondary);
+    }
+
+    .panel-divider {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 1.25rem 0;
+    }
+
+    .panel-list {
+      list-style: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-secondary);
+      line-height: 2;
+    }
+
+    .panel-trial-note {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      color: var(--ink-secondary);
+      font-style: italic;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Nav ── -->
+  <nav>
+    <a href="../index.html" class="logo">JOYN.</a>
+    <span class="staff-label">
+      <span class="rule-line"></span>
+      Creator Studio
+    </span>
+  </nav>
+
+  <!-- ── Step indicator ── -->
+  <div class="step-indicator">
+    <span class="step">01 — Review the Model</span>
+    <span class="sep"> — </span>
+    <span class="step">02 — Read The Bar</span>
+    <span class="sep"> — </span>
+    <span class="step active">03 — Apply</span>
+  </div>
+
+  <!-- ── Page body ── -->
+  <div class="page-body">
+
+    <!-- Left column -->
+    <div class="left-col">
+
+      <!-- Form state -->
+      <div id="formState">
+        <h1>Your application portal is ready.</h1>
+        <p class="subtext">
+          Tell us about yourself and the role you want to build. We review every application within 3 business days and will be in touch about next steps.
+        </p>
+
+        <form id="hireForm">
+
+          <div class="form-field">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" name="name" placeholder="Sarah Chen" required autocomplete="name">
+          </div>
+
+          <div class="form-field">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" placeholder="sarah@domain.com" required autocomplete="email">
+          </div>
+
+          <div class="form-field">
+            <label for="firmName">Organisation or Firm</label>
+            <input type="text" id="firmName" name="firm_name" placeholder="Your company or practice" required autocomplete="organization">
+          </div>
+
+          <div class="form-row-2">
+            <div class="form-field" style="margin-bottom:0;">
+              <label for="vertical">Vertical</label>
+              <select id="vertical" name="vertical" required>
+                <option value="" disabled selected>Select</option>
+                <option value="Insurance">Insurance</option>
+                <option value="Healthcare">Healthcare</option>
+                <option value="Finance">Finance</option>
+                <option value="Real Estate">Real Estate</option>
+                <option value="Legal">Legal</option>
+                <option value="Operations">Operations</option>
+                <option value="Technology">Technology</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-field" style="margin-bottom:0;">
+              <label for="platform">Platform</label>
+              <select id="platform" name="platform" required>
+                <option value="" disabled selected>Select</option>
+                <option value="Joyn-hosted">Joyn-hosted</option>
+                <option value="Self-hosted">Self-hosted</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-field" style="margin-top:1.25rem;">
+            <label for="roleDescription">Role Description</label>
+            <textarea id="roleDescription" name="role_description" required placeholder="Describe the AI staff role you want to build — what it does, who it serves, and what problem it solves."></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="background">Your Background</label>
+            <textarea id="background" name="background" placeholder="Relevant experience, domain expertise, or prior work that qualifies you to build this role."></textarea>
+          </div>
+
+          <p class="trial-note">
+            Your application portal activates immediately. You will be able to track your application status and receive updates directly in the portal.
+          </p>
+
+          <button type="submit" class="btn-primary">Submit Application →</button>
+          <p id="formError" style="display:none;font-family:'Syne',sans-serif;font-size:0.85rem;color:var(--ink-secondary);margin-top:0.75rem;">
+            Something went wrong. Please email <a href="mailto:hire@tryjoyn.me" style="color:var(--gold-text);">hire@tryjoyn.me</a> and we will get you set up.
+          </p>
+        </form>
+
+        <div class="trust-items">
+          <span>Reviewed within 3 business days</span>
+          <span>Portal activates immediately</span>
+          <span>Full creator support on approval</span>
+        </div>
+      </div>
+
+      <!-- Success state -->
+      <div id="successState">
+        <h2>Application received.</h2>
+        <p class="success-sub">
+          We have received your creator application and will be in touch within 3 business days. Check your email for your portal login details where you can track your application status.
+        </p>
+        <a href="https://app.tryjoyn.me/login" class="btn-primary" style="display:inline-block;width:auto;margin-bottom:1.25rem;text-decoration:none;">
+          Log in to your portal →
+        </a>
+        <p class="success-note">
+          Questions? Write to hire@tryjoyn.me
+        </p>
+      </div>
+
+    </div>
+
+    <!-- Right panel -->
+    <div class="right-panel">
+      <p class="panel-gold-label">You are applying to</p>
+      <h2 class="panel-name">Creator Studio</h2>
+      <p class="panel-role">Build AI Staff on Joyn</p>
+
+      <hr class="panel-divider">
+
+      <ul class="panel-list">
+        <li>— Build and deploy your own AI staff role</li>
+        <li>— Earn revenue every time a hirer subscribes</li>
+        <li>— Full infrastructure and portal provided</li>
+        <li>— Reviewed against The Bar before deployment</li>
+      </ul>
+
+      <hr class="panel-divider">
+
+      <p class="panel-trial-note">
+        Applications are reviewed within 3 business days. Approved creators receive full onboarding support and access to the Joyn build environment.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Form submission ─────────────────────────────────────────────────────
+    const form = document.getElementById('hireForm');
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const btn = form.querySelector('button[type="submit"]');
+      const errorEl = document.getElementById('formError');
+      btn.textContent = 'Submitting…';
+      btn.style.opacity = '0.6';
+      btn.disabled = true;
+      errorEl.style.display = 'none';
+
+      const payload = {
+        staff_slug:       'creator-application',
+        name:             document.getElementById('fullName').value.trim(),
+        email:            document.getElementById('email').value.trim(),
+        firm_name:        document.getElementById('firmName').value.trim(),
+        vertical:         document.getElementById('vertical').value,
+        platform:         document.getElementById('platform').value,
+        role_description: document.getElementById('roleDescription').value.trim(),
+        background:       document.getElementById('background').value.trim(),
+      };
+
+      try {
+        const response = await fetch('https://app.tryjoyn.me/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          document.getElementById('formState').style.display = 'none';
+          document.getElementById('successState').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          btn.textContent = 'Submit Application →';
+          btn.style.opacity = '1';
+          btn.disabled = false;
+          errorEl.style.display = 'block';
+        }
+      } catch (err) {
+        btn.textContent = 'Submit Application →';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+        errorEl.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>
