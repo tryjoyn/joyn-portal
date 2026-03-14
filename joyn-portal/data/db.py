@@ -78,6 +78,28 @@ def init_db():
         db.executescript(f.read())
     _apply_migrations(db)
     db.commit()
+    _seed_default_user(db)
+
+
+def _seed_default_user(db):
+    """Create default admin user if no users exist."""
+    import bcrypt
+    
+    # Check if any users exist
+    result = db.execute('SELECT COUNT(*) as c FROM clients').fetchone()
+    if result['c'] > 0:
+        return  # Users already exist
+    
+    # Create default user: itsshiva@outlook.com / Dmwmp@2615
+    password_hash = bcrypt.hashpw('Dmwmp@2615'.encode(), bcrypt.gensalt(rounds=12)).decode()
+    db.execute(
+        '''INSERT INTO clients (email, password_hash, company_name, subscription_status)
+           VALUES (?, ?, ?, ?)''',
+        ('itsshiva@outlook.com', password_hash, 'Joyn', 'active')
+    )
+    db.commit()
+    import logging
+    logging.getLogger(__name__).info('Default user created: itsshiva@outlook.com')
 
 
 def init_app(app):
