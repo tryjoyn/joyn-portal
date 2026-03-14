@@ -26,7 +26,10 @@ CREATE TABLE IF NOT EXISTS clients (
     primary_contact_phone   TEXT,
     briefing_emails         TEXT,  -- comma-separated
     states                  TEXT,  -- comma-separated monitored states (from hire form)
-    first_login             INTEGER DEFAULT 0  -- 1 = must change password on first login
+    first_login             INTEGER DEFAULT 0,  -- 1 = must change password on first login
+    -- iris-agent integration
+    iris_client_id          TEXT,  -- Client ID in iris-agent (for multi-agent system)
+    iris_registered_at      TIMESTAMP  -- When client was registered with iris-agent
 );
 
 CREATE TABLE IF NOT EXISTS hired_staff (
@@ -96,3 +99,4 @@ CREATE INDEX IF NOT EXISTS idx_outputs_slug          ON outputs(staff_slug);
 CREATE INDEX IF NOT EXISTS idx_outputs_delivered     ON outputs(delivered_at);
 CREATE INDEX IF NOT EXISTS idx_reset_tokens_hash     ON password_reset_tokens(token_hash);
 CREATE INDEX IF NOT EXISTS idx_api_keys_hash         ON api_keys(key_hash);
+CREATE INDEX IF NOT EXISTS idx_clients_iris_id      ON clients(iris_client_id);
