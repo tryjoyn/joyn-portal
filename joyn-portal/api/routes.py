@@ -677,3 +677,134 @@ def admin_toggle_pause():
         (new_status, client['id'], staff_slug)
     )
     return jsonify({'status': 'ok', 'new_status': new_status, 'paused': new_status == 'paused'})
+
+
+
+# ── Manual Iris Test Run ───────────────────────────────────────────────────────
+@api_bp.route('/admin/iris-test', methods=['POST'])
+@portal_secret_required
+def admin_iris_test():
+    """
+    Trigger a manual Iris test run with sample bulletins.
+    Protected by X-Joyn-Secret header.
+    
+    POST body:
+    {
+      "client_id": 1,
+      "states": ["FL", "CT"]  // optional, defaults to client's configured states
+    }
+    """
+    import requests as http_requests
+    
+    data = request.get_json(silent=True) or {}
+    client_id = data.get('client_id')
+    
+    if not client_id:
+        return jsonify({'error': 'client_id required'}), 400
+    
+    # Get client info
+    client = query_one('SELECT * FROM clients WHERE id=?', (client_id,))
+    if not client:
+        return jsonify({'error': 'Client not found'}), 404
+    
+    # Get Iris staff settings for this client
+    staff = query_one(
+        "SELECT * FROM hired_staff WHERE client_id=? AND staff_slug='iris'",
+        (client_id,)
+    )
+    if not staff:
+        return jsonify({'error': 'Iris not hired for this client'}), 404
+    
+    # Parse jurisdictions from settings
+    settings = {}
+    if staff['settings']:
+        try:
+            settings = json.loads(staff['settings'])
+        except:
+            pass
+    
+    states = data.get('states') or settings.get('jurisdictions', ['FL'])
+    
+    # Sample test bulletins for FL and CT
+    test_bulletins = []
+    
+    if 'FL' in [s.upper() for s in states]:
+        test_bulletins.append({
+            "id": "test-fl-001",
+            "title": "Florida OIR Bulletin 2026-03: Updated Homeowners Rate Filing Requirements",
+            "state": "FL",
+            "source": "Florida Office of Insurance Regulation",
+            "published_at": "2026-03-14",
+            "content": (
+                "The Florida Office of Insurance Regulation hereby announces updated requirements "
+                "for homeowners insurance rate filings effective April 1, 2026. All carriers writing "
+                "homeowners coverage in Florida must submit revised actuarial memoranda demonstrating "
+                "compliance with the new wind mitigation credit standards. Filings must include "
+                "updated loss cost projections incorporating 2025 hurricane season data. "
+                "Non-compliant filings will be returned without action."
+            ),
+            "url": "https://www.floir.com/bulletins/2026-03"
+        })
+    
+    if 'CT' in [s.upper() for s in states]:
+        test_bulletins.append({
+            "id": "test-ct-001",
+            "title": "Connecticut Insurance Department Bulletin IC-46: Cybersecurity Requirements",
+            "state": "CT",
+            "source": "Connecticut Insurance Department",
+            "published_at": "2026-03-12",
+            "content": (
+                "The Connecticut Insurance Department issues guidance on cybersecurity requirements "
+                "for all licensed insurers. Effective June 1, 2026, carriers must implement "
+                "multi-factor authentication for all policyholder-facing portals and establish "
+                "incident response plans meeting NIST framework standards. Annual cybersecurity "
+                "assessments must be filed with the Department by September 30 each year."
+            ),
+            "url": "https://portal.ct.gov/cid/bulletins/ic-46"
+        })
+    
+    if not test_bulletins:
+        # Add a generic test bulletin
+        test_bulletins.append({
+            "id": "test-generic-001",
+            "title": f"Test Regulatory Bulletin for {', '.join(states)}",
+            "state": states[0] if states else "FL",
+            "source": "Test Source",
+            "published_at": "2026-03-14",
+            "content": "This is a test bulletin to verify Iris integration is working correctly.",
+            "url": "https://example.com/test"
+        })
+    
+    # Send to iris-agent
+    iris_url = current_app.config.get('IRIS_AGENT_URL') or 'https://iris-production-5916.up.railway.app'
+    iris_key = current_app.config.get('IRIS_INTERNAL_KEY', '')
+    
+    try:
+        response = http_requests.post(
+            f'{iris_url}/api/enqueue',
+            json={
+                'client_id': client_id,
+                'bulletins': test_bulletins,
+                'priority': 1,  # High priority for test
+            },
+            headers={'X-Internal-Key': iris_key},
+            timeout=15,
+        )
+        response.raise_for_status()
+        result = response.json()
+        
+        return jsonify({
+            'status': 'ok',
+            'message': f'Test job enqueued with {len(test_bulletins)} bulletin(s)',
+            'states_tested': [b['state'] for b in test_bulletins],
+            'job_id': result.get('job_id'),
+            'iris_response': result,
+        })
+    
+    except http_requests.exceptions.RequestException as e:
+        current_app.logger.error(f'Iris test failed: {e}')
+        return jsonify({
+            'status': 'error',
+            'error': str(e),
+            'note': 'iris-agent may not have /api/enqueue endpoint or IRIS_INTERNAL_KEY not configured'
+        }), 500
