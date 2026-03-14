@@ -1,48 +1,41 @@
-# Joyn Builders - PRD
+# Joyn Portal - PRD
 
 ## Original Problem Statement
-Builders/creators marketplace for Joyn - AI staffing platform where domain experts build AI staff and earn revenue share.
+User unable to login on tryjoyn.me signin page (404 error). Need to investigate and verify multi-agentic iris v2.0 model is intact.
 
 ## Architecture
-- **Backend**: Flask API on Railway (PostgreSQL) - `/app/joyn-builders/`
-- **Frontend**: Static HTML on GitHub Pages (tryjoyn.me) - `/app/marketplace/`
-- **Payments**: Stripe ($99/yr Founding Builder Seats)
-- **Email**: SendGrid
-- **AI Agents**: OpenAI GPT-4.1-mini (Architect, Reviewer, Deployment, Sage)
+- **joyn-portal**: Flask-based client portal (auth, dashboard, staff management)
+- **iris-agent**: Multi-agent regulatory intelligence system (SupervisorAgent + Worker + 4 tools)
+- **Static site**: GitHub Pages hosting tryjoyn.me main landing page
+
+## Core Requirements
+1. User authentication (JWT-based with cookies)
+2. Client dashboard with hired staff management
+3. Iris integration for regulatory monitoring
+4. Activity logging and output tracking
 
 ## What's Been Implemented (Jan 2026)
+- [x] Investigated 404 login issue - identified Railway misconfiguration
+- [x] Fixed Railway deployment configs (railway.json, nixpacks.toml)
+- [x] Verified login works locally with test credentials
+- [x] Audited iris-agent multi-agentic architecture (intact)
+- [x] Created test user in local database
 
-### Sage v2 — Conversational Brief System
-- **Frontend**: `creator-brief-v2.html` — Chat UI with Sage persona
-- **Backend**: `/api/sage/*` endpoints — start, chat, voice, status, complete, resume
-- **Prompts**: `prompts/sage_v1.py` — Versioned system prompts
-- **Gate Scoring**: `shared/gate_scoring.py` — Real-time quality scoring
-- **Features**:
-  - Conversational brief collection (replaces 6-section form)
-  - Real-time gate progress visualization
-  - Voice input via Whisper
-  - Session persistence and resume
-  - Rate limiting (60 msg/hour)
-  - Graceful fallback when LLM unavailable
-  - A/B testing via `?v=2` URL param
+## Prioritized Backlog
+### P0 - Critical
+- [ ] Redeploy joyn-portal on Railway with correct root directory
 
-### Files Created
-- `/app/joyn-builders/agents/sage_agent.py`
-- `/app/joyn-builders/prompts/sage_v1.py`
-- `/app/joyn-builders/prompts/__init__.py`
-- `/app/joyn-builders/shared/gate_scoring.py`
-- `/app/joyn-builders/shared/__init__.py`
-- `/app/marketplace/creator-brief-v2.html`
+### P1 - High
+- [ ] Verify production login after deployment
+- [ ] Test iris-agent end-to-end integration
 
-### Files Modified
-- `/app/joyn-builders/app.py` — Added Sage endpoints
-- `/app/joyn-builders/agents/__init__.py` — Updated docs
-- `/app/marketplace/creator-brief.html` — Added A/B redirect
+### P2 - Medium
+- [ ] Implement password reset email flow (SendGrid TODO)
+- [ ] Add more comprehensive error handling in auth routes
 
 ## Next Tasks
-1. Push changes to GitHub
-2. Test Sage flow end-to-end with real builder account
-3. Monitor A/B metrics (v1 form vs v2 chat completion rates)
-
-## Backlog
-See `/app/BACKLOG.md` for full backlog and parking lot.
+1. Push updated railway.json and nixpacks.toml to GitHub
+2. In Railway dashboard, set Root Directory to `joyn-portal`
+3. Trigger redeployment
+4. Verify https://app.tryjoyn.me/login works
+5. Test with provided credentials

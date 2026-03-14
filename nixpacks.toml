@@ -2,12 +2,11 @@
 # Point to the joyn-portal directory as the build root
 relativeRoot = "joyn-portal"
 
-[phases.install]
-cmds = ["pip3 install -r requirements.txt --break-system-packages"]
-
 [phases.setup]
 nixPkgs = ["python311", "python311Packages.pip"]
-cmds = []
 
-[phases.runtime]
-nixPkgs = ["python311"]
+[phases.install]
+cmds = ["pip3 install -r requirements.txt"]
+
+[start]
+cmd = "gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 60"
