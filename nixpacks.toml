@@ -1,0 +1,13 @@
+[build]
+# Point to the joyn-portal directory as the build root
+relativeRoot = "joyn-portal"
+
+[phases.install]
+cmds = ["pip3 install -r requirements.txt --break-system-packages"]
+
+[phases.setup]
+nixPkgs = ["python311", "python311Packages.pip"]
+cmds = []
+
+[phases.runtime]
+nixPkgs = ["python311"]
